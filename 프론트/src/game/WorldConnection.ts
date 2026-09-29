@@ -13,6 +13,7 @@ import type {
   PlayerReportAck,
   PokeAck,
   PokeEvent,
+  EmoteEvent,
   PokePreferenceState,
   BlockAck,
   PresenceAck,
@@ -136,6 +137,7 @@ export class WorldConnection {
   private snapshots = new Set<(snapshot: Snapshot) => void>();
   private chatEvents = new Set<(message: ChatEvent) => void>();
   private pokeEvents = new Set<(event: PokeEvent) => void>();
+  private emoteEvents = new Set<(event: EmoteEvent) => void>();
   private loadedChatHistory = new Set<string>();
   private loadingChatHistory = new Set<string>();
   private directMessageReadCursors = new Map<
@@ -252,6 +254,12 @@ export class WorldConnection {
     this.pokeEvents.add(listener);
     return () => {
       this.pokeEvents.delete(listener);
+    };
+  }
+  onEmoteEvent(listener: (event: EmoteEvent) => void) {
+    this.emoteEvents.add(listener);
+    return () => {
+      this.emoteEvents.delete(listener);
     };
   }
   private update(patch: Partial<ConnectionView>) {
@@ -498,6 +506,8 @@ export class WorldConnection {
       } else if (data.type === "pokeEvent") {
         this.update({ lastPokeEvent: data });
         this.pokeEvents.forEach((listener) => listener(data));
+      } else if (data.type === "emoteEvent") {
+        this.emoteEvents.forEach((listener) => listener(data));
       } else if (data.type === "mediaState") {
         this.update({ media: data });
       } else if (data.type === "chatAck") {

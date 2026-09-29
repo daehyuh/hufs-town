@@ -225,13 +225,16 @@ public class WorldHandler extends TextWebSocketHandler implements SubProtocolCap
                         long emoteAt = System.currentTimeMillis();
                         if ("sit".equals(emote.emoji())) {
                             p.sitting = !p.sitting;
-                            p.emoji = "";
-                            p.emojiUntil = 0;
                         } else {
-                            p.emoji = emote.emoji();
-                            p.emojiUntil = emoteAt + 3000;
+                            EmoteEvent event = new EmoteEvent("emoteEvent", UUID.randomUUID().toString(),
+                                p.id, emote.emoji(), emoteAt);
+                            for (Player recipient : players.values())
+                                if (recipient.connection != null && !recipient.connection.closed && sameWorld(recipient, p)
+                                    && WorldInterest.visible(recipient.x, recipient.y, p.x, p.y))
+                                    control(recipient.connection, event);
                         }
-                        p.nextEmoteAt = emoteAt + 1500;
+                        // Preserve rapid repeat input while bounding per-player fan-out to 5 events/second.
+                        p.nextEmoteAt = emoteAt + 200;
                     }
                 });
             } else if (type.equals("presenceSet")) {

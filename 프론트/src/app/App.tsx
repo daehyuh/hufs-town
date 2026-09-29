@@ -6752,7 +6752,6 @@ function Campus({
                         title={shortcut ? `${label} (${shortcut})` : label}
                         onClick={() => {
                           connection.emote(value);
-                          setEmotes(false);
                         }}
                       >
                         {icon}

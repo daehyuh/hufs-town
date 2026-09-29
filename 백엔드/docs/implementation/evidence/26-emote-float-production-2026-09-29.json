@@ -1,0 +1,37 @@
+{
+  "date": "2026-09-29",
+  "release": "20260929T074142Z-emote-float",
+  "previousRelease": "20260929T072851Z-sidebar-collapse",
+  "change": {
+    "animation": "Each emote rises 68px above its avatar and fades out over 2200ms.",
+    "repeatedEmotes": "Every accepted click is an independent event; concurrent effects do not overwrite each other and the picker stays open.",
+    "serverLimit": "At most one emote every 200ms per player; events are sent to visible players in the same world."
+  },
+  "validation": {
+    "frontendProductionBuild": "passed",
+    "apiAndWorldJava21ImageBuilds": "passed",
+    "contractGenerationCheck": "passed",
+    "automatedTests": "not run per user preference",
+    "productionSmoke": {
+      "status": "PASS",
+      "websiteHttpStatus": 200,
+      "ssoConfigured": true,
+      "spaceCapacity": 100,
+      "media": true,
+      "webSocketWithoutOriginStatus": 403,
+      "trustedOriginWithoutSessionStatus": 401
+    },
+    "publicAssets": {
+      "mainAsset": "/assets/index-DsLM8bQF.js",
+      "mainAssetHttpStatus": 200,
+      "emoteEventBridgePresent": true,
+      "campusSceneAsset": "/assets/CampusScene-C8CQ7ti7.js",
+      "campusSceneAssetHttpStatus": 200,
+      "riseAndFadeTweenPresent": true,
+      "fadeDuration2200msPresent": true
+    },
+    "healthyServices": ["web", "api", "world", "media", "mariadb", "redis"],
+    "prometheus": "running"
+  },
+  "remainingManualCheck": "Verify stacked emotes across two authenticated users in a real browser session."
+}

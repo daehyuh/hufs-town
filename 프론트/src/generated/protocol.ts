@@ -555,6 +555,13 @@ export interface PokeEvent {
   targetId: string;
   sentAt: number;
 }
+export interface EmoteEvent {
+  type: "emoteEvent";
+  eventId: string;
+  playerId: string;
+  emoji: "wave" | "heart" | "clap" | "sparkles" | "laugh" | "thumbsup" | "sad" | "party" | "thinking" | "hands" | "wow" | "fire";
+  sentAt: number;
+}
 export interface BlockAck {
   type: "blockAck";
   requestId: string;
@@ -751,6 +758,7 @@ export type ServerMessage =
   | PlayerReportAck
   | PokePreferenceState
   | PokeEvent
+  | EmoteEvent
   | BlockAck
   | BlockState
   | PresenceAck

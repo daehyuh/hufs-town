@@ -49,6 +49,7 @@ ts += `export type ServerMessage =
   | PlayerReportAck
   | PokePreferenceState
   | PokeEvent
+  | EmoteEvent
   | BlockAck
   | BlockState
   | PresenceAck

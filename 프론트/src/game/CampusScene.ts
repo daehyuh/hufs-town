@@ -6,6 +6,7 @@ import type {
   MapObject,
   Portal,
   PokeEvent,
+  EmoteEvent,
   PlayerView,
   Snapshot,
 } from "../generated/protocol";
@@ -127,6 +128,7 @@ export class CampusScene extends Phaser.Scene {
   private stopSnapshots?: () => void;
   private stopChatEvents?: () => void;
   private stopPokeEvents?: () => void;
+  private stopEmoteEvents?: () => void;
   private pendingChat = new Map<
     string,
     { event: ChatEvent; expiresAt: number }
@@ -135,6 +137,12 @@ export class CampusScene extends Phaser.Scene {
     string,
     { event: PokeEvent; expiresAt: number }
   >();
+  private pendingEmotes = new Map<
+    string,
+    Array<{ event: EmoteEvent; expiresAt: number }>
+  >();
+  private floatingEmotes = new Set<Phaser.GameObjects.Text>();
+  private emoteVisualSequence = 0;
   private lastInput = 0;
   private lastDirection = "";
   private lastMovementAck = -1;
@@ -278,6 +286,9 @@ export class CampusScene extends Phaser.Scene {
     this.stopPokeEvents = this.connection.onPokeEvent((event) =>
       this.receivePoke(event),
     );
+    this.stopEmoteEvents = this.connection.onEmoteEvent((event) =>
+      this.receiveEmote(event),
+    );
     this.load.on("filecomplete", this.onAvatarTextureLoaded);
     this.load.on("loaderror", this.onAvatarTextureFailed);
     this.receive({
@@ -304,6 +315,7 @@ export class CampusScene extends Phaser.Scene {
       this.stopSnapshots?.();
       this.stopChatEvents?.();
       this.stopPokeEvents?.();
+      this.stopEmoteEvents?.();
       this.scale.off(Phaser.Scale.Events.RESIZE, this.onScaleResize);
       this.load.off("filecomplete", this.onAvatarTextureLoaded);
       this.load.off("loaderror", this.onAvatarTextureFailed);
@@ -312,6 +324,9 @@ export class CampusScene extends Phaser.Scene {
       this.input.off("pointermove", this.pointerMove);
       for (const avatar of this.avatars.values()) avatar.root.destroy(true);
       this.avatars.clear();
+      this.floatingEmotes.forEach((text) => text.destroy());
+      this.floatingEmotes.clear();
+      this.pendingEmotes.clear();
       for (const key of this.avatarTextureReferences.releaseAll())
         this.releaseAvatarTexture(key);
       this.loadingAvatarTextures.clear();
@@ -984,6 +999,13 @@ export class CampusScene extends Phaser.Scene {
         a.lastPokeRequestId !== pendingPoke.event.requestId
       )
         this.showPoke(a, pendingPoke.event);
+      const pendingEmotes = this.pendingEmotes.get(p.id);
+      if (pendingEmotes) {
+        this.pendingEmotes.delete(p.id);
+        for (const pending of pendingEmotes)
+          if (pending.expiresAt > this.time.now)
+            this.showEmote(a, pending.event);
+      }
     }
   }
   private layoutNameTag(avatar: Avatar) {
@@ -1122,7 +1144,7 @@ export class CampusScene extends Phaser.Scene {
   private avatarBubbleEmoji(avatar: Avatar, now: number) {
     if (avatar.pokeEmojiUntil > now) return "👉";
     if (avatar.state.sitting) return emoji.sit;
-    return emoji[avatar.state.emoji] ?? "";
+    return "";
   }
   private receiveChat(event: ChatEvent) {
     if (!this.canRenderObjects()) return;
@@ -1160,6 +1182,46 @@ export class CampusScene extends Phaser.Scene {
     this.pendingPokes.set(event.targetId, { event, expiresAt });
     const avatar = this.avatars.get(event.targetId);
     if (avatar) this.showPoke(avatar, event);
+  }
+  private receiveEmote(event: EmoteEvent) {
+    if (!this.canRenderObjects() || !emoji[event.emoji]) return;
+    const avatar = this.avatars.get(event.playerId);
+    if (avatar) {
+      this.showEmote(avatar, event);
+      return;
+    }
+    const pending = this.pendingEmotes.get(event.playerId) ?? [];
+    pending.push({ event, expiresAt: this.time.now + 2500 });
+    if (pending.length > 16) pending.shift();
+    this.pendingEmotes.set(event.playerId, pending);
+  }
+  private showEmote(avatar: Avatar, event: EmoteEvent) {
+    const icon = emoji[event.emoji];
+    if (!icon) return;
+    const sequence = this.emoteVisualSequence++;
+    const horizontalOffsets = [-20, 20, -8, 8, 0];
+    const x =
+      avatar.root.x + horizontalOffsets[sequence % horizontalOffsets.length];
+    const y = avatar.root.y - 58 - (sequence % 3) * 5;
+    const reduceMotion =
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+    const text = this.add
+      .text(x, y, icon, { fontSize: "32px", fontFamily: "Arial, sans-serif" })
+      .setOrigin(0.5)
+      .setDepth(100_000);
+    this.floatingEmotes.add(text);
+    this.tweens.add({
+      targets: text,
+      y: y - (reduceMotion ? 20 : 68),
+      alpha: 0,
+      scale: reduceMotion ? 0.95 : 1.12,
+      duration: reduceMotion ? 800 : 2200,
+      ease: "Sine.Out",
+      onComplete: () => {
+        this.floatingEmotes.delete(text);
+        text.destroy();
+      },
+    });
   }
   private showPoke(avatar: Avatar, event: PokeEvent) {
     if (avatar.lastPokeRequestId === event.requestId) return;
@@ -1229,7 +1291,7 @@ export class CampusScene extends Phaser.Scene {
           -1,
           Math.min(
             1,
-              Number(this.keys.has("ArrowRight") || this.keys.has("KeyD")) -
+            Number(this.keys.has("ArrowRight") || this.keys.has("KeyD")) -
               Number(this.keys.has("ArrowLeft") || this.keys.has("KeyA")) +
               this.touchVector.x,
           ),
@@ -1240,7 +1302,7 @@ export class CampusScene extends Phaser.Scene {
           -1,
           Math.min(
             1,
-              Number(this.keys.has("ArrowDown") || this.keys.has("KeyS")) -
+            Number(this.keys.has("ArrowDown") || this.keys.has("KeyS")) -
               Number(this.keys.has("ArrowUp") || this.keys.has("KeyW")) +
               this.touchVector.y,
           ),
@@ -1370,6 +1432,11 @@ export class CampusScene extends Phaser.Scene {
       if (pending.expiresAt <= time) this.pendingChat.delete(playerId);
     for (const [playerId, pending] of this.pendingPokes)
       if (pending.expiresAt <= time) this.pendingPokes.delete(playerId);
+    for (const [playerId, pending] of this.pendingEmotes) {
+      const active = pending.filter((event) => event.expiresAt > time);
+      if (active.length) this.pendingEmotes.set(playerId, active);
+      else this.pendingEmotes.delete(playerId);
+    }
     for (const [id, a] of this.avatars) {
       const chatRemaining = a.chatBubbleUntil - time;
       if (chatRemaining <= 0 && a.chatBubbleUntil > 0) {
