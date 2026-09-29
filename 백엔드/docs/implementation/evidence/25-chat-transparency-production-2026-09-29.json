@@ -9,6 +9,16 @@
     "result": "passed",
     "details": "TypeScript project build and Vite production build completed; existing Phaser chunk-size warning remains."
   },
+  "githubActions": {
+    "run": "https://github.com/daehyuh/hufs-town/actions/runs/36531631856",
+    "stateAtEvidenceCapture": "in progress",
+    "completedSteps": [
+      "Web contracts, tests and build",
+      "Java tests and real database integration",
+      "Native media worker tests"
+    ],
+    "inProgressStep": "Three-browser regression"
+  },
   "production": {
     "deployment": "passed",
     "containersHealthy": [
@@ -39,6 +49,6 @@
   },
   "limitations": [
     "The available browser sessions were at the sign-in screen, so an authenticated in-world visual review was not performed.",
-    "Automated UI tests were not run, following the user's direction to stop tests."
+    "No separate local test suite was run, following the user's direction to stop tests. GitHub Actions was automatically triggered by the source push and was still in progress at evidence capture."
   ]
 }
