@@ -1,0 +1,34 @@
+{
+  "date": "2026-09-29",
+  "releaseId": "20260929T100917Z-friend-settings",
+  "origin": "https://town.gdgoc.com",
+  "status": "PASS",
+  "change": "Move friend request, friend-presence visibility, and friend-notification controls into the separate People Settings tab. Keep the Friends dialog focused on search, requests, and friend list. Load persisted settings before enabling changes; provide retry on load failure and revert optimistic updates on save failure.",
+  "verification": {
+    "frontendTypeScriptAndProductionBuild": "passed",
+    "prettier": "passed",
+    "publicWebsiteHttpStatus": 200,
+    "pageTitle": "GDG HUFS 훕스타운",
+    "ssoConfigured": true,
+    "spaceCapacity": 100,
+    "mediaAdvertised": true,
+    "webSocketWithoutOriginStatus": 403,
+    "trustedOriginWithoutSessionStatus": 401,
+    "publicSettingsCssAsset": "HTTP 200; People Settings selectors present",
+    "applicationContainers": {
+      "web": "healthy",
+      "api": "healthy",
+      "world": "healthy",
+      "media": "healthy",
+      "mariadb": "healthy",
+      "redis": "healthy"
+    },
+    "nginxConfiguration": "passed",
+    "automatedTests": "not run per user preference"
+  },
+  "limits": [
+    "The settings view and saved-value update were not manually exercised with a signed-in HUFS SSO account.",
+    "A public unauthenticated smoke does not verify friend request or notification delivery."
+  ],
+  "dataHandling": "No database rows, production preferences, persistent volumes, or environment files were changed by deployment."
+}
