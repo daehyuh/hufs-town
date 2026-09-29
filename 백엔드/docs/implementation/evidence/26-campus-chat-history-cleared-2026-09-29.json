@@ -1,0 +1,17 @@
+{
+  "date": "2026-09-29",
+  "status": "PASS",
+  "scope": "GDG HUFS 캠퍼스 채팅 기록",
+  "messageBodiesReadOrRecorded": false,
+  "checks": {
+    "exactMatchingSpaces": 1,
+    "nearbyChatRowsBefore": 1,
+    "roomChatRowsBefore": 0,
+    "directMessageRowsBefore": 0,
+    "campusChatRowsDeleted": 1,
+    "campusChatRowsAfter": 0,
+    "directMessageRowsAfter": 0,
+    "recipientRows": "removed by message foreign-key cascade",
+    "spaceMembershipAndOperationalData": "unchanged"
+  }
+}
