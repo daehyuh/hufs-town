@@ -1,0 +1,38 @@
+{
+  "date": "2026-09-29",
+  "releaseId": "20260929T0921Z-screen-grid-compact",
+  "origin": "https://town.gdgoc.com",
+  "status": "PASS",
+  "checks": {
+    "frontendProductionBuild": "passed",
+    "websiteHttpStatus": 200,
+    "pageTitle": "GDG HUFS 훕스타운",
+    "authConfigHttpStatus": 200,
+    "ssoConfigured": true,
+    "bootstrapHttpStatus": 200,
+    "spaceCapacity": 100,
+    "mediaAdvertised": true,
+    "webSocketWithoutOriginStatus": 403,
+    "trustedOriginWithoutSessionStatus": 401,
+    "sharedScreenCss": {
+      "desktopMinTileWidthPx": 220,
+      "mobileMinTileWidthPx": 168,
+      "assetHttpStatus": 200
+    },
+    "applicationContainers": {
+      "web": "healthy",
+      "api": "healthy",
+      "world": "healthy",
+      "media": "healthy",
+      "mariadb": "healthy",
+      "redis": "healthy"
+    },
+    "nginxConfiguration": "passed"
+  },
+  "limits": [
+    "The public smoke does not verify a complete HUFS SSO sign-in.",
+    "Multiple simultaneous screen-share RTP delivery was not manually verified with real accounts.",
+    "The responsive layout was not visually verified on a physical phone.",
+    "The advertised 100-person capacity has not been verified under production load."
+  ]
+}

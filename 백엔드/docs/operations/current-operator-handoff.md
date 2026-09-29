@@ -5,7 +5,7 @@
 ## 현재 운영 상태
 
 - 서비스: [https://town.gdgoc.com](https://town.gdgoc.com)
-- 현재 앱 릴리스: `20260929T0913Z-mobile-screen-grid`
+- 현재 앱 릴리스: `20260929T0921Z-screen-grid-compact`
 - 운영 서버 별칭: `daehyuh-1`; 프로젝트: `/opt/hufs-town`
 - Compose: `/opt/hufs-town/백엔드/infra/production.compose.yaml`
 - 현재 확인 결과: Web/API/World/Media/MariaDB/Redis healthy, Nginx와 certbot.timer active, 공개 HTTPS·SSO 설정·기본 공간 정원 100·월드 WebSocket 접근 거부 경계 정상.
