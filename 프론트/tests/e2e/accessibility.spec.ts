@@ -73,14 +73,14 @@ for (const language of ["ko", "en"] as const) {
             open: "내 이름, 아바타, 소개 편집",
             title: "내 아바타와 프로필",
             close: "닫기",
-            hide: "창 숨기기",
+            hide: "옆으로 접기",
             restore: /다시 열기/,
           }
         : {
             open: "Edit my name, avatar, and bio",
             title: "My avatar and profile",
             close: "Close",
-            hide: "Hide window",
+            hide: "Fold to side",
             restore: /Restore/,
           };
     await page.getByRole("button", { name: wardrobeLabels.open }).click();

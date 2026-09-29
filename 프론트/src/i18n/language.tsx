@@ -23,14 +23,17 @@ const messages = {
     "dialog.confirm": "확인",
     "dialog.cancel": "취소",
     "dialog.minimize": "창 숨기기",
+    "dialog.minimizeSide": "옆으로 접기",
     "dialog.restore": "다시 열기",
     "dialog.dock": "숨긴 창",
+    "dialog.dockSide": "옆으로 접은 창",
     "brand.name": "GDG HUFS 훕스타운",
     "landing.title": "GDG HUFS 훕스타운",
     "landing.description":
       "GDG HUFS가 운영하는 실시간 온라인 캠퍼스입니다. 아바타 이동, 근거리 음성·화상 대화, 화면 공유를 지원합니다.",
     "landing.heading": "로그인 및 입장",
-    "landing.subtitle": "HUFS 통합 인증으로 로그인해 공간에 입장할 수 있습니다.",
+    "landing.subtitle":
+      "HUFS 통합 인증으로 로그인해 공간에 입장할 수 있습니다.",
     "landing.subtitle.preview":
       "로그인 없이 로컬 미리보기로 입장할 수 있습니다.",
     "landing.accountWelcome": "로그인 계정: {name}",
@@ -2445,8 +2448,10 @@ const messages = {
     "dialog.confirm": "Confirm",
     "dialog.cancel": "Cancel",
     "dialog.minimize": "Hide window",
+    "dialog.minimizeSide": "Fold to side",
     "dialog.restore": "Restore",
     "dialog.dock": "Hidden windows",
+    "dialog.dockSide": "Windows folded to side",
     "brand.name": "GDG HUFS Town",
     "landing.title": "GDG HUFS Town",
     "landing.description":

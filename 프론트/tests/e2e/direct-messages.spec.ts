@@ -922,9 +922,9 @@ test("participant can start a private DM and use room-scoped chat", async ({
       },
     ),
   ).toHaveCount(0);
-  await groupDialog.getByRole("button", { name: "Hide window" }).click();
+  await groupDialog.getByRole("button", { name: "Fold to side" }).click();
   await page
-    .getByRole("group", { name: "Hidden windows" })
+    .getByRole("group", { name: "Windows folded to side" })
     .getByRole("button", { name: "Group members Restore" })
     .click();
   await expect(groupDialog).toBeVisible();

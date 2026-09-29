@@ -123,10 +123,10 @@ test("an owner clones a space by name and sees the private clone in Mine", async
   ).toEqual([]);
   const cloneName = cloneDialog.getByLabel("새 공간 이름");
   await cloneName.fill("새 GDG 프로젝트 공간");
-  await cloneDialog.getByRole("button", { name: "창 숨기기" }).click();
+  await cloneDialog.getByRole("button", { name: "옆으로 접기" }).click();
   await expect(cloneDialog).not.toBeVisible();
   await page
-    .getByRole("group", { name: "숨긴 창" })
+    .getByRole("group", { name: "옆으로 접은 창" })
     .getByRole("button", { name: /다시 열기/ })
     .click();
   await expect(cloneName).toHaveValue("새 GDG 프로젝트 공간");

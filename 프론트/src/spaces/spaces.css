@@ -1771,43 +1771,61 @@
 #town-dialog-dock {
   position: fixed;
   z-index: 10000;
-  right: max(14px, env(safe-area-inset-right));
-  bottom: max(14px, env(safe-area-inset-bottom));
+  top: 50%;
+  right: max(0px, env(safe-area-inset-right));
+  transform: translateY(-50%);
   display: flex;
-  max-width: min(360px, calc(100vw - 28px));
-  flex-direction: column-reverse;
-  gap: 8px;
+  width: min(260px, calc(100vw - 8px));
+  max-height: calc(
+    100dvh - max(24px, env(safe-area-inset-top) + env(safe-area-inset-bottom))
+  );
+  flex-direction: column;
+  gap: 7px;
+  padding: 4px 0 4px 6px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
   pointer-events: none;
+}
+#town-dialog-dock::-webkit-scrollbar {
+  display: none;
 }
 .dialog-restore {
   display: flex;
-  min-height: 42px;
+  width: 100%;
+  min-height: 46px;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
   border: 1px solid #cbdac4;
-  border-radius: 12px;
-  padding: 8px 12px;
+  border-right: 0;
+  border-radius: 13px 0 0 13px;
+  padding: 8px 11px;
   background: #fffef8;
   color: #304636;
-  box-shadow: 0 8px 28px #17271b30;
+  box-shadow: 0 6px 24px #17271b30;
   cursor: pointer;
   pointer-events: auto;
   text-align: left;
+  transition: transform 120ms ease;
 }
-.dialog-restore > span:nth-child(2) {
+.dialog-restore:hover {
+  transform: translateX(-3px);
+}
+.dialog-restore:focus-visible {
+  outline: 3px solid #8eb47d;
+  outline-offset: -3px;
+}
+.dialog-restore-icon {
+  flex: 0 0 auto;
+}
+.dialog-restore-title {
   min-width: 0;
   overflow: hidden;
   font-size: 12px;
   font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-.dialog-restore-dot {
-  width: 8px;
-  height: 8px;
-  flex: 0 0 auto;
-  border-radius: 50%;
-  background: #7e9f63;
 }
 .dialog-restore-hint {
   margin-left: auto;
@@ -2047,6 +2065,23 @@
   }
   .dialog-content {
     padding: 0 15px 15px;
+  }
+  #town-dialog-dock {
+    width: min(224px, calc(100vw - 6px));
+    max-height: calc(
+      100dvh - max(20px, env(safe-area-inset-top) + env(safe-area-inset-bottom))
+    );
+  }
+  .dialog-restore {
+    min-height: 44px;
+    gap: 7px;
+    padding: 7px 9px;
+  }
+  .dialog-restore-title {
+    font-size: 11px;
+  }
+  .dialog-restore-hint {
+    font-size: 9px;
   }
   .wardrobe-main {
     grid-template-columns: 1fr;

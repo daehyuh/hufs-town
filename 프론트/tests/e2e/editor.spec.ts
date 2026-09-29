@@ -1375,7 +1375,7 @@ test("editor action dialogs fit on mobile and restore hidden input", async ({
   expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(390);
   expect(bounds!.y + bounds!.height).toBeLessThanOrEqual(844);
   await createDialog.getByRole("textbox", { name: "지도 이름" }).fill("회의실");
-  await createDialog.getByRole("button", { name: "창 숨기기" }).click();
+  await createDialog.getByRole("button", { name: "옆으로 접기" }).click();
   await expect(createDialog).not.toBeVisible();
   const restoreDialog = page.getByRole("button", {
     name: "새 지도 이름을 입력해 주세요. 다시 열기",

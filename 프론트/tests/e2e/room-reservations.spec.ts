@@ -137,7 +137,7 @@ for (const language of ["ko", "en"] as const) {
             confirmTitle: "작업을 확인해 주세요",
             confirmMessage: `‘${reservationTitle}’ 회의실 예약을 취소할까요?`,
             cancelled: "취소됨",
-            hide: "창 숨기기",
+            hide: "옆으로 접기",
             restore: /다시 열기/,
             validation: "예약 시간은 15분에서 8시간 사이로 설정해 주세요.",
           }
@@ -154,7 +154,7 @@ for (const language of ["ko", "en"] as const) {
             confirmTitle: "Confirm this action",
             confirmMessage: `Cancel the room reservation “${reservationTitle}”?`,
             cancelled: "Canceled",
-            hide: "Hide window",
+            hide: "Fold to side",
             restore: /Restore/,
             validation: "Choose a reservation between 15 minutes and 8 hours.",
           };

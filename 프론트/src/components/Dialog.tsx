@@ -7,7 +7,7 @@ import {
   type RefObject,
 } from "react";
 import { createPortal } from "react-dom";
-import { Minimize2, X } from "lucide-react";
+import { Maximize2, Minimize2, X } from "lucide-react";
 import { translate, useOptionalLanguage } from "../i18n/language";
 export function Dialog({
   title,
@@ -61,7 +61,7 @@ export function Dialog({
       document.body.append(root);
     }
     root.setAttribute("role", "group");
-    root.setAttribute("aria-label", translate(language, "dialog.dock"));
+    root.setAttribute("aria-label", translate(language, "dialog.dockSide"));
     setDock(root);
   }, [language]);
   useEffect(() => {
@@ -101,8 +101,8 @@ export function Dialog({
               <button
                 type="button"
                 className="icon-button"
-                aria-label={translate(language, "dialog.minimize")}
-                title={translate(language, "dialog.minimize")}
+                aria-label={translate(language, "dialog.minimizeSide")}
+                title={translate(language, "dialog.minimizeSide")}
                 onClick={() => setMinimized(true)}
               >
                 <Minimize2 size={18} />
@@ -129,8 +129,12 @@ export function Dialog({
               className="dialog-restore"
               onClick={() => setMinimized(false)}
             >
-              <span className="dialog-restore-dot" aria-hidden="true" />
-              <span>{title}</span>
+              <Maximize2
+                className="dialog-restore-icon"
+                size={15}
+                aria-hidden="true"
+              />
+              <span className="dialog-restore-title">{title}</span>
               <span className="dialog-restore-hint">
                 {translate(language, "dialog.restore")}
               </span>

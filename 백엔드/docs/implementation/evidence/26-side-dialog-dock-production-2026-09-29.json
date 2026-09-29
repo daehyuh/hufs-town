@@ -1,0 +1,35 @@
+{
+  "date": "2026-09-29",
+  "release": "20260929T075611Z-side-dialogs",
+  "previousRelease": "20260929T074142Z-emote-float",
+  "change": {
+    "appliesTo": "Shared Dialog windows including meeting notes, room reservations, media settings, friends, groups, and settings.",
+    "collapseControl": "Fold to side",
+    "dock": "A vertical, scrollable title tab dock at the right edge; tabs restore the original dialog state.",
+    "mobile": "Dock width and safe-area-aware height adapt to narrow screens."
+  },
+  "validation": {
+    "frontendTypecheckAndProductionBuild": "passed",
+    "automatedTests": "not run per user preference",
+    "productionSmoke": {
+      "status": "PASS",
+      "websiteHttpStatus": 200,
+      "ssoConfigured": true,
+      "spaceCapacity": 100,
+      "media": true,
+      "webSocketWithoutOriginStatus": 403,
+      "trustedOriginWithoutSessionStatus": 401
+    },
+    "publicAssets": {
+      "mainAsset": "/assets/index-BWaDOagA.js",
+      "mainAssetHttpStatus": 200,
+      "foldToSideLabelsPresent": true,
+      "dialogStylesheet": "/assets/SpaceLobby-DAnU2HIa.css",
+      "dialogStylesheetHttpStatus": 200,
+      "rightEdgeScrollableDockRulePresent": true,
+      "restoreTitleStylePresent": true
+    },
+    "healthyServices": ["web", "api", "world", "media", "mariadb", "redis"],
+    "prometheus": "running"
+  }
+}
