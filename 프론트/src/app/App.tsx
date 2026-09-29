@@ -188,10 +188,13 @@ import {
 import {
   createFriendRequest,
   friendRelationship,
+  getFriendPreferences,
   isAccountId,
   listFriends,
   respondToFriendRequest,
+  saveFriendPreferences,
   type FriendOverview,
+  type FriendPreferences,
   type FriendRelationship,
 } from "../social/friends";
 
@@ -2652,6 +2655,18 @@ function Campus({
   const [friendOverview, setFriendOverview] = useState<FriendOverview | null>(
     null,
   );
+  const [friendPreferences, setFriendPreferences] = useState<FriendPreferences>(
+    {
+      allowFriendRequests: true,
+      allowFriendNotifications: true,
+      sharePresenceWithFriends: false,
+    },
+  );
+  const [friendPreferencesLoaded, setFriendPreferencesLoaded] = useState(false);
+  const [friendPreferencesLoading, setFriendPreferencesLoading] =
+    useState(false);
+  const [friendPreferencesBusy, setFriendPreferencesBusy] = useState(false);
+  const friendPreferencesFailure = useLocalizedError();
   const [friendActionBusy, setFriendActionBusy] = useState(false);
   const friendActionFailure = useLocalizedError();
   const friendActionError = friendActionFailure.message;
@@ -2698,6 +2713,42 @@ function Campus({
     return () => {
       live = false;
       window.clearInterval(timer);
+    };
+  }, [bootstrap.mode, session.userId]);
+  useEffect(() => {
+    let live = true;
+    if (!session.userId || bootstrap.mode !== "sso") {
+      setFriendPreferences({
+        allowFriendRequests: true,
+        allowFriendNotifications: true,
+        sharePresenceWithFriends: false,
+      });
+      setFriendPreferencesLoaded(true);
+      setFriendPreferencesLoading(false);
+      friendPreferencesFailure.clear();
+      return () => {
+        live = false;
+      };
+    }
+    setFriendPreferencesLoaded(false);
+    setFriendPreferencesLoading(true);
+    friendPreferencesFailure.clear();
+    getFriendPreferences()
+      .then((preferences) => {
+        if (live) {
+          setFriendPreferences(preferences);
+          setFriendPreferencesLoaded(true);
+        }
+      })
+      .catch((cause) => {
+        if (live)
+          friendPreferencesFailure.setFailure(cause, "friends.error.generic");
+      })
+      .finally(() => {
+        if (live) setFriendPreferencesLoading(false);
+      });
+    return () => {
+      live = false;
     };
   }, [bootstrap.mode, session.userId]);
   const [reportTarget, setReportTarget] = useState<
@@ -3697,6 +3748,39 @@ function Campus({
       active = false;
     };
   }, [session.userId]);
+  async function updateFriendPreference<Key extends keyof FriendPreferences>(
+    key: Key,
+    value: FriendPreferences[Key],
+  ) {
+    if (friendPreferencesBusy || !friendPreferencesLoaded) return;
+    const before = friendPreferences;
+    const next = { ...before, [key]: value };
+    setFriendPreferences(next);
+    setFriendPreferencesBusy(true);
+    friendPreferencesFailure.clear();
+    try {
+      setFriendPreferences(await saveFriendPreferences(next));
+      if (key === "sharePresenceWithFriends") void friendRefreshRef.current();
+    } catch (cause) {
+      setFriendPreferences(before);
+      friendPreferencesFailure.setFailure(cause, "friends.error.generic");
+    } finally {
+      setFriendPreferencesBusy(false);
+    }
+  }
+  async function retryFriendPreferences() {
+    if (friendPreferencesLoading || friendPreferencesBusy) return;
+    setFriendPreferencesLoading(true);
+    friendPreferencesFailure.clear();
+    try {
+      setFriendPreferences(await getFriendPreferences());
+      setFriendPreferencesLoaded(true);
+    } catch (cause) {
+      friendPreferencesFailure.setFailure(cause, "friends.error.generic");
+    } finally {
+      setFriendPreferencesLoading(false);
+    }
+  }
   useEffect(() => {
     const openConversation = (value: unknown) => {
       if (typeof value !== "string" || !/^[0-9a-f-]{36}$/i.test(value)) return;
@@ -5928,6 +6012,114 @@ function Campus({
                             </small>
                           </span>
                         </button>
+                      )}
+                      {session.userId && bootstrap.mode === "sso" && (
+                        <section
+                          className="people-settings-group"
+                          aria-labelledby="people-friend-settings-title"
+                          aria-busy={
+                            friendPreferencesLoading || friendPreferencesBusy
+                          }
+                        >
+                          <h3 id="people-friend-settings-title">
+                            {t("friends.title")}
+                          </h3>
+                          <label className="people-setting">
+                            <input
+                              type="checkbox"
+                              checked={friendPreferences.allowFriendRequests}
+                              disabled={
+                                !friendPreferencesLoaded ||
+                                friendPreferencesBusy
+                              }
+                              onChange={(event) =>
+                                void updateFriendPreference(
+                                  "allowFriendRequests",
+                                  event.currentTarget.checked,
+                                )
+                              }
+                            />
+                            <span>
+                              <strong>
+                                {t("friends.preference.requests.title")}
+                              </strong>
+                              <small>
+                                {t("friends.preference.requests.description")}
+                              </small>
+                            </span>
+                          </label>
+                          <label className="people-setting">
+                            <input
+                              type="checkbox"
+                              checked={
+                                friendPreferences.sharePresenceWithFriends
+                              }
+                              disabled={
+                                !friendPreferencesLoaded ||
+                                friendPreferencesBusy
+                              }
+                              onChange={(event) =>
+                                void updateFriendPreference(
+                                  "sharePresenceWithFriends",
+                                  event.currentTarget.checked,
+                                )
+                              }
+                            />
+                            <span>
+                              <strong>
+                                {t("friends.preference.presence.title")}
+                              </strong>
+                              <small>
+                                {t("friends.preference.presence.description")}
+                              </small>
+                            </span>
+                          </label>
+                          <label className="people-setting">
+                            <input
+                              type="checkbox"
+                              checked={
+                                friendPreferences.allowFriendNotifications
+                              }
+                              disabled={
+                                !friendPreferencesLoaded ||
+                                friendPreferencesBusy
+                              }
+                              onChange={(event) =>
+                                void updateFriendPreference(
+                                  "allowFriendNotifications",
+                                  event.currentTarget.checked,
+                                )
+                              }
+                            />
+                            <span>
+                              <strong>
+                                {t("friends.preference.notifications.title")}
+                              </strong>
+                              <small>
+                                {t(
+                                  "friends.preference.notifications.description",
+                                )}
+                              </small>
+                            </span>
+                          </label>
+                          {friendPreferencesFailure.message && (
+                            <>
+                              <p className="poke-feedback error" role="alert">
+                                {friendPreferencesFailure.message}
+                              </p>
+                              <button
+                                type="button"
+                                className="friend-preferences-retry"
+                                disabled={friendPreferencesLoading}
+                                onClick={() => void retryFriendPreferences()}
+                              >
+                                {friendPreferencesLoading
+                                  ? t("friends.search.searching")
+                                  : t("lobby.retry")}
+                              </button>
+                            </>
+                          )}
+                        </section>
                       )}
                       <label className="presence-setting">
                         <span>{t("people.presence.label")}</span>

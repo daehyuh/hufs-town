@@ -2991,7 +2991,9 @@ kbd {
   right: 3px;
   bottom: 2px;
   color: #687260;
-  font: 600 9px/1 "Segoe UI", sans-serif;
+  font:
+    600 9px/1 "Segoe UI",
+    sans-serif;
 }
 .mini-map-panel {
   display: grid;
@@ -3378,7 +3380,9 @@ kbd {
     border: 1px solid #ffffff96;
     border-radius: 50%;
     background: radial-gradient(circle, #f7faed70 0 42%, #eff4e25c 43% 100%);
-    box-shadow: 0 5px 18px #263b2524, inset 0 0 0 1px #637b4630;
+    box-shadow:
+      0 5px 18px #263b2524,
+      inset 0 0 0 1px #637b4630;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     pointer-events: auto;
@@ -3425,13 +3429,17 @@ kbd {
     border: 1px solid #ffffffd9;
     border-radius: 50%;
     background: #fbfcf1d9;
-    box-shadow: 0 3px 12px #293d272f, inset 0 0 0 1px #536b4720;
+    box-shadow:
+      0 3px 12px #293d272f,
+      inset 0 0 0 1px #536b4720;
     pointer-events: none;
     will-change: transform;
   }
   .mobile-movement.is-running .mobile-joystick-knob {
     background: #e1efd3e8;
-    box-shadow: 0 3px 14px #31542a40, inset 0 0 0 1px #47763b50;
+    box-shadow:
+      0 3px 14px #31542a40,
+      inset 0 0 0 1px #47763b50;
   }
   .mobile-joystick-status {
     position: absolute;
@@ -3787,6 +3795,66 @@ kbd {
 }
 .people-panel-content {
   min-width: 0;
+}
+.people-settings-group {
+  display: grid;
+  gap: 8px;
+  margin: 4px 0 16px;
+}
+.people-settings-group > h3 {
+  margin: 5px 0 2px;
+  color: #40553d;
+  font-size: 13px;
+}
+.people-setting {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  padding: 11px 12px;
+  border: 1px solid #e2e9dc;
+  border-radius: 9px;
+  background: #fbfcf8;
+  cursor: pointer;
+}
+.people-setting > input {
+  width: 17px;
+  height: 17px;
+  margin: 1px 0 0;
+  accent-color: #63814d;
+}
+.people-setting > span {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.people-setting strong {
+  color: #43583e;
+  font-size: 12px;
+}
+.people-setting small {
+  color: #65745f;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.people-setting:has(input:disabled) {
+  opacity: 0.62;
+  cursor: wait;
+}
+.friend-preferences-retry {
+  justify-self: start;
+  min-height: 34px;
+  padding: 6px 11px;
+  border: 1px solid #dbe5d3;
+  border-radius: 7px;
+  color: #4d6544;
+  background: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+.friend-preferences-retry:disabled {
+  opacity: 0.6;
+  cursor: wait;
 }
 .chat-scope-tabs {
   display: flex;

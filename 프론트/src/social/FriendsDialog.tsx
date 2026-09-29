@@ -4,14 +4,11 @@ import { formatDate, useLanguage, type TranslationKey } from "../i18n/language";
 import {
   cancelFriendRequest,
   createFriendRequest,
-  getFriendPreferences,
   listFriends,
   removeFriend,
   respondToFriendRequest,
-  saveFriendPreferences,
   searchFriends,
   type FriendOverview,
-  type FriendPreferences,
   type FriendRequest,
   type FriendSearchRelationship,
   type FriendSearchResult,
@@ -66,11 +63,6 @@ export function FriendsDialog({
     incoming: [],
     outgoing: [],
   });
-  const [preferences, setPreferences] = useState<FriendPreferences>({
-    allowFriendRequests: true,
-    allowFriendNotifications: true,
-    sharePresenceWithFriends: false,
-  });
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState("");
   const [error, setError] = useState("");
@@ -84,12 +76,8 @@ export function FriendsDialog({
   async function refresh(silent = false) {
     if (!silent) setLoading(true);
     try {
-      const [nextOverview, nextPreferences] = await Promise.all([
-        listFriends(),
-        getFriendPreferences(),
-      ]);
+      const nextOverview = await listFriends();
       setOverview(nextOverview);
-      setPreferences(nextPreferences);
       setError("");
     } catch (cause) {
       setError(messageOf(cause, language, t("friends.error.generic")));
@@ -228,66 +216,6 @@ export function FriendsDialog({
     }
   }
 
-  async function changeRequestPreference(allowFriendRequests: boolean) {
-    const before = preferences;
-    const next = { ...preferences, allowFriendRequests };
-    setPreferences(next);
-    setError("");
-    try {
-      const saved = await saveFriendPreferences(next);
-      setPreferences(saved);
-      setNotice(
-        allowFriendRequests
-          ? t("friends.notice.requestsEnabled")
-          : t("friends.notice.requestsDisabled"),
-      );
-    } catch (cause) {
-      setPreferences(before);
-      setError(messageOf(cause, language, t("friends.error.generic")));
-    }
-  }
-
-  async function changeFriendNotificationPreference(
-    allowFriendNotifications: boolean,
-  ) {
-    const before = preferences;
-    const next = { ...preferences, allowFriendNotifications };
-    setPreferences(next);
-    setError("");
-    try {
-      const saved = await saveFriendPreferences(next);
-      setPreferences(saved);
-      setNotice(
-        allowFriendNotifications
-          ? t("friends.notice.notificationsEnabled")
-          : t("friends.notice.notificationsDisabled"),
-      );
-    } catch (cause) {
-      setPreferences(before);
-      setError(messageOf(cause, language, t("friends.error.generic")));
-    }
-  }
-
-  async function changePresencePreference(sharePresenceWithFriends: boolean) {
-    const before = preferences;
-    const next = { ...preferences, sharePresenceWithFriends };
-    setPreferences(next);
-    setError("");
-    try {
-      const saved = await saveFriendPreferences(next);
-      setPreferences(saved);
-      setNotice(
-        sharePresenceWithFriends
-          ? t("friends.notice.presenceEnabled")
-          : t("friends.notice.presenceDisabled"),
-      );
-      onChanged();
-    } catch (cause) {
-      setPreferences(before);
-      setError(messageOf(cause, language, t("friends.error.generic")));
-    }
-  }
-
   return (
     <Dialog
       title={t("friends.title")}
@@ -295,48 +223,6 @@ export function FriendsDialog({
       closeLabel={t("dialog.close")}
     >
       <section className="friends-dialog" aria-label={t("friends.label")}>
-        <label className="friends-preference">
-          <input
-            type="checkbox"
-            checked={preferences.allowFriendRequests}
-            onChange={(event) =>
-              void changeRequestPreference(event.currentTarget.checked)
-            }
-          />
-          <span>
-            <strong>{t("friends.preference.requests.title")}</strong>
-            <small>{t("friends.preference.requests.description")}</small>
-          </span>
-        </label>
-        <label className="friends-preference">
-          <input
-            type="checkbox"
-            checked={preferences.sharePresenceWithFriends}
-            onChange={(event) =>
-              void changePresencePreference(event.currentTarget.checked)
-            }
-          />
-          <span>
-            <strong>{t("friends.preference.presence.title")}</strong>
-            <small>{t("friends.preference.presence.description")}</small>
-          </span>
-        </label>
-        <label className="friends-preference">
-          <input
-            type="checkbox"
-            checked={preferences.allowFriendNotifications}
-            onChange={(event) =>
-              void changeFriendNotificationPreference(
-                event.currentTarget.checked,
-              )
-            }
-          />
-          <span>
-            <strong>{t("friends.preference.notifications.title")}</strong>
-            <small>{t("friends.preference.notifications.description")}</small>
-          </span>
-        </label>
-
         <section
           className="friends-section friends-search"
           aria-labelledby="friends-search-title"

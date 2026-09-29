@@ -6,7 +6,6 @@
   padding: 4px 0 2px;
 }
 
-.friends-preference,
 .friends-row {
   display: flex;
   align-items: center;
@@ -14,28 +13,11 @@
   gap: 14px;
 }
 
-.friends-preference {
-  justify-content: flex-start;
-  padding: 12px;
-  border: 1px solid #dce8df;
-  border-radius: 12px;
-  background: #f6faf7;
-  cursor: pointer;
-}
-
-.friends-preference input {
-  width: 18px;
-  height: 18px;
-  accent-color: #176441;
-}
-
-.friends-preference span,
 .friends-row > div:first-child {
   display: grid;
   gap: 4px;
 }
 
-.friends-preference small,
 .friends-row small,
 .friends-empty {
   color: #718177;
@@ -166,17 +148,6 @@
 @media (max-width: 620px) {
   .friends-dialog {
     gap: 14px;
-  }
-
-  .friends-preference {
-    min-height: 56px;
-    padding: 11px;
-  }
-
-  .friends-preference input {
-    width: 22px;
-    height: 22px;
-    flex: 0 0 auto;
   }
 
   .town-dialog .friends-dialog .friends-search-field input {
