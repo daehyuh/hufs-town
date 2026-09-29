@@ -1,7 +1,7 @@
 {
   "date": "2026-09-29",
-  "latestRelease": "20260929T082443Z-screen-gallery",
-  "previousRelease": "20260929T081314Z-room-extras-off",
+  "latestRelease": "20260929T0841Z-multi-screen-8",
+  "previousRelease": "20260929T082443Z-screen-gallery",
   "changes": {
     "roomExtras": {
       "default": "disabled",
@@ -18,6 +18,8 @@
     },
     "screenSharing": {
       "display": "responsive gallery of all policy-delivered SCREEN tracks and the local shared screen",
+      "maxConcurrentSharersPerCommunicationDomain": 8,
+      "admission": "media server enforces the limit with atomic in-process reservations",
       "controls": "per-sharer screen-audio volume when that sharer publishes screen audio"
     }
   },
@@ -28,7 +30,8 @@
     "nginxConfiguration": "passed",
     "publicHttpsSsoAndBootstrapSmoke": "passed",
     "automatedTests": "not run per user request",
-    "simultaneousMultiSharerLiveSession": "not verified"
+    "productionMediaImage": "passed",
+    "simultaneousMultiSharerLiveSession": "not verified; requires a session with at least two signed-in participants"
   },
   "dataHandling": "No database rows, recordings, or uploaded files were deleted. Production SSO secrets and persistent volumes were preserved."
 }

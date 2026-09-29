@@ -9,6 +9,7 @@ const mediaErrorKeys: Record<string, TranslationKey> = {
   MEDIA_INVALID: "media.error.generic",
   MEDIA_MODERATION_LOADING: "media.error.moderationLoading",
   MEDIA_PRESENCE: "media.error.presence",
+  MEDIA_SCREEN_CAPACITY: "media.error.screenCapacity",
   MEDIA_STALE: "media.error.stale",
   MEDIA_TIMEOUT: "media.error.timeout",
   MEDIA_UNAVAILABLE: "media.error.unavailable",

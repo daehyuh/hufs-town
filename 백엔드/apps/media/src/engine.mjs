@@ -4,7 +4,7 @@ export class MediaFailure extends Error { constructor(code, message) { super(mes
 const check = (value, message = '요청을 확인해 주세요.') => { if (!value) throw new MediaFailure('MEDIA_INVALID', message); };
 const id = value => typeof value === 'string' && /^[a-zA-Z0-9_./:-]{1,256}$/.test(value);
 const SOURCES = new Map([['MICROPHONE', 'audio'], ['CAMERA', 'video'], ['SCREEN', 'video'], ['SCREEN_AUDIO', 'audio']]);
-const LIMITS = { MICROPHONE: 12, CAMERA: 8, SCREEN: 1, SCREEN_AUDIO: 1 };
+const LIMITS = { MICROPHONE: 12, CAMERA: 8, SCREEN: 8, SCREEN_AUDIO: 8 };
 const EVENT_DOMAIN = /^[a-zA-Z0-9_-]{1,128}\/event\/[a-zA-Z0-9_-]{1,128}$/;
 const peerLimit = domain => EVENT_DOMAIN.test(domain) ? 100 : 12;
 export const codecs = [
@@ -15,7 +15,7 @@ export const codecs = [
 /** All consumers are created here, paused, after checking the latest server policy. */
 export class MediaEngine {
   constructor(worker, rtcServer, { now = Date.now, iceServers = [], recordingManager, recordingOptions = {} } = {}) {
-    this.worker = worker; this.rtcServer = rtcServer; this.now = now; this.iceServers = iceServers; this.worlds = new Map(); this.routers = new Map(); this.instanceId=randomUUID();
+    this.worker = worker; this.rtcServer = rtcServer; this.now = now; this.iceServers = iceServers; this.worlds = new Map(); this.routers = new Map(); this.sourceReservations = new Map(); this.instanceId=randomUUID();
     this.recordings = recordingManager ?? new RecordingManager({
       captureFactory: options => new FfmpegRtpCapture(options),
       now,
@@ -103,14 +103,40 @@ export class MediaEngine {
   permitted(receiver, sender, source) {
     return this.valid(receiver) && this.valid(sender) && receiver !== sender && receiver.world === sender.world && receiver.domain === sender.domain && receiver.peers.has(sender.id) && sender.peers.has(receiver.id) && sender.sources.has(source);
   }
+  reserveSourceSlot(peer, source) {
+    const key = `${peer.world.id}/${peer.domain}/${source}`;
+    let reservations = this.sourceReservations.get(key);
+    if (!reservations) {
+      reservations = new Set();
+      this.sourceReservations.set(key, reservations);
+    }
+    const active = [...peer.world.peers.values()].filter(sender =>
+      this.valid(sender) && sender.domain === peer.domain &&
+      !sender.producers.get(source)?.closed && sender.producers.has(source),
+    ).length;
+    if (active + reservations.size >= LIMITS[source]) {
+      if (reservations.size === 0) this.sourceReservations.delete(key);
+      throw new MediaFailure('MEDIA_SCREEN_CAPACITY', '이 대화 범위에서는 화면 공유를 최대 8개까지 동시에 표시할 수 있어요.');
+    }
+    const reservation = Symbol(source);
+    reservations.add(reservation);
+    return () => {
+      reservations.delete(reservation);
+      if (reservations.size === 0) this.sourceReservations.delete(key);
+    };
+  }
   offers(p) {
     if (!this.valid(p)) return [];
     const retained = new Set([...p.consumers.values()].map(c => c.producer.id)), list = [], counts = {};
     for (const sender of p.world.peers.values()) for (const [source, producer] of sender.producers) if (!producer.closed && this.permitted(p, sender, source)) list.push({ id: producer.id, playerId: sender.id, source, kind: producer.kind });
     list.sort((a, b) => Number(retained.has(b.id)) - Number(retained.has(a.id)) || a.playerId.localeCompare(b.playerId) || a.source.localeCompare(b.source));
-    const screenOwner = list.find(item => item.source === 'SCREEN')?.playerId;
+    const screenOwners = new Set(
+      list.filter(item => item.source === 'SCREEN')
+        .slice(0, LIMITS.SCREEN)
+        .map(item => item.playerId),
+    );
     return list.filter(item => {
-      if (item.source === 'SCREEN_AUDIO' && item.playerId !== screenOwner) return false;
+      if (item.source === 'SCREEN_AUDIO' && !screenOwners.has(item.playerId)) return false;
       counts[item.source] = (counts[item.source] ?? 0) + 1; return counts[item.source] <= LIMITS[item.source];
     });
   }
@@ -158,19 +184,28 @@ export class MediaEngine {
       if (!p.sources.has(data.source)) throw new MediaFailure('MEDIA_DENIED', '이 구역에서는 송출할 수 없어요.');
       check(SOURCES.get(data.source) === data.kind && !p.producers.has(data.source));
       const t = this.transport(p, data.transportId, 'send');
-      const producer = await t.resource.produce({ kind: data.kind, rtpParameters: data.rtpParameters, paused: true, appData: { source: data.source } });
-      if (!this.valid(p) || !p.sources.has(data.source)) { producer.close(); throw new MediaFailure('MEDIA_STALE', '송출 권한이 바뀌었어요.'); }
-      p.producers.set(data.source, producer);
-      const removeProducer = () => {
-        if (p.producers.get(data.source) === producer) p.producers.delete(data.source);
-        void this.recordings.producerClosed(p, data.source, producer);
-      };
-      producer.on('transportclose', removeProducer);
-      producer.observer?.on('close', removeProducer);
-      await producer.resume();
-      if (!this.valid(p) || !p.sources.has(data.source)) { producer.close(); p.producers.delete(data.source); throw new MediaFailure('MEDIA_STALE', '송출 권한이 바뀌었어요.'); }
-      await this.recordings.producerAdded(p, data.source, producer);
-      return { id: producer.id };
+      if (data.source === 'SCREEN_AUDIO' && !p.producers.has('SCREEN'))
+        throw new MediaFailure('MEDIA_INVALID', '화면 공유를 먼저 시작해 주세요.');
+      const releaseSlot = ['SCREEN', 'SCREEN_AUDIO'].includes(data.source)
+        ? this.reserveSourceSlot(p, data.source)
+        : () => {};
+      try {
+        const producer = await t.resource.produce({ kind: data.kind, rtpParameters: data.rtpParameters, paused: true, appData: { source: data.source } });
+        if (!this.valid(p) || !p.sources.has(data.source)) { producer.close(); throw new MediaFailure('MEDIA_STALE', '송출 권한이 바뀌었어요.'); }
+        p.producers.set(data.source, producer);
+        const removeProducer = () => {
+          if (p.producers.get(data.source) === producer) p.producers.delete(data.source);
+          void this.recordings.producerClosed(p, data.source, producer);
+        };
+        producer.on('transportclose', removeProducer);
+        producer.observer?.on('close', removeProducer);
+        await producer.resume();
+        if (!this.valid(p) || !p.sources.has(data.source)) { producer.close(); p.producers.delete(data.source); throw new MediaFailure('MEDIA_STALE', '송출 권한이 바뀌었어요.'); }
+        await this.recordings.producerAdded(p, data.source, producer);
+        return { id: producer.id };
+      } finally {
+        releaseSlot();
+      }
     }
     if (method === 'closeProducer') { const producer = p.producers.get(data.source); if (producer) { producer.close(); p.producers.delete(data.source); } return {}; }
     if (method === 'consume') {
@@ -243,7 +278,7 @@ export class MediaEngine {
       await this.recordings.close();
       for (const w of this.worlds.values()) for (const p of [...w.peers.values()]) this.closePeer(w, p);
       for (const r of this.routers.values()) void r.then(r => r.close()).catch(() => {});
-      this.routers.clear(); this.worlds.clear();
+      this.sourceReservations.clear(); this.routers.clear(); this.worlds.clear();
     })();
     return this.closePromise;
   }
