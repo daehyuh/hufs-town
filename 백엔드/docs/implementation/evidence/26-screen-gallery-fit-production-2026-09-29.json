@@ -1,0 +1,38 @@
+{
+  "date": "2026-09-29",
+  "releaseId": "20260929T095617Z-screen-gallery-fit",
+  "origin": "https://town.gdgoc.com",
+  "status": "PASS",
+  "changes": {
+    "screenGallery": "Fit every active local and policy-delivered remote screen into a rows-and-columns grid based on share count and window aspect ratio; do not scroll the gallery.",
+    "tileAppearance": "Camera-style video overlay for the sharer's name and an independent volume control when screen audio is available."
+  },
+  "verification": {
+    "frontendTypeScriptAndProductionBuild": "passed",
+    "prettier": "passed",
+    "publicWebsiteHttpStatus": 200,
+    "pageTitle": "GDG HUFS 훕스타운",
+    "ssoConfigured": true,
+    "spaceCapacity": 100,
+    "mediaAdvertised": true,
+    "webSocketWithoutOriginStatus": 403,
+    "trustedOriginWithoutSessionStatus": 401,
+    "publicGalleryCssAsset": "HTTP 200; camera-style share tile selectors present",
+    "applicationContainers": {
+      "web": "healthy",
+      "api": "healthy",
+      "world": "healthy",
+      "media": "healthy",
+      "mariadb": "healthy",
+      "redis": "healthy"
+    },
+    "nginxConfiguration": "passed",
+    "automatedTests": "not run per user preference"
+  },
+  "limits": [
+    "Multiple simultaneous screen-share RTP was not manually verified with separate HUFS SSO accounts.",
+    "The responsive gallery was not visually verified on a physical phone.",
+    "The advertised 100-person capacity has not been verified under production load."
+  ],
+  "dataHandling": "No database rows, recordings, persistent volumes, or production environment files were changed."
+}
