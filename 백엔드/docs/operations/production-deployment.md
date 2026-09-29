@@ -118,6 +118,8 @@ To open the dashboard from an administrator workstation, create an SSH tunnel wi
 
 ## Backups and certificate renewal
 
+**Current operator decision (2026-09-29): production backups are intentionally not configured.** The service continues without an off-host backup destination. Loss or corruption of the host/database storage can permanently remove account, space, chat, uploaded-asset, and recording data. Do not treat persistent Docker volumes or the local backup scripts as a recovery copy. The encrypted backup procedure below remains available if the operator later chooses a separate destination; no schedule, destination, or private decryption key is installed on the production host.
+
 Persistent volumes are named `hufstown-production-mariadb`, `hufstown-production-redis`, `hufstown-production-assets`, and `hufstown-production-recordings`. A production backup includes an InnoDB consistent MariaDB dump, uploaded assets, and room recordings. It excludes Redis sessions/leases, environment secrets, and Prometheus history. Archives are compressed and encrypted with `age`; the server needs only the public recipient, while the private identity stays in a separate trusted location.
 
 On an administrator workstation, create an age identity and record its public recipient without copying the private identity to the server:
