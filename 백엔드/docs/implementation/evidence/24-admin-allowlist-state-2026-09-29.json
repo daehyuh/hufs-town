@@ -1,0 +1,9 @@
+{
+  "date": "2026-09-29",
+  "releaseId": "20260929T0841Z-multi-screen-8",
+  "setting": "TOWN_ADMIN_USER_IDS",
+  "configured": false,
+  "inspection": "Checked the configured API container without displaying the variable value; zero output bytes were returned.",
+  "effect": "No SSO account is currently granted platform administration access. Admin moderation and analytics remain unavailable until an approved internal account UUID is configured.",
+  "sensitiveValueCaptured": false
+}

@@ -10,6 +10,7 @@
 - Compose: `/opt/hufs-town/백엔드/infra/production.compose.yaml`
 - 현재 확인 결과: Web/API/World/Media/MariaDB/Redis healthy, Nginx와 certbot.timer active, 공개 HTTPS·SSO 설정·기본 공간 정원 100·월드 WebSocket 접근 거부 경계 정상.
 - Prometheus는 `observability` 프로필로 실행되며 `127.0.0.1:19090`에만 바인딩된다. 규칙 파일은 있지만 Alertmanager 수신 경로가 없어 장애 알림은 외부로 전달되지 않는다.
+- `TOWN_ADMIN_USER_IDS`에는 현재 승인 계정 UUID가 설정되지 않았다. 따라서 신고 검토와 운영 분석은 승인된 계정을 지정하기 전까지 사용할 수 없다. [확인 증거](../implementation/evidence/24-admin-allowlist-state-2026-09-29.json)
 
 웹은 Nginx HTTPS 뒤에 있고 API·World·Web의 호스트 포트는 loopback에만 열려 있다. MariaDB·Redis는 Compose 내부망과 영구 볼륨을 사용한다. 미디어 서버는 TCP/UDP 44444를 사용한다.
 
