@@ -1,0 +1,40 @@
+{
+  "date": "2026-09-29",
+  "releaseId": "20260929T0932Z-no-profile-links",
+  "origin": "https://town.gdgoc.com",
+  "status": "PASS",
+  "change": {
+    "wardrobeProfileLinkEditor": "removed",
+    "participantProfileLinkDisplay": "removed",
+    "nameAvatarBioEditing": "retained",
+    "storedLegacyProfileLinks": "preserved"
+  },
+  "checks": {
+    "frontendProductionBuild": "passed",
+    "websiteHttpStatus": 200,
+    "pageTitle": "GDG HUFS 훕스타운",
+    "authConfigHttpStatus": 200,
+    "ssoConfigured": true,
+    "bootstrapHttpStatus": 200,
+    "spaceCapacity": 100,
+    "mediaAdvertised": true,
+    "webSocketWithoutOriginStatus": 403,
+    "trustedOriginWithoutSessionStatus": 401,
+    "deployedAppBundleHttpStatus": 200,
+    "wardrobeLinkTranslationPresent": false,
+    "profileExternalLinksLabelPresent": false,
+    "applicationContainers": {
+      "web": "healthy",
+      "api": "healthy",
+      "world": "healthy",
+      "media": "healthy",
+      "mariadb": "healthy",
+      "redis": "healthy"
+    },
+    "nginxConfiguration": "passed"
+  },
+  "limits": [
+    "Existing profile link values were not deleted from storage.",
+    "The unauthenticated public smoke does not verify an SSO profile edit in a signed-in browser."
+  ]
+}

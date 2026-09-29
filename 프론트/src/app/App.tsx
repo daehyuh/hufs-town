@@ -243,7 +243,6 @@ type ProfileCardPlayer = {
   hair: string;
   status: PlayerView["status"];
   bio?: string;
-  links?: string[];
   profileLoading?: boolean;
   profileError?: string;
 };
@@ -320,24 +319,9 @@ function ParticipantProfileCard({
         <p className="participant-profile-note" role="status">
           {t("people.profile.error")}
         </p>
-      ) : player.bio || player.links?.length ? (
+      ) : player.bio ? (
         <div className="participant-profile-details">
-          {player.bio && <p>{player.bio}</p>}
-          {!!player.links?.length && (
-            <ul>
-              {player.links.map((link) => (
-                <li key={link}>
-                  <a
-                    href={/^https?:\/\/[^\s]+$/i.test(link) ? link : undefined}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {link}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          )}
+          <p>{player.bio}</p>
         </div>
       ) : !ownProfile ? (
         <p className="participant-profile-note">{t("people.profile.empty")}</p>
@@ -2829,7 +2813,6 @@ function Campus({
     "clothing" | "hair" | "skin"
   >("clothing");
   const [wardrobeBio, setWardrobeBio] = useState(profileBio);
-  const [wardrobeLinks, setWardrobeLinks] = useState<string[]>(profileLinks);
   const [wardrobeBusy, setWardrobeBusy] = useState(false);
   const [wardrobeError, setWardrobeError] = useState("");
   const [nearbyAmbientSound, setNearbyAmbientSound] =
@@ -2896,7 +2879,6 @@ function Campus({
           hair: spaceProfilePlayer.hair,
           status: spaceProfilePlayer.status,
           bio: profileDetails?.accepted ? profileDetails.bio : undefined,
-          links: profileDetails?.accepted ? profileDetails.links : undefined,
           profileLoading:
             online && !profileRequestFailed && profileDetails === null,
           profileError: profileRequestFailed
@@ -3097,7 +3079,6 @@ function Campus({
     setWardrobeClothing(session.clothing);
     setWardrobeHair(session.hair);
     setWardrobeBio(profileBio);
-    setWardrobeLinks([...profileLinks]);
     setWardrobeError("");
     setWardrobeOpen(true);
   }
@@ -3116,22 +3097,12 @@ function Campus({
     if (wardrobeBusy) return;
     const name = wardrobeName.trim();
     const bio = wardrobeBio.trim();
-    const links = wardrobeLinks.map((link) => link.trim()).filter(Boolean);
     if (!name || name.length > 20 || /[\x00-\x1f\x7f]|\p{Cf}/u.test(name)) {
       setWardrobeError(t("wardrobe.error.name"));
       return;
     }
     if (Array.from(bio).length > 280 || /[\x00-\x1f\x7f]|\p{Cf}/u.test(bio)) {
       setWardrobeError(t("wardrobe.error.bio"));
-      return;
-    }
-    if (
-      links.length > 3 ||
-      links.some(
-        (link) => link.length > 512 || !/^https?:\/\/[^\s]+$/i.test(link),
-      )
-    ) {
-      setWardrobeError(t("wardrobe.error.links"));
       return;
     }
     setWardrobeBusy(true);
@@ -3144,14 +3115,14 @@ function Campus({
         clothing: wardrobeClothing,
         hair: wardrobeHair,
         bio,
-        links,
+        links: profileLinks,
       });
       connection.updateProfile(
         saved.name,
         saved.avatar,
         saved,
         saved.bio,
-        saved.links,
+        profileLinks,
       );
       setWardrobeOpen(false);
     } catch {
@@ -6980,52 +6951,6 @@ function Campus({
                 onChange={(event) => setWardrobeBio(event.target.value)}
               />
             </label>
-            <div className="wardrobe-links">
-              <div className="wardrobe-links-heading">
-                <strong>{t("wardrobe.links")}</strong>
-                <button
-                  type="button"
-                  disabled={wardrobeLinks.length >= 3}
-                  onClick={() => setWardrobeLinks((links) => [...links, ""])}
-                >
-                  {t("wardrobe.links.add")}
-                </button>
-              </div>
-              {wardrobeLinks.map((link, index) => (
-                <div className="wardrobe-link-row" key={index}>
-                  <input
-                    type="url"
-                    maxLength={512}
-                    placeholder="https://example.com"
-                    aria-label={t("wardrobe.links.label", {
-                      index: formatNumber(language, index + 1),
-                    })}
-                    value={link}
-                    onChange={(event) =>
-                      setWardrobeLinks((links) =>
-                        links.map((item, itemIndex) =>
-                          itemIndex === index ? event.target.value : item,
-                        ),
-                      )
-                    }
-                  />
-                  <button
-                    type="button"
-                    className="icon-button"
-                    aria-label={t("wardrobe.links.remove", {
-                      index: formatNumber(language, index + 1),
-                    })}
-                    onClick={() =>
-                      setWardrobeLinks((links) =>
-                        links.filter((_, itemIndex) => itemIndex !== index),
-                      )
-                    }
-                  >
-                    <X size={16} />
-                  </button>
-                </div>
-              ))}
-            </div>
             {wardrobeError && (
               <p className="wardrobe-error" role="alert">
                 {wardrobeError}

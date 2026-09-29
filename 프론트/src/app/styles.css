@@ -1106,16 +1106,6 @@ button:hover:not(:disabled) {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
-.participant-profile-details ul {
-  display: grid;
-  gap: 4px;
-  margin: 8px 0 0;
-  padding-left: 16px;
-}
-.participant-profile-details a {
-  color: #39718a;
-  overflow-wrap: anywhere;
-}
 .participant-profile-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
