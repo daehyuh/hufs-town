@@ -11,13 +11,15 @@
   },
   "githubActions": {
     "run": "https://github.com/daehyuh/hufs-town/actions/runs/36531631856",
-    "stateAtEvidenceCapture": "in progress",
+    "conclusion": "cancelled",
+    "elapsed": "20m17s",
     "completedSteps": [
       "Web contracts, tests and build",
       "Java tests and real database integration",
       "Native media worker tests"
     ],
-    "inProgressStep": "Three-browser regression"
+    "stoppedStep": "Three-browser regression",
+    "details": "The 20-minute workflow limit stopped the run while Chromium test 101 was starting. The browser regression suite has no complete result and was not rerun."
   },
   "production": {
     "deployment": "passed",
@@ -49,6 +51,6 @@
   },
   "limitations": [
     "The available browser sessions were at the sign-in screen, so an authenticated in-world visual review was not performed.",
-    "No separate local test suite was run, following the user's direction to stop tests. GitHub Actions was automatically triggered by the source push and was still in progress at evidence capture."
+    "No separate local test suite was run, following the user's direction to stop tests. GitHub Actions ran automatically; its browser regression did not finish before the workflow limit."
   ]
 }
