@@ -914,13 +914,11 @@ video.mirror {
 }
 .shared-screen-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
-  align-content: start;
+  align-content: stretch;
   gap: 8px;
   min-width: 0;
   min-height: 0;
-  overflow: auto;
-  overscroll-behavior: contain;
+  overflow: hidden;
   padding: 8px;
   background: #12251d;
 }
@@ -935,29 +933,44 @@ video.mirror {
   font-size: 11px;
 }
 .screen-share-tile {
-  display: grid;
-  grid-template-rows: minmax(34px, auto) minmax(0, 1fr);
+  position: relative;
+  display: block;
+  min-height: 0;
   min-width: 0;
+  margin: 0;
   overflow: hidden;
-  border: 1px solid #ffffff26;
+  border: 1px solid #ffffff35;
   border-radius: 8px;
   background: #070b09;
+  box-shadow: 0 3px 12px #0005;
 }
-.screen-share-tile > header {
-  box-sizing: border-box;
-  min-width: 0;
-  min-height: 34px;
+.screen-share-tile figcaption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 6px;
-  padding: 4px 7px;
-  background: #193228;
+  min-width: 0;
+  padding: 20px 7px 6px;
+  color: #fff;
+  background: linear-gradient(transparent, #08140fdf);
   font-size: 12px;
 }
-.screen-share-tile > header > span {
+.screen-share-name {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   flex: 1 1 auto;
   min-width: 0;
   overflow: hidden;
 }
-.screen-share-tile > header strong {
+.screen-share-name svg {
+  flex: 0 0 auto;
+}
+.screen-share-name strong {
   overflow: hidden;
   font-size: 12px;
   font-weight: 650;
@@ -966,21 +979,28 @@ video.mirror {
 }
 .screen-share-tile .screen-audio-volume {
   flex: 0 0 auto;
-  gap: 3px;
-  padding: 2px 4px;
+  gap: 4px;
+  padding: 3px 5px;
+  border: 1px solid #ffffff35;
+  border-radius: 6px;
+  color: #fff;
+  background: #10231bbc;
 }
 .screen-share-tile .screen-audio-volume input {
-  width: clamp(44px, 6vw, 74px);
+  width: clamp(38px, 6vw, 70px);
+  accent-color: #d7ef9c;
 }
 .screen-share-tile .screen-audio-volume output {
-  min-width: 32px;
-  font-size: 11px;
+  min-width: 28px;
+  font-size: 10px;
+  text-align: right;
 }
 .screen-share-tile video {
   display: block;
   width: 100%;
+  height: 100%;
   min-height: 0;
-  aspect-ratio: 16 / 9;
+  aspect-ratio: auto;
   background: #070b09;
   object-fit: contain;
 }

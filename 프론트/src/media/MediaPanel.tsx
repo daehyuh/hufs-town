@@ -524,9 +524,17 @@ function ScreenShareTile({
 }) {
   const { t } = useLanguage();
   return (
-    <article className="screen-share-tile" data-player-id={tile.id}>
-      <header>
-        <span>
+    <figure className="screen-share-tile" data-player-id={tile.id}>
+      {tile.item ? (
+        <TrackVideo
+          item={tile.item}
+          label={t("media.screen.remoteTitle", { name: tile.label })}
+        />
+      ) : tile.stream ? (
+        <StreamVideo stream={tile.stream} label={t("media.screen.selfTitle")} />
+      ) : null}
+      <figcaption>
+        <span className="screen-share-name">
           <MonitorUp size={14} aria-hidden="true" />
           <strong>{tile.label}</strong>
         </span>
@@ -547,16 +555,8 @@ function ScreenShareTile({
             <output>{audioVolume}%</output>
           </label>
         )}
-      </header>
-      {tile.item ? (
-        <TrackVideo
-          item={tile.item}
-          label={t("media.screen.remoteTitle", { name: tile.label })}
-        />
-      ) : tile.stream ? (
-        <StreamVideo stream={tile.stream} label={t("media.screen.selfTitle")} />
-      ) : null}
-    </article>
+      </figcaption>
+    </figure>
   );
 }
 function RemoteAudio({
@@ -1037,7 +1037,13 @@ export function MediaStage({
     );
   const screenTiles: ScreenTileData[] = [
     ...(view.screenStream
-      ? [{ id: "__self__", label: t("media.screen.selfTitle"), stream: view.screenStream }]
+      ? [
+          {
+            id: "__self__",
+            label: t("media.screen.selfTitle"),
+            stream: view.screenStream,
+          },
+        ]
       : []),
     ...screenItems.map((item) => ({
       id: item.playerId,
@@ -1046,6 +1052,29 @@ export function MediaStage({
       item,
     })),
   ];
+  const screenGridColumns = useMemo(() => {
+    const count = screenTiles.length;
+    if (count <= 1) return count;
+    const availableWidth = Math.max(1, screenPanel.frame.width - 16);
+    const availableHeight = Math.max(1, screenPanel.frame.height - 56);
+    const targetAspect = 16 / 9;
+    let columns = 1;
+    let bestScore = Number.POSITIVE_INFINITY;
+    for (let candidate = 1; candidate <= count; candidate += 1) {
+      const rows = Math.ceil(count / candidate);
+      const tileAspect = availableWidth / candidate / (availableHeight / rows);
+      const score = Math.abs(Math.log(tileAspect / targetAspect));
+      if (score < bestScore) {
+        columns = candidate;
+        bestScore = score;
+      }
+    }
+    return columns;
+  }, [screenPanel.frame.height, screenPanel.frame.width, screenTiles.length]);
+  const screenGridRows = Math.max(
+    1,
+    Math.ceil(screenTiles.length / Math.max(1, screenGridColumns)),
+  );
   const cameras = view.remote
     .filter((r) => r.source === "CAMERA")
     .sort(
@@ -1305,7 +1334,8 @@ export function MediaStage({
           {screenTiles.length > 0 && (
             <p>
               <MonitorUp size={13} />
-              {t("media.screen.label")} · {formatNumber(language, screenTiles.length)}
+              {t("media.screen.label")} ·{" "}
+              {formatNumber(language, screenTiles.length)}
             </p>
           )}
         </section>
@@ -1533,7 +1563,13 @@ export function MediaStage({
               </button>
             </span>
           </header>
-          <div className="shared-screen-gallery">
+          <div
+            className="shared-screen-gallery"
+            style={{
+              gridTemplateColumns: `repeat(${screenGridColumns}, minmax(0, 1fr))`,
+              gridTemplateRows: `repeat(${screenGridRows}, minmax(0, 1fr))`,
+            }}
+          >
             {screenTiles.map((tile) => (
               <ScreenShareTile
                 key={tile.id}
