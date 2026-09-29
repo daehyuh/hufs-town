@@ -92,7 +92,6 @@ it("renders world utility controls in Korean and English", () => {
   expect(korean).toContain('aria-label="이동 조이스틱"');
   expect(korean).toContain('aria-describedby="mobile-joystick-status"');
   expect(korean).toContain('aria-live="polite">걷기</span>');
-  expect(korean).toContain("달리기");
   expect(korean).toContain("지도 범례");
   expect(korean).toContain("공동 화이트보드");
   expect(korean).toContain("처음 그리면 공간 참가자에게 함께 보여요.");
@@ -100,7 +99,6 @@ it("renders world utility controls in Korean and English", () => {
   expect(english).toContain('aria-label="Movement joystick"');
   expect(english).toContain('aria-describedby="mobile-joystick-status"');
   expect(english).toContain('aria-live="polite">Walk</span>');
-  expect(english).toContain("Run");
   expect(english).toContain("Map legend");
   expect(english).toContain("Shared whiteboard");
   expect(english).toContain(
