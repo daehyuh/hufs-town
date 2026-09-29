@@ -1,0 +1,36 @@
+{
+  "date": "2026-09-28",
+  "change": "Improve mobile friend management and verify core-first defaults",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "friendsDialog": {
+    "searchFontSize": "16px",
+    "friendRequestTouchTargetMinimum": "44px",
+    "searchAndFriendRequestFlow": "passed with mocked API",
+    "presencePreferenceSave": "passed with mocked API",
+    "horizontalOverflow": "none",
+    "axeWcag21AandAA": "passed"
+  },
+  "coreCommunicationDefaults": {
+    "nearbyChat": "available",
+    "microphone": "available",
+    "camera": "available",
+    "screenShare": "available",
+    "presenterTools": "hidden by default, including with legacy preference key",
+    "e2e": "passed"
+  },
+  "e2e": {
+    "files": [
+      "../../../../프론트/tests/e2e/direct-message-cross-browser.spec.ts",
+      "../../../../프론트/tests/e2e/event-roster.spec.ts"
+    ],
+    "testsPassed": 4,
+    "testsFailed": 0,
+    "runner": "isolated Preview"
+  },
+  "build": "frontend production build passed",
+  "formatting": "Prettier passed",
+  "productionDeployed": false
+}

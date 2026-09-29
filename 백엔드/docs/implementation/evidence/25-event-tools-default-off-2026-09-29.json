@@ -1,0 +1,30 @@
+{
+  "date": "2026-09-29",
+  "change": "Move supplemental presentation/event tools to preference v7 and clear any stored v1-v6 opt-in on upgrade. New and upgraded sessions start with presenter tools hidden; nearby chat, microphone, camera, and screen sharing remain available.",
+  "files": [
+    "프론트/src/events/eventToolsPreference.ts",
+    "프론트/tests/unit/eventToolsPreference.test.ts",
+    "프론트/tests/e2e/event-roster.spec.ts",
+    "프론트/tests/e2e/event-media.spec.ts"
+  ],
+  "validation": {
+    "prettier": "passed for all changed frontend TypeScript files",
+    "typecheck": "passed",
+    "focused_unit": {
+      "command": "pnpm exec vitest run tests/unit/eventToolsPreference.test.ts",
+      "test_files_passed": 1,
+      "tests_passed": 2
+    },
+    "browser": {
+      "command": "scripts/e2e.ps1 -SkipBuild -TestFile tests/e2e/event-roster.spec.ts",
+      "passed": 2,
+      "assertions": [
+        "A browser with legacy event-tools preference keys v1-v6 set to true starts with presenter/event controls hidden.",
+        "Nearby chat, microphone, camera, and screen-sharing controls remain available.",
+        "An explicit v7 opt-in still enables the event manager workflow and participant event controls."
+      ]
+    },
+    "media_event_e2e": "Not run; those tests require scripts/e2e.ps1 -Media and an active local SFU."
+  },
+  "deployment": "No production files or services changed."
+}

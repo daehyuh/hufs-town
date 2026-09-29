@@ -1,0 +1,39 @@
+{
+  "cases": [
+    {
+      "name": "unsupported-schema-version",
+      "valid": false,
+      "patch": { "schemaVersion": 1 }
+    },
+    {
+      "name": "map-width-over-limit",
+      "valid": false,
+      "patch": { "width": 97 }
+    },
+    {
+      "name": "spawn-outside-safe-inset",
+      "valid": false,
+      "patch": { "spawnX": 0 }
+    },
+    {
+      "name": "duplicate-element-id",
+      "valid": false,
+      "mutation": "duplicate-first-floor-id"
+    },
+    {
+      "name": "zone-out-of-bounds",
+      "valid": false,
+      "mutation": "add-out-of-bounds-zone"
+    },
+    {
+      "name": "overlapping-zones",
+      "valid": false,
+      "mutation": "replace-with-overlapping-zones"
+    },
+    {
+      "name": "touching-zones",
+      "valid": true,
+      "mutation": "replace-with-touching-zones"
+    }
+  ]
+}

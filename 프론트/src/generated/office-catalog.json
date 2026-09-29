@@ -1,0 +1,487 @@
+{
+  "version": 1,
+  "items": [
+    {
+      "id": "desk-monitor",
+      "name": "모니터 책상",
+      "category": "업무",
+      "width": 48,
+      "height": 32,
+      "footprint": {
+        "x": 0.0625,
+        "y": -1.625,
+        "width": 2.875,
+        "height": 1.5
+      },
+      "url": "/assets/office/desk-monitor.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "desk-clear",
+      "name": "빈 책상",
+      "category": "업무",
+      "width": 48,
+      "height": 32,
+      "footprint": {
+        "x": 0.0625,
+        "y": -1.625,
+        "width": 2.875,
+        "height": 1.5
+      },
+      "url": "/assets/office/desk-clear.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "desk-laptop",
+      "name": "노트북 책상",
+      "category": "업무",
+      "width": 48,
+      "height": 32,
+      "footprint": {
+        "x": 0.0625,
+        "y": -1.625,
+        "width": 2.875,
+        "height": 1.5
+      },
+      "url": "/assets/office/desk-laptop.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "chair-front",
+      "name": "오피스 의자 · 앞",
+      "category": "좌석",
+      "width": 20,
+      "height": 32,
+      "footprint": null,
+      "url": "/assets/office/chair-front.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "chair-back",
+      "name": "오피스 의자 · 뒤",
+      "category": "좌석",
+      "width": 20,
+      "height": 32,
+      "footprint": null,
+      "url": "/assets/office/chair-back.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "meeting-table",
+      "name": "회의 테이블",
+      "category": "회의",
+      "width": 80,
+      "height": 48,
+      "footprint": {
+        "x": 0.125,
+        "y": -2.125,
+        "width": 4.75,
+        "height": 1.875
+      },
+      "url": "/assets/office/meeting-table.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "whiteboard",
+      "name": "화이트보드",
+      "category": "회의",
+      "width": 64,
+      "height": 48,
+      "footprint": {
+        "x": 0.125,
+        "y": -0.4,
+        "width": 3.75,
+        "height": 0.4
+      },
+      "url": "/assets/office/whiteboard.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "sofa-sage",
+      "name": "세이지 소파",
+      "category": "라운지",
+      "width": 64,
+      "height": 40,
+      "footprint": {
+        "x": 0.125,
+        "y": -1.5,
+        "width": 3.75,
+        "height": 1.5
+      },
+      "url": "/assets/office/sofa-sage.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "armchair",
+      "name": "라운지 의자",
+      "category": "라운지",
+      "width": 32,
+      "height": 40,
+      "footprint": {
+        "x": 0.125,
+        "y": -1.5,
+        "width": 1.75,
+        "height": 1.5
+      },
+      "url": "/assets/office/armchair.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "coffee-table",
+      "name": "낮은 테이블",
+      "category": "라운지",
+      "width": 48,
+      "height": 32,
+      "footprint": {
+        "x": 0.125,
+        "y": -1,
+        "width": 2.75,
+        "height": 1
+      },
+      "url": "/assets/office/coffee-table.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "reception",
+      "name": "리셉션 데스크",
+      "category": "라운지",
+      "width": 80,
+      "height": 48,
+      "footprint": {
+        "x": 0.0625,
+        "y": -2,
+        "width": 4.875,
+        "height": 2
+      },
+      "url": "/assets/office/reception.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "bookshelf",
+      "name": "책장",
+      "category": "수납",
+      "width": 48,
+      "height": 56,
+      "footprint": {
+        "x": 0.0625,
+        "y": -1,
+        "width": 2.875,
+        "height": 1
+      },
+      "url": "/assets/office/bookshelf.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "cabinet",
+      "name": "수납장",
+      "category": "수납",
+      "width": 48,
+      "height": 40,
+      "footprint": {
+        "x": 0.0625,
+        "y": -1,
+        "width": 2.875,
+        "height": 1
+      },
+      "url": "/assets/office/cabinet.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "pantry",
+      "name": "커피 스테이션",
+      "category": "라운지",
+      "width": 64,
+      "height": 48,
+      "footprint": {
+        "x": 0.0625,
+        "y": -1.4,
+        "width": 3.875,
+        "height": 1.4
+      },
+      "url": "/assets/office/pantry.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "plant-large",
+      "name": "큰 화분",
+      "category": "식물",
+      "width": 24,
+      "height": 48,
+      "footprint": {
+        "x": 0.1875,
+        "y": -0.5,
+        "width": 1.125,
+        "height": 0.5
+      },
+      "url": "/assets/office/plant-large.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "plant-small",
+      "name": "책상 화분",
+      "category": "장식",
+      "width": 16,
+      "height": 24,
+      "footprint": null,
+      "url": "/assets/office/plant-small.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "rug-sage",
+      "name": "세이지 러그",
+      "category": "바닥 장식",
+      "width": 96,
+      "height": 64,
+      "footprint": null,
+      "url": "/assets/office/rug-sage.svg",
+      "source": "code-native pixel geometry",
+      "layer": "GROUND"
+    },
+    {
+      "id": "rug-blue",
+      "name": "블루 러그",
+      "category": "바닥 장식",
+      "width": 96,
+      "height": 64,
+      "footprint": null,
+      "url": "/assets/office/rug-blue.svg",
+      "source": "code-native pixel geometry",
+      "layer": "GROUND"
+    },
+    {
+      "id": "water-cooler",
+      "name": "정수기",
+      "category": "라운지",
+      "width": 24,
+      "height": 48,
+      "footprint": {
+        "x": 0.125,
+        "y": -0.75,
+        "width": 1.25,
+        "height": 0.75
+      },
+      "url": "/assets/office/water-cooler.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "divider",
+      "name": "낮은 파티션",
+      "category": "회의",
+      "width": 64,
+      "height": 40,
+      "footprint": {
+        "x": 0,
+        "y": -0.35,
+        "width": 4,
+        "height": 0.35
+      },
+      "url": "/assets/office/divider.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "screen",
+      "name": "발표 화면",
+      "category": "회의",
+      "width": 64,
+      "height": 48,
+      "footprint": {
+        "x": 0.125,
+        "y": -0.35,
+        "width": 3.75,
+        "height": 0.35
+      },
+      "url": "/assets/office/screen.svg",
+      "source": "code-native pixel geometry",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "original-plant",
+      "name": "도트 화분",
+      "category": "식물",
+      "width": 16,
+      "height": 16,
+      "footprint": {
+        "x": 0.125,
+        "y": -0.5,
+        "width": 0.75,
+        "height": 0.5
+      },
+      "url": "/assets/office/potted_plant_1.png",
+      "source": "user-provided RPG scenery",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "original-tree",
+      "name": "도트 실내 나무",
+      "category": "식물",
+      "width": 16,
+      "height": 32,
+      "footprint": {
+        "x": 0.125,
+        "y": -0.5,
+        "width": 0.75,
+        "height": 0.5
+      },
+      "url": "/assets/office/tree_potted_1.png",
+      "source": "user-provided RPG scenery",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "campus-tree-large",
+      "name": "큰 도트 나무",
+      "category": "캠퍼스",
+      "width": 48,
+      "height": 48,
+      "footprint": {
+        "x": 1.125,
+        "y": -0.5,
+        "width": 0.75,
+        "height": 0.5
+      },
+      "url": "/assets/tree_deciduous_huge_1.png",
+      "source": "user-provided RPG scenery",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "campus-tree",
+      "name": "도트 나무",
+      "category": "캠퍼스",
+      "width": 32,
+      "height": 32,
+      "footprint": {
+        "x": 0.625,
+        "y": -0.5,
+        "width": 0.75,
+        "height": 0.5
+      },
+      "url": "/assets/tree_deciduous_1.png",
+      "source": "user-provided RPG scenery",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "campus-tree-small",
+      "name": "작은 도트 나무",
+      "category": "캠퍼스",
+      "width": 16,
+      "height": 32,
+      "footprint": {
+        "x": 0.125,
+        "y": -0.5,
+        "width": 0.75,
+        "height": 0.5
+      },
+      "url": "/assets/tree_deciduous_small_1.png",
+      "source": "user-provided RPG scenery",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "campus-bush",
+      "name": "도트 수풀",
+      "category": "캠퍼스",
+      "width": 16,
+      "height": 16,
+      "footprint": {
+        "x": 0.125,
+        "y": -0.5,
+        "width": 0.75,
+        "height": 0.5
+      },
+      "url": "/assets/bush_1.png",
+      "source": "user-provided RPG scenery",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "campus-berries",
+      "name": "열매 수풀",
+      "category": "캠퍼스",
+      "width": 16,
+      "height": 16,
+      "footprint": {
+        "x": 0.125,
+        "y": -0.5,
+        "width": 0.75,
+        "height": 0.5
+      },
+      "url": "/assets/bush_berries_1.png",
+      "source": "user-provided RPG scenery",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "campus-house",
+      "name": "캠퍼스 작은 건물",
+      "category": "캠퍼스",
+      "width": 48,
+      "height": 48,
+      "footprint": {
+        "x": 0.25,
+        "y": -1,
+        "width": 2.5,
+        "height": 1
+      },
+      "url": "/assets/house_woodland_1.png",
+      "source": "user-provided RPG scenery",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "campus-house-large",
+      "name": "캠퍼스 커뮤니티 하우스",
+      "category": "캠퍼스",
+      "width": 48,
+      "height": 64,
+      "footprint": {
+        "x": 0.25,
+        "y": -1,
+        "width": 2.5,
+        "height": 1
+      },
+      "url": "/assets/house_woodland_big.png",
+      "source": "user-provided RPG scenery",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "campus-sign",
+      "name": "도트 안내 표지판",
+      "category": "캠퍼스",
+      "width": 16,
+      "height": 16,
+      "footprint": {
+        "x": 0.125,
+        "y": -0.5,
+        "width": 0.75,
+        "height": 0.5
+      },
+      "url": "/assets/sign_1.png",
+      "source": "user-provided RPG scenery",
+      "layer": "OBJECT"
+    },
+    {
+      "id": "gdg-sign",
+      "name": "GDG HUFS 로고",
+      "category": "장식",
+      "width": 48,
+      "height": 27,
+      "footprint": null,
+      "url": "/assets/gdg-mark.svg",
+      "source": "user-provided GDG logo",
+      "layer": "OBJECT"
+    }
+  ]
+}

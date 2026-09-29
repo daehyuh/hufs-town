@@ -1,0 +1,126 @@
+{
+  "date": "2026-09-21",
+  "environment": "Windows localhost; Spring preview world; Docker native mediasoup; Chromium fake devices and synthetic screen",
+  "checks": {
+    "java": 26,
+    "mariadbRedisIntegration": 14,
+    "webUnit": 15,
+    "mediaWorkerAndPolicy": 8,
+    "browser": 13
+  },
+  "browserSummary": {
+    "total": 13,
+    "expected": 13,
+    "unexpected": 0,
+    "flaky": 0,
+    "skipped": 0,
+    "ok": true
+  },
+  "mediaCases": [
+    {
+      "title": "real SFU carries microphone, camera and shared-screen RTP, then revokes distant receivers and cleans up on leave",
+      "status": "passed",
+      "durationMs": 16720,
+      "evidence": [
+        {
+          "name": "RTP evidence",
+          "data": {
+            "receivedBeforeRangeExit": {
+              "audio": 7086,
+              "video": 18478,
+              "packets": 150,
+              "frames": 24,
+              "samples": 119040,
+              "open": 2
+            },
+            "receivedAfterRangeExit": {
+              "audio": 17072,
+              "video": 10432,
+              "packets": 312,
+              "frames": 0,
+              "samples": 288960,
+              "open": 2
+            },
+            "errors": [],
+            "replies": []
+          }
+        }
+      ]
+    },
+    {
+      "title": "three peers: crossing the meeting-room boundary revokes outside receivers and never reshares the screen automatically",
+      "status": "passed",
+      "durationMs": 36385,
+      "evidence": [
+        {
+          "name": "outside media counters",
+          "data": {
+            "stopped": {
+              "audio": 4506,
+              "video": 10432,
+              "packets": 108,
+              "frames": 0,
+              "samples": 90480,
+              "open": 2
+            },
+            "after": {
+              "audio": 4506,
+              "video": 12192,
+              "packets": 116,
+              "frames": 0,
+              "samples": 90480,
+              "open": 2
+            }
+          }
+        },
+        {
+          "name": "meeting separation",
+          "data": {
+            "inside": {
+              "audio": 8944,
+              "video": 45291,
+              "packets": 197,
+              "frames": 45,
+              "samples": 116598,
+              "open": 2
+            },
+            "outsideAfterRevocation": {
+              "audio": 4506,
+              "video": 10432,
+              "packets": 108,
+              "frames": 0,
+              "samples": 90480,
+              "open": 2
+            },
+            "outsideAfterInsideReshare": {
+              "audio": 4506,
+              "video": 12192,
+              "packets": 116,
+              "frames": 0,
+              "samples": 90480,
+              "open": 2
+            },
+            "domains": [
+              "preview/office-v1/private:meeting-a",
+              "preview/office-v1/private:meeting-a",
+              "preview/office-v1/common"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "title": "silent area stops every capture device and permission denial leaves the microphone off",
+      "status": "passed",
+      "durationMs": 14001,
+      "evidence": []
+    }
+  ],
+  "limits": [
+    "No physical device capture",
+    "No internet/TURN or 100-user media load verification"
+  ],
+  "notes": [
+    "RTP packet/byte counters can include probation/retransmission. Revocation is checked against server Consumers and new frames/non-concealed audio samples."
+  ]
+}

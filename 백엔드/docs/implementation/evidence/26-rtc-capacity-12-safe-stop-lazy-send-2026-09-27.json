@@ -1,0 +1,175 @@
+{
+  "status": "FAILED_OR_SAFE_STOP",
+  "startedAt": "2026-09-27T07:58:29.504Z",
+  "finishedAt": "2026-09-27T07:58:52.657Z",
+  "tier": 12,
+  "participantsRequested": 12,
+  "participantsJoined": 9,
+  "failure": "Safe stop: host free memory 2032 MiB fell below 2048 MiB.",
+  "mediaEngine": "isolated host capacity SFU 127.0.0.1:18083; RTP 44445",
+  "hostLimits": {
+    "minFreeMemoryMb": 2048,
+    "stopIfCpuAtOrAbovePercentForSeconds": 95,
+    "cpuStopConsecutiveSamples": 20,
+    "maxClients": 100
+  },
+  "resourceSamples": [
+    {
+      "elapsedMs": 1,
+      "availableMemoryMb": 3885,
+      "usedMemoryPercent": 88.1,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 152,
+      "availableMemoryMb": 3842,
+      "usedMemoryPercent": 88.2,
+      "cpuPercent": 33.7
+    },
+    {
+      "elapsedMs": 1004,
+      "availableMemoryMb": 3561,
+      "usedMemoryPercent": 89.1,
+      "cpuPercent": 48.1
+    },
+    {
+      "elapsedMs": 2004,
+      "availableMemoryMb": 3584,
+      "usedMemoryPercent": 89,
+      "cpuPercent": 51.3
+    },
+    {
+      "elapsedMs": 3005,
+      "availableMemoryMb": 3376,
+      "usedMemoryPercent": 89.7,
+      "cpuPercent": 40.3
+    },
+    {
+      "elapsedMs": 4014,
+      "availableMemoryMb": 3291,
+      "usedMemoryPercent": 89.9,
+      "cpuPercent": 36.2
+    },
+    {
+      "elapsedMs": 5029,
+      "availableMemoryMb": 3197,
+      "usedMemoryPercent": 90.2,
+      "cpuPercent": 47.6
+    },
+    {
+      "elapsedMs": 6039,
+      "availableMemoryMb": 3146,
+      "usedMemoryPercent": 90.4,
+      "cpuPercent": 65.3
+    },
+    {
+      "elapsedMs": 7043,
+      "availableMemoryMb": 3069,
+      "usedMemoryPercent": 90.6,
+      "cpuPercent": 66.2
+    },
+    {
+      "elapsedMs": 8053,
+      "availableMemoryMb": 2902,
+      "usedMemoryPercent": 91.1,
+      "cpuPercent": 77.3
+    },
+    {
+      "elapsedMs": 9060,
+      "availableMemoryMb": 2842,
+      "usedMemoryPercent": 91.3,
+      "cpuPercent": 82.8
+    },
+    {
+      "elapsedMs": 9874,
+      "availableMemoryMb": 2836,
+      "usedMemoryPercent": 91.3,
+      "cpuPercent": 70.1
+    },
+    {
+      "elapsedMs": 10063,
+      "availableMemoryMb": 2752,
+      "usedMemoryPercent": 91.6,
+      "cpuPercent": 74.1
+    },
+    {
+      "elapsedMs": 11063,
+      "availableMemoryMb": 2568,
+      "usedMemoryPercent": 92.1,
+      "cpuPercent": 72.3
+    },
+    {
+      "elapsedMs": 12071,
+      "availableMemoryMb": 2617,
+      "usedMemoryPercent": 92,
+      "cpuPercent": 83.4
+    },
+    {
+      "elapsedMs": 13070,
+      "availableMemoryMb": 2552,
+      "usedMemoryPercent": 92.2,
+      "cpuPercent": 83.8
+    },
+    {
+      "elapsedMs": 14073,
+      "availableMemoryMb": 2674,
+      "usedMemoryPercent": 91.8,
+      "cpuPercent": 94.3
+    },
+    {
+      "elapsedMs": 15076,
+      "availableMemoryMb": 2675,
+      "usedMemoryPercent": 91.8,
+      "cpuPercent": 81.4
+    },
+    {
+      "elapsedMs": 16078,
+      "availableMemoryMb": 2538,
+      "usedMemoryPercent": 92.2,
+      "cpuPercent": 68.3
+    },
+    {
+      "elapsedMs": 17083,
+      "availableMemoryMb": 2430,
+      "usedMemoryPercent": 92.6,
+      "cpuPercent": 68.5
+    },
+    {
+      "elapsedMs": 18093,
+      "availableMemoryMb": 2353,
+      "usedMemoryPercent": 92.8,
+      "cpuPercent": 84.6
+    },
+    {
+      "elapsedMs": 19094,
+      "availableMemoryMb": 2219,
+      "usedMemoryPercent": 93.2,
+      "cpuPercent": 90.7
+    },
+    {
+      "elapsedMs": 20099,
+      "availableMemoryMb": 2125,
+      "usedMemoryPercent": 93.5,
+      "cpuPercent": 82.2
+    },
+    {
+      "elapsedMs": 21110,
+      "availableMemoryMb": 2127,
+      "usedMemoryPercent": 93.5,
+      "cpuPercent": 91
+    },
+    {
+      "elapsedMs": 22122,
+      "availableMemoryMb": 2061,
+      "usedMemoryPercent": 93.7,
+      "cpuPercent": 96.1
+    },
+    {
+      "elapsedMs": 23133,
+      "availableMemoryMb": 2032,
+      "usedMemoryPercent": 93.8,
+      "cpuPercent": 95.3
+    }
+  ],
+  "pageErrors": []
+}

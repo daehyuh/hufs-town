@@ -1,0 +1,67 @@
+{
+  "checkedDate": "2026-09-29",
+  "environment": "scripts/e2e.ps1 isolated preview API/World/Vite; Playwright Chromium; axe-core WCAG 2.1 A/AA",
+  "file": "프론트/tests/e2e/moderation-access.spec.ts",
+  "tests": [
+    {
+      "name": "moderation-access.spec.ts",
+      "result": "PASS",
+      "passed": 5,
+      "total": 5
+    },
+    {
+      "name": "moderation review follows the saved English language preference",
+      "result": "PASS",
+      "checks": [
+        "English report review, chat retention, and usage analytics dialogs contain no Korean text",
+        "all three dialogs pass axe-core WCAG 2.1 A/AA",
+        "analytics table scroll region is named and keyboard focusable"
+      ]
+    },
+    {
+      "name": "Korean moderator report and analytics dialogs",
+      "result": "PASS",
+      "checks": [
+        "both dialogs pass axe-core WCAG 2.1 A/AA"
+      ]
+    }
+  ],
+  "accessibility": {
+    "violationsBeforeFix": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "targets": [
+          ".moderation-report header span",
+          ".moderation-report > small"
+        ]
+      },
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "targets": [
+          ".group-dialog-note",
+          ".group-cancel",
+          ".group-create"
+        ]
+      },
+      {
+        "id": "scrollable-region-focusable",
+        "impact": "serious",
+        "targets": [".product-analytics-table-wrap"]
+      }
+    ],
+    "violationsAfterFix": 0,
+    "change": "Darkened report metadata and shared dialog text/button colors; gave the analytics table wrapper a named region role and keyboard focus."
+  },
+  "validation": {
+    "frontendUnitTests": "47 files, 159 tests passed",
+    "typecheck": "PASS",
+    "productionBuild": "PASS",
+    "prettier": "PASS"
+  },
+  "limitations": [
+    "The moderation flows use isolated API fixtures, not a live HUFS SSO administrator account.",
+    "Automated Chromium checks do not replace physical-device or screen-reader review; T25.1 and T32.1 remain incomplete."
+  ]
+}

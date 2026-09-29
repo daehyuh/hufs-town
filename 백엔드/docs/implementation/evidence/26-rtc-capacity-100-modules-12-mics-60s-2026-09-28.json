@@ -1,0 +1,40 @@
+{
+  "date": "2026-09-28",
+  "test": "product WorldConnection and MediaController carry nearby RTC at the selected tier",
+  "command": ".\\scripts\\rtc-capacity-e2e.ps1 -Clients 100 -Speakers 12 -RtpHoldSeconds 60 -ModuleHarness -SkipBuild",
+  "environment": {
+    "browser": "Chromium",
+    "application": "100 product WorldConnection and MediaController modules in the isolated capacity harness",
+    "mediaEngine": "isolated loopback SFU",
+    "mediaMode": "nearby proximity; presenter/event mode not activated",
+    "participantsRequested": 100,
+    "participantsJoined": 100,
+    "microphoneSenders": 12,
+    "rtpHoldSeconds": 60
+  },
+  "result": {
+    "status": "PASS",
+    "uniquePlayerIds": 100,
+    "participantsWithAuthoritativeMovement": 100,
+    "spaceChatRecipients": 100,
+    "expectedInboundAudioStreams": 144,
+    "receivedInboundAudioStreams": 144,
+    "participantsWithInboundAudioRtpIceAndDtls": 22,
+    "minimumInboundAudioBytesAcrossRecipients": 188924,
+    "minimumInboundAudioPacketsAcrossRecipients": 3188,
+    "sustainedRtpTracks": 144,
+    "sustainedRtpObservedSeconds": 60.1,
+    "minimumRtpBytesIncreasePerTrack": 176744,
+    "minimumRtpPacketsIncreasePerTrack": 3002,
+    "nearbyPeerLimit": 12
+  },
+  "hostResources": {
+    "totalMemoryMb": 32631,
+    "finalAvailableMemoryMb": 8086,
+    "peakUsedMemoryPercent": 75.3,
+    "peakCpuPercent": 99,
+    "safeStopTriggered": false
+  },
+  "scope": "Revalidates the actual WorldConnection and MediaController modules, 100 participants, nearby movement/chat and 12-speaker sustained RTP after snapshot reconciliation changes. The one-page module harness does not measure 100 full React interfaces, camera/screen video fan-out, public TURN or production ARM64 capacity.",
+  "capacityTask": "T26.1 remains incomplete"
+}

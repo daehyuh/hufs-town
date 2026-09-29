@@ -1,0 +1,20 @@
+CREATE TABLE space_asset (
+    id VARCHAR(80) CHARACTER SET ascii COLLATE ascii_bin PRIMARY KEY,
+    space_id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+    uploader_user_id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+    original_name VARCHAR(180) NOT NULL,
+    mime_type VARCHAR(64) CHARACTER SET ascii NOT NULL,
+    byte_size BIGINT NOT NULL,
+    width INT NOT NULL,
+    height INT NOT NULL,
+    sha256 CHAR(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+    storage_key VARCHAR(120) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+    status VARCHAR(16) CHARACTER SET ascii NOT NULL DEFAULT 'READY',
+    created_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    CONSTRAINT fk_space_asset_space FOREIGN KEY (space_id) REFERENCES town_space(id),
+    CONSTRAINT fk_space_asset_uploader FOREIGN KEY (uploader_user_id) REFERENCES app_user(id),
+    CONSTRAINT uq_space_asset_hash UNIQUE (space_id, sha256),
+    CONSTRAINT uq_space_asset_storage UNIQUE (storage_key),
+    CONSTRAINT ck_space_asset_status CHECK (status IN ('READY','REJECTED')),
+    INDEX ix_space_asset_space (space_id, status, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

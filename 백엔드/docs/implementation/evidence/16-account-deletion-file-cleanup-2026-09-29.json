@@ -1,0 +1,39 @@
+{
+  "date": "2026-09-29",
+  "change": "Retry cleanup for rejected asset files and stale filesystem orphans, including pending uploads left by an interrupted account deletion.",
+  "files": [
+    "백엔드/apps/api/src/main/java/town/hufs/api/space/SpaceAssets.java",
+    "백엔드/apps/api/src/test/java/town/hufs/api/auth/SsoIntegrationTest.java",
+    "백엔드/docs/implementation/16-account-deletion.md"
+  ],
+  "policy": {
+    "pending_uploads": "Reject and remove immediately when an account is deleted; retry rejected files during the daily asset cleanup.",
+    "unreferenced_uploads": "Remove only after they are at least 24 hours old.",
+    "active_pending_or_ready_uploads": "Keep while referenced by the database.",
+    "shared_room_note_body": "Existing 30-day post-room retention behavior remains; account-deletion policy confirmation is still open."
+  },
+  "source_package": {
+    "path": ".build/deployment-source/hufs-town-source-20260928T194846Z-af061494.tar.gz",
+    "entries": 1440,
+    "bytes": 2753840,
+    "sha256": "a9d9b76d8d8f4eb0b9cdbc0a8f6d0521328d9cd4b63ae18e0b167c1036905b57",
+    "forbidden_entries": 0,
+    "contains_asset_cleanup_and_event_tools_v8": true
+  },
+  "validation": {
+    "api_unit": {
+      "command": "scripts/gradle.ps1 :apps:api:test",
+      "result": "passed"
+    },
+    "command": "scripts/gradle.ps1 :apps:api:integrationTest --tests town.hufs.api.auth.SsoIntegrationTest.accountDeletionBlocksOwnedSpacesErasesPersonalDataAndRevokesEverySession --tests town.hufs.api.auth.SsoIntegrationTest.rejectedAndAbandonedAssetFilesAreCleanedWithoutRemovingActiveUploads",
+    "result": "passed",
+    "tests": 2,
+    "assertions": [
+      "REJECTED source and thumbnail files are removed.",
+      "Unreferenced image and temporary upload files older than 24 hours are removed.",
+      "A PENDING upload still referenced by the database is retained.",
+      "A recent unreferenced upload is retained."
+    ]
+  },
+  "scope": "The user API and verified SSO account-deletion policy were not changed."
+}

@@ -1,0 +1,38 @@
+{
+  "date": "2026-09-29",
+  "command": "scripts/turn-e2e.ps1",
+  "environment": "Isolated Docker Compose Coturn and mediasoup with temporary random credentials and a private host-reachable IPv4 address. Existing application, database, Redis, and media containers were not restarted.",
+  "passed": {
+    "turn_e2e": {
+      "testFiles": 1,
+      "tests": 1,
+      "duration": "1.3 minutes",
+      "assertions": [
+        "both Chromium participants selected a TURN relay candidate",
+        "microphone, camera, shared-screen video, and shared-screen audio RTP flowed through the SFU",
+        "stopping Coturn interrupted both ICE connections",
+        "restarting Coturn restored ICE, relay selection, and both call-ready states",
+        "distance exit revoked remote media and leaving cleaned up media resources"
+      ]
+    },
+    "ice_credentials_unit": {
+      "command": "node --test test/ice-servers.test.mjs",
+      "tests": 3
+    },
+    "media_unit_suite": {
+      "command": "docker run --rm --network none --entrypoint node hufs-town-turn-e2e-media:latest --test test/*.test.mjs",
+      "tests": 46,
+      "result": "passed"
+    }
+  },
+  "cleanup": {
+    "turnAndMediaContainers": "removed",
+    "composeNetworks": "removed",
+    "existingAppAndMediaServices": "remained running"
+  },
+  "limitations": [
+    "The relay used a private host-reachable route, not the production Oracle public IP or firewall path.",
+    "No mobile carrier or external Internet client was tested.",
+    "The host pnpm runner remains blocked by its mediasoup build-script policy; the complete media unit suite passed inside the Docker image where the native worker is built."
+  ]
+}

@@ -1,0 +1,3 @@
+ALTER TABLE town_space
+    ADD COLUMN template_id VARCHAR(32) CHARACTER SET ascii NOT NULL DEFAULT 'OFFICE',
+    ADD CONSTRAINT ck_space_template CHECK (template_id IN ('OFFICE','CAMPUS_SQUARE','STUDY_SPACE','MEETUP_HALL'));

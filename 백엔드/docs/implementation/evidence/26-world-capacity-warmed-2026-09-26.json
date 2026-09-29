@@ -1,0 +1,63 @@
+{
+  "runAtUtc": "2026-09-25T16:38:05Z",
+  "scope": "Fresh, isolated Docker World built from current source; preview auth; media disabled; 100 simulated WebSocket clients moving after warmup; then client 101 attempted entry.",
+  "dockerServicesChanged": false,
+  "actualMediaLoad": false,
+  "warmupDurationSeconds": 15,
+  "steadyStateDurationSeconds": 15,
+  "repetitions": [
+    {
+      "requestedClients": 100,
+      "acceptedClients": 100,
+      "overflowClientCode": "FULL",
+      "connectMs": 327,
+      "joinAndConvergenceMs": 394,
+      "capacityPhase": {
+        "scope": "From opening the capacity+1 socket until FULL rejection",
+        "tickCount": 1.0,
+        "tickMeanMs": 2.252740999999947,
+        "tickOverrunsOver50ms": 0.0
+      },
+      "steadyState": {
+        "warmupDurationSeconds": 15,
+        "measuredDurationMs": 15065,
+        "tickMeanMs": 1.8421110465116275,
+        "tickOverrunsOver50ms": 0.0,
+        "tickP95Ms": 3.52256,
+        "sampledRollingP95MaximumMs": 4.440064,
+        "sampledRollingP95WindowsOver25Ms": 0,
+        "activePlayersAtPhaseEnd": 100.0,
+        "activeConnectionsAtPhaseEnd": 100.0,
+        "commandQueueSizeAtPhaseEnd": 0.0,
+        "serverHeapUsedBytesAtPhaseEnd": 100117696.0
+      }
+    },
+    {
+      "requestedClients": 100,
+      "acceptedClients": 100,
+      "overflowClientCode": "FULL",
+      "connectMs": 335,
+      "joinAndConvergenceMs": 473,
+      "capacityPhase": {
+        "scope": "From opening the capacity+1 socket until FULL rejection",
+        "tickCount": 1.0,
+        "tickMeanMs": 2.7299849999999903,
+        "tickOverrunsOver50ms": 0.0
+      },
+      "steadyState": {
+        "warmupDurationSeconds": 15,
+        "measuredDurationMs": 15053,
+        "tickMeanMs": 2.3253886445182723,
+        "tickOverrunsOver50ms": 0.0,
+        "tickP95Ms": 13.615103999999999,
+        "sampledRollingP95MaximumMs": 13.615103999999999,
+        "sampledRollingP95WindowsOver25Ms": 0,
+        "activePlayersAtPhaseEnd": 100.0,
+        "activeConnectionsAtPhaseEnd": 100.0,
+        "commandQueueSizeAtPhaseEnd": 100.0,
+        "serverHeapUsedBytesAtPhaseEnd": 115935800.0
+      }
+    }
+  ],
+  "interpretation": "Both repetitions accepted 100 clients, rejected client 101 with FULL, and recorded zero tick overruns above 50 ms during the warmed capacity rejection phase and steady-state window. This is short World-only evidence; it does not cover browser ICE/DTLS, TURN, SFU RTP, or integrated long-duration load."
+}

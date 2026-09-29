@@ -1,0 +1,33 @@
+{
+  "date": "2026-09-28",
+  "test": "one nearby screen share reaches eleven participants with video and share audio",
+  "command": ".\\scripts\\e2e.ps1 -SkipBuild -Media -TestFile tests/e2e/media.spec.ts -TestName 'one nearby screen share reaches eleven participants with video and share audio'",
+  "environment": {
+    "browser": "Chromium",
+    "participants": 12,
+    "application": "React application with isolated Preview API/World and local Docker SFU",
+    "capture": "synthetic canvas video and generated audio",
+    "mapRendering": "omitted by test-only mode to isolate RTC load"
+  },
+  "result": {
+    "testRunsPassed": 2,
+    "uniqueParticipants": 12,
+    "screenPublishers": 1,
+    "videoAndShareAudioConsumers": 22,
+    "recipientsReceivingVideoRtpAbove5000Bytes": 11,
+    "recipientsReceivingAudioRtpAbove1000Bytes": 11,
+    "visibleAndDecodedScreenVideos": 11,
+    "screenAudioElementsPresent": 11,
+    "consumersRemovedAfterShareStops": 11,
+    "eventModeEnabled": false,
+    "presenterControlsVisible": false
+  },
+  "scope": "Confirms one participant's screen video and shared audio reach the other 11 eligible nearby React participants through the real local SFU, then their SFU consumers are removed after sharing stops.",
+  "notVerified": [
+    "100 simultaneously rendered React clients",
+    "public Internet or mobile-network TURN relay",
+    "production ARM64 host capacity",
+    "physical desktop capture and audio devices"
+  ],
+  "capacityTask": "T26.1 remains incomplete"
+}

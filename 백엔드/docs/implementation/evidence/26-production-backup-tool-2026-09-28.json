@@ -1,0 +1,33 @@
+{
+  "checkedDate": "2026-09-28",
+  "environment": "Alpine 3.23 disposable container; real age 1.2.1; mocked Docker/Compose responses and MariaDB importer; synthetic SQL/assets/recording files",
+  "scripts": [
+    "scripts/backup-production.sh",
+    "scripts/verify-production-backup.sh",
+    "scripts/restore-production-backup.sh",
+    "scripts/prune-production-backups.sh",
+    "scripts/safe-extract-backup-tar.py",
+    "scripts/test-production-backup.sh"
+  ],
+  "result": "PASS",
+  "assertions": [
+    "configuration is read from a restrictive non-symlink file",
+    "database, asset and recording streams are encrypted to a temporary age recipient",
+    "archives decrypt to the original synthetic database/file contents",
+    "the published backup directory has mode 0700 and contains no tested plaintext markers",
+    "SHA-256 verification accepts an intact backup and rejects a tampered archive",
+    "verification rejects unexpected files and symlinks inside the backup directory",
+    "restore simulation passes decrypted SQL to a mocked MariaDB importer and confirms table enumeration",
+    "restore simulation checks the temporary database uses --network none with no published port and is removed afterward",
+    "restored synthetic files use private permissions; path traversal archives and a root output directory are rejected",
+    "backup and restore reject root output paths before changing protected directories; backup also rejects destinations inside the project before calling Compose",
+    "a required backup mount that is absent causes an early failure without creating a local destination or calling Compose",
+    "retention defaults to preview; explicit apply keeps the newest requested count, removes only older verified backups, and refuses the entire plan if any candidate is invalid",
+    "ShellCheck and Bash syntax checks pass"
+  ],
+  "limitations": [
+    "No production environment file, database, asset volume, recording volume, or secret was read.",
+    "The test uses a mocked database importer and does not run a real MariaDB restore or validate application reads.",
+    "No production schedule, retention, off-host copy, or recovery rehearsal is configured."
+  ]
+}

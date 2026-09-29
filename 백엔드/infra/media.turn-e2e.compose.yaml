@@ -1,0 +1,64 @@
+name: hufs-town-turn-e2e
+services:
+  media:
+    build: ../apps/media
+    environment:
+      MEDIA_CONTROL_TOKEN: ${MEDIA_CONTROL_TOKEN:?TURN E2E control token is required}
+      MEDIA_ANNOUNCED_ADDRESS: 172.28.245.11
+      MEDIA_RTC_PORT: ${MEDIA_RTC_PORT:-44446}
+      MEDIA_ICE_SERVERS_JSON: ${MEDIA_ICE_SERVERS_JSON:?TURN E2E ICE configuration is required}
+      MEDIA_TURN_SHARED_SECRET: ${MEDIA_TURN_SHARED_SECRET:?TURN E2E shared secret is required}
+      MEDIA_TURN_CREDENTIAL_TTL_SECONDS: ${MEDIA_TURN_CREDENTIAL_TTL_SECONDS:-3600}
+    ports:
+      - "127.0.0.1:18182:18082/tcp"
+      - "${TURN_ANNOUNCED_IP}:${MEDIA_RTC_PORT:-44446}:${MEDIA_RTC_PORT:-44446}/udp"
+      - "${TURN_ANNOUNCED_IP}:${MEDIA_RTC_PORT:-44446}:${MEDIA_RTC_PORT:-44446}/tcp"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:18082/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: "no"
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 128
+    mem_limit: 1g
+    cpus: 2
+    networks:
+      default: {}
+      turn-test:
+        # Coturn can reach this SFU candidate directly instead of hairpinning to the host IP.
+        ipv4_address: 172.28.245.11
+  turn:
+    image: coturn/coturn:4.18.0-r0
+    command:
+      - -n
+      - --log-file=stdout
+      - --listening-ip=0.0.0.0
+      - --relay-ip=172.28.245.10
+      - --external-ip=${TURN_ANNOUNCED_IP}/172.28.245.10
+      - --listening-port=3478
+      - --min-port=49200
+      - --max-port=49240
+      - --use-auth-secret
+      - --static-auth-secret=${TURN_TEST_SHARED_SECRET:?TURN E2E shared secret is required}
+      - --fingerprint
+      - --no-multicast-peers
+      - --no-tls
+      - --realm=hufs-town.local
+      - --verbose
+    ports:
+      - "${TURN_ANNOUNCED_IP}:3478:3478/udp"
+      - "${TURN_ANNOUNCED_IP}:49200-49240:49200-49240/udp"
+    networks:
+      turn-test:
+        ipv4_address: 172.28.245.10
+    restart: "no"
+    pids_limit: 32
+    mem_limit: 256m
+    cpus: 1
+networks:
+  turn-test:
+    ipam:
+      config:
+        - subnet: 172.28.245.0/24

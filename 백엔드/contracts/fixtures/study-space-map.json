@@ -1,0 +1,608 @@
+{
+  "schemaVersion": 2,
+  "id": "study-space",
+  "revision": "study-space-v2",
+  "name": "스터디 라운지",
+  "width": 48,
+  "height": 34,
+  "spawnX": 24,
+  "spawnY": 30,
+  "collisions": [
+    {
+      "x": 1,
+      "y": 1,
+      "width": 46,
+      "height": 0.5
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "width": 0.5,
+      "height": 32
+    },
+    {
+      "x": 46.5,
+      "y": 1,
+      "width": 0.5,
+      "height": 32
+    },
+    {
+      "x": 1,
+      "y": 32.5,
+      "width": 20,
+      "height": 0.5
+    },
+    {
+      "x": 27,
+      "y": 32.5,
+      "width": 20,
+      "height": 0.5
+    },
+    {
+      "x": 1.5,
+      "y": 11.5,
+      "width": 9,
+      "height": 0.5
+    },
+    {
+      "x": 13.5,
+      "y": 11.5,
+      "width": 8.5,
+      "height": 0.5
+    },
+    {
+      "x": 26,
+      "y": 11.5,
+      "width": 8,
+      "height": 0.5
+    },
+    {
+      "x": 36,
+      "y": 11.5,
+      "width": 10,
+      "height": 0.5
+    },
+    {
+      "x": 10.125,
+      "y": 5.5,
+      "width": 3.75,
+      "height": 1.5
+    },
+    {
+      "x": 5.125,
+      "y": 6.5,
+      "width": 1.75,
+      "height": 1.5
+    },
+    {
+      "x": 17.125,
+      "y": 6.5,
+      "width": 1.75,
+      "height": 1.5
+    },
+    {
+      "x": 10.625,
+      "y": 8,
+      "width": 2.75,
+      "height": 1
+    },
+    {
+      "x": 2.0625,
+      "y": 15,
+      "width": 2.875,
+      "height": 1
+    },
+    {
+      "x": 2.0625,
+      "y": 22,
+      "width": 2.875,
+      "height": 1
+    },
+    {
+      "x": 2.0625,
+      "y": 29,
+      "width": 2.875,
+      "height": 1
+    },
+    {
+      "x": 7.5625,
+      "y": 14.375,
+      "width": 2.875,
+      "height": 1.5
+    },
+    {
+      "x": 14.5625,
+      "y": 14.375,
+      "width": 2.875,
+      "height": 1.5
+    },
+    {
+      "x": 7.5625,
+      "y": 21.375,
+      "width": 2.875,
+      "height": 1.5
+    },
+    {
+      "x": 14.5625,
+      "y": 21.375,
+      "width": 2.875,
+      "height": 1.5
+    },
+    {
+      "x": 7.5625,
+      "y": 27.375,
+      "width": 2.875,
+      "height": 1.5
+    },
+    {
+      "x": 14.5625,
+      "y": 27.375,
+      "width": 2.875,
+      "height": 1.5
+    },
+    {
+      "x": 33.125,
+      "y": 14.875,
+      "width": 4.75,
+      "height": 1.875
+    },
+    {
+      "x": 33.125,
+      "y": 23.875,
+      "width": 4.75,
+      "height": 1.875
+    },
+    {
+      "x": 19.9375,
+      "y": 14.5,
+      "width": 1.125,
+      "height": 0.5
+    },
+    {
+      "x": 26.9375,
+      "y": 14.5,
+      "width": 1.125,
+      "height": 0.5
+    },
+    {
+      "x": 33.625,
+      "y": 13.6,
+      "width": 3.75,
+      "height": 0.4
+    }
+  ],
+  "objects": [
+    {
+      "id": "object-0",
+      "asset": "sofa-sage",
+      "x": 12,
+      "y": 7,
+      "scale": 2
+    },
+    {
+      "id": "object-1",
+      "asset": "armchair",
+      "x": 6,
+      "y": 8,
+      "scale": 2
+    },
+    {
+      "id": "object-2",
+      "asset": "armchair",
+      "x": 18,
+      "y": 8,
+      "scale": 2
+    },
+    {
+      "id": "object-3",
+      "asset": "coffee-table",
+      "x": 12,
+      "y": 9,
+      "scale": 2
+    },
+    {
+      "id": "object-4",
+      "asset": "bookshelf",
+      "x": 3.5,
+      "y": 16,
+      "scale": 2
+    },
+    {
+      "id": "object-5",
+      "asset": "bookshelf",
+      "x": 3.5,
+      "y": 23,
+      "scale": 2
+    },
+    {
+      "id": "object-6",
+      "asset": "bookshelf",
+      "x": 3.5,
+      "y": 30,
+      "scale": 2
+    },
+    {
+      "id": "object-7",
+      "asset": "desk-laptop",
+      "x": 9,
+      "y": 16,
+      "scale": 2
+    },
+    {
+      "id": "object-8",
+      "asset": "chair-front",
+      "x": 9,
+      "y": 17.5,
+      "scale": 2
+    },
+    {
+      "id": "object-9",
+      "asset": "desk-laptop",
+      "x": 16,
+      "y": 16,
+      "scale": 2
+    },
+    {
+      "id": "object-10",
+      "asset": "chair-front",
+      "x": 16,
+      "y": 17.5,
+      "scale": 2
+    },
+    {
+      "id": "object-11",
+      "asset": "desk-laptop",
+      "x": 9,
+      "y": 23,
+      "scale": 2
+    },
+    {
+      "id": "object-12",
+      "asset": "chair-front",
+      "x": 9,
+      "y": 24.5,
+      "scale": 2
+    },
+    {
+      "id": "object-13",
+      "asset": "desk-laptop",
+      "x": 16,
+      "y": 23,
+      "scale": 2
+    },
+    {
+      "id": "object-14",
+      "asset": "chair-front",
+      "x": 16,
+      "y": 24.5,
+      "scale": 2
+    },
+    {
+      "id": "object-15",
+      "asset": "desk-laptop",
+      "x": 9,
+      "y": 29,
+      "scale": 2
+    },
+    {
+      "id": "object-16",
+      "asset": "chair-front",
+      "x": 9,
+      "y": 30.5,
+      "scale": 2
+    },
+    {
+      "id": "object-17",
+      "asset": "desk-laptop",
+      "x": 16,
+      "y": 29,
+      "scale": 2
+    },
+    {
+      "id": "object-18",
+      "asset": "chair-front",
+      "x": 16,
+      "y": 30.5,
+      "scale": 2
+    },
+    {
+      "id": "object-19",
+      "asset": "meeting-table",
+      "x": 35.5,
+      "y": 17,
+      "scale": 2
+    },
+    {
+      "id": "object-20",
+      "asset": "meeting-table",
+      "x": 35.5,
+      "y": 26,
+      "scale": 2
+    },
+    {
+      "id": "object-21",
+      "asset": "chair-front",
+      "x": 31,
+      "y": 14,
+      "scale": 2
+    },
+    {
+      "id": "object-22",
+      "asset": "chair-front",
+      "x": 35.5,
+      "y": 14,
+      "scale": 2
+    },
+    {
+      "id": "object-23",
+      "asset": "chair-front",
+      "x": 40,
+      "y": 14,
+      "scale": 2
+    },
+    {
+      "id": "object-24",
+      "asset": "chair-front",
+      "x": 31,
+      "y": 19.5,
+      "scale": 2
+    },
+    {
+      "id": "object-25",
+      "asset": "chair-front",
+      "x": 35.5,
+      "y": 19.5,
+      "scale": 2
+    },
+    {
+      "id": "object-26",
+      "asset": "chair-front",
+      "x": 40,
+      "y": 19.5,
+      "scale": 2
+    },
+    {
+      "id": "object-27",
+      "asset": "chair-front",
+      "x": 31,
+      "y": 23,
+      "scale": 2
+    },
+    {
+      "id": "object-28",
+      "asset": "chair-front",
+      "x": 35.5,
+      "y": 23,
+      "scale": 2
+    },
+    {
+      "id": "object-29",
+      "asset": "chair-front",
+      "x": 40,
+      "y": 23,
+      "scale": 2
+    },
+    {
+      "id": "object-30",
+      "asset": "chair-front",
+      "x": 31,
+      "y": 28.5,
+      "scale": 2
+    },
+    {
+      "id": "object-31",
+      "asset": "chair-front",
+      "x": 35.5,
+      "y": 28.5,
+      "scale": 2
+    },
+    {
+      "id": "object-32",
+      "asset": "chair-front",
+      "x": 40,
+      "y": 28.5,
+      "scale": 2
+    },
+    {
+      "id": "object-33",
+      "asset": "plant-large",
+      "x": 20.5,
+      "y": 15,
+      "scale": 2
+    },
+    {
+      "id": "object-34",
+      "asset": "plant-large",
+      "x": 27.5,
+      "y": 15,
+      "scale": 2
+    },
+    {
+      "id": "object-35",
+      "asset": "whiteboard",
+      "x": 35.5,
+      "y": 14,
+      "scale": 2
+    }
+  ],
+  "zones": [
+    {
+      "id": "lounge",
+      "name": "스터디 라운지",
+      "kind": "PUBLIC",
+      "bounds": {
+        "x": 2,
+        "y": 2,
+        "width": 44,
+        "height": 7
+      }
+    },
+    {
+      "id": "focus",
+      "name": "집중 학습실",
+      "kind": "SILENT",
+      "bounds": {
+        "x": 2,
+        "y": 12,
+        "width": 20,
+        "height": 19
+      }
+    },
+    {
+      "id": "group-study",
+      "name": "그룹 스터디룸",
+      "kind": "PRIVATE",
+      "bounds": {
+        "x": 26,
+        "y": 12,
+        "width": 20,
+        "height": 19
+      }
+    }
+  ],
+  "floors": [
+    {
+      "id": "floor-0",
+      "material": "OAK",
+      "bounds": {
+        "x": 1.5,
+        "y": 1.5,
+        "width": 45,
+        "height": 31
+      }
+    },
+    {
+      "id": "floor-1",
+      "material": "CARPET_BLUE",
+      "bounds": {
+        "x": 2,
+        "y": 2,
+        "width": 44,
+        "height": 7
+      }
+    },
+    {
+      "id": "floor-2",
+      "material": "TILE",
+      "bounds": {
+        "x": 2,
+        "y": 9,
+        "width": 44,
+        "height": 3
+      }
+    },
+    {
+      "id": "floor-3",
+      "material": "CARPET_SAGE",
+      "bounds": {
+        "x": 2,
+        "y": 12,
+        "width": 20,
+        "height": 19
+      }
+    },
+    {
+      "id": "floor-4",
+      "material": "WOOD",
+      "bounds": {
+        "x": 26,
+        "y": 12,
+        "width": 20,
+        "height": 19
+      }
+    }
+  ],
+  "walls": [
+    {
+      "id": "wall-0",
+      "material": "CREAM",
+      "bounds": {
+        "x": 1,
+        "y": 1,
+        "width": 46,
+        "height": 0.5
+      }
+    },
+    {
+      "id": "wall-1",
+      "material": "CREAM",
+      "bounds": {
+        "x": 1,
+        "y": 1,
+        "width": 0.5,
+        "height": 32
+      }
+    },
+    {
+      "id": "wall-2",
+      "material": "CREAM",
+      "bounds": {
+        "x": 46.5,
+        "y": 1,
+        "width": 0.5,
+        "height": 32
+      }
+    },
+    {
+      "id": "wall-3",
+      "material": "CREAM",
+      "bounds": {
+        "x": 1,
+        "y": 32.5,
+        "width": 20,
+        "height": 0.5
+      }
+    },
+    {
+      "id": "wall-4",
+      "material": "CREAM",
+      "bounds": {
+        "x": 27,
+        "y": 32.5,
+        "width": 20,
+        "height": 0.5
+      }
+    },
+    {
+      "id": "wall-5",
+      "material": "GLASS",
+      "bounds": {
+        "x": 1.5,
+        "y": 11.5,
+        "width": 9,
+        "height": 0.5
+      }
+    },
+    {
+      "id": "wall-6",
+      "material": "GLASS",
+      "bounds": {
+        "x": 13.5,
+        "y": 11.5,
+        "width": 8.5,
+        "height": 0.5
+      }
+    },
+    {
+      "id": "wall-7",
+      "material": "GLASS",
+      "bounds": {
+        "x": 26,
+        "y": 11.5,
+        "width": 8,
+        "height": 0.5
+      }
+    },
+    {
+      "id": "wall-8",
+      "material": "GLASS",
+      "bounds": {
+        "x": 36,
+        "y": 11.5,
+        "width": 10,
+        "height": 0.5
+      }
+    }
+  ],
+  "labels": []
+}

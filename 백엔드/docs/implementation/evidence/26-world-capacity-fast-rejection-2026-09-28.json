@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-28",
+  "change": "A new join with no resumable player is rejected immediately when its space is already full, before map preparation or distributed seat claiming. The later capacity check remains to handle async admission races; resumable players still reach the normal ownership and recovery path.",
+  "command": ".\\scripts\\gradle.ps1 :apps:world:test --tests 'town.hufs.world.WorldIntegrationTest.admitsOneHundredConcurrentPlayersAndRejectsTheNextSocket'",
+  "test": {
+    "status": "PASS",
+    "concurrentPlayersAccepted": 100,
+    "overflowCode": "FULL",
+    "mapPrepareCountDeltaForOverflow": 0,
+    "capacityRejectPhaseMetricIncrement": 1,
+    "durationMetric": "hufs.world.join.phase.duration{phase=capacity_reject}",
+    "newJoinDuringDetachedSeatGrace": "rejected as FULL",
+    "existingPlayerResumeAtFullCapacity": "accepted with the same player ID",
+    "newJoinAfterSeatGraceExpires": "accepted after capacity is released"
+  },
+  "broaderVerification": {
+    "worldModuleSuite": "passed after the server implementation change",
+    "focusedCapacityIntegrationAfterResumeRegressionAdded": "passed"
+  },
+  "scope": "Proves the authoritative 100-player limit and that guaranteed overflow avoids map preparation without blocking a legitimate full-capacity resume.",
+  "capacityTask": "T26.1 remains incomplete"
+}

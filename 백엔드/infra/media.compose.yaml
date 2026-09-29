@@ -1,0 +1,38 @@
+name: hufs-town-media
+services:
+  media:
+    build: ../apps/media
+    environment:
+      MEDIA_CONTROL_TOKEN: ${MEDIA_CONTROL_TOKEN:?Run scripts/media.ps1 start first}
+      MEDIA_ANNOUNCED_ADDRESS: ${MEDIA_ANNOUNCED_ADDRESS:-127.0.0.1}
+      MEDIA_RTC_PORT: ${MEDIA_RTC_PORT:-44444}
+      MEDIA_ICE_SERVERS_JSON: ${MEDIA_ICE_SERVERS_JSON:-[]}
+      MEDIA_TURN_SHARED_SECRET: ${MEDIA_TURN_SHARED_SECRET:-}
+      MEDIA_TURN_CREDENTIAL_TTL_SECONDS: ${MEDIA_TURN_CREDENTIAL_TTL_SECONDS:-21600}
+      MEDIA_RECORDINGS_ROOT: /data/recordings
+      MEDIA_RECORDING_MAX_DURATION_MS: ${MEDIA_RECORDING_MAX_DURATION_MS:-3600000}
+      MEDIA_RECORDING_MAX_BYTES: ${MEDIA_RECORDING_MAX_BYTES:-1073741824}
+      MEDIA_RECORDING_SPACE_MAX_BYTES: ${MEDIA_RECORDING_SPACE_MAX_BYTES:-10737418240}
+      MEDIA_RECORDING_MIN_FREE_BYTES: ${MEDIA_RECORDING_MIN_FREE_BYTES:-134217728}
+      MEDIA_RECORDING_MAX_ACTIVE: ${MEDIA_RECORDING_MAX_ACTIVE:-2}
+      MEDIA_TRANSCRIPTION_API_KEY: ${MEDIA_TRANSCRIPTION_API_KEY:-}
+      MEDIA_TRANSCRIPTION_API_BASE: ${MEDIA_TRANSCRIPTION_API_BASE:-https://api.openai.com/v1}
+      MEDIA_TRANSCRIPTION_MODEL: ${MEDIA_TRANSCRIPTION_MODEL:-gpt-4o-transcribe-diarize}
+    volumes: ["town-recordings:/data/recordings"]
+    ports:
+      - "${MEDIA_CONTROL_BIND_ADDRESS:-127.0.0.1}:${MEDIA_CONTROL_HOST_PORT:-18082}:18082"
+      - "${MEDIA_RTC_BIND_ADDRESS:-127.0.0.1}:${MEDIA_RTC_PORT:-44444}:${MEDIA_RTC_PORT:-44444}/udp"
+      - "${MEDIA_RTC_BIND_ADDRESS:-127.0.0.1}:${MEDIA_RTC_PORT:-44444}:${MEDIA_RTC_PORT:-44444}/tcp"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:18082/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 128
+    mem_limit: 1g
+    cpus: 2
+volumes:
+  town-recordings:

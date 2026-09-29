@@ -1,0 +1,66 @@
+groups:
+  - name: hufs-town-runtime
+    rules:
+      - alert: TownRuntimeTargetDown
+        expr: up{job=~"api|world|media"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "HUFS Town {{ $labels.job }} is not scrapeable"
+          description: "Prometheus has failed to collect {{ $labels.service }} metrics for more than two minutes."
+
+      - alert: TownWorldTickP95High
+        expr: hufs_world_tick_duration_p95_seconds > 0.025
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "World tick p95 exceeds 25 ms"
+          description: "The rolling p95 of authoritative world ticks has stayed above 25 ms."
+
+      - alert: TownWorldCommandQueuePressure
+        expr: hufs_world_command_queue_size / clamp_min(hufs_world_command_queue_capacity, 1) > 0.8
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "World command queue is near capacity"
+          description: "More than 80% of the world command queue has been occupied for 30 seconds."
+
+      - alert: TownWorldJoinQueuePressure
+        expr: hufs_world_join_queue_size / clamp_min(hufs_world_join_queue_capacity, 1) > 0.8
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "World join queue is near capacity"
+          description: "More than 80% of the world join queue has been occupied for 30 seconds."
+
+      - alert: TownWorldCommandRejected
+        expr: increase(hufs_world_command_queue_rejected_total[5m]) > 0
+        labels:
+          severity: warning
+        annotations:
+          summary: "World rejected queued commands"
+          description: "At least one command was rejected because the authoritative world queue was full in the last five minutes."
+
+      - alert: TownApiServerErrorRateHigh
+        expr: |
+          sum(rate(http_server_requests_seconds_count{job="api",status=~"5.."}[5m]))
+          / clamp_min(sum(rate(http_server_requests_seconds_count{job="api"}[5m])), 0.001) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "HUFS Town API 5xx rate is above 5%"
+          description: "More than five percent of sampled API requests failed with server errors for five minutes."
+
+      - alert: TownMediaRecordingCapacityHigh
+        expr: hufs_media_active_recordings / clamp_min(hufs_media_recording_capacity, 1) > 0.8
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "HUFS Town media recording capacity is nearly full"
+          description: "More than 80% of the configured simultaneous recording slots have been occupied for two minutes."

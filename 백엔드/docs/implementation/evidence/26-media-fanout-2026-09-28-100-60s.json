@@ -1,0 +1,1036 @@
+{
+  "schemaVersion": 1,
+  "command": ".\\apps\\media\\scripts\\fanout-capacity.ps1 -Listeners 99 -DurationSeconds 60 -MinimumReceivedBytes 50000",
+  "startedAt": "2026-09-27T23:53:24.4154906Z",
+  "finishedAt": "2026-09-27T23:54:48.1571430Z",
+  "outcome": "passed",
+  "failure": null,
+  "containerExitCode": 0,
+  "containerImage": "hufs-town-fanout:20260928-085324-391-1382108-78a09ede",
+  "dockerResources": {
+    "limits": {
+      "network": "none (loopback only)",
+      "memoryMiB": 1024,
+      "cpus": 2
+    },
+    "sampleCount": 11,
+    "peakDockerReportedCpuPercent": 17.54,
+    "peakCpuPercentOfLimit": 8.77,
+    "peakMemoryUsedMiB": 57.36,
+    "samples": [
+      {
+        "at": "2026-09-27T23:53:36.3404138Z",
+        "cpuPercent": 13.95,
+        "memoryText": "56.4MiB / 1GiB",
+        "memoryUsedMiB": 56.4
+      },
+      {
+        "at": "2026-09-27T23:53:41.4246380Z",
+        "cpuPercent": 11.11,
+        "memoryText": "56.94MiB / 1GiB",
+        "memoryUsedMiB": 56.94
+      },
+      {
+        "at": "2026-09-27T23:53:46.4663570Z",
+        "cpuPercent": 11.06,
+        "memoryText": "56.95MiB / 1GiB",
+        "memoryUsedMiB": 56.95
+      },
+      {
+        "at": "2026-09-27T23:53:51.5687524Z",
+        "cpuPercent": 9.83,
+        "memoryText": "56.95MiB / 1GiB",
+        "memoryUsedMiB": 56.95
+      },
+      {
+        "at": "2026-09-27T23:53:55.8482189Z",
+        "cpuPercent": 10.28,
+        "memoryText": "57.2MiB / 1GiB",
+        "memoryUsedMiB": 57.2
+      },
+      {
+        "at": "2026-09-27T23:54:00.9719618Z",
+        "cpuPercent": 11.47,
+        "memoryText": "57.2MiB / 1GiB",
+        "memoryUsedMiB": 57.2
+      },
+      {
+        "at": "2026-09-27T23:54:06.1915845Z",
+        "cpuPercent": 12.69,
+        "memoryText": "57.21MiB / 1GiB",
+        "memoryUsedMiB": 57.21
+      },
+      {
+        "at": "2026-09-27T23:54:11.9103584Z",
+        "cpuPercent": 13.05,
+        "memoryText": "57.06MiB / 1GiB",
+        "memoryUsedMiB": 57.06
+      },
+      {
+        "at": "2026-09-27T23:54:20.1449949Z",
+        "cpuPercent": 13.35,
+        "memoryText": "57.35MiB / 1GiB",
+        "memoryUsedMiB": 57.35
+      },
+      {
+        "at": "2026-09-27T23:54:24.7334948Z",
+        "cpuPercent": 12.62,
+        "memoryText": "57.36MiB / 1GiB",
+        "memoryUsedMiB": 57.36
+      },
+      {
+        "at": "2026-09-27T23:54:33.2716718Z",
+        "cpuPercent": 17.54,
+        "memoryText": "47.23MiB / 1GiB",
+        "memoryUsedMiB": 47.23
+      }
+    ]
+  },
+  "fanout": {
+    "schemaVersion": 1,
+    "mode": "isolated-plain-rtp-sfu-fanout",
+    "limits": {
+      "listeners": 99,
+      "durationSeconds": 60,
+      "minimumBytesPerListener": 50000
+    },
+    "participants": {
+      "total": 100,
+      "publishers": 1,
+      "listeners": 99
+    },
+    "policyDomain": "fanout-1790553212708-bbdba4/event/attendee-load",
+    "policyRefreshIntervalMs": 800,
+    "rtp": {
+      "codec": "audio/opus",
+      "payloadType": 100,
+      "publisherRtpPackets": 3001,
+      "publisherRtpBytes": 417387,
+      "listenersReceiving": 99,
+      "listenerPacketTotal": 301896,
+      "listenerByteTotal": 46439469,
+      "minimumListenerBytes": 468899,
+      "maximumListenerBytes": 469279,
+      "consumersWithRtp": 99,
+      "minimumConsumerRtpBytes": 882790,
+      "allListenersMeetThreshold": true,
+      "listenersBelowThreshold": [],
+      "perListener": [
+        {
+          "id": "listener-001",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-002",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-003",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-004",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-005",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-006",
+          "udpPackets": 3052,
+          "udpBytes": 469279,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-007",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-008",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-009",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-010",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-011",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-012",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-013",
+          "udpPackets": 3048,
+          "udpBytes": 468975,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-014",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-015",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-016",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-017",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-018",
+          "udpPackets": 3047,
+          "udpBytes": 468899,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-019",
+          "udpPackets": 3048,
+          "udpBytes": 468975,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-020",
+          "udpPackets": 3051,
+          "udpBytes": 469203,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-021",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-022",
+          "udpPackets": 3051,
+          "udpBytes": 469203,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-023",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-024",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-025",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-026",
+          "udpPackets": 3052,
+          "udpBytes": 469279,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-027",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-028",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-029",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-030",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-031",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-032",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-033",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-034",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-035",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-036",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-037",
+          "udpPackets": 3052,
+          "udpBytes": 469279,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-038",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-039",
+          "udpPackets": 3048,
+          "udpBytes": 468975,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-040",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-041",
+          "udpPackets": 3051,
+          "udpBytes": 469203,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-042",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-043",
+          "udpPackets": 3048,
+          "udpBytes": 468975,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-044",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-045",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-046",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-047",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-048",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-049",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-050",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-051",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-052",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-053",
+          "udpPackets": 3051,
+          "udpBytes": 469203,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-054",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-055",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-056",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-057",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-058",
+          "udpPackets": 3052,
+          "udpBytes": 469279,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-059",
+          "udpPackets": 3048,
+          "udpBytes": 468975,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-060",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-061",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-062",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-063",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-064",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-065",
+          "udpPackets": 3051,
+          "udpBytes": 469203,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-066",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-067",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-068",
+          "udpPackets": 3048,
+          "udpBytes": 468975,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-069",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-070",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-071",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-072",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-073",
+          "udpPackets": 3051,
+          "udpBytes": 469203,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-074",
+          "udpPackets": 3048,
+          "udpBytes": 468975,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-075",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-076",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-077",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-078",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-079",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-080",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-081",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-082",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-083",
+          "udpPackets": 3051,
+          "udpBytes": 469203,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-084",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-085",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-086",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-087",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-088",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-089",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-090",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-091",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-092",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-093",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-094",
+          "udpPackets": 3049,
+          "udpBytes": 469051,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-095",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-096",
+          "udpPackets": 3048,
+          "udpBytes": 468975,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-097",
+          "udpPackets": 3051,
+          "udpBytes": 469203,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-098",
+          "udpPackets": 3050,
+          "udpBytes": 469127,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        },
+        {
+          "id": "listener-099",
+          "udpPackets": 3048,
+          "udpBytes": 468975,
+          "consumerRtp": {
+            "bytes": 882790,
+            "packets": 6002
+          }
+        }
+      ]
+    },
+    "timings": {
+      "elapsedSeconds": 60.516,
+      "consumerSetupMs": 182.66
+    },
+    "resources": {
+      "logicalCpuCount": 2,
+      "processCpuMs": 3711.82,
+      "processCpuPercentOfOneCore": 6.13,
+      "processRssMiBAtStart": 67.14,
+      "processRssMiBAtEnd": 83.41,
+      "processHeapUsedMiBAtEnd": 19.87,
+      "processMaxRssMiB": 84.99,
+      "nativeWorkerPid": 14,
+      "nativeWorkerCpuMs": 2838,
+      "nativeWorkerCpuPercentOfOneCore": 4.69,
+      "nativeWorkerMaxRssMiB": 12.13
+    }
+  },
+  "logFile": "C:\\Project\\hufstown\\백엔드\\.build\\media-fanout\\fanout-20260928-085324-391-1382108-78a09ede.log",
+  "constraints": [
+    "The harness uses one publisher and N UDP/RTP listeners, with actual RTP packets routed through a mediasoup PlainTransport/router.",
+    "It runs in a unique temporary Docker container using --network none; the primary and prior diagnostic containers are not modified.",
+    "Plain RTP validates SFU packet fan-out and resource use, but does not validate browser WebRTC ICE/DTLS, camera encoding, or client decoding/rendering."
+  ]
+}

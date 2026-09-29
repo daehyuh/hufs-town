@@ -1,0 +1,17 @@
+{
+  "checkedDate": "2026-09-28",
+  "environment": "Windows PowerShell and Windows tar.exe; archive opened independently with Python tarfile",
+  "artifact": "C:/Project/hufstown/.build/deployment-source/hufs-town-source-20260928T120207Z-66f2fa73.tar.gz",
+  "result": "PASS",
+  "archiveEntries": 1412,
+  "archiveBytes": 2724707,
+  "assertions": [
+    "archive contains backend production.compose.yaml, production.env.example, and operations runbook, frontend package.json and app source, updated Korean/English copy, and the root .dockerignore",
+    "no .env* files, node_modules, dist/build/.build/.gradle caches, test reports, logs, or temporary files are present",
+    "the latest presenter preference, plain space-brand and template descriptions, admin allowlist example, and operations runbook changes are included and readable from the archive"
+  ],
+  "limitations": [
+    "The archive has not been uploaded or deployed to the production server.",
+    "No production environment file or credentials are included."
+  ]
+}

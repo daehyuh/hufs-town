@@ -1,0 +1,1870 @@
+{
+  "requestedClients" : 100,
+  "acceptedClients" : 100,
+  "allClientsObservedFullSpaceRoster" : true,
+  "minimumAoiPlayersVisibleAtPhaseEnd" : 61,
+  "maximumAoiPlayersVisibleAtPhaseEnd" : 100,
+  "movementEnabled" : true,
+  "clientsObservedMoving" : 100,
+  "movementMessagesSubmitted" : 2700260,
+  "loadGeneratorCpuPercentOfOneCore" : 46.14622622308997,
+  "loadGeneratorHeapUsedBytesAtEnd" : 98907480,
+  "loadGeneratorHeapMaxBytes" : 536870912,
+  "overflowClientCode" : "FULL",
+  "connectMs" : 337,
+  "joinAndConvergenceMs" : 442,
+  "testElapsedMs" : 2701195,
+  "activePlayersAtConvergence" : 100.0,
+  "activeConnectionsAtConvergence" : 100.0,
+  "connectPhase" : {
+    "scope" : "From first WebSocket connection attempt until all 100 sockets are open",
+    "tickCount" : 6.0,
+    "tickMeanMs" : 0.07453983333333368,
+    "tickOverrunsOver50ms" : 0.0
+  },
+  "joinPhase" : {
+    "scope" : "From join commands after all sockets are open until all clients observe the full roster",
+    "tickCount" : 8.0,
+    "tickMeanMs" : 45.550429,
+    "tickOverrunsOver50ms" : 2.0
+  },
+  "capacityPhase" : {
+    "scope" : "From opening the capacity+1 socket until FULL rejection",
+    "tickCount" : 2.0,
+    "tickMeanMs" : 3.6225004999970167,
+    "tickOverrunsOver50ms" : 0.0
+  },
+  "steadyState" : {
+    "warmupDurationSeconds" : 900,
+    "requestedDurationSeconds" : 1800,
+    "measuredDurationMs" : 1800045,
+    "tickCount" : 36004.0,
+    "tickMeanMs" : 1.7590736563715144,
+    "tickOverrunsOver50ms" : 0.0,
+    "tickMaxMsAtPhaseEnd" : 7.2615680000000005,
+    "tickMaxScope" : "Actuator timer max at phase end; cumulative since packaged World startup",
+    "tickP95Available" : true,
+    "tickP95Scope" : "Dedicated p95 gauge from a 3 x 10-second rolling histogram, read after the measured movement phase",
+    "tickP95Ms" : 3.653632,
+    "sampledRollingP95Ms" : [ 3.7847039999999996, 4.17792, 3.7847039999999996, 3.7847039999999996, 3.7847039999999996, 3.7847039999999996, 3.52256, 3.52256, 4.17792, 3.7847039999999996, 3.7847039999999996, 3.7847039999999996, 3.653632, 3.52256, 4.440064, 5.48864, 3.7847039999999996, 3.7847039999999996, 3.653632, 3.52256, 4.17792, 3.7847039999999996, 4.046848, 3.915776, 3.653632, 3.653632, 3.7847039999999996, 3.7847039999999996, 3.7847039999999996, 3.52256, 3.915776, 3.7847039999999996, 4.17792, 3.653632, 3.915776, 4.046848, 3.653632, 3.7847039999999996, 3.915776, 3.653632, 3.653632, 3.915776, 3.915776, 3.653632, 4.17792, 3.7847039999999996, 3.915776, 3.7847039999999996, 3.915776, 3.653632, 3.7847039999999996, 4.046848, 3.7847039999999996, 3.653632, 3.52256, 3.7847039999999996, 3.653632, 3.52256, 3.653632, 3.653632, 3.7847039999999996, 4.046848, 4.702208000000001, 3.915776, 4.046848, 3.653632, 3.915776, 3.7847039999999996, 3.7847039999999996, 3.653632, 3.52256, 3.52256, 3.653632, 3.653632, 4.046848, 3.7847039999999996, 3.52256, 3.653632, 3.915776, 3.915776, 3.653632, 3.915776, 3.653632, 3.653632, 3.915776, 3.653632, 3.7847039999999996, 3.52256, 4.046848, 3.653632, 4.17792, 3.653632, 3.653632, 3.915776, 3.653632, 3.653632, 3.7847039999999996, 4.046848, 4.702208000000001, 3.7847039999999996, 3.915776, 3.7847039999999996, 3.52256, 3.653632, 3.7847039999999996, 3.7847039999999996, 4.046848, 3.7847039999999996, 3.52256, 3.915776, 3.52256, 3.7847039999999996, 3.653632, 3.915776, 5.226496, 4.702208000000001, 4.702208000000001, 4.046848, 3.915776, 3.915776, 3.653632, 3.7847039999999996, 3.653632, 3.391488, 3.7847039999999996, 4.440064, 3.653632, 3.391488, 3.915776, 4.440064, 3.653632, 4.046848, 3.7847039999999996, 3.7847039999999996, 3.52256, 4.046848, 3.915776, 3.915776, 3.7847039999999996, 4.046848, 3.915776, 3.653632, 3.653632, 3.653632, 3.52256, 3.7847039999999996, 4.046848, 3.52256, 3.653632, 3.653632, 3.391488, 3.52256, 3.653632, 4.046848, 3.52256, 3.52256, 4.046848, 3.52256, 3.7847039999999996, 3.52256, 3.7847039999999996, 4.046848, 3.52256, 3.915776, 4.046848, 3.52256, 3.915776, 3.653632, 3.653632, 3.7847039999999996, 3.7847039999999996, 3.52256, 3.7847039999999996, 3.7847039999999996, 3.52256, 3.653632, 3.915776, 3.653632, 3.7847039999999996, 3.653632, 3.653632 ],
+    "resourceSamples" : [ {
+      "elapsedSeconds" : 10,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 201.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.9950064E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 60291144
+    }, {
+      "elapsedSeconds" : 20,
+      "rollingTickP95Ms" : 4.17792,
+      "serverTickCount" : 402.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.1370056E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 79277400
+    }, {
+      "elapsedSeconds" : 30,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 603.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.4246704E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 59572384
+    }, {
+      "elapsedSeconds" : 40,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 803.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.819888E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 106932408
+    }, {
+      "elapsedSeconds" : 50,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 1005.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.4539544E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 95109872
+    }, {
+      "elapsedSeconds" : 60,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 1205.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.916524E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 59157264
+    }, {
+      "elapsedSeconds" : 70,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 1406.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.02539536E8,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 132165560
+    }, {
+      "elapsedSeconds" : 80,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 1607.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.856052E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 75337544
+    }, {
+      "elapsedSeconds" : 90,
+      "rollingTickP95Ms" : 4.17792,
+      "serverTickCount" : 1808.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.116286E8,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 101727272
+    }, {
+      "elapsedSeconds" : 100,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 2008.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.015256E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 106238040
+    }, {
+      "elapsedSeconds" : 110,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 2209.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.135548E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 119259168
+    }, {
+      "elapsedSeconds" : 120,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 2410.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.02609736E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 73909648
+    }, {
+      "elapsedSeconds" : 130,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 2611.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.3331608E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 106693008
+    }, {
+      "elapsedSeconds" : 140,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 2811.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.9780032E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 143402744
+    }, {
+      "elapsedSeconds" : 150,
+      "rollingTickP95Ms" : 4.440064,
+      "serverTickCount" : 3012.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.6710736E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 95652160
+    }, {
+      "elapsedSeconds" : 160,
+      "rollingTickP95Ms" : 5.48864,
+      "serverTickCount" : 3213.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.910548E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 68297968
+    }, {
+      "elapsedSeconds" : 170,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 3413.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.5195856E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 69894800
+    }, {
+      "elapsedSeconds" : 180,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 3614.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.0480232E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 91645568
+    }, {
+      "elapsedSeconds" : 190,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 3815.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.10307312E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 130514832
+    }, {
+      "elapsedSeconds" : 200,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 4015.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.9435576E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 112452112
+    }, {
+      "elapsedSeconds" : 210,
+      "rollingTickP95Ms" : 4.17792,
+      "serverTickCount" : 4216.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.1436344E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 65439568
+    }, {
+      "elapsedSeconds" : 220,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 4416.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.02957696E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 109084872
+    }, {
+      "elapsedSeconds" : 230,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 4617.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.3260768E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 98918224
+    }, {
+      "elapsedSeconds" : 240,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 4818.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.02260392E8,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 104113352
+    }, {
+      "elapsedSeconds" : 250,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 5018.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.9356192E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 62899808
+    }, {
+      "elapsedSeconds" : 260,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 5219.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.1734256E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 113072912
+    }, {
+      "elapsedSeconds" : 270,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 5419.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.708148E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 73503128
+    }, {
+      "elapsedSeconds" : 280,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 5620.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.4201104E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 76986864
+    }, {
+      "elapsedSeconds" : 291,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 5821.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.6126E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 72620696
+    }, {
+      "elapsedSeconds" : 301,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 6021.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.1872744E7,
+      "serverCommandQueueSize" : 65.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 73366400
+    }, {
+      "elapsedSeconds" : 311,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 6222.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.954904E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 139095616
+    }, {
+      "elapsedSeconds" : 321,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 6423.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.1010248E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 81531192
+    }, {
+      "elapsedSeconds" : 331,
+      "rollingTickP95Ms" : 4.17792,
+      "serverTickCount" : 6623.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.12096848E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 66475816
+    }, {
+      "elapsedSeconds" : 341,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 6824.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.0155896E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 63105336
+    }, {
+      "elapsedSeconds" : 351,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 7025.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.3017816E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 82259432
+    }, {
+      "elapsedSeconds" : 361,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 7225.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.822684E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 139748784
+    }, {
+      "elapsedSeconds" : 371,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 7426.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.903504E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 126026936
+    }, {
+      "elapsedSeconds" : 381,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 7627.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.141724E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 135418768
+    }, {
+      "elapsedSeconds" : 391,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 7828.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.8177248E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 126048984
+    }, {
+      "elapsedSeconds" : 401,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 8029.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.0718536E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 100811672
+    }, {
+      "elapsedSeconds" : 411,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 8229.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.14979176E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 130661200
+    }, {
+      "elapsedSeconds" : 421,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 8429.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.7909024E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 141199872
+    }, {
+      "elapsedSeconds" : 431,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 8630.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.2517648E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 71483320
+    }, {
+      "elapsedSeconds" : 441,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 8831.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.6572976E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 73524824
+    }, {
+      "elapsedSeconds" : 451,
+      "rollingTickP95Ms" : 4.17792,
+      "serverTickCount" : 9031.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.17516E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 89758120
+    }, {
+      "elapsedSeconds" : 461,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 9232.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.02278864E8,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 89968960
+    }, {
+      "elapsedSeconds" : 471,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 9433.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.240688E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 67449520
+    }, {
+      "elapsedSeconds" : 481,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 9633.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.02469832E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 82769200
+    }, {
+      "elapsedSeconds" : 491,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 9833.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.3906048E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 140062664
+    }, {
+      "elapsedSeconds" : 501,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 10034.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.2412256E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 86260744
+    }, {
+      "elapsedSeconds" : 511,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 10235.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.6622856E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 96491968
+    }, {
+      "elapsedSeconds" : 521,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 10435.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.2232704E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 139569112
+    }, {
+      "elapsedSeconds" : 531,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 10636.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.1654768E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 71760024
+    }, {
+      "elapsedSeconds" : 541,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 10837.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.6961776E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 104027248
+    }, {
+      "elapsedSeconds" : 551,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 11037.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.0464968E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 75363440
+    }, {
+      "elapsedSeconds" : 561,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 11238.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.8270688E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 120384200
+    }, {
+      "elapsedSeconds" : 571,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 11439.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.9704432E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 86331744
+    }, {
+      "elapsedSeconds" : 581,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 11639.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.0341304E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 130531856
+    }, {
+      "elapsedSeconds" : 591,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 11840.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.8796512E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 74513608
+    }, {
+      "elapsedSeconds" : 601,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 12041.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.03204552E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 138145960
+    }, {
+      "elapsedSeconds" : 612,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 12241.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.604416E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 75117888
+    }, {
+      "elapsedSeconds" : 622,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 12442.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.5522792E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 80370328
+    }, {
+      "elapsedSeconds" : 632,
+      "rollingTickP95Ms" : 4.702208000000001,
+      "serverTickCount" : 12642.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.5358576E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 112298928
+    }, {
+      "elapsedSeconds" : 642,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 12843.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.5026784E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 123419000
+    }, {
+      "elapsedSeconds" : 652,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 13043.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.03930552E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 100955544
+    }, {
+      "elapsedSeconds" : 662,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 13244.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.884024E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 135648640
+    }, {
+      "elapsedSeconds" : 672,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 13444.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.12392208E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 83646992
+    }, {
+      "elapsedSeconds" : 682,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 13645.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.1184952E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 122921032
+    }, {
+      "elapsedSeconds" : 692,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 13845.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.6784352E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 93575216
+    }, {
+      "elapsedSeconds" : 702,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 14047.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.6446544E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 126571952
+    }, {
+      "elapsedSeconds" : 712,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 14247.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.0784984E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 107966616
+    }, {
+      "elapsedSeconds" : 722,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 14447.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.7158712E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 106985168
+    }, {
+      "elapsedSeconds" : 732,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 14648.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.9759584E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 106405824
+    }, {
+      "elapsedSeconds" : 742,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 14848.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.4185832E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 59775904
+    }, {
+      "elapsedSeconds" : 752,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 15049.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.3166152E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 79361192
+    }, {
+      "elapsedSeconds" : 762,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 15249.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.4840968E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 67575992
+    }, {
+      "elapsedSeconds" : 772,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 15450.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.5377928E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 86746336
+    }, {
+      "elapsedSeconds" : 782,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 15650.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.03095672E8,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 67569072
+    }, {
+      "elapsedSeconds" : 792,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 15851.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.4321528E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 82674232
+    }, {
+      "elapsedSeconds" : 802,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 16051.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.10818592E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 83591312
+    }, {
+      "elapsedSeconds" : 812,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 16252.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.6324896E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 87913200
+    }, {
+      "elapsedSeconds" : 822,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 16452.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.094208E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 76225008
+    }, {
+      "elapsedSeconds" : 832,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 16653.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.5603528E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 85371024
+    }, {
+      "elapsedSeconds" : 842,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 16853.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.5765944E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 98788160
+    }, {
+      "elapsedSeconds" : 852,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 17054.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.2131472E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 87905232
+    }, {
+      "elapsedSeconds" : 862,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 17254.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.2354736E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 82016112
+    }, {
+      "elapsedSeconds" : 872,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 17454.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.2619008E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 85090056
+    }, {
+      "elapsedSeconds" : 882,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 17655.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.6126904E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 107139880
+    }, {
+      "elapsedSeconds" : 892,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 17856.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.2262096E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 83188024
+    }, {
+      "elapsedSeconds" : 902,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 18056.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.02981704E8,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 80232320
+    }, {
+      "elapsedSeconds" : 912,
+      "rollingTickP95Ms" : 4.17792,
+      "serverTickCount" : 18257.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.1885928E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 81232888
+    }, {
+      "elapsedSeconds" : 922,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 18457.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.03859064E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 110948424
+    }, {
+      "elapsedSeconds" : 932,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 18658.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.7801856E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 88076128
+    }, {
+      "elapsedSeconds" : 942,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 18858.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.47334E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 95337208
+    }, {
+      "elapsedSeconds" : 952,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 19059.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.8863496E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 84826648
+    }, {
+      "elapsedSeconds" : 962,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 19259.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.3210992E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 126159392
+    }, {
+      "elapsedSeconds" : 972,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 19459.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.03890016E8,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 84592200
+    }, {
+      "elapsedSeconds" : 982,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 19660.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.86476E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 100538128
+    }, {
+      "elapsedSeconds" : 992,
+      "rollingTickP95Ms" : 4.702208000000001,
+      "serverTickCount" : 19861.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.0321524E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 85971008
+    }, {
+      "elapsedSeconds" : 1002,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 20061.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.8388416E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 137921544
+    }, {
+      "elapsedSeconds" : 1012,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 20261.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.4382032E7,
+      "serverCommandQueueSize" : 88.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 90349216
+    }, {
+      "elapsedSeconds" : 1023,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 20462.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.5784224E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 112565704
+    }, {
+      "elapsedSeconds" : 1033,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 20662.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.2224208E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 89303000
+    }, {
+      "elapsedSeconds" : 1043,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 20863.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.496856E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 63700760
+    }, {
+      "elapsedSeconds" : 1053,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 21063.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.1078448E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 70434976
+    }, {
+      "elapsedSeconds" : 1063,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 21264.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.1009248E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 115976344
+    }, {
+      "elapsedSeconds" : 1073,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 21464.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.2374816E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 84455624
+    }, {
+      "elapsedSeconds" : 1083,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 21665.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.4177392E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 70062376
+    }, {
+      "elapsedSeconds" : 1093,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 21865.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.7426112E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 65693448
+    }, {
+      "elapsedSeconds" : 1103,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 22065.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.04626296E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 94345792
+    }, {
+      "elapsedSeconds" : 1113,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 22266.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.7756216E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 77395312
+    }, {
+      "elapsedSeconds" : 1123,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 22466.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.4712856E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 70567656
+    }, {
+      "elapsedSeconds" : 1133,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 22667.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.4830752E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 55708896
+    }, {
+      "elapsedSeconds" : 1143,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 22867.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.5865696E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 91556552
+    }, {
+      "elapsedSeconds" : 1153,
+      "rollingTickP95Ms" : 5.226496,
+      "serverTickCount" : 23068.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.2297616E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 105663504
+    }, {
+      "elapsedSeconds" : 1163,
+      "rollingTickP95Ms" : 4.702208000000001,
+      "serverTickCount" : 23268.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.9682288E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 136241032
+    }, {
+      "elapsedSeconds" : 1173,
+      "rollingTickP95Ms" : 4.702208000000001,
+      "serverTickCount" : 23469.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.5053176E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 57658976
+    }, {
+      "elapsedSeconds" : 1183,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 23669.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.2966256E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 100123552
+    }, {
+      "elapsedSeconds" : 1193,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 23870.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.6661992E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 90744096
+    }, {
+      "elapsedSeconds" : 1203,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 24071.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.1693344E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 93059536
+    }, {
+      "elapsedSeconds" : 1213,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 24271.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.424728E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 114099504
+    }, {
+      "elapsedSeconds" : 1223,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 24471.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.4294016E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 76400480
+    }, {
+      "elapsedSeconds" : 1233,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 24672.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.9141016E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 72541416
+    }, {
+      "elapsedSeconds" : 1243,
+      "rollingTickP95Ms" : 3.391488,
+      "serverTickCount" : 24873.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.9107136E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 92720752
+    }, {
+      "elapsedSeconds" : 1253,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 25073.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.499632E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 94942096
+    }, {
+      "elapsedSeconds" : 1263,
+      "rollingTickP95Ms" : 4.440064,
+      "serverTickCount" : 25273.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.3372128E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 64496320
+    }, {
+      "elapsedSeconds" : 1273,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 25474.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.6026032E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 137077352
+    }, {
+      "elapsedSeconds" : 1283,
+      "rollingTickP95Ms" : 3.391488,
+      "serverTickCount" : 25675.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.8933704E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 98268008
+    }, {
+      "elapsedSeconds" : 1293,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 25875.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.6846744E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 115270552
+    }, {
+      "elapsedSeconds" : 1303,
+      "rollingTickP95Ms" : 4.440064,
+      "serverTickCount" : 26076.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.0080464E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 118474264
+    }, {
+      "elapsedSeconds" : 1313,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 26276.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.6442832E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 117749168
+    }, {
+      "elapsedSeconds" : 1323,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 26477.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.8434416E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 96809888
+    }, {
+      "elapsedSeconds" : 1333,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 26677.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.0698184E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 103134976
+    }, {
+      "elapsedSeconds" : 1343,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 26878.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.7839352E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 111785984
+    }, {
+      "elapsedSeconds" : 1353,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 27078.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.6739144E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 131893152
+    }, {
+      "elapsedSeconds" : 1363,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 27279.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.9476784E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 139854440
+    }, {
+      "elapsedSeconds" : 1373,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 27479.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.04923464E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 87970112
+    }, {
+      "elapsedSeconds" : 1383,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 27680.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.8470312E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 139580592
+    }, {
+      "elapsedSeconds" : 1393,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 27880.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.6338672E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 73848120
+    }, {
+      "elapsedSeconds" : 1403,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 28081.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.8896288E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 96155136
+    }, {
+      "elapsedSeconds" : 1413,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 28281.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.04333912E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 108347216
+    }, {
+      "elapsedSeconds" : 1423,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 28481.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.0171728E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 82590008
+    }, {
+      "elapsedSeconds" : 1433,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 28682.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.5202536E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 121378208
+    }, {
+      "elapsedSeconds" : 1444,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 28882.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.1043696E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 89295216
+    }, {
+      "elapsedSeconds" : 1454,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 29083.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.4779824E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 117493328
+    }, {
+      "elapsedSeconds" : 1464,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 29283.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.0799696E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 91722264
+    }, {
+      "elapsedSeconds" : 1474,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 29484.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.6972E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 69172248
+    }, {
+      "elapsedSeconds" : 1484,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 29684.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.0813472E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 123372224
+    }, {
+      "elapsedSeconds" : 1494,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 29885.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.5993344E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 92991520
+    }, {
+      "elapsedSeconds" : 1504,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 30085.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.1277184E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 96967000
+    }, {
+      "elapsedSeconds" : 1514,
+      "rollingTickP95Ms" : 3.391488,
+      "serverTickCount" : 30285.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.7593472E7,
+      "serverCommandQueueSize" : 15.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 111507760
+    }, {
+      "elapsedSeconds" : 1524,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 30486.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.1881968E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 104610656
+    }, {
+      "elapsedSeconds" : 1534,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 30687.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.932784E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 77557832
+    }, {
+      "elapsedSeconds" : 1544,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 30887.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.5353648E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 75095208
+    }, {
+      "elapsedSeconds" : 1554,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 31088.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.4802848E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 98752024
+    }, {
+      "elapsedSeconds" : 1564,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 31288.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.919484E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 109310128
+    }, {
+      "elapsedSeconds" : 1574,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 31489.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.656372E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 107431232
+    }, {
+      "elapsedSeconds" : 1584,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 31689.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.1238952E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 134616936
+    }, {
+      "elapsedSeconds" : 1594,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 31889.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.924972E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 77797488
+    }, {
+      "elapsedSeconds" : 1604,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 32090.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.96272E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 104025904
+    }, {
+      "elapsedSeconds" : 1614,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 32290.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.69888E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 123655864
+    }, {
+      "elapsedSeconds" : 1624,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 32491.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.3852744E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 81905576
+    }, {
+      "elapsedSeconds" : 1634,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 32691.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.0932376E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 134860936
+    }, {
+      "elapsedSeconds" : 1644,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 32892.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.2285392E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 98970432
+    }, {
+      "elapsedSeconds" : 1654,
+      "rollingTickP95Ms" : 4.046848,
+      "serverTickCount" : 33092.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.9502528E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 77914592
+    }, {
+      "elapsedSeconds" : 1664,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 33293.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.05607824E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 140056008
+    }, {
+      "elapsedSeconds" : 1674,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 33493.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.3953088E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 90159520
+    }, {
+      "elapsedSeconds" : 1684,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 33694.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 5.2811144E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 100612984
+    }, {
+      "elapsedSeconds" : 1694,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 33894.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.7922392E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 125506432
+    }, {
+      "elapsedSeconds" : 1704,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 34095.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.233608E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 126526080
+    }, {
+      "elapsedSeconds" : 1714,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 34295.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 1.03940112E8,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 114697608
+    }, {
+      "elapsedSeconds" : 1724,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 34496.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 7.8146832E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 139930104
+    }, {
+      "elapsedSeconds" : 1734,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 34696.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.60606E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 118654768
+    }, {
+      "elapsedSeconds" : 1744,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 34896.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.9269744E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 95966872
+    }, {
+      "elapsedSeconds" : 1754,
+      "rollingTickP95Ms" : 3.52256,
+      "serverTickCount" : 35097.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.5705056E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 135423096
+    }, {
+      "elapsedSeconds" : 1764,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 35297.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.9566656E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 96646712
+    }, {
+      "elapsedSeconds" : 1774,
+      "rollingTickP95Ms" : 3.915776,
+      "serverTickCount" : 35498.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.8173792E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 112853816
+    }, {
+      "elapsedSeconds" : 1784,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 35698.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 6.3545736E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 107710608
+    }, {
+      "elapsedSeconds" : 1794,
+      "rollingTickP95Ms" : 3.7847039999999996,
+      "serverTickCount" : 35899.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.4600104E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 109204152
+    }, {
+      "elapsedSeconds" : 1800,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 36003.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 8.6716056E7,
+      "serverCommandQueueSize" : 0.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 98907480
+    }, {
+      "elapsedSeconds" : 1800,
+      "rollingTickP95Ms" : 3.653632,
+      "serverTickCount" : 36004.0,
+      "serverTickOverruns" : 0.0,
+      "serverHeapUsedBytes" : 9.5104664E7,
+      "serverCommandQueueSize" : 100.0,
+      "activePlayers" : 100.0,
+      "activeConnections" : 100.0,
+      "loadGeneratorHeapUsedBytes" : 98907480
+    } ],
+    "sampledRollingP95WindowCount" : 181,
+    "sampledRollingP95MaximumMs" : 5.48864,
+    "sampledRollingP95WindowsOver25Ms" : 0,
+    "activePlayersAtPhaseEnd" : 100.0,
+    "activeConnectionsAtPhaseEnd" : 100.0,
+    "commandQueueSizeAtPhaseEnd" : 100.0,
+    "serverHeapUsedBytesAtPhaseEnd" : 9.5104664E7
+  },
+  "commandQueueCapacity" : 512.0
+}

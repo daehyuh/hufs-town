@@ -1,0 +1,10 @@
+.git/
+.gradle/
+.build/
+.local/
+**/build/
+**/node_modules/
+.env
+.env.*
+infra/.env
+infra/.env.*

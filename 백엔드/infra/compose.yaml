@@ -1,0 +1,119 @@
+name: hufs-town
+services:
+  mariadb:
+    image: mariadb:11.4.10
+    environment:
+      MARIADB_DATABASE: hufstown
+      MARIADB_USER: hufstown
+      MARIADB_PASSWORD: ${DB_PASSWORD:?Copy .env.example to .env in infra first}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD in infra/.env}
+    ports: ["127.0.0.1:3307:3306"]
+    volumes: ["mariadb-data:/var/lib/mysql"]
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci", "--default-time-zone=+00:00"]
+  redis:
+    image: redis:7.4.8-alpine
+    ports: ["127.0.0.1:6380:6379"]
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes: ["redis-data:/data"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  api:
+    profiles: ["runtime"]
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.jvm
+      args:
+        APP_NAME: api
+    env_file: [../.env]
+    environment:
+      SERVER_ADDRESS: 0.0.0.0
+      SERVER_PORT: 18080
+      MANAGEMENT_SERVER_PORT: 18082
+      DB_URL: jdbc:mariadb://mariadb:3306/hufstown
+      DB_USER: hufstown
+      DB_PASSWORD: ${DB_PASSWORD:?Copy .env.example to .env in infra first}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      TOWN_ASSET_ROOT: /data/assets
+      TOWN_PUBLIC_ORIGIN: ${TOWN_PUBLIC_ORIGIN:-http://localhost:5173}
+      TOWN_WORLD_ENDPOINTS: ${WORLD_PUBLIC_ENDPOINT:-ws://localhost:18091/world/socket}
+      MEDIA_CONTROL_URL: http://media:18082
+    volumes: ["town-assets:/data/assets"]
+    ports: ["127.0.0.1:18090:18080"]
+    networks: [default, media-control]
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:18082/actuator/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 45s
+    restart: unless-stopped
+  world:
+    profiles: ["runtime"]
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.jvm
+      args:
+        APP_NAME: world
+    env_file: [../.env]
+    environment:
+      SERVER_ADDRESS: 0.0.0.0
+      SERVER_PORT: 18081
+      MANAGEMENT_SERVER_PORT: 18083
+      DB_URL: jdbc:mariadb://mariadb:3306/hufstown
+      DB_USER: hufstown
+      DB_PASSWORD: ${DB_PASSWORD:?Copy .env.example to .env in infra first}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      TOWN_PUBLIC_ORIGIN: ${TOWN_PUBLIC_ORIGIN:-http://localhost:5173}
+      MEDIA_CONTROL_URL: http://media:18082
+    networks: [default, media-control]
+    ports: ["127.0.0.1:18091:18081"]
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:18083/actuator/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 45s
+    restart: unless-stopped
+  prometheus:
+    image: prom/prometheus:v3.14.0
+    profiles: ["observability"]
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.listen-address=0.0.0.0:9090
+      - --web.user-assets=/etc/prometheus/dashboard
+    ports: ["127.0.0.1:9090:9090"]
+    volumes:
+      - ./prometheus:/etc/prometheus:ro
+      - prometheus-data:/prometheus
+    networks: [default, media-control]
+    restart: unless-stopped
+networks:
+  media-control:
+    external: true
+    name: hufs-town-media_default
+volumes:
+  mariadb-data:
+  redis-data:
+  town-assets:
+  prometheus-data:

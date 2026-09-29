@@ -1,0 +1,461 @@
+.room-recording-controls {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+.room-recording-request-open,
+.room-recording-archive-open,
+.room-recording-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 32px;
+  border: 1px solid #dce7d5;
+  border-radius: 8px;
+  padding: 6px 9px;
+  background: #fff;
+  color: #536b47;
+  font: inherit;
+  cursor: pointer;
+}
+.room-recording-request-open:hover,
+.room-recording-archive-open:hover,
+.room-recording-actions button:hover {
+  background: #f5f8f1;
+}
+.room-recording-request-open:disabled,
+.room-recording-archive-open:disabled,
+.room-recording-actions button:disabled,
+.room-recording-dialog-actions button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.room-recording-status {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  border: 1px solid #dce7d5;
+  border-radius: 9px;
+  padding: 8px;
+  background: #f8faf6;
+  color: #40553a;
+}
+.room-recording-status.recording {
+  border-color: #e5b6ad;
+  background: #fff5f3;
+}
+.room-recording-status.awaiting_consent,
+.room-recording-status.starting,
+.room-recording-status.stopping {
+  border-color: #e8d8be;
+  background: #fffaf1;
+}
+.room-recording-status-heading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.room-recording-status-heading strong {
+  flex: 1;
+  font-size: 10px;
+}
+.room-recording-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #d7a24a;
+}
+.room-recording-dot[data-live="true"] {
+  background: #c33f35;
+  box-shadow: 0 0 0 3px #f4d9d4;
+  animation: room-recording-pulse 1.4s ease-in-out infinite;
+}
+.room-recording-live-label {
+  border-radius: 4px;
+  padding: 2px 4px;
+  background: #bd392f;
+  color: white;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+.room-recording-status p,
+.room-recording-status small,
+.room-recording-notice,
+.room-recording-error {
+  margin: 0;
+  font-size: 9px;
+  line-height: 1.45;
+}
+.room-recording-status > p {
+  overflow-wrap: anywhere;
+}
+.room-recording-status small {
+  color: #77856c;
+}
+.room-recording-participants {
+  display: grid;
+  gap: 3px;
+  max-height: 104px;
+  overflow: auto;
+  margin: 0;
+  padding: 5px 0 0;
+  border-top: 1px solid #e8ece4;
+  list-style: none;
+}
+.room-recording-participants li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 9px;
+}
+.room-recording-participants li span:last-child {
+  color: #77856c;
+}
+.room-recording-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.room-recording-actions button {
+  min-height: 27px;
+  font-size: 9px;
+}
+.room-recording-actions .room-recording-stop {
+  border-color: #e4c9c2;
+  background: #fff8f5;
+  color: #9b4c40;
+}
+.room-recording-actions .room-recording-withdraw {
+  color: #795b32;
+}
+.room-recording-notice {
+  color: #4b7040;
+}
+.room-recording-error {
+  color: #a64136;
+}
+.room-recording-dialog {
+  display: grid;
+  gap: 14px;
+  width: min(440px, calc(100vw - 40px));
+  color: #40553a;
+}
+.room-recording-archive-dialog {
+  width: min(620px, calc(100vw - 40px));
+  max-height: min(70vh, 680px);
+  overflow: auto;
+}
+.room-recording-archive-usage {
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: #f5f8f1;
+}
+.room-recording-archive-usage.warning {
+  background: #fff5e4;
+  color: #875211;
+}
+.room-recording-archive-usage strong {
+  display: block;
+  margin-top: 4px;
+}
+.room-recording-archive-state {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  border: 1px dashed #dce7d5;
+  border-radius: 9px;
+  padding: 16px;
+  color: #637657;
+}
+.room-recording-archive-state p {
+  margin: 0;
+}
+.room-recording-archive-state button,
+.room-recording-archive-track-row button,
+.room-recording-archive-track-row a,
+.room-recording-archive-delete-confirm button,
+.room-recording-archive-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 30px;
+  border: 1px solid #dce7d5;
+  border-radius: 7px;
+  padding: 5px 8px;
+  background: white;
+  color: #536b47;
+  font: inherit;
+  font-size: 11px;
+  text-decoration: none;
+  cursor: pointer;
+}
+.room-recording-archive-state button:hover,
+.room-recording-archive-track-row button:hover,
+.room-recording-archive-track-row a:hover,
+.room-recording-archive-delete-confirm button:hover,
+.room-recording-archive-delete:hover {
+  background: #f5f8f1;
+}
+.room-recording-archive-list,
+.room-recording-archive-tracks {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.room-recording-archive-entry {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  border: 1px solid #dce7d5;
+  border-radius: 10px;
+  padding: 10px;
+  background: #fbfcfa;
+}
+.room-recording-transcript-notice {
+  margin: 0;
+  border-radius: 8px;
+  padding: 9px 10px;
+  background: #fff8e9;
+  color: #795b32;
+  font-size: 11px;
+  line-height: 1.55;
+}
+.room-recording-transcript-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+}
+.room-recording-transcript-actions button {
+  min-height: 29px;
+  border: 1px solid #dce7d5;
+  border-radius: 7px;
+  padding: 5px 8px;
+  background: #fff;
+  color: #536b47;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+.room-recording-transcript {
+  display: grid;
+  gap: 7px;
+  max-height: 240px;
+  overflow: auto;
+  border: 1px solid #e1e9dc;
+  border-radius: 8px;
+  padding: 8px;
+  background: #fff;
+}
+.room-recording-transcript > p {
+  margin: 0;
+  color: #637657;
+  font-size: 10px;
+  line-height: 1.5;
+}
+.room-recording-transcript ol {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.room-recording-transcript li {
+  display: grid;
+  grid-template-columns: 38px 72px minmax(0, 1fr);
+  align-items: start;
+  gap: 6px;
+  font-size: 11px;
+  line-height: 1.45;
+}
+.room-recording-transcript time {
+  color: #77856c;
+  font-variant-numeric: tabular-nums;
+}
+.room-recording-transcript li strong {
+  overflow: hidden;
+  color: #536b47;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.room-recording-transcript li span {
+  overflow-wrap: anywhere;
+}
+.room-recording-archive-heading,
+.room-recording-archive-track-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.room-recording-archive-heading strong {
+  color: #40553a;
+  font-size: 12px;
+}
+.room-recording-archive-heading span,
+.room-recording-archive-entry > small,
+.room-recording-archive-track-row > span {
+  color: #77856c;
+  font-size: 10px;
+}
+.room-recording-archive-tracks {
+  gap: 5px;
+  border-top: 1px solid #e8ece4;
+  padding-top: 6px;
+}
+.room-recording-archive-tracks > li {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+.room-recording-archive-track-row > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.room-recording-archive-tracks audio,
+.room-recording-archive-tracks video {
+  display: block;
+  width: 100%;
+  max-height: 300px;
+  border-radius: 7px;
+  background: #1b2118;
+}
+.room-recording-archive-delete-confirm {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  border-top: 1px solid #e8ece4;
+  padding-top: 8px;
+}
+.room-recording-archive-delete-confirm p {
+  flex: 1 1 100%;
+  margin: 0;
+  color: #8b433a;
+  font-size: 11px;
+}
+.room-recording-archive-delete-confirm button.danger,
+.room-recording-archive-delete {
+  border-color: #e4c9c2;
+  color: #9b4c40;
+}
+.room-recording-archive-delete:disabled,
+.room-recording-archive-delete-confirm button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.room-recording-dialog > p {
+  margin: 0;
+  color: #627456;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.room-recording-dialog fieldset {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  margin: 0;
+  border: 1px solid #e1e9dc;
+  border-radius: 10px;
+  padding: 9px;
+}
+.room-recording-dialog legend {
+  padding: 0 5px;
+  color: #536b47;
+  font-size: 12px;
+  font-weight: 700;
+}
+.room-recording-dialog .room-recording-source-option {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  border-radius: 7px;
+  padding: 8px;
+  cursor: pointer;
+}
+.room-recording-source-option:hover {
+  background: #f5f8f1;
+}
+.room-recording-source-option input {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  accent-color: #527645;
+}
+.room-recording-source-option span {
+  display: grid;
+  gap: 2px;
+}
+.room-recording-source-option strong {
+  font-size: 12px;
+}
+.room-recording-source-option small {
+  color: #77856c;
+  font-size: 10px;
+}
+.room-recording-dialog .room-recording-retention {
+  border-radius: 8px;
+  padding: 9px 10px;
+  background: #f5f8f1;
+  color: #637657;
+  font-size: 11px;
+}
+.room-recording-consent > ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: -5px 0;
+  padding: 0;
+  list-style: none;
+}
+.room-recording-consent > ul li {
+  border: 1px solid #dce7d5;
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: #f5f8f1;
+  font-size: 11px;
+}
+.room-recording-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.room-recording-dialog-actions button {
+  min-height: 38px;
+  border: 1px solid #dce7d5;
+  border-radius: 8px;
+  padding: 8px 13px;
+  background: #fff;
+  color: #536b47;
+  font: inherit;
+  cursor: pointer;
+}
+.room-recording-dialog-actions button.primary {
+  border-color: #526f48;
+  background: #526f48;
+  color: #fff;
+}
+.room-recording-dialog-actions .room-recording-decline {
+  border-color: #e4c9c2;
+  color: #9b4c40;
+}
+@keyframes room-recording-pulse {
+  50% {
+    box-shadow: 0 0 0 5px #f4d9d488;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .room-recording-dot[data-live="true"] {
+    animation: none;
+  }
+}

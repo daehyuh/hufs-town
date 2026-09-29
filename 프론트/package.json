@@ -1,0 +1,44 @@
+{
+  "name": "hufs-town-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "packageManager": "pnpm@11.19.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "dev:localhost": "vite --host 127.0.0.1 --port 5173",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc -b",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:e2e:browser-compat": "playwright test tests/e2e/browser-compat.spec.ts --project=chromium --project=firefox --project=webkit",
+    "contracts": "node ../백엔드/scripts/generate-contracts.mjs",
+    "contracts:check": "node ../백엔드/scripts/generate-contracts.mjs --check",
+    "assets": "node ../백엔드/scripts/prepare-assets.mjs",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "lucide-react": "1.47.0",
+    "mediasoup-client": "3.23.2",
+    "phaser": "3.90.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0",
+    "@types/node": "24.10.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "5.1.4",
+    "ajv": "8.20.0",
+    "livekit-client": "2.22.3",
+    "prettier": "3.8.1",
+    "typescript": "5.9.3",
+    "vite": "7.3.1",
+    "vitest": "4.1.0"
+  }
+}

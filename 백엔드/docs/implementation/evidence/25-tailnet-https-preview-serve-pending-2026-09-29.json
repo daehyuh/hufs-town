@@ -1,0 +1,12 @@
+{
+  "date": "2026-09-29",
+  "command": "scripts/dev.ps1 start -Profile preview -TailnetHttpsPreview -SkipBuild",
+  "result": "WAITING_FOR_TAILNET_ADMIN",
+  "observations": [
+    "The launcher started the dedicated isolated Media preview and local preview services, then Tailscale reported that Serve is not enabled for this tailnet.",
+    "The launcher was interrupted after the activation notice; its API/World/web preview processes and dedicated Media container were stopped and verified absent.",
+    "Existing local API, World, Media, database, Redis, Prometheus, and the localhost:5173 web listener remained available and healthy."
+  ],
+  "requiredExternalAction": "A tailnet administrator must enable Serve for this device before the HTTPS preview can be started.",
+  "productionChanged": false
+}

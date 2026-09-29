@@ -1,0 +1,20 @@
+{
+  "checkedDate": "2026-09-28",
+  "environment": "scripts/e2e.ps1 isolated preview API/World/Vite; existing local Docker SFU; Playwright Chromium; synthetic browser media devices",
+  "file": "프론트/tests/e2e/media.spec.ts",
+  "test": "real SFU carries microphone, camera and shared-screen RTP, then revokes distant receivers and cleans up on leave",
+  "result": "PASS",
+  "passed": 1,
+  "total": 1,
+  "assertions": [
+    "microphone, camera and screen RTP are received over the SFU",
+    "screen-share window moves with arrow keys and resizes from its focused resize button",
+    "camera gallery moves with arrow keys and resizes from its focused resize button",
+    "axe-core WCAG 2.1 A/AA scan reports no violations in the camera and screen-share windows",
+    "existing mouse drag/resize, pin, expand, audio-volume and proximity cleanup behavior remains functional"
+  ],
+  "limitations": [
+    "Browser media uses synthetic Playwright devices.",
+    "No physical device or screen-reader review was performed."
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "date": "2026-09-29",
+  "change": "Move event-tools preference to v6 and reset any prior v1-v5 opt-in so presentation/event controls are hidden by default after upgrade. An explicit v6 setting can show them again; core mic, camera, screen-share, and nearby-chat controls are unaffected.",
+  "files": [
+    "프론트/src/events/eventToolsPreference.ts",
+    "프론트/tests/unit/eventToolsPreference.test.ts",
+    "프론트/tests/e2e/event-roster.spec.ts",
+    "프론트/tests/e2e/event-media.spec.ts"
+  ],
+  "validation": {
+    "focused_unit": {
+      "command": "pnpm exec vitest run tests/unit/eventToolsPreference.test.ts",
+      "test_files_passed": 1,
+      "tests_passed": 2
+    },
+    "frontend_unit_suite": {
+      "command": "pnpm test",
+      "test_files_passed": 47,
+      "tests_passed": 159
+    },
+    "typecheck_and_production_build": "passed; Vite reported the existing large Phaser chunk warning",
+    "prettier": "passed for changed TypeScript files",
+    "presenter_e2e": {
+      "command": "TOWN_E2E_BASE_URL=http://127.0.0.1:5190 pnpm exec playwright test tests/e2e/event-roster.spec.ts --project=chromium",
+      "test_files_passed": 1,
+      "tests_passed": 2,
+      "environment": "isolated exact-origin Preview with API on 18100, World on 18101, and web on 5190; existing 5173/5174 services were left running",
+      "result": "default presenter controls are hidden while nearby chat, mic, camera, and screen sharing remain available; explicit v6 opt-in still exposes manager and participant event controls"
+    }
+  }
+}

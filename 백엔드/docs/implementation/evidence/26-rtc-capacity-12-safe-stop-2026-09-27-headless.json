@@ -1,0 +1,192 @@
+{
+  "status": "FAILED_OR_SAFE_STOP",
+  "startedAt": "2026-09-27T06:53:23.826Z",
+  "finishedAt": "2026-09-27T06:53:52.546Z",
+  "tier": 12,
+  "participantsRequested": 12,
+  "participantsJoined": 10,
+  "failure": "Safe stop: host free memory 2042 MiB fell below 2048 MiB.",
+  "mediaEngine": "isolated host capacity SFU 127.0.0.1:18083; RTP 44445",
+  "hostLimits": {
+    "minFreeMemoryMb": 2048,
+    "stopIfCpuAtOrAbovePercentForSeconds": 95,
+    "cpuStopConsecutiveSamples": 20,
+    "maxClients": 100
+  },
+  "resourceSamples": [
+    {
+      "elapsedMs": 2,
+      "availableMemoryMb": 4110,
+      "usedMemoryPercent": 87.4
+    },
+    {
+      "elapsedMs": 182,
+      "availableMemoryMb": 4064,
+      "usedMemoryPercent": 87.5,
+      "cpuPercent": 50.8
+    },
+    {
+      "elapsedMs": 1005,
+      "availableMemoryMb": 3770,
+      "usedMemoryPercent": 88.4,
+      "cpuPercent": 60.4
+    },
+    {
+      "elapsedMs": 2014,
+      "availableMemoryMb": 3683,
+      "usedMemoryPercent": 88.7,
+      "cpuPercent": 65.3
+    },
+    {
+      "elapsedMs": 3025,
+      "availableMemoryMb": 3546,
+      "usedMemoryPercent": 89.1,
+      "cpuPercent": 80.8
+    },
+    {
+      "elapsedMs": 4029,
+      "availableMemoryMb": 3530,
+      "usedMemoryPercent": 89.2,
+      "cpuPercent": 82.1
+    },
+    {
+      "elapsedMs": 5030,
+      "availableMemoryMb": 3421,
+      "usedMemoryPercent": 89.5,
+      "cpuPercent": 62.6
+    },
+    {
+      "elapsedMs": 6038,
+      "availableMemoryMb": 3368,
+      "usedMemoryPercent": 89.7,
+      "cpuPercent": 68.5
+    },
+    {
+      "elapsedMs": 7041,
+      "availableMemoryMb": 3339,
+      "usedMemoryPercent": 89.8,
+      "cpuPercent": 67.5
+    },
+    {
+      "elapsedMs": 8044,
+      "availableMemoryMb": 3230,
+      "usedMemoryPercent": 90.1,
+      "cpuPercent": 69.2
+    },
+    {
+      "elapsedMs": 9046,
+      "availableMemoryMb": 3166,
+      "usedMemoryPercent": 90.3,
+      "cpuPercent": 70.5
+    },
+    {
+      "elapsedMs": 10047,
+      "availableMemoryMb": 3026,
+      "usedMemoryPercent": 90.7,
+      "cpuPercent": 73.7
+    },
+    {
+      "elapsedMs": 11048,
+      "availableMemoryMb": 3230,
+      "usedMemoryPercent": 90.1,
+      "cpuPercent": 73.5
+    },
+    {
+      "elapsedMs": 11174,
+      "availableMemoryMb": 3222,
+      "usedMemoryPercent": 90.1,
+      "cpuPercent": 60.5
+    },
+    {
+      "elapsedMs": 12057,
+      "availableMemoryMb": 3072,
+      "usedMemoryPercent": 90.6,
+      "cpuPercent": 93.3
+    },
+    {
+      "elapsedMs": 13065,
+      "availableMemoryMb": 3003,
+      "usedMemoryPercent": 90.8,
+      "cpuPercent": 86.8
+    },
+    {
+      "elapsedMs": 14066,
+      "availableMemoryMb": 2993,
+      "usedMemoryPercent": 90.8,
+      "cpuPercent": 70.5
+    },
+    {
+      "elapsedMs": 15073,
+      "availableMemoryMb": 2822,
+      "usedMemoryPercent": 91.4,
+      "cpuPercent": 84.3
+    },
+    {
+      "elapsedMs": 16080,
+      "availableMemoryMb": 2804,
+      "usedMemoryPercent": 91.4,
+      "cpuPercent": 85.6
+    },
+    {
+      "elapsedMs": 17084,
+      "availableMemoryMb": 2678,
+      "usedMemoryPercent": 91.8,
+      "cpuPercent": 71.6
+    },
+    {
+      "elapsedMs": 18093,
+      "availableMemoryMb": 2570,
+      "usedMemoryPercent": 92.1,
+      "cpuPercent": 89.8
+    },
+    {
+      "elapsedMs": 19096,
+      "availableMemoryMb": 2532,
+      "usedMemoryPercent": 92.2,
+      "cpuPercent": 89.7
+    },
+    {
+      "elapsedMs": 20099,
+      "availableMemoryMb": 2480,
+      "usedMemoryPercent": 92.4,
+      "cpuPercent": 90.1
+    },
+    {
+      "elapsedMs": 21098,
+      "availableMemoryMb": 2338,
+      "usedMemoryPercent": 92.8,
+      "cpuPercent": 97.4
+    },
+    {
+      "elapsedMs": 22098,
+      "availableMemoryMb": 2226,
+      "usedMemoryPercent": 93.2,
+      "cpuPercent": 99.3
+    },
+    {
+      "elapsedMs": 23105,
+      "availableMemoryMb": 2193,
+      "usedMemoryPercent": 93.3,
+      "cpuPercent": 99.4
+    },
+    {
+      "elapsedMs": 24111,
+      "availableMemoryMb": 2171,
+      "usedMemoryPercent": 93.3,
+      "cpuPercent": 96.1
+    },
+    {
+      "elapsedMs": 25122,
+      "availableMemoryMb": 2135,
+      "usedMemoryPercent": 93.5,
+      "cpuPercent": 95.8
+    },
+    {
+      "elapsedMs": 26132,
+      "availableMemoryMb": 2042,
+      "usedMemoryPercent": 93.7,
+      "cpuPercent": 100
+    }
+  ],
+  "pageErrors": []
+}

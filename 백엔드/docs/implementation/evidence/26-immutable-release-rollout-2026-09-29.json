@@ -1,0 +1,29 @@
+{
+  "checkedDate": "2026-09-29",
+  "releaseId": "20260929T051303Z-978e39b6",
+  "previousReleaseId": "legacy-20260929T050943Z",
+  "result": "PASS",
+  "deployment": {
+    "imageBuildOrder": ["web", "api", "world", "media"],
+    "gradleTestTasksSkipped": true,
+    "allContainersHealthy": true,
+    "nginxConfigAndReload": "PASS",
+    "publicWebHttp": 200,
+    "ssoConfigured": true,
+    "spaceCapacity": 100,
+    "mediaFeature": true,
+    "environmentFileMetadata": "root:root 0600",
+    "releaseStateMetadata": "root:root 0600"
+  },
+  "safety": [
+    "existing service image IDs were tagged as the first legacy rollback release before new containers were started",
+    "four services were built serially and test tasks were skipped at the user's request",
+    "the current release and immediately previous release tags remain available locally",
+    "the production SSO secret file and database/Redis volumes were preserved"
+  ],
+  "notVerified": [
+    "an actual rollback rehearsal was intentionally not run because the user had asked to stop further tests",
+    "database migration rollback is not automated; schema changes must remain compatible with the previous application release",
+    "off-host backup, alert delivery, and full recovery rehearsal remain pending"
+  ]
+}

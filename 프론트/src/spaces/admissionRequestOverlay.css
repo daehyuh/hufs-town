@@ -1,0 +1,217 @@
+.world-admission-panel,
+.world-admission-collapsed {
+  position: fixed;
+  z-index: 27;
+  right: 18px;
+  bottom: calc(
+    86px + env(safe-area-inset-bottom, 0px) + var(--app-keyboard-inset, 0px)
+  );
+  width: min(344px, calc(100vw - 28px));
+  overflow: hidden;
+  border: 1px solid #d8e3d0;
+  border-radius: 14px;
+  background: #fffffff5;
+  box-shadow: 0 14px 38px #263b2b35;
+  color: #354632;
+  font-family: inherit;
+}
+.world-admission-heading,
+.world-admission-title,
+.world-admission-tools,
+.world-admission-actions {
+  display: flex;
+  align-items: center;
+}
+.world-admission-heading {
+  min-height: 54px;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px 8px 14px;
+  border-bottom: 1px solid #e8eee3;
+  background: #f6f9f2;
+}
+.world-admission-title {
+  min-width: 0;
+  gap: 9px;
+  color: #59784b;
+}
+.world-admission-title > div {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+}
+.world-admission-title strong {
+  color: #344532;
+  font-size: 13px;
+}
+.world-admission-title small {
+  overflow: hidden;
+  color: #78856f;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.world-admission-count,
+.world-admission-collapsed > strong {
+  display: grid;
+  min-width: 21px;
+  height: 21px;
+  place-items: center;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #e4efd9;
+  color: #4d713e;
+  font-size: 11px;
+  font-weight: 700;
+}
+.world-admission-tools {
+  gap: 3px;
+}
+.world-admission-tools button,
+.world-admission-collapsed {
+  cursor: pointer;
+}
+.world-admission-tools button {
+  display: grid;
+  width: 31px;
+  height: 31px;
+  place-items: center;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #63765a;
+}
+.world-admission-tools button:hover:not(:disabled) {
+  background: #e9f0e3;
+}
+.world-admission-tools button:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.world-admission-body {
+  max-height: min(310px, 48vh);
+  overflow: auto;
+}
+.world-admission-empty,
+.world-admission-error,
+.world-admission-notice {
+  margin: 0;
+  padding: 13px 15px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.world-invitation-section h3,
+.world-admission-section h3 {
+  margin: 0;
+  padding: 11px 14px 7px;
+  color: #68775f;
+  font-size: 10px;
+  font-weight: 700;
+}
+.world-admission-empty {
+  color: #75816e;
+}
+.world-admission-error {
+  background: #fff4f0;
+  color: #99533b;
+}
+.world-admission-notice {
+  background: #f1f7eb;
+  color: #4f7142;
+}
+.world-admission-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.world-admission-request {
+  display: grid;
+  gap: 11px;
+  padding: 13px 14px;
+  border-bottom: 1px solid #edf0e9;
+}
+.world-admission-request:last-child {
+  border-bottom: 0;
+}
+.world-admission-request-copy {
+  display: grid;
+  gap: 4px;
+}
+.world-admission-request-copy strong {
+  color: #344532;
+  font-size: 12px;
+}
+.world-admission-request-copy span {
+  color: #7a8672;
+  font-size: 10px;
+}
+.world-admission-actions {
+  justify-content: flex-end;
+  gap: 7px;
+}
+.world-admission-actions button {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0 11px;
+  border: 1px solid #e1e8db;
+  border-radius: 8px;
+  background: white;
+  color: #65725d;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+.world-admission-actions button:hover:not(:disabled) {
+  background: #f4f8f0;
+}
+.world-admission-actions button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+.world-admission-actions .world-admission-approve {
+  border-color: #c9dcc0;
+  background: #edf5e8;
+  color: #496b3d;
+  font-weight: 700;
+}
+.world-admission-collapsed {
+  display: flex;
+  width: auto;
+  min-height: 44px;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 9px;
+  padding: 0 13px;
+  color: #46643b;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+}
+.world-admission-collapsed > strong {
+  margin-left: auto;
+}
+.is-spinning {
+  animation: world-admission-spin 1s linear infinite;
+}
+@keyframes world-admission-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (max-width: 600px) {
+  .world-admission-panel,
+  .world-admission-collapsed {
+    right: 12px;
+    bottom: calc(
+      94px + env(safe-area-inset-bottom, 0px) + var(--app-keyboard-inset, 0px)
+    );
+    width: min(344px, calc(100vw - 24px));
+  }
+  .world-admission-collapsed {
+    width: auto;
+  }
+}

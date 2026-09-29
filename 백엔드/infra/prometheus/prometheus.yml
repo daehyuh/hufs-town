@@ -1,0 +1,33 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+storage:
+  tsdb:
+    retention:
+      time: 15d
+
+rule_files:
+  - /etc/prometheus/alerts.yml
+
+scrape_configs:
+  - job_name: api
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: [api:18082]
+        labels:
+          service: hufs-town-api
+
+  - job_name: world
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: [world:18083]
+        labels:
+          service: hufs-town-world
+
+  - job_name: media
+    metrics_path: /metrics
+    static_configs:
+      - targets: [media:18082]
+        labels:
+          service: hufs-town-media

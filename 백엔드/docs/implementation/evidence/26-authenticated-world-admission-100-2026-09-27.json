@@ -1,0 +1,30 @@
+{
+  "capturedAt": "2026-09-27",
+  "testClass": "town.hufs.api.auth.SsoIntegrationTest",
+  "testName": "oneHundredAuthenticatedParticipantsReceiveSeatsAndJoinThePackagedWorld",
+  "result": "passed",
+  "environment": {
+    "database": "Testcontainers MariaDB",
+    "seatStore": "Testcontainers Redis",
+    "world": "packaged World",
+    "identityProvider": "test SSO session fixture"
+  },
+  "verified": {
+    "authenticatedParticipants": 100,
+    "concurrentAdmissionRequests": 100,
+    "uniqueAdmissionTickets": 100,
+    "redisSeatsAfterAdmission": 100,
+    "overflowHttpStatus": 409,
+    "overflowErrorCode": "SPACE_FULL",
+    "authenticatedWebSocketConnections": 100,
+    "welcomeMessages": 100,
+    "uniquePlayerIds": 100,
+    "visibleRosterCount": 100
+  },
+  "notCovered": [
+    "real HUFS identity-provider login",
+    "media RTP or TURN",
+    "long-duration load",
+    "100 full React UI instances"
+  ]
+}

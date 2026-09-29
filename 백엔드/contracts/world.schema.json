@@ -1,0 +1,2028 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hufs.town/contracts/world-v1",
+  "$defs": {
+    "Rect": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number"
+        },
+        "height": {
+          "type": "number"
+        }
+      },
+      "required": ["x", "y", "width", "height"],
+      "additionalProperties": false
+    },
+    "MapObject": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "asset": {
+          "type": "string"
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "scale": {
+          "type": "number"
+        },
+        "direction": {
+          "type": "string",
+          "enum": ["down", "left", "up", "right"]
+        },
+        "interaction": {
+          "$ref": "#/$defs/MapInteraction"
+        }
+      },
+      "required": ["id", "asset", "x", "y", "scale"],
+      "additionalProperties": false
+    },
+    "MapInteraction": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["NOTICE", "LINK", "VIDEO", "IMAGE", "BOARD", "NPC", "SOUND", "SCAVENGER_ITEM"]
+        },
+        "title": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "body": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "url": {
+          "type": "string",
+          "maxLength": 2048,
+          "pattern": "^https?://[^\\s]+$"
+        },
+        "assetId": {
+          "type": "string",
+          "maxLength": 80,
+          "pattern": "^custom_[0-9a-fA-F-]{36}$"
+        },
+        "radius": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 20,
+          "description": "0 means unset outside SOUND interactions; SOUND requires 1–20."
+        },
+        "volume": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "0 means unset outside SOUND interactions; SOUND requires 1–100."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "kind": { "const": "SCAVENGER_ITEM" } },
+            "required": ["kind"]
+          },
+          "then": { "properties": { "body": { "maxLength": 280 } } }
+        }
+      ],
+      "required": ["kind", "title"],
+      "additionalProperties": false
+    },
+    "Zone": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["PRIVATE", "SILENT", "PUBLIC", "STAGE"]
+        },
+        "bounds": {
+          "$ref": "#/$defs/Rect"
+        },
+        "capacity": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 100,
+          "x-java-type": "Long"
+        }
+      },
+      "required": ["id", "name", "kind", "bounds"],
+      "additionalProperties": false
+    },
+    "MapDefinition": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "integer",
+          "const": 2
+        },
+        "id": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "spawnX": {
+          "type": "number"
+        },
+        "spawnY": {
+          "type": "number"
+        },
+        "collisions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Rect"
+          }
+        },
+        "objects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MapObject"
+          }
+        },
+        "zones": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Zone"
+          }
+        },
+        "floors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FloorPatch"
+          }
+        },
+        "walls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Wall"
+          }
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MapLabel"
+          }
+        },
+        "portals": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "$ref": "#/$defs/Portal"
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "id",
+        "revision",
+        "name",
+        "width",
+        "height",
+        "spawnX",
+        "spawnY",
+        "collisions",
+        "objects",
+        "zones",
+        "floors",
+        "walls",
+        "labels"
+      ],
+      "additionalProperties": false
+    },
+    "Join": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "join"
+        },
+        "protocolVersion": {
+          "type": "integer",
+          "const": 2
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 20
+        },
+        "avatar": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2
+        },
+        "skin": {
+          "type": "string",
+          "enum": [
+            "black",
+            "blue",
+            "dark",
+            "green",
+            "light",
+            "medium",
+            "purple",
+            "red",
+            "white",
+            "yellow"
+          ]
+        },
+        "clothing": { "type": "string", "pattern": "^[a-z0-9_]{1,40}$" },
+        "hair": { "type": "string", "pattern": "^hair_[a-z0-9_]{1,35}$" },
+        "resumeToken": {
+          "type": "string",
+          "maxLength": 100
+        }
+      },
+      "required": [
+        "type",
+        "protocolVersion",
+        "name",
+        "avatar",
+        "skin",
+        "clothing",
+        "hair",
+        "resumeToken"
+      ],
+      "additionalProperties": false
+    },
+    "ProfileUpdate": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "profileUpdate" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "name": { "type": "string", "minLength": 1, "maxLength": 20 },
+        "avatar": { "type": "integer", "minimum": 0, "maximum": 2 },
+        "skin": {
+          "type": "string",
+          "enum": ["black", "blue", "dark", "green", "light", "medium", "purple", "red", "white", "yellow"]
+        },
+        "clothing": { "type": "string", "pattern": "^[a-z0-9_]{1,40}$" },
+        "hair": { "type": "string", "pattern": "^hair_[a-z0-9_]{1,35}$" },
+        "bio": { "type": "string", "maxLength": 280 },
+        "links": {
+          "type": "array",
+          "maxItems": 3,
+          "items": { "type": "string", "maxLength": 512, "pattern": "^https?://[^\\s]+$" }
+        }
+      },
+      "required": ["type", "epoch", "name", "avatar", "skin", "clothing", "hair", "bio", "links"],
+      "additionalProperties": false
+    },
+    "ProfileRequest": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "profileRequest" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "requestId": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$" },
+        "targetId": { "type": "string", "minLength": 1, "maxLength": 36 }
+      },
+      "required": ["type", "epoch", "requestId", "targetId"],
+      "additionalProperties": false
+    },
+    "Move": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "move"
+        },
+        "epoch": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "seq": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dx": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "dy": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "running": {
+          "type": "boolean"
+        }
+      },
+      "required": ["type", "epoch", "seq", "dx", "dy", "running"],
+      "additionalProperties": false
+    },
+    "Emote": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "emote"
+        },
+        "epoch": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "emoji": {
+          "type": "string",
+          "enum": [
+            "wave",
+            "heart",
+            "clap",
+            "sparkles",
+            "laugh",
+            "thumbsup",
+            "sad",
+            "sit",
+            "party",
+            "thinking",
+            "hands",
+            "wow",
+            "fire"
+          ]
+        }
+      },
+      "required": ["type", "epoch", "emoji"],
+      "additionalProperties": false
+    },
+    "PresenceSet": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "presenceSet" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "requestId": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "status": { "type": "string", "enum": ["AVAILABLE", "AWAY", "DND"] }
+      },
+      "required": ["type", "epoch", "requestId", "status"],
+      "additionalProperties": false
+    },
+    "MicrophoneSet": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "microphoneSet" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "enabled": { "type": "boolean" }
+      },
+      "required": ["type", "epoch", "enabled"],
+      "additionalProperties": false
+    },
+    "PresenceAck": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "presenceAck" },
+        "requestId": { "type": "string" },
+        "status": { "type": "string", "enum": ["AVAILABLE", "AWAY", "DND"] },
+        "accepted": { "type": "boolean" },
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": [
+        "type",
+        "requestId",
+        "status",
+        "accepted",
+        "code",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "Poke": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "poke" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "requestId": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "targetId": { "type": "string", "minLength": 1, "maxLength": 36 }
+      },
+      "required": ["type", "epoch", "requestId", "targetId"],
+      "additionalProperties": false
+    },
+    "PlayerReportRequest": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "playerReportRequest" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "requestId": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "targetId": { "type": "string", "minLength": 1, "maxLength": 36 },
+        "category": { "type": "string", "enum": ["HARASSMENT", "THREAT", "SPAM", "PERSONAL_INFO", "OTHER"] },
+        "details": { "type": "string", "maxLength": 1000 }
+      },
+      "required": ["type", "epoch", "requestId", "targetId", "category", "details"],
+      "additionalProperties": false
+    },
+    "PokePreference": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "pokePreference" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "enabled": { "type": "boolean" }
+      },
+      "required": ["type", "epoch", "enabled"],
+      "additionalProperties": false
+    },
+    "BlockAction": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "blockAction" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "requestId": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "targetId": { "type": "string", "minLength": 1, "maxLength": 36 },
+        "blocked": { "type": "boolean" }
+      },
+      "required": ["type", "epoch", "requestId", "targetId", "blocked"],
+      "additionalProperties": false
+    },
+    "JoinRequest": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "joinRequest" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "requestId": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "targetId": { "type": "string", "minLength": 1, "maxLength": 36 }
+      },
+      "required": ["type", "epoch", "requestId", "targetId"],
+      "additionalProperties": false
+    },
+    "JoinResponse": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "joinResponse" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "requestId": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "accepted": { "type": "boolean" }
+      },
+      "required": ["type", "epoch", "requestId", "accepted"],
+      "additionalProperties": false
+    },
+    "JoinRequestAck": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "joinRequestAck" },
+        "requestId": { "type": "string" },
+        "targetId": { "type": "string" },
+        "accepted": { "type": "boolean" },
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": [
+        "type",
+        "requestId",
+        "targetId",
+        "accepted",
+        "code",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "JoinRequestEvent": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "joinRequestEvent" },
+        "requestId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "expiresAt": { "type": "integer" }
+      },
+      "required": ["type", "requestId", "senderId", "senderName", "expiresAt"],
+      "additionalProperties": false
+    },
+    "RoomKnock": {
+      "type": "object",
+      "properties": {
+        "knockId": { "type": "string" },
+        "playerId": { "type": "string" },
+        "playerName": { "type": "string" },
+        "expiresAt": { "type": "integer" }
+      },
+      "required": ["knockId", "playerId", "playerName", "expiresAt"],
+      "additionalProperties": false
+    },
+    "RoomView": {
+      "type": "object",
+      "properties": {
+        "zoneId": { "type": "string" },
+        "name": { "type": "string" },
+        "locked": { "type": "boolean" },
+        "capacity": { "type": "integer" },
+        "occupants": { "type": "integer" },
+        "hostPlayerId": { "type": "string" },
+        "pendingKnocks": { "type": "array", "items": { "$ref": "#/$defs/RoomKnock" } }
+      },
+      "required": ["zoneId", "name", "locked", "capacity", "occupants", "hostPlayerId", "pendingKnocks"],
+      "additionalProperties": false
+    },
+    "RoomAction": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "roomAction" },
+        "requestId": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "zoneId": { "type": "string", "maxLength": 64 },
+        "action": { "type": "string", "enum": ["LOCK", "UNLOCK", "SET_CAPACITY", "KICK"] },
+        "capacity": { "type": "integer", "minimum": 2, "maximum": 100 },
+        "targetPlayerId": { "type": "string", "maxLength": 36 }
+      },
+      "required": ["type", "requestId", "epoch", "zoneId", "action", "capacity", "targetPlayerId"],
+      "additionalProperties": false
+    },
+    "RoomKnockResponse": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "roomKnockResponse" },
+        "requestId": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "zoneId": { "type": "string", "maxLength": 64 },
+        "knockId": { "type": "string", "maxLength": 36 },
+        "accepted": { "type": "boolean" }
+      },
+      "required": ["type", "requestId", "epoch", "zoneId", "knockId", "accepted"],
+      "additionalProperties": false
+    },
+    "RoomActionAck": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "roomActionAck" },
+        "requestId": { "type": "string" },
+        "zoneId": { "type": "string" },
+        "accepted": { "type": "boolean" },
+        "locked": { "type": "boolean" },
+        "capacity": { "type": "integer" },
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": ["type", "requestId", "zoneId", "accepted", "locked", "capacity", "code", "message"],
+      "additionalProperties": false
+    },
+    "RoomKnockEvent": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "roomKnockEvent" },
+        "knockId": { "type": "string" },
+        "zoneId": { "type": "string" },
+        "playerId": { "type": "string" },
+        "playerName": { "type": "string" },
+        "expiresAt": { "type": "integer" }
+      },
+      "required": ["type", "knockId", "zoneId", "playerId", "playerName", "expiresAt"],
+      "additionalProperties": false
+    },
+    "RoomKnockResult": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "roomKnockResult" },
+        "requestId": { "type": "string" },
+        "zoneId": { "type": "string" },
+        "accepted": { "type": "boolean" },
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": ["type", "requestId", "zoneId", "accepted", "code", "message"],
+      "additionalProperties": false
+    },
+    "RoomNoteRequest": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "roomNoteRequest" },
+        "requestId": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "action": { "type": "string", "enum": ["LOAD", "SAVE"] },
+        "baseRevision": { "type": "integer", "minimum": 0 },
+        "body": { "type": "string", "maxLength": 4000 }
+      },
+      "required": ["type", "requestId", "epoch", "action", "baseRevision", "body"],
+      "additionalProperties": false
+    },
+    "RoomNoteRevision": {
+      "type": "object",
+      "properties": {
+        "revision": { "type": "integer", "minimum": 1 },
+        "authorName": { "type": "string", "maxLength": 20 },
+        "editedAt": { "type": "integer", "minimum": 0 }
+      },
+      "required": ["revision", "authorName", "editedAt"],
+      "additionalProperties": false
+    },
+    "RoomNoteState": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "roomNoteState" },
+        "zoneId": { "type": "string", "maxLength": 64 },
+        "revision": { "type": "integer", "minimum": 0 },
+        "body": { "type": "string", "maxLength": 4000 },
+        "updatedAt": { "type": "integer", "minimum": 0 },
+        "updatedBy": { "type": "string", "maxLength": 20 },
+        "meetingEndedAt": { "type": "integer", "minimum": 0 },
+        "retentionExpiresAt": { "type": "integer", "minimum": 0 },
+        "history": { "type": "array", "maxItems": 20, "items": { "$ref": "#/$defs/RoomNoteRevision" } }
+      },
+      "required": ["type", "zoneId", "revision", "body", "updatedAt", "updatedBy", "meetingEndedAt", "retentionExpiresAt", "history"],
+      "additionalProperties": false
+    },
+    "RoomNoteAck": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "roomNoteAck" },
+        "requestId": { "type": "string" },
+        "zoneId": { "type": "string" },
+        "accepted": { "type": "boolean" },
+        "revision": { "type": "integer", "minimum": 0 },
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": ["type", "requestId", "zoneId", "accepted", "revision", "code", "message"],
+      "additionalProperties": false
+    },
+    "EventAction": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "eventAction" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "requestId": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$" },
+        "action": { "type": "string", "enum": ["START", "STOP", "GRANT_SPEAKER", "REVOKE_SPEAKER", "RAISE_HAND", "LOWER_HAND"] },
+        "targetPlayerId": { "type": "string", "maxLength": 36 },
+        "title": { "type": "string", "maxLength": 80 }
+        ,"description": { "type": "string", "maxLength": 280 }
+        ,"resourceUrl": { "type": "string", "maxLength": 512, "pattern": "^(|https?://[^\\s]+)$" }
+        ,"attendanceEnabled": { "type": "boolean" }
+      },
+      "required": ["type", "epoch", "requestId", "action", "targetPlayerId", "title", "description", "resourceUrl", "attendanceEnabled"],
+      "additionalProperties": false
+    },
+    "EventActionAck": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "eventActionAck" },
+        "requestId": { "type": "string" },
+        "action": { "type": "string" },
+        "accepted": { "type": "boolean" },
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": ["type", "requestId", "action", "accepted", "code", "message"],
+      "additionalProperties": false
+    },
+      "EventParticipant": {
+        "type": "object",
+        "properties": {
+          "playerId": { "type": "string", "maxLength": 36 },
+          "name": { "type": "string", "maxLength": 20 },
+          "mapId": { "type": "string", "maxLength": 80 },
+          "mapName": { "type": "string", "maxLength": 80 }
+        },
+        "required": ["playerId", "name", "mapId", "mapName"],
+        "additionalProperties": false
+      },
+      "SpaceParticipant": {
+        "type": "object",
+        "properties": {
+          "playerId": { "type": "string", "maxLength": 36 },
+          "name": { "type": "string", "maxLength": 20 },
+          "avatar": { "type": "integer", "minimum": 0, "maximum": 2 },
+          "skin": { "type": "string", "enum": ["black", "blue", "dark", "green", "light", "medium", "purple", "red", "white", "yellow"] },
+          "clothing": { "type": "string", "pattern": "^[a-z0-9_]{1,40}$" },
+          "hair": { "type": "string", "pattern": "^hair_[a-z0-9_]{1,35}$" },
+          "status": { "type": "string", "enum": ["AVAILABLE", "AWAY", "DND"] },
+          "mapId": { "type": "string", "maxLength": 80 },
+          "mapName": { "type": "string", "maxLength": 80 },
+          "directMessageEnabled": { "type": "boolean" },
+          "allowPokes": { "type": "boolean" }
+        },
+        "required": ["playerId", "name", "avatar", "skin", "clothing", "hair", "status", "mapId", "mapName", "directMessageEnabled", "allowPokes"],
+        "additionalProperties": false
+      },
+      "SpaceParticipants": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "const": "spaceParticipants" },
+          "revision": { "type": "integer", "minimum": 0 },
+          "participants": { "type": "array", "maxItems": 100, "items": { "$ref": "#/$defs/SpaceParticipant" } }
+        },
+        "required": ["type", "revision", "participants"],
+        "additionalProperties": false
+      },
+    "ProfileDetails": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "profileDetails" },
+        "requestId": { "type": "string", "maxLength": 64 },
+        "playerId": { "type": "string", "maxLength": 36 },
+        "accepted": { "type": "boolean" },
+        "bio": { "type": "string", "maxLength": 280 },
+        "links": {
+          "type": "array",
+          "maxItems": 3,
+          "items": { "type": "string", "maxLength": 512, "pattern": "^https?://[^\\s]+$" }
+        },
+        "code": { "type": "string", "maxLength": 48 },
+        "message": { "type": "string", "maxLength": 120 }
+      },
+      "required": ["type", "requestId", "playerId", "accepted", "bio", "links", "code", "message"],
+      "additionalProperties": false
+    },
+      "EventState": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "const": "eventState" },
+          "active": { "type": "boolean" },
+          "eventId": { "type": "string", "maxLength": 36 },
+          "startedAt": { "type": "integer", "minimum": 0 },
+          "attendanceEnabled": { "type": "boolean" },
+          "attendancePersistent": { "type": "boolean" },
+          "attendeeCount": { "type": "integer", "minimum": 0, "maximum": 100 },
+          "title": { "type": "string", "maxLength": 80 },
+        "description": { "type": "string", "maxLength": 280 },
+        "resourceUrl": { "type": "string", "maxLength": 512, "pattern": "^(|https?://[^\\s]+)$" },
+        "hostPlayerId": { "type": "string", "maxLength": 36 },
+        "speakerPlayerIds": { "type": "array", "maxItems": 8, "items": { "type": "string", "maxLength": 36 } },
+        "raisedHandPlayerIds": { "type": "array", "maxItems": 100, "items": { "type": "string", "maxLength": 36 } },
+        "participants": { "type": "array", "maxItems": 100, "items": { "$ref": "#/$defs/EventParticipant" } }
+      },
+        "required": ["type", "active", "eventId", "startedAt", "attendanceEnabled", "attendancePersistent", "attendeeCount", "title", "description", "resourceUrl", "hostPlayerId", "speakerPlayerIds", "raisedHandPlayerIds", "participants"],
+      "additionalProperties": false
+    },
+    "EventQuestion": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 36 },
+        "askerPlayerId": { "type": "string", "maxLength": 36 },
+        "askerName": { "type": "string", "maxLength": 20 },
+        "text": { "type": "string", "maxLength": 280 },
+        "answered": { "type": "boolean" },
+        "answer": { "type": "string", "maxLength": 280 },
+        "answererName": { "type": "string", "maxLength": 20 }
+      },
+      "required": ["id", "askerPlayerId", "askerName", "text", "answered", "answer", "answererName"],
+      "additionalProperties": false
+    },
+    "EventEngagement": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "eventEngagement" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "requestId": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$" },
+        "action": { "type": "string", "enum": ["ASK_QUESTION", "ANSWER_QUESTION", "CREATE_POLL", "CREATE_QUIZ", "VOTE_POLL", "CLOSE_POLL", "START_SCAVENGER_HUNT", "STOP_SCAVENGER_HUNT", "SCAVENGER_TALK", "COLLECT_SCAVENGER_ITEM"] },
+        "questionId": { "type": "string", "maxLength": 36 },
+        "text": { "type": "string", "maxLength": 280 },
+        "pollQuestion": { "type": "string", "maxLength": 160 },
+        "pollOptions": { "type": "array", "maxItems": 6, "items": { "type": "string", "maxLength": 80 } },
+        "optionIndex": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "correctOptionIndex": { "type": "integer", "minimum": 0, "maximum": 5 }
+      },
+      "required": ["type", "epoch", "requestId", "action", "questionId", "text", "pollQuestion", "pollOptions", "optionIndex", "correctOptionIndex"],
+      "additionalProperties": false
+    },
+    "EventEngagementAck": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "eventEngagementAck" },
+        "requestId": { "type": "string" },
+        "action": { "type": "string" },
+        "accepted": { "type": "boolean" },
+        "itemId": { "type": "string" },
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": ["type", "requestId", "action", "accepted", "itemId", "code", "message"],
+      "additionalProperties": false
+    },
+    "EventQuizScore": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 20 },
+        "score": { "type": "integer", "minimum": 0 }
+      },
+      "required": ["name", "score"],
+      "additionalProperties": false
+    },
+    "EventScavengerItem": {
+      "type": "object",
+      "properties": {
+        "objectId": { "type": "string", "maxLength": 80 },
+        "title": { "type": "string", "maxLength": 80 },
+        "clue": { "type": "string", "maxLength": 280 }
+      },
+      "required": ["objectId", "title", "clue"],
+      "additionalProperties": false
+    },
+    "EventEngagementState": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "eventEngagementState" },
+        "active": { "type": "boolean" },
+        "questions": { "type": "array", "maxItems": 100, "items": { "$ref": "#/$defs/EventQuestion" } },
+        "pollId": { "type": "string", "maxLength": 36 },
+        "pollQuestion": { "type": "string", "maxLength": 160 },
+        "pollOptions": { "type": "array", "maxItems": 6, "items": { "type": "string", "maxLength": 80 } },
+        "pollCounts": { "type": "array", "maxItems": 6, "items": { "type": "integer", "minimum": 0 } },
+        "pollClosed": { "type": "boolean" },
+        "pollMode": { "type": "string", "enum": ["POLL", "QUIZ"] },
+        "pollCorrectOptionIndex": { "type": "integer", "minimum": -1, "maximum": 5 },
+        "pollMyOptionIndex": { "type": "integer", "minimum": -1, "maximum": 5 },
+        "myQuizScore": { "type": "integer", "minimum": 0 },
+        "quizScores": { "type": "array", "maxItems": 20, "items": { "$ref": "#/$defs/EventQuizScore" } },
+        "scavengerConfigured": { "type": "boolean" },
+        "scavengerActive": { "type": "boolean" },
+        "scavengerMapId": { "type": "string", "maxLength": 36 },
+        "scavengerMapName": { "type": "string", "maxLength": 80 },
+        "scavengerAvailableItems": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "scavengerAvailableNpcs": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "scavengerUnlocked": { "type": "boolean" },
+        "scavengerItems": { "type": "array", "maxItems": 100, "items": { "$ref": "#/$defs/EventScavengerItem" } },
+        "scavengerMyCollectedObjectIds": { "type": "array", "maxItems": 100, "items": { "type": "string", "maxLength": 80 } },
+        "scavengerMyScore": { "type": "integer", "minimum": 0 },
+        "scavengerCompleted": { "type": "boolean" },
+        "scavengerScores": { "type": "array", "maxItems": 20, "items": { "$ref": "#/$defs/EventQuizScore" } }
+      },
+      "required": ["type", "active", "questions", "pollId", "pollQuestion", "pollOptions", "pollCounts", "pollClosed", "pollMode", "pollCorrectOptionIndex", "pollMyOptionIndex", "myQuizScore", "quizScores", "scavengerConfigured", "scavengerActive", "scavengerMapId", "scavengerMapName", "scavengerAvailableItems", "scavengerAvailableNpcs", "scavengerUnlocked", "scavengerItems", "scavengerMyCollectedObjectIds", "scavengerMyScore", "scavengerCompleted", "scavengerScores"],
+      "additionalProperties": false
+    },
+    "JoinResult": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "joinResult" },
+        "requestId": { "type": "string" },
+        "targetId": { "type": "string" },
+        "accepted": { "type": "boolean" },
+        "moved": { "type": "boolean" },
+        "destinationMapId": { "type": "string" },
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": [
+        "type",
+        "requestId",
+        "targetId",
+        "accepted",
+        "moved",
+        "destinationMapId",
+        "code",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "DirectConversationRequest": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "directConversationRequest" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "requestId": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "targetPlayerId": { "type": "string", "minLength": 1, "maxLength": 36 }
+      },
+      "required": ["type", "epoch", "requestId", "targetPlayerId"],
+      "additionalProperties": false
+    },
+    "GroupConversationRequest": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "groupConversationRequest" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "requestId": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "memberPlayerIds": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 36 },
+          "minItems": 2,
+          "maxItems": 11,
+          "uniqueItems": true
+        },
+        "groupName": { "type": "string", "minLength": 1, "maxLength": 32 }
+      },
+      "required": [
+        "type",
+        "epoch",
+        "requestId",
+        "memberPlayerIds",
+        "groupName"
+      ],
+      "additionalProperties": false
+    },
+    "GroupInvitationRequest": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "groupInvitationRequest" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "requestId": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "conversationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36
+        },
+        "targetPlayerId": { "type": "string", "minLength": 1, "maxLength": 36 }
+      },
+      "required": [
+        "type",
+        "epoch",
+        "requestId",
+        "conversationId",
+        "targetPlayerId"
+      ],
+      "additionalProperties": false
+    },
+    "GroupInvitationAck": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "groupInvitationAck" },
+        "requestId": { "type": "string" },
+        "invitationId": { "type": "string" },
+        "conversationId": { "type": "string" },
+        "targetPlayerId": { "type": "string" },
+        "accepted": { "type": "boolean" },
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": [
+        "type",
+        "requestId",
+        "invitationId",
+        "conversationId",
+        "targetPlayerId",
+        "accepted",
+        "code",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "GroupInvitationEvent": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "groupInvitationEvent" },
+        "invitationId": { "type": "string" },
+        "conversationId": { "type": "string" },
+        "groupName": { "type": "string" },
+        "inviterName": { "type": "string" },
+        "expiresAt": { "type": "integer" }
+      },
+      "required": [
+        "type",
+        "invitationId",
+        "conversationId",
+        "groupName",
+        "inviterName",
+        "expiresAt"
+      ],
+      "additionalProperties": false
+    },
+    "DirectConversationResult": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "directConversationResult" },
+        "requestId": { "type": "string" },
+        "targetPlayerId": { "type": "string" },
+        "accepted": { "type": "boolean" },
+        "conversationId": { "type": "string" },
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": [
+        "type",
+        "requestId",
+        "targetPlayerId",
+        "accepted",
+        "conversationId",
+        "code",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "ChatSend": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "chatSend" },
+        "clientMessageId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "channel": {
+          "type": "string",
+          "enum": ["nearby", "room", "space", "dm"]
+        },
+        "conversationId": { "type": "string", "maxLength": 36 },
+        "text": { "type": "string", "minLength": 1, "maxLength": 500 }
+      },
+      "required": [
+        "type",
+        "clientMessageId",
+        "epoch",
+        "channel",
+        "conversationId",
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "DirectMessageMutationRequest": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "directMessageMutationRequest" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "requestId": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "conversationId": {
+          "type": "string",
+          "minLength": 36,
+          "maxLength": 36
+        },
+        "messageId": { "type": "string", "minLength": 36, "maxLength": 36 },
+        "action": { "type": "string", "enum": ["EDIT", "DELETE"] },
+        "text": { "type": "string", "maxLength": 500 }
+      },
+      "required": [
+        "type",
+        "epoch",
+        "requestId",
+        "conversationId",
+        "messageId",
+        "action",
+        "text"
+      ],
+      "additionalProperties": false
+    },
+    "DirectMessageMutationAck": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "directMessageMutationAck" },
+        "requestId": { "type": "string" },
+        "conversationId": { "type": "string" },
+        "messageId": { "type": "string" },
+        "accepted": { "type": "boolean" },
+        "revision": { "type": "integer" },
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": [
+        "type",
+        "requestId",
+        "conversationId",
+        "messageId",
+        "accepted",
+        "revision",
+        "code",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "DirectMessageMutationEvent": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "directMessageMutationEvent" },
+        "conversationId": { "type": "string" },
+        "messageId": { "type": "string" },
+        "text": { "type": "string", "maxLength": 500 },
+        "revision": { "type": "integer" },
+        "editedAt": { "type": "integer" },
+        "deleted": { "type": "boolean" }
+      },
+      "required": [
+        "type",
+        "conversationId",
+        "messageId",
+        "text",
+        "revision",
+        "editedAt",
+        "deleted"
+      ],
+      "additionalProperties": false
+    },
+    "DirectMessageReadRequest": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "directMessageReadRequest" },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "requestId": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "conversationId": { "type": "string", "minLength": 36, "maxLength": 36 },
+        "messageId": { "type": "string", "minLength": 36, "maxLength": 36 }
+      },
+      "required": ["type", "epoch", "requestId", "conversationId", "messageId"],
+      "additionalProperties": false
+    },
+    "DirectMessageReadAck": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "directMessageReadAck" },
+        "requestId": { "type": "string" },
+        "conversationId": { "type": "string" },
+        "messageId": { "type": "string" },
+        "accepted": { "type": "boolean" },
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": ["type", "requestId", "conversationId", "messageId", "accepted", "code", "message"],
+      "additionalProperties": false
+    },
+    "DirectMessageReadEvent": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "directMessageReadEvent" },
+        "conversationId": { "type": "string" },
+        "messageId": { "type": "string" },
+        "sentAt": { "type": "integer" },
+        "readerMemberId": { "type": "string", "maxLength": 36 }
+      },
+      "required": ["type", "conversationId", "messageId", "sentAt", "readerMemberId"],
+      "additionalProperties": false
+    },
+    "ChatAck": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "chatAck" },
+        "clientMessageId": { "type": "string" },
+        "accepted": { "type": "boolean" },
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": ["type", "clientMessageId", "accepted", "code", "message"],
+      "additionalProperties": false
+    },
+    "ChatEvent": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "chatEvent" },
+        "messageId": { "type": "string" },
+        "clientMessageId": { "type": "string" },
+        "channel": {
+          "type": "string",
+          "enum": ["nearby", "room", "space", "dm"]
+        },
+        "conversationId": { "type": "string", "maxLength": 36 },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "avatar": { "type": "integer" },
+        "skin": {
+          "type": "string",
+          "enum": [
+            "black",
+            "blue",
+            "dark",
+            "green",
+            "light",
+            "medium",
+            "purple",
+            "red",
+            "white",
+            "yellow"
+          ]
+        },
+        "clothing": { "type": "string", "pattern": "^[a-z0-9_]{1,40}$" },
+        "hair": { "type": "string", "pattern": "^hair_[a-z0-9_]{1,35}$" },
+        "text": { "type": "string", "maxLength": 500 },
+        "sentAt": { "type": "integer" },
+        "zoneId": { "type": "string" },
+        "revision": { "type": "integer" },
+        "editedAt": { "type": "integer" },
+        "deleted": { "type": "boolean" }
+      },
+      "required": [
+        "type",
+        "messageId",
+        "clientMessageId",
+        "channel",
+        "conversationId",
+        "senderId",
+        "senderName",
+        "avatar",
+        "skin",
+        "clothing",
+        "hair",
+        "text",
+        "sentAt",
+        "zoneId",
+        "revision",
+        "editedAt",
+        "deleted"
+      ],
+      "additionalProperties": false
+    },
+    "PokeAck": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "pokeAck" },
+        "requestId": { "type": "string" },
+        "targetId": { "type": "string" },
+        "accepted": { "type": "boolean" },
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": [
+        "type",
+        "requestId",
+        "targetId",
+        "accepted",
+        "code",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "PlayerReportAck": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "playerReportAck" },
+        "requestId": { "type": "string" },
+        "targetId": { "type": "string" },
+        "accepted": { "type": "boolean" },
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": ["type", "requestId", "targetId", "accepted", "code", "message"],
+      "additionalProperties": false
+    },
+    "PokePreferenceState": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "pokePreferenceState" },
+        "enabled": { "type": "boolean" }
+      },
+      "required": ["type", "enabled"],
+      "additionalProperties": false
+    },
+    "PokeEvent": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "pokeEvent" },
+        "requestId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "targetId": { "type": "string" },
+        "sentAt": { "type": "integer" }
+      },
+      "required": [
+        "type",
+        "requestId",
+        "senderId",
+        "senderName",
+        "targetId",
+        "sentAt"
+      ],
+      "additionalProperties": false
+    },
+    "BlockAck": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "blockAck" },
+        "requestId": { "type": "string" },
+        "targetId": { "type": "string" },
+        "blocked": { "type": "boolean" },
+        "accepted": { "type": "boolean" },
+        "code": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": [
+        "type",
+        "requestId",
+        "targetId",
+        "blocked",
+        "accepted",
+        "code",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "BlockState": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "blockState" },
+        "playerIds": {
+          "type": "array",
+          "items": { "type": "string" },
+          "maxItems": 100
+        }
+      },
+      "required": ["type", "playerIds"],
+      "additionalProperties": false
+    },
+    "PlayerView": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "integer"
+        },
+        "skin": {
+          "type": "string",
+          "enum": [
+            "black",
+            "blue",
+            "dark",
+            "green",
+            "light",
+            "medium",
+            "purple",
+            "red",
+            "white",
+            "yellow"
+          ]
+        },
+        "clothing": { "type": "string", "pattern": "^[a-z0-9_]{1,40}$" },
+        "hair": { "type": "string", "pattern": "^hair_[a-z0-9_]{1,35}$" },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "direction": {
+          "type": "string",
+          "enum": ["down", "up", "left", "right"]
+        },
+        "moving": {
+          "type": "boolean"
+        },
+        "zoneId": {
+          "type": "string"
+        },
+        "emoji": {
+          "type": "string"
+        },
+        "emojiUntil": {
+          "type": "integer"
+        },
+        "sitting": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["AVAILABLE", "AWAY", "DND"]
+        },
+        "microphoneOn": {
+          "type": "boolean"
+        },
+        "directMessageEnabled": {
+          "type": "boolean"
+        },
+        "bio": {
+          "type": "string",
+          "maxLength": 280
+        },
+        "links": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "type": "string",
+            "maxLength": 512,
+            "pattern": "^https?://[^\\s]+$"
+          }
+        },
+        "eventManager": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "avatar",
+        "skin",
+        "clothing",
+        "hair",
+        "x",
+        "y",
+        "direction",
+        "moving",
+        "zoneId",
+        "emoji",
+        "emojiUntil",
+        "sitting",
+        "status",
+        "directMessageEnabled"
+      ],
+      "additionalProperties": false
+    },
+    "Welcome": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "welcome"
+        },
+        "protocolVersion": {
+          "type": "integer",
+          "const": 2
+        },
+        "playerId": {
+          "type": "string"
+        },
+        "resumeToken": {
+          "type": "string"
+        },
+        "epoch": {
+          "type": "integer"
+        },
+        "mapRevision": {
+          "type": "string"
+        },
+        "tickMs": {
+          "type": "integer"
+        },
+        "features": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["PARTICIPANT_REPORTS", "PERSISTENT_SIT", "EXTENDED_EMOTES", "ROOM_NOTES", "ROOM_RECORDING", "SCAVENGER_HUNT", "MICROPHONE_PRESENCE"]
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "type",
+        "protocolVersion",
+        "playerId",
+        "resumeToken",
+        "epoch",
+        "mapRevision",
+        "tickMs"
+      ],
+      "additionalProperties": false
+    },
+    "Snapshot": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "snapshot"
+        },
+        "tick": {
+          "type": "integer"
+        },
+        "serverTime": {
+          "type": "integer"
+        },
+        "full": {
+          "type": "boolean"
+        },
+        "baseTick": {
+          "type": "integer"
+        },
+        "inputAckSeq": {
+          "type": "integer"
+        },
+        "players": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/PlayerView"
+          }
+        },
+        "removedPlayerIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mapRevision": {
+          "type": "string"
+        },
+        "rooms": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/RoomView" }
+        }
+      },
+      "required": ["type", "tick", "serverTime", "full", "baseTick", "inputAckSeq", "players", "removedPlayerIds", "mapRevision", "rooms"],
+      "additionalProperties": false
+    },
+    "SnapshotAck": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "snapshotAck"
+        },
+        "tick": {
+          "type": "integer"
+        },
+        "applied": {
+          "type": "boolean"
+        }
+      },
+      "required": ["type", "tick", "applied"],
+      "additionalProperties": false
+    },
+    "ErrorMessage": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "error"
+        },
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "code", "message"],
+      "additionalProperties": false
+    },
+    "FloorPatch": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "material": {
+          "type": "string",
+          "enum": [
+            "OAK",
+            "WOOD",
+            "CARPET_BLUE",
+            "CARPET_SAGE",
+            "TILE",
+            "CONCRETE",
+            "GRASS",
+            "PAVERS"
+          ]
+        },
+        "bounds": {
+          "$ref": "#/$defs/Rect"
+        }
+      },
+      "required": ["id", "material", "bounds"],
+      "additionalProperties": false
+    },
+    "Wall": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "material": {
+          "type": "string",
+          "enum": ["CREAM", "SAGE", "GLASS"]
+        },
+        "bounds": {
+          "$ref": "#/$defs/Rect"
+        }
+      },
+      "required": ["id", "material", "bounds"],
+      "additionalProperties": false
+    },
+    "MapLabel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "link": {
+          "type": "string",
+          "maxLength": 2048,
+          "pattern": "^https?://[^\\s]+$"
+        }
+      },
+      "required": ["id", "text", "x", "y"],
+      "additionalProperties": false
+    },
+    "Portal": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "bounds": {
+          "$ref": "#/$defs/Rect"
+        },
+        "targetSpaceId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,80}$"
+        },
+        "targetMapId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{1,80}$"
+        },
+        "targetSpawnX": {
+          "type": "number"
+        },
+        "targetSpawnY": {
+          "type": "number"
+        }
+      },
+      "required": ["id", "name", "bounds", "targetSpaceId"],
+      "additionalProperties": false
+    },
+    "MapChanged": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "mapChanged"
+        },
+        "map": {
+          "$ref": "#/$defs/MapDefinition"
+        }
+      },
+      "required": ["type", "map"],
+      "additionalProperties": false
+    },
+    "MediaOffer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "playerId": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string",
+          "enum": ["MICROPHONE", "CAMERA", "SCREEN", "SCREEN_AUDIO"]
+        },
+        "kind": {
+          "type": "string",
+          "enum": ["audio", "video"]
+        }
+      },
+      "required": ["id", "playerId", "source", "kind"],
+      "additionalProperties": false
+    },
+    "MediaState": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "mediaState",
+          "type": "string"
+        },
+        "policyEpoch": {
+          "type": "integer"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "available": {
+          "type": "boolean"
+        },
+        "transitioning": {
+          "type": "boolean"
+        },
+        "limited": {
+          "type": "boolean"
+        },
+        "proximityEnterDistance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "proximityExitDistance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "moderatedSources": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["MICROPHONE", "CAMERA", "SCREEN", "SCREEN_AUDIO"]
+          }
+        },
+        "peers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "offers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MediaOffer"
+          }
+        },
+        "engineId": {
+          "type": "string"
+        },
+        "eventMode": {
+          "type": "boolean"
+        },
+        "eventSpeaker": {
+          "type": "boolean"
+        },
+        "eventTitle": {
+          "type": "string",
+          "maxLength": 80
+        }
+      },
+      "required": [
+        "type",
+        "policyEpoch",
+        "domain",
+        "kind",
+        "available",
+        "transitioning",
+        "limited",
+        "proximityEnterDistance",
+        "proximityExitDistance",
+        "moderatedSources",
+        "peers",
+        "offers",
+        "engineId",
+        "eventMode",
+        "eventSpeaker",
+        "eventTitle"
+      ],
+      "additionalProperties": false
+    },
+    "MediaRequest": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "mediaRequest",
+          "type": "string"
+        },
+        "requestId": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "policyEpoch": {
+          "type": "integer"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "capabilities",
+            "createTransport",
+            "connectTransport",
+            "produce",
+            "closeProducer",
+            "consume",
+            "resumeConsumer",
+            "closeConsumer",
+            "setPreferredLayers",
+            "stats"
+          ]
+        },
+        "dataJson": {
+          "type": "string",
+          "maxLength": 32768
+        }
+      },
+      "required": ["type", "requestId", "policyEpoch", "method", "dataJson"],
+      "additionalProperties": false
+    },
+    "MediaReply": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "mediaReply",
+          "type": "string"
+        },
+        "requestId": {
+          "type": "string"
+        },
+        "ok": {
+          "type": "boolean"
+        },
+        "dataJson": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": ["type", "requestId", "ok", "dataJson", "code", "message"],
+      "additionalProperties": false
+    },
+    "RoomRecordingRequest": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "roomRecordingRequest" },
+        "requestId": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "epoch": { "type": "integer", "minimum": 1 },
+        "zoneId": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "action": { "type": "string", "enum": ["START", "CONSENT", "WITHDRAW", "STOP"] },
+        "recordingId": { "type": "string", "maxLength": 36 },
+        "sources": {
+          "type": "array",
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": { "type": "string", "enum": ["MICROPHONE", "CAMERA", "SCREEN", "SCREEN_AUDIO"] }
+        },
+        "transcribe": { "type": "boolean", "default": false },
+        "accepted": { "type": "boolean" }
+      },
+      "required": ["type", "requestId", "epoch", "zoneId", "action", "recordingId", "sources", "accepted"],
+      "additionalProperties": false
+    },
+    "RoomRecordingParticipant": {
+      "type": "object",
+      "properties": {
+        "playerId": { "type": "string", "maxLength": 80 },
+        "name": { "type": "string", "maxLength": 20 },
+        "decision": { "type": "string", "enum": ["PENDING", "ACCEPTED", "DECLINED", "WITHDRAWN"] },
+        "respondedAt": { "type": "integer", "minimum": 0 }
+      },
+      "required": ["playerId", "name", "decision", "respondedAt"],
+      "additionalProperties": false
+    },
+    "RoomRecordingState": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "roomRecordingState" },
+        "recordingId": { "type": "string", "maxLength": 36 },
+        "zoneId": { "type": "string", "maxLength": 80 },
+        "status": { "type": "string", "enum": ["AWAITING_CONSENT", "STARTING", "RECORDING", "STOPPING", "STOPPED", "DECLINED", "FAILED", "EXPIRED"] },
+        "sources": {
+          "type": "array",
+          "maxItems": 4,
+          "items": { "type": "string", "enum": ["MICROPHONE", "CAMERA", "SCREEN", "SCREEN_AUDIO"] }
+        },
+        "requestedByPlayerId": { "type": "string", "maxLength": 80 },
+        "requestedByName": { "type": "string", "maxLength": 20 },
+        "requestedAt": { "type": "integer", "minimum": 0 },
+        "startedAt": { "type": "integer", "minimum": 0 },
+        "endedAt": { "type": "integer", "minimum": 0 },
+        "retentionDays": { "type": "integer", "minimum": 1, "maximum": 365 },
+        "trackCount": { "type": "integer", "minimum": 0, "maximum": 400 },
+        "failureCode": { "type": "string", "maxLength": 64 },
+        "transcribe": { "type": "boolean" },
+        "participants": { "type": "array", "maxItems": 100, "items": { "$ref": "#/$defs/RoomRecordingParticipant" } }
+      },
+      "required": ["type", "recordingId", "zoneId", "status", "sources", "requestedByPlayerId", "requestedByName", "requestedAt", "startedAt", "endedAt", "retentionDays", "trackCount", "participants"],
+      "additionalProperties": false
+    },
+    "RoomRecordingAck": {
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "const": "roomRecordingAck" },
+        "requestId": { "type": "string", "maxLength": 64 },
+        "recordingId": { "type": "string", "maxLength": 36 },
+        "accepted": { "type": "boolean" },
+        "status": { "type": "string", "maxLength": 32 },
+        "code": { "type": "string", "maxLength": 64 },
+        "message": { "type": "string", "maxLength": 240 }
+      },
+      "required": ["type", "requestId", "recordingId", "accepted", "status", "code", "message"],
+      "additionalProperties": false
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/Join"
+    },
+    {
+      "$ref": "#/$defs/ProfileRequest"
+    },
+    {
+      "$ref": "#/$defs/Move"
+    },
+    {
+      "$ref": "#/$defs/Emote"
+    },
+    {
+      "$ref": "#/$defs/Poke"
+    },
+    {
+      "$ref": "#/$defs/PlayerReportRequest"
+    },
+    {
+      "$ref": "#/$defs/PokePreference"
+    },
+    {
+      "$ref": "#/$defs/BlockAction"
+    },
+    {
+      "$ref": "#/$defs/ChatSend"
+    },
+    {
+      "$ref": "#/$defs/DirectMessageMutationRequest"
+    },
+    {
+      "$ref": "#/$defs/DirectMessageReadRequest"
+    },
+    {
+      "$ref": "#/$defs/RoomNoteRequest"
+    },
+    {
+      "$ref": "#/$defs/RoomRecordingRequest"
+    },
+    {
+      "$ref": "#/$defs/Welcome"
+    },
+    {
+      "$ref": "#/$defs/Snapshot"
+    },
+    {
+      "$ref": "#/$defs/ErrorMessage"
+    },
+    {
+      "$ref": "#/$defs/MapChanged"
+    },
+    {
+      "$ref": "#/$defs/MediaState"
+    },
+    {
+      "$ref": "#/$defs/MediaRequest"
+    },
+    {
+      "$ref": "#/$defs/MediaReply"
+    },
+    {
+      "$ref": "#/$defs/RoomRecordingState"
+    },
+    {
+      "$ref": "#/$defs/RoomRecordingAck"
+    },
+    {
+      "$ref": "#/$defs/ChatAck"
+    },
+    {
+      "$ref": "#/$defs/ChatEvent"
+    },
+    {
+      "$ref": "#/$defs/DirectMessageMutationAck"
+    },
+    {
+      "$ref": "#/$defs/DirectMessageMutationEvent"
+    },
+    {
+      "$ref": "#/$defs/DirectMessageReadAck"
+    },
+    {
+      "$ref": "#/$defs/DirectMessageReadEvent"
+    },
+    {
+      "$ref": "#/$defs/RoomNoteState"
+    },
+    {
+      "$ref": "#/$defs/RoomNoteAck"
+    },
+    {
+      "$ref": "#/$defs/PokeAck"
+    },
+    {
+      "$ref": "#/$defs/PlayerReportAck"
+    },
+    {
+      "$ref": "#/$defs/PokeEvent"
+    },
+    {
+      "$ref": "#/$defs/BlockAck"
+    },
+    {
+      "$ref": "#/$defs/BlockState"
+    },
+    {
+      "$ref": "#/$defs/EventAction"
+    },
+    {
+      "$ref": "#/$defs/EventActionAck"
+    },
+    {
+      "$ref": "#/$defs/EventState"
+    },
+    {
+      "$ref": "#/$defs/EventEngagement"
+    },
+    {
+      "$ref": "#/$defs/EventEngagementAck"
+    },
+    {
+      "$ref": "#/$defs/EventEngagementState"
+    },
+    {
+      "$ref": "#/$defs/ProfileDetails"
+    }
+  ]
+}

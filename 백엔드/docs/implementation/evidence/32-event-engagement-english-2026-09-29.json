@@ -1,0 +1,19 @@
+{
+  "checkedDate": "2026-09-29",
+  "environment": "scripts/e2e.ps1 isolated preview API/World/Vite; Playwright Chromium",
+  "file": "프론트/tests/e2e/event-engagement.spec.ts",
+  "test": "event Q&A and polls stay localized for an English host and attendee",
+  "result": "PASS",
+  "passed": 1,
+  "total": 1,
+  "assertions": [
+    "host and attendee explicitly enable event tools after joining with the default hidden state",
+    "the host starts an event and the attendee sees the English preview-retention notice",
+    "an English attendee submits a question, the host replies, and the answer reaches the attendee",
+    "the host starts and closes an English poll, the attendee vote synchronizes, and the option becomes disabled"
+  ],
+  "limitations": [
+    "This covers the English preview event Q&A and poll flow, not every event screen.",
+    "No real SSO accounts, physical devices, or production event persistence were used."
+  ]
+}

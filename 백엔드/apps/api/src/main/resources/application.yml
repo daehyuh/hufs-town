@@ -1,0 +1,73 @@
+server:
+  address: 127.0.0.1
+  port: 18080
+spring:
+  application:
+    name: hufs-town-api
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 3MB
+  datasource:
+    url: ${DB_URL:jdbc:mariadb://127.0.0.1:3307/hufstown}
+    username: ${DB_USER:hufstown}
+    password: ${DB_PASSWORD:}
+    hikari:
+      connection-init-sql: SET time_zone = '+00:00'
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6380}
+      timeout: 2s
+management:
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      show-details: never
+town:
+  public-origin: ${TOWN_PUBLIC_ORIGIN:http://localhost:5173}
+  allowed-origins: ${TOWN_ALLOWED_ORIGINS:}
+  world:
+    endpoints: ${TOWN_WORLD_ENDPOINTS:}
+  asset-root: ${TOWN_ASSET_ROOT:.local/hufs-town/assets}
+  web-push:
+    public-key: ${TOWN_WEB_PUSH_PUBLIC_KEY:}
+    private-key: ${TOWN_WEB_PUSH_PRIVATE_KEY:}
+    subject: ${TOWN_WEB_PUSH_SUBJECT:}
+  calendar:
+    google:
+      enabled: ${TOWN_GOOGLE_CALENDAR_ENABLED:false}
+      client-id: ${GOOGLE_CALENDAR_CLIENT_ID:}
+      client-secret: ${GOOGLE_CALENDAR_CLIENT_SECRET:}
+      redirect-uri: ${GOOGLE_CALENDAR_REDIRECT_URI:${TOWN_PUBLIC_ORIGIN:http://localhost:5173}/api/v1/calendar/google/callback}
+      token-encryption-key: ${TOWN_CALENDAR_TOKEN_ENCRYPTION_KEY:}
+  moderation:
+    admin-user-ids: ${TOWN_ADMIN_USER_IDS:}
+  auth:
+    mode: ${TOWN_AUTH_MODE:sso}
+    cookie-secure: ${TOWN_COOKIE_SECURE:true}
+    login:
+      requests-per-minute-per-ip: ${TOWN_AUTH_LOGIN_REQUESTS_PER_MINUTE_PER_IP:150}
+    sso:
+      authorize-url: ${HUFS_SSO_AUTHORIZE_URL:https://api.gdghufs.com/v1/sso/authorize}
+      userinfo-url: ${HUFS_SSO_USERINFO_URL:https://api.gdghufs.com/v1/sso/userinfo}
+      client-id: ${HUFS_SSO_CLIENT_ID:}
+      client-secret: ${HUFS_SSO_CLIENT_SECRET:}
+      redirect-uri: ${HUFS_SSO_REDIRECT_URI:http://localhost:5173/auth/callback}
+  local-preview: false
+  storage-mode: mariadb-redis

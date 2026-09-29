@@ -1,0 +1,40 @@
+{
+  "checkedDate": "2026-09-28",
+  "status": "PASS",
+  "environment": "SsoIntegrationTest with ephemeral MariaDB/Redis Testcontainers, packaged World nodes, synthetic test administrator UUID, and isolated recording SFU policy endpoints.",
+  "tests": [
+    {
+      "name": "participantReportCanBeReviewedAndKicksTheTargetAcrossWorldNodes",
+      "status": "PASS",
+      "assertions": [
+        "Reporter cannot access the administrator queue (403); only the configured synthetic administrator can review the report.",
+        "A reviewed participant report creates one WORLD_KICK action and closes the report with an audit history entry.",
+        "The target is removed from both World nodes and receives MODERATION_KICKED.",
+        "Repeating the same action request is idempotent and does not create another moderation action."
+      ]
+    },
+    {
+      "name": "participantMediaMutePropagatesFromAdminApiToWorldAndSfuPolicy",
+      "status": "PASS",
+      "assertions": [
+        "An administrator media-mute action updates the report, audit action, and persisted user restriction.",
+        "MICROPHONE, CAMERA, SCREEN, and SCREEN_AUDIO are removed in both active spaces on separate World nodes.",
+        "Both World policy epochs advance and both isolated SFU policy endpoints receive an empty allowed source set.",
+        "Repeating the same request remains idempotent."
+      ]
+    }
+  ],
+  "summary": {
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "durationSeconds": 29.182
+  },
+  "productionAdminIdentityConfigured": false,
+  "remaining": [
+    "An operator must provide the approved production SSO user UUID for TOWN_ADMIN_USER_IDS.",
+    "Verify the signed-in operator's access in the deployed environment and complete the browser moderation-console review.",
+    "Complete the production log-retention and privacy review before marking the moderation task done."
+  ]
+}

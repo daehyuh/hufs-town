@@ -1,0 +1,28 @@
+{
+  "checkedDate": "2026-09-28",
+  "checks": [
+    {
+      "media": true,
+      "webSocketTrustedOriginWithoutSessionStatus": 401,
+      "pageTitle": "GDG HUFS 훕스타운",
+      "webSocketWithoutOriginStatus": 403,
+      "websiteHttpStatus": 200,
+      "status": "PASS",
+      "spaceCapacity": 100,
+      "origin": "http://localhost:5173",
+      "ssoConfigured": true
+    },
+    {
+      "media": true,
+      "webSocketTrustedOriginWithoutSessionStatus": 401,
+      "pageTitle": "GDG HUFS 훕스타운",
+      "webSocketWithoutOriginStatus": 403,
+      "websiteHttpStatus": 200,
+      "status": "PASS",
+      "spaceCapacity": 100,
+      "origin": "http://127.0.0.1:5173",
+      "ssoConfigured": true
+    }
+  ],
+  "operation": "read-only local HTTP checks after recreating API and World with both exact loopback origins allowed"
+}

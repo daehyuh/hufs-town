@@ -1,0 +1,30 @@
+{
+  "date": "2026-09-28",
+  "scope": "DM mobile layout and keyboard send behavior",
+  "environment": {
+    "browser": "Chromium Playwright",
+    "viewport": "390x844",
+    "mobileEmulation": true,
+    "touchEmulation": true,
+    "realDevice": false
+  },
+  "checks": {
+    "openDirectConversationFromParticipants": "passed",
+    "sendMessageWithEnter": "passed",
+    "sendButtonAtLeast44px": "passed",
+    "backButtonAtLeast44px": "passed",
+    "messageInputFontAtLeast16px": "passed",
+    "horizontalOverflow": "none",
+    "dmPanelWcag21Axe": "0 violations"
+  },
+  "e2e": {
+    "file": "../../../../프론트/tests/e2e/direct-message-cross-browser.spec.ts",
+    "testsPassed": 2,
+    "testsFailed": 0
+  },
+  "build": "frontend production build passed",
+  "limitations": [
+    "Browser touch/mobile emulation does not verify iOS or Android device keyboards, screen readers, or real network conditions.",
+    "Cross-account SSO DM behavior still needs manual verification with real HUFS accounts."
+  ]
+}

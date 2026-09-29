@@ -1,0 +1,89 @@
+{
+  "checkedDate": "2026-09-28",
+  "environment": "scripts/e2e.ps1 isolated temporary preview API/World/Vite; Docker SFU used for media checks; Playwright Chromium; test media devices are synthetic",
+  "checks": [
+    {
+      "file": "tests/e2e/event-roster.spec.ts",
+      "result": "PASS",
+      "passed": 2,
+      "area": "presenter-default-and-controls",
+      "assertions": [
+        "legacy, v2, and v3 presenter preferences do not enable tools after the default change",
+        "active event controls remain hidden for an opted-out attendee until that attendee explicitly enables them in Settings",
+        "event controls appear after opt-in and the attendee can raise a hand",
+        "microphone/camera/screen-share controls and Enter nearby-chat entry remain available",
+        "explicit presenter opt-in/roster flow remains functional"
+      ],
+      "total": 2
+    },
+    {
+      "file": "tests/e2e/event-engagement.spec.ts",
+      "result": "PASS",
+      "passed": 2,
+      "area": "presenter-attendance-default",
+      "assertions": [
+        "attendance recording is unchecked by default after the organizer explicitly enables event tools",
+        "event Q&A and poll tools synchronize after each participant explicitly opts in"
+      ],
+      "total": 2
+    },
+    {
+      "file": "tests/e2e/accessibility.spec.ts",
+      "result": "PASS",
+      "passed": 2,
+      "area": "accessibility",
+      "assertions": [
+        "Korean and English landing, media preflight, campus, wardrobe, chat, map, participants, and settings views pass axe-core WCAG 2.1 A/AA scan",
+        "At 390x844, the wardrobe dialog stays within the viewport and the page has no horizontal overflow",
+        "The mobile icon-only Leave Space button has a localized accessible name"
+      ],
+      "total": 2
+    },
+    {
+      "file": "tests/e2e/chat.spec.ts",
+      "result": "PASS",
+      "passed": 5,
+      "area": "nearby-and-mobile-chat",
+      "assertions": [
+        "nearby delivery scope, emoji insertion, unread state",
+        "Enter opens map quick chat and sends nearby message",
+        "390px quick-chat control fits beside movement controls",
+        "composer remains visible above emulated virtual keyboard",
+        "lost acknowledgement reconnect replays the same message exactly once"
+      ],
+      "total": 5
+    },
+    {
+      "viewport": "390x844 mobile emulation + 960x720 desktop",
+      "area": "mobile-camera-microphone-sfu",
+      "test": "mobile and desktop participants exchange microphone and camera RTP over the SFU",
+      "assertions": [
+        "bidirectional inbound audio and video RTP through SFU",
+        "presenter tools absent for both peers",
+        "no horizontal overflow on mobile"
+      ],
+      "file": "tests/e2e/media.spec.ts",
+      "passed": 1,
+      "total": 1,
+      "result": "PASS"
+    },
+    {
+      "assertions": [
+        "microphone/camera/screen-share RTP through SFU",
+        "screen-audio volume control changes the actual SCREEN_AUDIO element from 0 to 1",
+        "receiver is revoked after leaving nearby range",
+        "capture and media resources are cleaned up on leave"
+      ],
+      "file": "tests/e2e/media.spec.ts",
+      "test": "real SFU carries microphone, camera and shared-screen RTP, then revokes distant receivers and cleans up on leave",
+      "passed": 1,
+      "area": "camera-microphone-screenshare-sfu",
+      "result": "PASS",
+      "total": 1
+    }
+  ],
+  "limitations": [
+    "Browser media uses synthetic Playwright devices; this is not a physical iOS/Android device check.",
+    "An actual HUFS SSO phone login and room join were not exercised."
+  ]
+}

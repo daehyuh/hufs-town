@@ -1,0 +1,2 @@
+allowBuilds:
+  mediasoup: set this to true or false

@@ -1,0 +1,5 @@
+town:
+  auth:
+    mode: ${TOWN_AUTH_MODE:preview}
+    cookie-secure: ${TOWN_COOKIE_SECURE:false}
+  local-preview: true

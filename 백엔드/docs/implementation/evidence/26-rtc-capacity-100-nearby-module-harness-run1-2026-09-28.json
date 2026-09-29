@@ -1,0 +1,1770 @@
+{
+  "status": "PASS",
+  "startedAt": "2026-09-28T00:25:56.566Z",
+  "finishedAt": "2026-09-28T00:26:08.095Z",
+  "tier": 100,
+  "participantsRequested": 100,
+  "participantsJoined": 100,
+  "uniquePlayerIds": 100,
+  "activeSpeakers": 1,
+  "speakerMediaOffersObserved": 12,
+  "participantsWithAuthoritativeMovement": 100,
+  "minAuthoritativeMovementDistance": 0.6015625,
+  "spaceChatRecipients": 100,
+  "participantsWithInboundAudioRtpIceAndDtls": 12,
+  "mediaMode": "nearby proximity; presenter/event mode not activated",
+  "selectedSpeakerPlayerId": "a1933ef7-5833-427a-baeb-42979bcde6eb",
+  "selectedSpeakerNearbyPeers": [
+    "16a4cde9-0aee-4cca-99c0-fd08a20cd4ba",
+    "23da90e4-b52b-46cc-84c7-6922258f5360",
+    "3b9515da-798a-4bd6-b0a8-05be595c0922",
+    "5675c181-cb3f-475f-bb6d-86b9a9d006b3",
+    "70839a7c-a41f-4f39-b710-2b3bdd073029",
+    "71283e66-93f5-4bfd-8429-f1654a0dcf1e",
+    "8c167cfd-2412-404d-a402-b82674ae30f3",
+    "8c293d8d-d407-4e01-84c4-af460ed8e8c5",
+    "b8426c33-0874-4413-9fdb-ee83221343d9",
+    "c6533505-7604-4520-83c6-a20e20727406",
+    "cd015e53-ff64-4168-9532-b755b2176713",
+    "d52e6e3c-b9f3-4884-8a5a-9cf21e2be8fd"
+  ],
+  "selectedSpeakerNearbyPeerCount": 12,
+  "nearbyPeerLimit": 12,
+  "receivedSpeakerAudioPlayerIds": [
+    "3b9515da-798a-4bd6-b0a8-05be595c0922",
+    "8c167cfd-2412-404d-a402-b82674ae30f3",
+    "d52e6e3c-b9f3-4884-8a5a-9cf21e2be8fd",
+    "16a4cde9-0aee-4cca-99c0-fd08a20cd4ba",
+    "70839a7c-a41f-4f39-b710-2b3bdd073029",
+    "5675c181-cb3f-475f-bb6d-86b9a9d006b3",
+    "b8426c33-0874-4413-9fdb-ee83221343d9",
+    "23da90e4-b52b-46cc-84c7-6922258f5360",
+    "cd015e53-ff64-4168-9532-b755b2176713",
+    "c6533505-7604-4520-83c6-a20e20727406",
+    "71283e66-93f5-4bfd-8429-f1654a0dcf1e",
+    "8c293d8d-d407-4e01-84c4-af460ed8e8c5"
+  ],
+  "expectedParticipantsWithInboundAudio": 12,
+  "minInboundAudioBytesAcrossRecipients": 5814,
+  "minInboundAudioPacketsAcrossRecipients": 120,
+  "mediaEngine": "isolated host capacity SFU; actual WorldConnection and MediaController modules",
+  "browser": "Chromium with fake microphone; single-page product-module harness",
+  "hostLimits": {
+    "minFreeMemoryMb": 2048,
+    "stopIfCpuAtOrAbovePercentForSeconds": 95,
+    "cpuStopConsecutiveSamples": 20,
+    "maxClients": 100
+  },
+  "hostResources": {
+    "totalMemoryMb": 32631,
+    "finalAvailableMemoryMb": 6168,
+    "peakUsedMemoryPercent": 81.1,
+    "peakCpuPercent": 92.1
+  },
+  "participants": [
+    {
+      "identity": "preview-rtc-module-001",
+      "playerId": "a1933ef7-5833-427a-baeb-42979bcde6eb",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-002",
+      "playerId": "3b9515da-798a-4bd6-b0a8-05be595c0922",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 1,
+      "receivedSpeakerMicrophone": true
+    },
+    {
+      "identity": "preview-rtc-module-003",
+      "playerId": "8c167cfd-2412-404d-a402-b82674ae30f3",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 1,
+      "receivedSpeakerMicrophone": true
+    },
+    {
+      "identity": "preview-rtc-module-004",
+      "playerId": "d52e6e3c-b9f3-4884-8a5a-9cf21e2be8fd",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 1,
+      "receivedSpeakerMicrophone": true
+    },
+    {
+      "identity": "preview-rtc-module-005",
+      "playerId": "16a4cde9-0aee-4cca-99c0-fd08a20cd4ba",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 1,
+      "receivedSpeakerMicrophone": true
+    },
+    {
+      "identity": "preview-rtc-module-006",
+      "playerId": "70839a7c-a41f-4f39-b710-2b3bdd073029",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 1,
+      "receivedSpeakerMicrophone": true
+    },
+    {
+      "identity": "preview-rtc-module-007",
+      "playerId": "5675c181-cb3f-475f-bb6d-86b9a9d006b3",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 1,
+      "receivedSpeakerMicrophone": true
+    },
+    {
+      "identity": "preview-rtc-module-008",
+      "playerId": "b8426c33-0874-4413-9fdb-ee83221343d9",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 1,
+      "receivedSpeakerMicrophone": true
+    },
+    {
+      "identity": "preview-rtc-module-009",
+      "playerId": "23da90e4-b52b-46cc-84c7-6922258f5360",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 1,
+      "receivedSpeakerMicrophone": true
+    },
+    {
+      "identity": "preview-rtc-module-010",
+      "playerId": "cd015e53-ff64-4168-9532-b755b2176713",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 1,
+      "receivedSpeakerMicrophone": true
+    },
+    {
+      "identity": "preview-rtc-module-011",
+      "playerId": "c6533505-7604-4520-83c6-a20e20727406",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 1,
+      "receivedSpeakerMicrophone": true
+    },
+    {
+      "identity": "preview-rtc-module-012",
+      "playerId": "71283e66-93f5-4bfd-8429-f1654a0dcf1e",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 1,
+      "receivedSpeakerMicrophone": true
+    },
+    {
+      "identity": "preview-rtc-module-013",
+      "playerId": "8c293d8d-d407-4e01-84c4-af460ed8e8c5",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 1,
+      "receivedSpeakerMicrophone": true
+    },
+    {
+      "identity": "preview-rtc-module-014",
+      "playerId": "1bbb034a-7640-4b62-9805-12e92f1cb9cb",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-015",
+      "playerId": "3e40a58a-6e21-47ba-9423-04cdadb0d950",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-016",
+      "playerId": "3c781432-8f36-4020-b71d-7ea5947f1692",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-017",
+      "playerId": "b5272726-ed53-4034-8776-17fda27ab18c",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-018",
+      "playerId": "f5a240b8-1fdb-44e9-afc8-51e92dd4a6cf",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-019",
+      "playerId": "adc1c0c6-da5d-4b1a-84dc-4f4e297fa5d6",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-020",
+      "playerId": "de81ed81-508e-4323-942a-e3c4a207a6a7",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-021",
+      "playerId": "3200e1e1-cde5-4702-8d62-e9ba91e79c2a",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-022",
+      "playerId": "0bae3210-bd0e-469d-ad0f-38d8976683b6",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-023",
+      "playerId": "3b7c3521-a862-4c5c-bd33-becb28639074",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-024",
+      "playerId": "0be70277-3183-432a-8fd1-c67fa0ee1965",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-025",
+      "playerId": "a272ed00-a646-4b56-b7b0-0a1fb910ff2b",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-026",
+      "playerId": "3271fa3d-1d23-46c9-8709-395040095e6e",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-027",
+      "playerId": "66e0d7fc-b981-458a-850e-0a0121981304",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-028",
+      "playerId": "07f60fdf-a7a8-49a6-875f-61ce3d20812c",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-029",
+      "playerId": "11778f25-8fcf-4b9f-8051-3401973c25ba",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-030",
+      "playerId": "75c67785-bb21-4c3e-8c08-439d45aaba9b",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-031",
+      "playerId": "a0842833-f9f5-48a8-bf5f-ecadce24f489",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-032",
+      "playerId": "018938cf-c615-4475-891c-cf81068fe865",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-033",
+      "playerId": "4e2623a2-dcb0-473d-9a3c-b160794d3dd0",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-034",
+      "playerId": "c00506dc-0057-4945-939c-b5adc67dda63",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-035",
+      "playerId": "ef58262b-0a7c-4ef1-a9ff-e291665f3911",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-036",
+      "playerId": "592d5767-c9bd-450e-82ad-28f87b3b6599",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-037",
+      "playerId": "1fd3e936-fe7f-43df-888e-3110eeebb756",
+      "status": "online",
+      "nearbyPeerCount": 8,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-038",
+      "playerId": "9d71e91d-979a-4886-9093-3d9afdbc92fa",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-039",
+      "playerId": "787619ec-b1bf-42f2-aa4f-60e960c49d9c",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-040",
+      "playerId": "a708a2ff-9b98-43a7-8ec5-b94b980d9f7c",
+      "status": "online",
+      "nearbyPeerCount": 11,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-041",
+      "playerId": "4a7b81b3-973c-4332-a305-ac750b145bd0",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-042",
+      "playerId": "5aa75c36-0d30-4ecf-aae9-0a12aa3f1fd2",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-043",
+      "playerId": "59d51e73-c29b-4313-97d5-c2190f359f0c",
+      "status": "online",
+      "nearbyPeerCount": 8,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-044",
+      "playerId": "22567e19-7951-4df0-8722-6c0ece7876d0",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-045",
+      "playerId": "10045df0-6697-49a5-ae65-17e181ce28fe",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-046",
+      "playerId": "74c9f951-7ffd-4121-86f8-8bf87bae0a70",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-047",
+      "playerId": "1b816b6f-ad56-4812-92d3-7ff313378973",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-048",
+      "playerId": "2b438cca-108b-48d0-8480-9b20de10c8bf",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-049",
+      "playerId": "4f755646-a120-48da-8e16-6e3e14cde273",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-050",
+      "playerId": "031b8aad-df78-40a4-9772-1dd59a576807",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-051",
+      "playerId": "aa43fa9c-f606-4fc8-bd5e-6876ad8dfef4",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-052",
+      "playerId": "ff03bad3-165e-4ddc-af68-773bef05fce1",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-053",
+      "playerId": "90d8b9f6-87e5-4dec-8189-05f4ccbc5541",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-054",
+      "playerId": "6da0bc43-9adf-4d3b-984f-03eb2f5a49ff",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-055",
+      "playerId": "a946e6da-adb5-40a6-affb-81447686f9b9",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-056",
+      "playerId": "c5e394dc-e922-4913-b076-7cdc8c7b406b",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-057",
+      "playerId": "093f39d2-0bd7-403d-9e09-3ab13eb16f2f",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-058",
+      "playerId": "81dfb00d-3c01-435a-884e-55ec8944c159",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-059",
+      "playerId": "ac33fb67-c8ad-4852-8395-c209b00312cd",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-060",
+      "playerId": "87fab7ee-14e9-44f7-aa48-0ef89090770f",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-061",
+      "playerId": "1eec0312-d020-417d-868c-5308938d1556",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-062",
+      "playerId": "e0e9a243-2d38-4ef0-a37b-6402a91d40a3",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-063",
+      "playerId": "0b3bcd16-0258-4a47-8741-cfe329182770",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-064",
+      "playerId": "480357c7-8f53-436f-b2da-e98d4f070246",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-065",
+      "playerId": "09e90a0e-9b10-410b-b56d-9db5cd263628",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-066",
+      "playerId": "d7a35056-f6bd-499c-bab8-c6432616df15",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-067",
+      "playerId": "8379c18f-bece-457c-9826-0399c64db382",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-068",
+      "playerId": "5b2b8f2e-4863-42c3-9435-0ff2a0aa8bd2",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-069",
+      "playerId": "be5f0110-99d5-49e3-80f9-1d2ef95ae198",
+      "status": "online",
+      "nearbyPeerCount": 5,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-070",
+      "playerId": "a44bbf36-8bb7-4ced-8c08-13307eeb100e",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-071",
+      "playerId": "befb9275-4191-4b9d-bf9b-dabb50c579f0",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-072",
+      "playerId": "26740146-e7d3-4af8-b87b-26423dde08a2",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-073",
+      "playerId": "1516cf22-dd6c-4284-a93b-743bd96c44c3",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-074",
+      "playerId": "10845d95-f6af-4374-84d4-c59f9faa3efc",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-075",
+      "playerId": "a4afdd12-323b-471c-be4c-56fabb731129",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-076",
+      "playerId": "73f07be4-a552-4a80-91b7-5b0a5faa2cb0",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-077",
+      "playerId": "8a70b2a0-d5f0-4dbb-b17d-49ef95072cc8",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-078",
+      "playerId": "2988b2ec-353b-487f-adbe-e8624885af6e",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-079",
+      "playerId": "ed67fc8d-fd3f-4ea5-9d6c-ac2a3e9766ed",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-080",
+      "playerId": "1f0bfdc5-5a28-44e3-ab74-67df4f470357",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-081",
+      "playerId": "7804e4d3-4b16-4502-a7f8-3cd4cb922b63",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-082",
+      "playerId": "6456b921-5ecc-445b-86b1-1c56d97be426",
+      "status": "online",
+      "nearbyPeerCount": 6,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-083",
+      "playerId": "c8bbcd7f-da63-4a0e-b561-be0aa620d13d",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-084",
+      "playerId": "0e9210cf-7d1d-4485-ac5b-9d21cc12d830",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-085",
+      "playerId": "3cae9465-7003-445d-9321-b8e8900ba38c",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-086",
+      "playerId": "7bc6950d-c719-43d1-aab6-77317011ebc3",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-087",
+      "playerId": "146e4813-696b-46a8-9550-f201bef14269",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-088",
+      "playerId": "3f582cdf-d069-4c3d-8390-aafcaaedfb8c",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-089",
+      "playerId": "332474ac-5b72-4728-b388-a589e8765896",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-090",
+      "playerId": "5df999c1-82a5-43b9-88f6-3ca57ac57dce",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-091",
+      "playerId": "b2c68db6-b353-49cb-8b2e-a003821a1db3",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-092",
+      "playerId": "04f07d61-8bf6-44fa-a66d-19146ed7c094",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-093",
+      "playerId": "d3ca0be8-1992-40e7-a281-2edc60914c93",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-094",
+      "playerId": "00636178-ef82-41a0-b8b6-ba56296f93e9",
+      "status": "online",
+      "nearbyPeerCount": 8,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-095",
+      "playerId": "ee3f0e6d-e1f6-495a-9033-2c44f29bbcb1",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-096",
+      "playerId": "e8ef0c9e-6b4b-47cf-92d0-0088156f3631",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-097",
+      "playerId": "4fb9209a-36dc-473e-a318-9bcd0c929f69",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-098",
+      "playerId": "bf930fba-9203-4ce9-8b46-dbde2fc5cf7f",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-099",
+      "playerId": "af37745d-d3ff-4dad-bd9d-b31b97cf5454",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    },
+    {
+      "identity": "preview-rtc-module-100",
+      "playerId": "d6a4097f-0a84-4934-ab72-4c5400f49fe6",
+      "status": "online",
+      "nearbyPeerCount": 12,
+      "speakerOffers": 0,
+      "receivedSpeakerMicrophone": false
+    }
+  ],
+  "peers": [
+    {
+      "connectionState": "connected",
+      "iceConnectionState": "connected",
+      "dtlsStates": [
+        "connected"
+      ],
+      "audioBytesReceived": 5814,
+      "audioPacketsReceived": 120,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "connected",
+      "iceConnectionState": "connected",
+      "dtlsStates": [
+        "connected"
+      ],
+      "audioBytesReceived": 5814,
+      "audioPacketsReceived": 120,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "connected",
+      "iceConnectionState": "connected",
+      "dtlsStates": [
+        "connected"
+      ],
+      "audioBytesReceived": 5814,
+      "audioPacketsReceived": 120,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "connected",
+      "iceConnectionState": "connected",
+      "dtlsStates": [
+        "connected"
+      ],
+      "audioBytesReceived": 5814,
+      "audioPacketsReceived": 120,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "connected",
+      "iceConnectionState": "connected",
+      "dtlsStates": [
+        "connected"
+      ],
+      "audioBytesReceived": 5814,
+      "audioPacketsReceived": 120,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "connected",
+      "iceConnectionState": "connected",
+      "dtlsStates": [
+        "connected"
+      ],
+      "audioBytesReceived": 5985,
+      "audioPacketsReceived": 124,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "connected",
+      "iceConnectionState": "connected",
+      "dtlsStates": [
+        "connected"
+      ],
+      "audioBytesReceived": 5814,
+      "audioPacketsReceived": 120,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "connected",
+      "iceConnectionState": "connected",
+      "dtlsStates": [
+        "connected"
+      ],
+      "audioBytesReceived": 5857,
+      "audioPacketsReceived": 121,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "connected",
+      "iceConnectionState": "connected",
+      "dtlsStates": [
+        "connected"
+      ],
+      "audioBytesReceived": 5814,
+      "audioPacketsReceived": 120,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "connected",
+      "iceConnectionState": "connected",
+      "dtlsStates": [
+        "connected"
+      ],
+      "audioBytesReceived": 5814,
+      "audioPacketsReceived": 120,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "connected",
+      "iceConnectionState": "connected",
+      "dtlsStates": [
+        "connected"
+      ],
+      "audioBytesReceived": 5857,
+      "audioPacketsReceived": 121,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "connected",
+      "iceConnectionState": "connected",
+      "dtlsStates": [
+        "connected"
+      ],
+      "audioBytesReceived": 5857,
+      "audioPacketsReceived": 121,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "new",
+      "iceConnectionState": "new",
+      "dtlsStates": [],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 0
+    },
+    {
+      "connectionState": "connected",
+      "iceConnectionState": "connected",
+      "dtlsStates": [
+        "connected"
+      ],
+      "audioBytesReceived": 0,
+      "audioPacketsReceived": 0,
+      "audioBytesSent": 6852
+    }
+  ],
+  "resourceSamples": [
+    {
+      "elapsedMs": 1017,
+      "availableMemoryMb": 6561,
+      "usedMemoryPercent": 79.9,
+      "cpuPercent": 85.5
+    },
+    {
+      "elapsedMs": 2017,
+      "availableMemoryMb": 6514,
+      "usedMemoryPercent": 80,
+      "cpuPercent": 92.1
+    },
+    {
+      "elapsedMs": 3032,
+      "availableMemoryMb": 6490,
+      "usedMemoryPercent": 80.1,
+      "cpuPercent": 85.9
+    },
+    {
+      "elapsedMs": 4038,
+      "availableMemoryMb": 6429,
+      "usedMemoryPercent": 80.3,
+      "cpuPercent": 77.4
+    },
+    {
+      "elapsedMs": 5049,
+      "availableMemoryMb": 6299,
+      "usedMemoryPercent": 80.7,
+      "cpuPercent": 78.2
+    },
+    {
+      "elapsedMs": 6050,
+      "availableMemoryMb": 6285,
+      "usedMemoryPercent": 80.7,
+      "cpuPercent": 81.8
+    },
+    {
+      "elapsedMs": 7052,
+      "availableMemoryMb": 6253,
+      "usedMemoryPercent": 80.8,
+      "cpuPercent": 88
+    },
+    {
+      "elapsedMs": 8055,
+      "availableMemoryMb": 6193,
+      "usedMemoryPercent": 81,
+      "cpuPercent": 82.6
+    },
+    {
+      "elapsedMs": 9062,
+      "availableMemoryMb": 6181,
+      "usedMemoryPercent": 81.1,
+      "cpuPercent": 62.4
+    },
+    {
+      "elapsedMs": 10062,
+      "availableMemoryMb": 6151,
+      "usedMemoryPercent": 81.1,
+      "cpuPercent": 65.8
+    },
+    {
+      "elapsedMs": 11062,
+      "availableMemoryMb": 6156,
+      "usedMemoryPercent": 81.1,
+      "cpuPercent": 69.7
+    }
+  ]
+}

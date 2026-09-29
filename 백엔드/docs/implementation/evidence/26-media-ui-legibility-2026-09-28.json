@@ -1,0 +1,44 @@
+{
+  "checkedDate": "2026-09-28",
+  "scope": "Improve readability and touch targets for nearby voice, camera, and screen sharing while keeping presenter/event tools opt-in.",
+  "productDefaults": {
+    "nearbyChat": "Available from the world with Enter.",
+    "microphoneCameraScreenShare": "Core communication controls remain available by default.",
+    "presenterAndEventTools": "Hidden by default; visible only after the user explicitly enables supplemental event tools in Settings. Attendance remains disabled by default."
+  },
+  "changes": [
+    "Increased media call status, camera captions, screen-share headings, and mobile media control labels.",
+    "Expanded camera pin and floating-panel resize touch targets.",
+    "Kept camera and screen-share panels movable and resizable, with independent shared-screen audio volume."
+  ],
+  "validation": {
+    "desktopCoreMedia": {
+      "result": "PASS",
+      "passed": 1,
+      "test": "real SFU carries microphone, camera and shared-screen RTP, then revokes distant receivers and cleans up on leave",
+      "assertions": [
+        "Microphone, camera, and shared-screen RTP flowed through the local SFU.",
+        "Call status, camera heading, and pin touch target met the updated minimum sizes.",
+        "Screen-share panel drag and resize continued to work."
+      ]
+    },
+    "mobileAndDesktopCoreMedia": {
+      "result": "PASS",
+      "passed": 1,
+      "test": "mobile and desktop participants exchange microphone and camera RTP over the SFU",
+      "viewport": "390x844 mobile emulation and 960x720 desktop",
+      "assertions": [
+        "Microphone and camera RTP flowed through the local SFU.",
+        "Mobile call status, control labels, and camera captions met the updated font-size minimums.",
+        "No horizontal overflow was introduced."
+      ]
+    },
+    "frontendProductionBuild": "PASS; existing Phaser chunk-size warning remains.",
+    "prettier": "PASS for the updated styles and media E2E test.",
+    "runtime": "Used the existing shared local SFU without restarting it; no production deployment."
+  },
+  "limitations": [
+    "Physical iOS and Android layouts and touch interaction were not tested.",
+    "Shared Media and Prometheus runtimes still need a coordinated local activation to expose the new media metrics; no restart or reload was performed."
+  ]
+}

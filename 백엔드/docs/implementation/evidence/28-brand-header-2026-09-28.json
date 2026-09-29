@@ -1,0 +1,33 @@
+{
+  "date": "2026-09-28",
+  "change": "Use the GDG HUFS product name consistently in application headers",
+  "brand": {
+    "ko": "GDG HUFS 훕스타운",
+    "en": "GDG HUFS Town",
+    "removedDecorativeCaption": "GOOGLE DEVELOPER GROUPS"
+  },
+  "checks": {
+    "koreanLandingAndCampusHeader": "passed",
+    "englishLandingHeader": "passed",
+    "mobileViewport": "390x844",
+    "mobileHorizontalOverflow": "none",
+    "decorativeBrandCaption": "absent",
+    "koreanAccessibility": "passed",
+    "englishAccessibility": "passed"
+  },
+  "e2e": {
+    "files": [
+      "../../../../프론트/tests/e2e/landing-brand.spec.ts",
+      "../../../../프론트/tests/e2e/direct-message-cross-browser.spec.ts",
+      "../../../../프론트/tests/e2e/accessibility.spec.ts"
+    ],
+    "testsPassed": 6,
+    "testsFailed": 0
+  },
+  "build": "frontend production build passed",
+  "production": {
+    "deployed": false,
+    "currentPublicTitle": "HUFS Town · 우리의 온라인 캠퍼스",
+    "expectedPublicTitle": "GDG HUFS 훕스타운"
+  }
+}

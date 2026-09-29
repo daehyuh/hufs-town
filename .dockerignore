@@ -1,0 +1,14 @@
+**/.git
+/.hufs-town-source-files
+**/.env
+**/.env.*
+**/node_modules
+**/dist
+**/build
+**/.build
+**/.gradle
+**/.local
+**/test-results
+**/playwright-report
+**/coverage
+**/tsconfig.tsbuildinfo

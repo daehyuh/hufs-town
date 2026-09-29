@@ -1,0 +1,25 @@
+{
+  "checkedDate": "2026-09-28",
+  "environment": "Playwright Chromium against the isolated preview Vite/API/World stack on loopback port 5174.",
+  "passed": {
+    "count": 8,
+    "areas": [
+      "English campus bootstrap failure copy",
+      "expired and unavailable SSO callback guidance",
+      "English guest-denial guidance",
+      "mobile GDG HUFS landing header",
+      "English space creation and management dialogs",
+      "English chat-history error handling",
+      "moderation review UI in English"
+    ],
+    "command": "$env:TOWN_E2E_BASE_URL='http://127.0.0.1:5174'; pnpm exec playwright test tests/e2e/auth.spec.ts tests/e2e/moderation-access.spec.ts tests/e2e/guest-entry.spec.ts tests/e2e/landing-brand.spec.ts tests/e2e/spaces.spec.ts --grep 'English' --project=chromium"
+  },
+  "notAssessed": {
+    "englishCampusAccessibility": "The test was pointed at http://127.0.0.1:5174, while this secure preview accepts the configured HTTPS MagicDNS origin. The world remained in Connecting/Reconnecting, so the campus accessibility scan did not run. This is a test-origin mismatch, not a WCAG result.",
+    "rerun": "Repeat on the HTTPS Serve origin after Tailscale Serve is enabled, or use a local preview whose API/World allow the test origin."
+  },
+  "limitations": [
+    "No production SSO session or physical phone was used.",
+    "T32.1 remains incomplete; other screens, full responsive coverage, and screen-reader verification are still open."
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "checkedDate": "2026-09-28",
+  "scope": "Isolated local preview only; does not represent production ARM64 or public network capacity.",
+  "worldJoinBurst": {
+    "clientCount": 100,
+    "mediaEnabled": false,
+    "steadyStateSeconds": 20,
+    "results": [
+      {
+        "maxJoinsPerTick": 8,
+        "all100Joined": true,
+        "client101": "FULL",
+        "joinConvergenceMs": 1021,
+        "joinTicks": 21,
+        "joinTicksOver50ms": 2,
+        "steadyTickP95Ms": 1.695744,
+        "steadyTicksOver50ms": 0
+      },
+      {
+        "maxJoinsPerTick": 4,
+        "all100Joined": true,
+        "client101": "FULL",
+        "joinConvergenceMs": 1448,
+        "joinTicks": 29,
+        "joinTicksOver50ms": 1,
+        "steadyTickP95Ms": 2.8672,
+        "steadyTicksOver50ms": 0
+      },
+      {
+        "maxJoinsPerTick": 2,
+        "all100Joined": true,
+        "client101": "FULL",
+        "joinConvergenceMs": 2773,
+        "joinTicks": 54,
+        "joinTicksOver50ms": 1,
+        "steadyTickP95Ms": 2.736128,
+        "steadyTicksOver50ms": 0
+      }
+    ],
+    "selectedDefault": 8,
+    "selectionReason": "It converged fastest in this three-run sample; lower limits reduced join-phase overruns slightly but made all-100 convergence slower. No default was changed.",
+    "diagnosticJfrRun": {
+      "maxJoinsPerTick": 8,
+      "all100Joined": true,
+      "client101": "FULL",
+      "joinConvergenceMs": 996,
+      "joinTicksOver50ms": 3,
+      "steadyTickP95Ms": 2.342912,
+      "steadyTicksOver50ms": 0,
+      "caveat": "JFR profiling was enabled and can perturb timing; excluded from the default comparison."
+    }
+  },
+  "fullUiNearbyAudio": {
+    "status": "PASS",
+    "participantsRequested": 25,
+    "participantsJoined": 25,
+    "uniquePlayerIds": 25,
+    "activeMicrophoneSenders": 4,
+    "expectedInboundAudioStreams": 48,
+    "participantsWithInboundAudioRtpIceAndDtls": 13,
+    "rtpHoldSeconds": 15,
+    "rtpObservedSeconds": 15.1,
+    "minimumBytesIncreasePerReceivingParticipant": 134805,
+    "minimumPacketsIncreasePerReceivingParticipant": 2271,
+    "mediaMode": "nearby proximity; presenter/event mode not activated",
+    "browser": "Chromium with synthetic microphone devices; full React application UI",
+    "resources": {
+      "totalMemoryMb": 32631,
+      "finalAvailableMemoryMb": 3929,
+      "peakUsedMemoryPercent": 87.9,
+      "peakCpuPercent": 99,
+      "safeStopTriggered": false
+    },
+    "sourceRun": ".build/backend/rtc-capacity/20260928-212924-1451748/rtc-capacity.json"
+  },
+  "largerFullUiTiers": {
+    "100": {
+      "status": "SAFE_STOP",
+      "reason": "Host free memory reached 2045 MiB, below the configured 2048 MiB reserve. This is a development-host limit, not an SFU assertion failure."
+    },
+    "50": {
+      "status": "SAFE_STOP",
+      "reason": "Host free memory reached 4074 MiB, below the deliberately higher configured 4096 MiB reserve. This does not establish a hard 50-client product limit."
+    }
+  },
+  "existing100ParticipantRtpEvidence": {
+    "participants": 100,
+    "activeMicrophoneSenders": 12,
+    "rtpHoldSeconds": 300,
+    "status": "PASS",
+    "evidence": "26-rtc-capacity-100-nearby-12-mics-300s-2026-09-28.json",
+    "scope": "Single-page product-module harness, not 100 full React interfaces; no camera/screen video fan-out or public TURN."
+  },
+  "remainingForT26_1": [
+    "100 full React interfaces with sustained media on a suitably provisioned host",
+    "Camera and screen-share video fan-out at the declared scale",
+    "Production-like MariaDB/Redis plus World/SFU integration and externally reachable ICE/TURN",
+    "Production ARM64 capacity evidence"
+  ]
+}

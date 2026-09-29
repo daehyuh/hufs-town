@@ -1,0 +1,25 @@
+{
+  "date": "2026-09-28",
+  "microphone_nameplate": {
+    "world_default": "A joining participant starts with microphoneOn=false.",
+    "world_update": "The microphoneSet command changes microphoneOn and includes the state in world snapshots.",
+    "client_display": "CampusScene renders an on/off badge beside the avatar name when microphoneOn is known; WorldConnection keeps the state through full and delta snapshots.",
+    "verification": {
+      "world_test": "scripts/gradle.ps1 :apps:world:test --tests town.hufs.world.WorldMediaTest --console=plain",
+      "result": "passed",
+      "assertion": "microphonePresenceIsIncludedInSnapshotsAndTurnsOffWhenMuted"
+    }
+  },
+  "deployment_source_package": {
+    "archive": "C:/Project/hufstown/.build/deployment-source/hufs-town-source-20260928T135415Z-7f646eb5.tar.gz",
+    "sha256": "8C141FD0D6E3677AED9960EC3FEDEAAC95C4B48FEB71132F7605AEEBD41966C9",
+    "entries": 1421,
+    "created_by": "scripts/package-production-source.ps1",
+    "checks": [
+      "contains backend, frontend, and root .dockerignore",
+      "contains the latest event-tools preference reset",
+      "excludes .env files, dependencies, build output, caches, logs, and test output (0 forbidden entries)"
+    ],
+    "uploaded_or_deployed": false
+  }
+}

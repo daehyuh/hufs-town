@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-28",
+  "change": "WorldConnection keeps the newest player/room state immediately while coalescing React subscribers to one notification every 250 ms. Every applied snapshot still reaches onSnapshot consumers, including the game renderer.",
+  "checks": {
+    "unitTestFiles": 46,
+    "unitTestsPassed": 156,
+    "typecheck": "passed",
+    "productionBuild": "passed",
+    "presenterToolsOffAndCoreControls": "Chromium E2E passed 1/1"
+  },
+  "fullReactCapacityRetest": {
+    "command": ".\\scripts\\rtc-capacity-e2e.ps1 -Clients 50 -Speakers 4 -SkipBuild",
+    "status": "SAFE_STOP",
+    "participantsRequested": 50,
+    "participantsJoined": 42,
+    "safeStop": "Host CPU remained at or above 95% for 20 consecutive one-second samples.",
+    "minimumAvailableMemoryMb": 2460,
+    "pageErrors": 0,
+    "interpretation": "The local host saturated while running many complete Chromium pages; this is not evidence that 50 production users or the World service failed. It does not certify 50 React pages on this host."
+  },
+  "capacityTask": "T26.1 remains incomplete"
+}

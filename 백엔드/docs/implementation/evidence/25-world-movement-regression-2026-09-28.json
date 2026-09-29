@@ -1,0 +1,41 @@
+{
+  "checkedDate": "2026-09-28",
+  "environment": "Isolated Preview API/World/Vite with Chromium Playwright; synthetic browser sessions",
+  "results": [
+    {
+      "file": "프론트/tests/e2e/campus.spec.ts",
+      "result": "PASS",
+      "passed": 12,
+      "total": 12,
+      "areas": [
+        "multi-client movement, emotes, and departures",
+        "click-to-walk across a map partition with no backwards route samples",
+        "movement convergence under delayed and dropped inputs",
+        "reconnect and seat resumption",
+        "targeted poke and cooldown behavior",
+        "mobile touch controls and rotation",
+        "Korean and English keyboard navigation",
+        "in-world language switch",
+        "wardrobe profile persistence and appearance propagation"
+      ]
+    },
+    {
+      "file": "프론트/tests/e2e/space-participants.spec.ts",
+      "result": "PASS",
+      "passed": 1,
+      "total": 1,
+      "areas": [
+        "cross-map participant search and profile",
+        "approved join request and destination map transfer"
+      ]
+    }
+  ],
+  "changes": [
+    "Updated the cross-map test to locate the current participant tab panel name.",
+    "Allowed 10 seconds for the 11.5-tile click-walk route to converge during a full E2E suite; exact arrival and zero backwards samples remain asserted."
+  ],
+  "limitations": [
+    "Preview SSO identities and maps are synthetic; actual HUFS SSO accounts were not used.",
+    "Browser movement tests do not replace a physical phone usability check."
+  ]
+}

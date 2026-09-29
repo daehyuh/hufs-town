@@ -1,0 +1,380 @@
+.scheduled-events {
+  display: grid;
+  gap: 12px;
+  min-width: min(520px, calc(100vw - 64px));
+}
+.scheduled-events-intro,
+.scheduled-events-empty {
+  margin: 0;
+  color: #5f6a56;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.scheduled-events-error {
+  margin: 0;
+  padding: 9px 11px;
+  border-radius: 9px;
+  background: #fff0ed;
+  color: #9a3e32;
+  font-size: 12px;
+}
+.scheduled-events-success {
+  margin: 0;
+  padding: 9px 11px;
+  border-radius: 9px;
+  background: #eef7e9;
+  color: #376d43;
+  font-size: 12px;
+}
+.scheduled-events-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 8px 12px;
+  border: 1px solid #dbe7d4;
+  border-radius: 9px;
+  background: #f4f8f0;
+  color: #527247;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+}
+.scheduled-events-form {
+  display: grid;
+  gap: 10px;
+  padding: 13px;
+  border: 1px solid #e0e8da;
+  border-radius: 12px;
+  background: #fbfcf9;
+}
+.scheduled-events-form-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #44563b;
+  font-size: 13px;
+}
+.scheduled-events-form label {
+  display: grid;
+  gap: 5px;
+  color: #66745c;
+  font-size: 11px;
+  font-weight: 650;
+}
+.scheduled-events-form label small {
+  display: inline;
+  color: #637054;
+  font-weight: 400;
+}
+.scheduled-events-form input,
+.scheduled-events-form textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 9px 10px;
+  border: 1px solid #dce5d8;
+  border-radius: 8px;
+  background: #fff;
+  color: #34412e;
+  font: inherit;
+  font-size: 12px;
+}
+.scheduled-events-form textarea {
+  resize: vertical;
+}
+.scheduled-events-form-actions,
+.scheduled-event-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.scheduled-events-form-actions {
+  justify-content: flex-end;
+}
+.scheduled-events-form-actions button,
+.scheduled-event-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 34px;
+  padding: 7px 10px;
+  border: 1px solid #dce5d8;
+  border-radius: 8px;
+  background: #fff;
+  color: #586a4c;
+  font: inherit;
+  font-size: 11px;
+}
+.scheduled-events-form-actions button[type="submit"],
+.scheduled-event-actions button:first-child {
+  border-color: #58774b;
+  background: #58774b;
+  color: white;
+  font-weight: 700;
+}
+.scheduled-events-form-actions button:disabled,
+.scheduled-event-actions button:disabled {
+  opacity: 0.5;
+}
+.scheduled-events-list {
+  display: grid;
+  gap: 9px;
+  max-height: min(52vh, 520px);
+  overflow: auto;
+}
+.scheduled-event-card {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #e1e8dc;
+  border-radius: 11px;
+  background: #fff;
+}
+.scheduled-event-card.cancelled {
+  background: #f7f7f5;
+}
+.scheduled-event-heading,
+.scheduled-event-heading > div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.scheduled-event-heading {
+  justify-content: space-between;
+  color: #527247;
+}
+.scheduled-event-heading h3 {
+  margin: 0;
+  color: #34432e;
+  font-size: 13px;
+}
+.scheduled-event-cancelled {
+  color: #a4473b;
+  font-size: 10px;
+  font-weight: 700;
+}
+.scheduled-event-time,
+.scheduled-event-instructions,
+.scheduled-event-link {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 0;
+  color: #5f6b57;
+  font-size: 11px;
+  line-height: 1.55;
+}
+.scheduled-event-time svg,
+.scheduled-event-instructions svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+.scheduled-event-description {
+  margin: 0;
+  color: #596650;
+  font-size: 12px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+.scheduled-event-link {
+  align-items: center;
+  width: fit-content;
+  color: #4776a0;
+  text-decoration: none;
+}
+.scheduled-event-rsvp {
+  display: grid;
+  gap: 6px;
+  padding-top: 8px;
+  border-top: 1px solid #edf0e9;
+}
+.scheduled-event-rsvp-counts {
+  color: #596650;
+  font-size: 11px;
+  font-weight: 700;
+}
+.scheduled-event-rsvp-own {
+  color: #58774b;
+  font-size: 10px;
+  font-weight: 700;
+}
+.scheduled-event-rsvp > small {
+  color: #87917e;
+  font-size: 10px;
+  line-height: 1.5;
+}
+.scheduled-event-rsvp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.scheduled-event-rsvp-actions button,
+.scheduled-event-rsvp-withdraw {
+  min-height: 34px;
+  padding: 7px 9px;
+  border: 1px solid #dce5d8;
+  border-radius: 8px;
+  background: #fff;
+  color: #586a4c;
+  font: inherit;
+  font-size: 10px;
+}
+.scheduled-event-rsvp-actions button[aria-pressed="true"] {
+  border-color: #58774b;
+  background: #edf5e8;
+  color: #47623c;
+  font-weight: 700;
+}
+.scheduled-event-rsvp-actions button:disabled,
+.scheduled-event-rsvp-withdraw:disabled {
+  opacity: 0.5;
+}
+.scheduled-event-rsvp-withdraw {
+  justify-self: start;
+}
+.scheduled-event-actions {
+  padding-top: 2px;
+}
+.scheduled-events-refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  justify-self: end;
+  border: 0;
+  background: transparent;
+  color: #596453;
+  font: inherit;
+  font-size: 11px;
+}
+@media (max-width: 520px) {
+  .scheduled-events {
+    min-width: 0;
+  }
+  .scheduled-events-list {
+    max-height: 46vh;
+  }
+}
+
+.room-reservations {
+  display: grid;
+  gap: 12px;
+  min-width: min(520px, calc(100vw - 64px));
+}
+.room-reservations-intro {
+  margin: 0;
+  color: #5f6a56;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.room-reservation-form {
+  display: grid;
+  gap: 10px;
+  padding: 13px;
+  border: 1px solid #e0e8da;
+  border-radius: 12px;
+  background: #fbfcf9;
+}
+.room-reservation-form label {
+  display: grid;
+  gap: 5px;
+  color: #66745c;
+  font-size: 11px;
+  font-weight: 650;
+}
+.room-reservation-form label small {
+  color: #637054;
+  font-weight: 400;
+}
+.room-reservation-form input,
+.room-reservation-form select {
+  width: 100%;
+  min-width: 0;
+  min-height: 36px;
+  padding: 8px 10px;
+  border: 1px solid #dce5d8;
+  border-radius: 8px;
+  background: #fff;
+  color: #34412e;
+  font: inherit;
+  font-size: 12px;
+}
+.room-reservation-list {
+  display: grid;
+  gap: 9px;
+  max-height: min(52vh, 520px);
+  overflow: auto;
+}
+.room-reservation-card {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #e1e8dc;
+  border-radius: 11px;
+  background: #fff;
+}
+.room-reservation-card.cancelled {
+  background: #f7f7f5;
+}
+.room-reservation-title,
+.room-reservation-title > div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.room-reservation-title {
+  justify-content: space-between;
+  color: #527247;
+}
+.room-reservation-title h3 {
+  margin: 0;
+  color: #34432e;
+  font-size: 13px;
+}
+.room-reservation-room,
+.room-reservation-owner,
+.room-reservation-unavailable {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: #5f6b57;
+  font-size: 11px;
+  line-height: 1.55;
+}
+.room-reservation-unavailable {
+  color: #9a3e32;
+}
+.room-reservations-empty {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 20px;
+  border: 1px dashed #d6e0d0;
+  border-radius: 12px;
+  color: #78836f;
+  text-align: center;
+}
+.room-reservations-empty p {
+  margin: 0;
+  font-size: 12px;
+}
+.room-reservations-empty button {
+  min-height: 34px;
+  padding: 7px 10px;
+  border: 1px solid #dce5d8;
+  border-radius: 8px;
+  background: white;
+  color: #586a4c;
+  font: inherit;
+  font-size: 11px;
+}
+@media (max-width: 520px) {
+  .room-reservations {
+    min-width: 0;
+  }
+  .room-reservation-list {
+    max-height: 46vh;
+  }
+}

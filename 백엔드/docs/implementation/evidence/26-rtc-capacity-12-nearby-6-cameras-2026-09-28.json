@@ -1,0 +1,48 @@
+{
+  "date": "2026-09-28",
+  "test": "twelve nearby participants receive six concurrent camera RTP streams",
+  "command": ".\\scripts\\e2e.ps1 -SkipBuild -Media -TestFile tests/e2e/media.spec.ts -TestName 'twelve nearby participants receive six concurrent camera RTP streams'",
+  "environment": {
+    "browser": "Chromium",
+    "participants": 12,
+    "application": "React application with isolated Preview API/World and local Docker SFU",
+    "capture": "Chromium synthetic camera devices",
+    "mapRendering": "omitted by test-only mode to isolate RTC load"
+  },
+  "result": {
+    "testRunsPassed": 2,
+    "uniqueParticipants": 12,
+    "cameraSenders": 6,
+    "cameraProducers": 6,
+    "cameraConsumers": 66,
+    "consumerCountsByParticipant": [
+      5,
+      5,
+      5,
+      5,
+      5,
+      5,
+      6,
+      6,
+      6,
+      6,
+      6,
+      6
+    ],
+    "pagesReceivingVideoRtpAbove5000Bytes": 12,
+    "decodedCameraTracks": 66,
+    "remoteCameraTilesVisible": 66,
+    "pagesWithRuntimeErrors": 0,
+    "eventModeEnabled": false,
+    "presenterControlsVisible": false
+  },
+  "scope": "Confirms six nearby camera publishers reach every eligible React participant through the real local SFU. The test omits map rendering, and uses Preview auth and synthetic capture.",
+  "notVerified": [
+    "100 simultaneously rendered React clients",
+    "multi-viewer screen-share fan-out",
+    "public Internet or mobile-network TURN relay",
+    "production ARM64 host capacity",
+    "physical cameras and microphones"
+  ],
+  "capacityTask": "T26.1 remains incomplete"
+}

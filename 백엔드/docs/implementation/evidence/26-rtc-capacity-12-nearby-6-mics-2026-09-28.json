@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "date": "2026-09-28",
+  "suite": "frontend/tests/e2e/media.spec.ts",
+  "test": "twelve nearby participants receive six concurrent microphone RTP streams",
+  "durationSeconds": 39,
+  "participants": 12,
+  "uniquePlayerIds": 12,
+  "activeMicrophoneProducers": 6,
+  "expectedInboundAudioConsumerCountsByParticipant": [
+    5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6
+  ],
+  "expectedInboundAudioConsumersTotal": 66,
+  "allParticipantsReceivedInboundAudioRtp": true,
+  "minimumInboundAudioBytesAssertion": 5000,
+  "phaserMapRendering": "disabled for this media capacity test only",
+  "mediaPath": "isolated Preview API/World and local Docker mediasoup SFU",
+  "pageErrors": 0
+}

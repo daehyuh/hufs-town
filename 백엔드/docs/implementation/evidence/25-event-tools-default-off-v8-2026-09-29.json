@@ -1,0 +1,38 @@
+{
+  "date": "2026-09-29",
+  "change": "Bump the event-tools preference to v8 and clear v1-v7 persisted opt-ins, so updates start with supplemental presenter/event tools hidden.",
+  "files": [
+    "프론트/src/events/eventToolsPreference.ts",
+    "프론트/tests/unit/eventToolsPreference.test.ts",
+    "프론트/tests/e2e/event-roster.spec.ts"
+  ],
+  "validation": {
+    "frontend_unit": {
+      "command": "pnpm test",
+      "test_files_passed": 47,
+      "tests_passed": 159
+    },
+    "browser": {
+      "command": "scripts/e2e.ps1 -SkipBuild -TestFile tests/e2e/event-roster.spec.ts",
+      "passed": 2,
+      "assertions": [
+        "Old v1-v7 opt-ins are hidden after upgrade while nearby chat, microphone, camera, and screen share remain available.",
+        "An explicit v8 opt-in still enables event controls and the manager workflow."
+      ]
+    },
+    "typecheck": "passed",
+    "prettier": "passed for all changed frontend TypeScript files",
+    "source_package": {
+      "path": ".build/deployment-source/hufs-town-source-20260928T193615Z-f767e7f4.tar.gz",
+      "entries": 1439,
+      "bytes": 2751540,
+      "sha256": "c62bce1e7c586368b98f373bd14cfd2fc1652230dd9d76748e4dfaccb7c252ea",
+      "forbidden_entries": 0,
+      "contains_event_tools_preference_v8": true,
+      "contains_v8_opt_in_e2e": true,
+      "seeds_v7_as_legacy_for_default_off_e2e": true
+    },
+    "tailnet_https_preview": "Not available: Tailscale Serve reports no serve config; phone capture/RTP acceptance remains pending."
+  },
+  "deployment": "Package prepared locally only; no upload or production changes."
+}

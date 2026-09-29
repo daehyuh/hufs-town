@@ -1,0 +1,26 @@
+{
+  "protocolVersion": 1,
+  "mapId": "campus-square",
+  "clientId": "4bd0740f-9c16-4f7c-8d14-7f4b0fb7a2ce",
+  "operationId": "6a9d8cd1-3d5c-4782-88d4-a10ae1657f9c",
+  "baseSequence": 0,
+  "actions": [
+    {
+      "kind": "ENTITY_ADD",
+      "collection": "objects",
+      "entity": {
+        "id": "welcome-desk-02",
+        "asset": "desk",
+        "x": 9.5,
+        "y": 6.5,
+        "scale": 1,
+        "direction": "down"
+      }
+    },
+    {
+      "kind": "MAP_FIELD_SET",
+      "field": "name",
+      "value": "HUFS Town Square"
+    }
+  ]
+}

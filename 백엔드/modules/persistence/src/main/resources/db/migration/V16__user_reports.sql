@@ -1,0 +1,42 @@
+CREATE TABLE user_report (
+    report_id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin PRIMARY KEY,
+    reporter_user_id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NULL,
+    reporter_name_snapshot VARCHAR(80) NOT NULL,
+    target_user_id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NULL,
+    target_name_snapshot VARCHAR(80) NOT NULL,
+    conversation_id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+    message_id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+    category VARCHAR(24) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+    details VARCHAR(1000) NOT NULL,
+    evidence_text VARCHAR(500) NOT NULL,
+    message_sent_at TIMESTAMP(3) NOT NULL,
+    status VARCHAR(16) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT 'OPEN',
+    reviewed_by_user_id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NULL,
+    reviewer_name_snapshot VARCHAR(80) NULL,
+    review_note VARCHAR(1000) NULL,
+    reviewed_at TIMESTAMP(6) NULL,
+    created_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    updated_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    CONSTRAINT uq_user_reporter_message UNIQUE (reporter_user_id,message_id),
+    CONSTRAINT ck_user_report_category CHECK (category IN ('HARASSMENT','THREAT','SPAM','PERSONAL_INFO','OTHER')),
+    CONSTRAINT ck_user_report_status CHECK (status IN ('OPEN','REVIEWING','RESOLVED','DISMISSED')),
+    CONSTRAINT fk_user_report_reporter FOREIGN KEY (reporter_user_id) REFERENCES app_user(id) ON DELETE SET NULL,
+    CONSTRAINT fk_user_report_target FOREIGN KEY (target_user_id) REFERENCES app_user(id) ON DELETE SET NULL,
+    CONSTRAINT fk_user_report_reviewer FOREIGN KEY (reviewed_by_user_id) REFERENCES app_user(id) ON DELETE SET NULL,
+    INDEX ix_user_report_queue (status,created_at,report_id),
+    INDEX ix_user_report_rate (reporter_user_id,created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE user_report_review (
+    review_id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin PRIMARY KEY,
+    report_id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+    reviewer_user_id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NULL,
+    reviewer_name_snapshot VARCHAR(80) NOT NULL,
+    from_status VARCHAR(16) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+    to_status VARCHAR(16) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+    note VARCHAR(1000) NOT NULL,
+    created_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    CONSTRAINT fk_user_report_review_report FOREIGN KEY (report_id) REFERENCES user_report(report_id) ON DELETE CASCADE,
+    CONSTRAINT fk_user_report_review_reviewer FOREIGN KEY (reviewer_user_id) REFERENCES app_user(id) ON DELETE SET NULL,
+    INDEX ix_user_report_review_history (report_id,created_at,review_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

@@ -1,0 +1,15 @@
+FROM node:24.14.1-bookworm-slim AS build
+
+WORKDIR /workspace
+RUN corepack enable
+COPY 프론트/package.json 프론트/pnpm-lock.yaml 프론트/pnpm-workspace.yaml ./프론트/
+WORKDIR /workspace/프론트
+RUN pnpm install --frozen-lockfile
+COPY 프론트/ ./
+COPY 백엔드/contracts/ /workspace/백엔드/contracts/
+RUN pnpm build
+
+FROM nginx:1.28-alpine
+COPY 프론트/nginx.production.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /workspace/프론트/dist /usr/share/nginx/html
+EXPOSE 80

@@ -1,0 +1,35 @@
+{
+  "date": "2026-09-27",
+  "scope": "Short isolated packaged preview World WebSocket movement loads after join-burst snapshot fanout deferral; each run used 100 clients, 5 seconds warmup, and 3 seconds steady-state measurement.",
+  "productionSfuRtpIncluded": false,
+  "runs": [
+    {
+      "maxJoinsPerTick": 8,
+      "connectMs": 254,
+      "rosterConvergenceMs": 774,
+      "joinTicks": 15,
+      "joinTickMeanMs": 13.055,
+      "joinTicksOver50ms": 1,
+      "steadyStateP95Ms": 6.28
+    },
+    {
+      "maxJoinsPerTick": 4,
+      "connectMs": 258,
+      "rosterConvergenceMs": 1367,
+      "joinTicks": 27,
+      "joinTickMeanMs": 6.418,
+      "joinTicksOver50ms": 1,
+      "steadyStateP95Ms": 7.32
+    },
+    {
+      "maxJoinsPerTick": 2,
+      "connectMs": 276,
+      "rosterConvergenceMs": 2668,
+      "joinTicks": 52,
+      "joinTickMeanMs": 6.010,
+      "joinTicksOver50ms": 3,
+      "steadyStateP95Ms": 6.80
+    }
+  ],
+  "interpretation": "These short calibration runs are noisy and are not capacity certification. Lowering the join batch increased roster convergence time and did not consistently lower 50 ms overruns, so the default remains 8. See the separate 30-second run for the longer steady-state sample."
+}

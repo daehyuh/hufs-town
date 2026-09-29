@@ -1,0 +1,24 @@
+{
+  "checkedDate": "2026-09-29",
+  "environment": "Windows PowerShell source packaging, Python installer regression checks, and Ubuntu 24.04 production installation",
+  "artifact": "C:/Project/hufstown/.build/deployment-source/hufs-town-source-20260929T045644Z-c4cca750.tar.gz",
+  "sha256": "c315e0094476edb461f08edadcad48d478e8ab933047e42a51a62c1ad0867a85",
+  "archiveEntries": 1460,
+  "archiveFiles": 1327,
+  "archiveBytes": 2793696,
+  "result": "PASS",
+  "assertions": [
+    "package manifest matches every regular file in the archive",
+    "archive excludes environment files, dependencies, caches, build output, test reports, and logs",
+    "five installer regression cases pass, including removal of an old managed source file while preserving an operator environment file, an unlisted local note, and build output",
+    "the actual package installs into a disposable local destination and records 1,326 managed source files",
+    "production installer bootstrapped /opt/hufs-town/.hufs-town-source-files without deleting prior unmanaged files",
+    "second production install verified the recorded manifest and installed the same 1,326 managed files with zero obsolete source files to remove",
+    "production environment metadata remains root:root mode 0600 and the manifest is root:root mode 0644",
+    "all six production containers remain running; public auth config reports SSO configured"
+  ],
+  "limitations": [
+    "application images were not rebuilt or restarted because this update changes deployment tooling and documentation only",
+    "production SSO interactive sign-in, external TURN/UDP, physical phone media, and rollback remain unverified"
+  ]
+}

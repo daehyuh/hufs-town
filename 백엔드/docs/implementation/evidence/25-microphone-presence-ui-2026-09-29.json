@@ -1,0 +1,22 @@
+{
+  "checkedDate": "2026-09-29",
+  "environment": "scripts/e2e.ps1 isolated preview API/World/Vite; existing local Docker SFU; Playwright Chromium; synthetic browser media devices",
+  "file": "프론트/tests/e2e/media.spec.ts",
+  "test": "real SFU carries microphone, camera and shared-screen RTP, then revokes distant receivers and cleans up on leave",
+  "result": "PASS",
+  "passed": 1,
+  "total": 1,
+  "assertions": [
+    "the remote participant initially shows the microphone-off label and icon",
+    "turning the microphone on updates the remote participant label and icon to on",
+    "muting again updates the remote participant label and icon to off, then restores on",
+    "the saved end-of-test screenshot visually shows the mic badge beside the in-world name tag",
+    "microphone, camera, and shared-screen RTP still flow through the SFU",
+    "screen-share volume, drag, resize, and leave cleanup remain functional"
+  ],
+  "limitations": [
+    "Browser media uses synthetic Playwright devices.",
+    "No physical device or screen-reader review was performed.",
+    "The Phaser canvas badge was visually inspected in the Playwright screenshot but is not covered by an automated pixel comparison."
+  ]
+}

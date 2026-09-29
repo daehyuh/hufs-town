@@ -1,0 +1,26 @@
+{
+  "startedAtUtc": "2026-09-28T12:58:59Z",
+  "checkedAtUtc": "2026-09-28T13:08:28Z",
+  "scope": "Dedicated anonymous HTTPS preview for testing nearby chat, microphone, camera, and screen share from a Tailscale-connected phone.",
+  "status": "AWAITING_TAILSCALE_SERVE_ENABLE",
+  "checks": {
+    "previewMedia": "Healthy; dedicated TCP/UDP 44446 bound to the host Tailscale IPv4; control port loopback-only on 18088.",
+    "apiHealth": "UP on loopback port 18086",
+    "worldHealth": "UP on loopback port 18087",
+    "webHealth": "HTTP 200 on loopback port 5174",
+    "authConfig": "configured=false; preview does not use HUFS SSO credentials.",
+    "tailscaleServe": "No Serve route. The CLI reported Serve is not enabled on this tailnet and displayed the device activation page.",
+    "launcher": "The preview launcher was still waiting for the Serve command when checked.",
+    "existingLocalWeb": "127.0.0.1:5173 remained available independently.",
+    "production": "No production service or configuration was changed."
+  },
+  "remaining": [
+    "Enable Tailscale Serve for this device in the tailnet admin page, then verify the HTTPS route.",
+    "Open the preview on a Tailscale-connected phone and verify microphone, camera, nearby chat, and screen-share RTP.",
+    "If media packets do not traverse the tailnet, check Windows Firewall and tailnet ACLs."
+  ],
+  "limitations": [
+    "No HTTPS page or physical phone media capture has been verified yet.",
+    "The anonymous preview does not validate HUFS SSO, production TURN, or production deployment."
+  ]
+}

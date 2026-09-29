@@ -1,0 +1,26 @@
+{
+  "date": "2026-09-28",
+  "change": "Reset saved presenter/event-tool opt-ins from previous versions on upgrade. Only an explicit choice made in the current settings version remains enabled.",
+  "files": [
+    "프론트/src/events/eventToolsPreference.ts",
+    "프론트/src/app/App.tsx",
+    "프론트/tests/unit/eventToolsPreference.test.ts",
+    "프론트/tests/e2e/event-roster.spec.ts"
+  ],
+  "validation": {
+    "focused_unit": {
+      "command": "pnpm exec vitest run tests/unit/eventToolsPreference.test.ts",
+      "test_files_passed": 1,
+      "tests_passed": 2
+    },
+    "frontend_unit_suite": {
+      "command": "pnpm test",
+      "test_files_passed": 47,
+      "tests_passed": 159
+    },
+    "typecheck": "passed",
+    "production_build": "passed; Vite reported the existing large Phaser chunk warning",
+    "prettier": "passed for changed TypeScript files",
+    "presenter_e2e": "not verified in this run: the HTTPS tailnet preview rejects the HTTP loopback test Origin, while the available localhost:5173 API is configured for SSO and rejects the test's anonymous preview join. Tailscale Serve remains unconfigured."
+  }
+}

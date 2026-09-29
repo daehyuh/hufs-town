@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-28",
+  "origin": "https://town.gdgoc.com",
+  "status": "FAIL",
+  "checks": {
+    "websiteHttpStatus": 200,
+    "pageTitle": "HUFS Town · 우리의 온라인 캠퍼스",
+    "expectedPageTitle": "GDG HUFS 훕스타운",
+    "pageTitleMatches": false,
+    "authConfigHttpStatus": 200,
+    "ssoConfigured": true,
+    "bootstrapHttpStatus": 200,
+    "spaceCapacity": 100,
+    "running": true,
+    "ssoLogin": true,
+    "media": true,
+    "webSocketWithoutOriginStatus": 403,
+    "webSocketTrustedOriginWithoutSessionStatus": 401
+  },
+  "mutationPerformed": false,
+  "interpretation": "The current production app is healthy on its core HTTP/SSO/bootstrap and WebSocket rejection checks, but still serves the old page title. The prepared source package contains the newer GDG HUFS branding and latest frontend preference changes."
+}

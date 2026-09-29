@@ -1,0 +1,37 @@
+FROM eclipse-temurin:21-jdk AS build
+
+ARG APP_NAME
+ARG TOWN_SKIP_BUILD_TESTS=false
+WORKDIR /workspace
+
+COPY gradlew settings.gradle.kts build.gradle.kts gradle.properties ./
+COPY gradle/ ./gradle/
+COPY modules/ ./modules/
+COPY apps/ ./apps/
+COPY contracts/ ./contracts/
+COPY assets/office-catalog.json ./assets/office-catalog.json
+
+RUN chmod +x ./gradlew \
+    && if [ "$TOWN_SKIP_BUILD_TESTS" = "true" ]; then \
+        ./gradlew --no-daemon --console=plain -x test ":apps:${APP_NAME}:bootJar"; \
+    else \
+        ./gradlew --no-daemon --console=plain :modules:auth:test --tests town.hufs.auth.AuthRuntimeTest ":apps:${APP_NAME}:bootJar"; \
+    fi \
+    && mkdir -p /runtime \
+    && cp "../.build/backend/apps/${APP_NAME}/libs/${APP_NAME}-0.1.0-SNAPSHOT.jar" /runtime/app.jar
+
+FROM eclipse-temurin:21-jre
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && groupadd --system --gid 10001 town \
+    && useradd --system --uid 10001 --gid town --home-dir /app --no-create-home town \
+    && install -d --owner=10001 --group=10001 /app /data/assets
+
+WORKDIR /app
+COPY --from=build --chown=10001:10001 /runtime/app.jar /app/app.jar
+
+ENV JAVA_TOOL_OPTIONS="-XX:MaxRAMPercentage=75.0 -Dfile.encoding=UTF-8"
+USER 10001:10001
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

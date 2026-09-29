@@ -1,0 +1,35 @@
+{
+  "date": "2026-09-29",
+  "scope": "Core nearby communication regression after keeping presentation tools disabled by default",
+  "environment": {
+    "browser": "Chromium Playwright",
+    "media": "Local SFU using synthetic browser devices",
+    "productionServicesChanged": false
+  },
+  "tests": [
+    {
+      "name": "mobile and desktop participants exchange microphone and camera RTP over the SFU",
+      "result": "passed",
+      "count": 1
+    },
+    {
+      "name": "a screen source restriction stops shared video and audio together",
+      "result": "passed",
+      "count": 1
+    },
+    {
+      "name": "three peers: crossing the meeting-room boundary revokes outside receivers and never reshares the screen automatically",
+      "result": "passed",
+      "count": 1
+    },
+    {
+      "name": "untouched media windows migrate to a screen-first, camera-visible layout",
+      "result": "passed",
+      "count": 1
+    }
+  ],
+  "summary": "4/4 focused E2E checks passed. Microphone/camera RTP, screen video/audio authorization, private-room boundary cleanup, and the camera-visible screen-share layout remain functional.",
+  "limitations": [
+    "Synthetic Chromium capture devices do not verify physical phone hardware, mobile operating-system permissions, public TURN routing, or production network capacity."
+  ]
+}

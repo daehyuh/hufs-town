@@ -1,0 +1,21 @@
+{
+  "checkedDate": "2026-09-28",
+  "origin": "https://town.gdgoc.com",
+  "overallStatus": "FAIL",
+  "failure": "The page title is still the old HUFS Town campaign title instead of the requested GDG HUFS 훕스타운 brand.",
+  "websiteHttpStatus": 200,
+  "pageTitle": "HUFS Town · 우리의 온라인 캠퍼스",
+  "expectedPageTitle": "GDG HUFS 훕스타운",
+  "pageTitleMatches": false,
+  "authConfigHttpStatus": 200,
+  "ssoConfigured": true,
+  "bootstrapHttpStatus": 200,
+  "spaceCapacity": 100,
+  "running": true,
+  "ssoLogin": true,
+  "media": true,
+  "webSocketWithoutOriginStatus": 403,
+  "webSocketTrustedOriginWithoutSessionStatus": 401,
+  "deploymentPerformed": false,
+  "checkScope": "Read-only public HTTP, auth configuration, bootstrap and WebSocket rejection smoke; no cookies or secrets were requested."
+}

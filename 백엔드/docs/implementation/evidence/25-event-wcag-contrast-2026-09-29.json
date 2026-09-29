@@ -1,0 +1,37 @@
+{
+  "checkedDate": "2026-09-29",
+  "environment": "scripts/e2e.ps1 isolated preview API/World/Vite; Playwright Chromium; axe-core WCAG 2.1 A/AA",
+  "file": "프론트/tests/e2e/event-engagement.spec.ts",
+  "tests": [
+    {
+      "name": "event Q&A and polls stay localized for an English host and attendee",
+      "result": "PASS"
+    },
+    {
+      "name": "event Q&A and polls synchronize across attendees and close safely",
+      "result": "PASS"
+    }
+  ],
+  "result": "PASS",
+  "passed": 2,
+  "total": 2,
+  "accessibility": {
+    "languages": ["en", "ko"],
+    "violationsBeforeFix": [
+      {
+        "id": "color-contrast",
+        "targets": [
+          ".event-scavenger-heading > div > small",
+          ".event-scavenger-help"
+        ],
+        "impact": "serious"
+      }
+    ],
+    "violationsAfterFix": 0,
+    "change": "Darkened small event scavenger instructions from #77856c to #58644f on the pale panel background."
+  },
+  "limitations": [
+    "Automated axe-core checks cover the in-event attendee panel in Chromium, not every event screen.",
+    "No physical-device or screen-reader review was performed."
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "date": "2026-09-28",
+  "change": "Skip MediaController SFU reconciliation when a world update changes only player or room snapshots.",
+  "condition": [
+    "connection status is unchanged",
+    "self player ID is unchanged",
+    "media policy object reference is unchanged"
+  ],
+  "checks": {
+    "unit": {
+      "file": "프론트/tests/unit/mediaControllerPolicy.test.ts",
+      "passed": 1,
+      "failed": 0
+    },
+    "typecheck": "passed",
+    "format": "passed",
+    "presenterToolsOffAndCoreControls": {
+      "test": "presenter tools stay off by default while core communication controls remain available",
+      "passed": 1,
+      "failed": 0
+    }
+  },
+  "mediaE2eRetest": {
+    "result": "inconclusive",
+    "details": "A new 12-participant camera and screen-share retest did not reach media stats; the follow-up two-participant test also received no producer offers. Failure screenshots showed the Preview connection's request-rate rejection and disabled media controls before RTP verification.",
+    "capacityPassCounted": false
+  },
+  "previousRepeatedCameraAndScreenSharePasses": "Remain recorded separately in 26-rtc-capacity-12-nearby-6-cameras-2026-09-28.json and 26-rtc-capacity-12-nearby-screen-share-2026-09-28.json.",
+  "capacityTask": "T26.1 remains incomplete"
+}

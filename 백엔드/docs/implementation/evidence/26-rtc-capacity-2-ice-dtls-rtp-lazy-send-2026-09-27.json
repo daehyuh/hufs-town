@@ -1,0 +1,224 @@
+{
+  "status": "PASS",
+  "startedAt": "2026-09-27T07:56:48.777Z",
+  "finishedAt": "2026-09-27T07:56:59.503Z",
+  "tier": 2,
+  "participantsRequested": 2,
+  "participantsJoined": 2,
+  "uniquePlayerIds": 2,
+  "activeSpeakers": 1,
+  "eventListenersExpected": 1,
+  "speakerMediaOffersObserved": 1,
+  "participantsWithInboundAudioRtpIceAndDtls": 1,
+  "expectedParticipantsWithInboundAudio": 1,
+  "minInboundAudioBytesAcrossRecipients": 11268,
+  "minInboundAudioPacketsAcrossRecipients": 192,
+  "mediaEngine": "isolated host capacity SFU 127.0.0.1:18083; RTP 44445",
+  "browser": "Chromium with fake media-device flags; fake microphone only",
+  "hostLimits": {
+    "minFreeMemoryMb": 2048,
+    "stopIfCpuAtOrAbovePercentForSeconds": 95,
+    "cpuStopConsecutiveSamples": 20,
+    "maxClients": 100
+  },
+  "hostResources": {
+    "totalMemoryMb": 32631,
+    "finalAvailableMemoryMb": 3053,
+    "peakUsedMemoryPercent": 91.8,
+    "peakCpuPercent": 98.3
+  },
+  "participants": [
+    {
+      "identity": "preview-rtc-capacity-001",
+      "peers": [
+        {
+          "connectionState": "closed",
+          "iceConnectionState": "closed",
+          "dtlsStates": [],
+          "audioBytesReceived": 0,
+          "audioPacketsReceived": 0,
+          "audioBytesSent": 0
+        },
+        {
+          "connectionState": "closed",
+          "iceConnectionState": "closed",
+          "dtlsStates": [],
+          "audioBytesReceived": 0,
+          "audioPacketsReceived": 0,
+          "audioBytesSent": 0
+        },
+        {
+          "connectionState": "closed",
+          "iceConnectionState": "closed",
+          "dtlsStates": [],
+          "audioBytesReceived": 0,
+          "audioPacketsReceived": 0,
+          "audioBytesSent": 0
+        },
+        {
+          "connectionState": "closed",
+          "iceConnectionState": "closed",
+          "dtlsStates": [],
+          "audioBytesReceived": 0,
+          "audioPacketsReceived": 0,
+          "audioBytesSent": 0
+        },
+        {
+          "connectionState": "closed",
+          "iceConnectionState": "closed",
+          "dtlsStates": [],
+          "audioBytesReceived": 0,
+          "audioPacketsReceived": 0,
+          "audioBytesSent": 0
+        },
+        {
+          "connectionState": "new",
+          "iceConnectionState": "new",
+          "dtlsStates": [],
+          "audioBytesReceived": 0,
+          "audioPacketsReceived": 0,
+          "audioBytesSent": 0
+        },
+        {
+          "connectionState": "connected",
+          "iceConnectionState": "connected",
+          "dtlsStates": [
+            "connected"
+          ],
+          "audioBytesReceived": 0,
+          "audioPacketsReceived": 0,
+          "audioBytesSent": 12461
+        }
+      ]
+    },
+    {
+      "identity": "preview-rtc-capacity-002",
+      "peers": [
+        {
+          "connectionState": "closed",
+          "iceConnectionState": "closed",
+          "dtlsStates": [],
+          "audioBytesReceived": 0,
+          "audioPacketsReceived": 0,
+          "audioBytesSent": 0
+        },
+        {
+          "connectionState": "closed",
+          "iceConnectionState": "closed",
+          "dtlsStates": [],
+          "audioBytesReceived": 0,
+          "audioPacketsReceived": 0,
+          "audioBytesSent": 0
+        },
+        {
+          "connectionState": "closed",
+          "iceConnectionState": "closed",
+          "dtlsStates": [],
+          "audioBytesReceived": 0,
+          "audioPacketsReceived": 0,
+          "audioBytesSent": 0
+        },
+        {
+          "connectionState": "closed",
+          "iceConnectionState": "closed",
+          "dtlsStates": [],
+          "audioBytesReceived": 0,
+          "audioPacketsReceived": 0,
+          "audioBytesSent": 0
+        },
+        {
+          "connectionState": "closed",
+          "iceConnectionState": "closed",
+          "dtlsStates": [],
+          "audioBytesReceived": 0,
+          "audioPacketsReceived": 0,
+          "audioBytesSent": 0
+        },
+        {
+          "connectionState": "connected",
+          "iceConnectionState": "connected",
+          "dtlsStates": [
+            "connected"
+          ],
+          "audioBytesReceived": 11268,
+          "audioPacketsReceived": 192,
+          "audioBytesSent": 0
+        }
+      ]
+    }
+  ],
+  "resourceSamples": [
+    {
+      "elapsedMs": 2,
+      "availableMemoryMb": 3133,
+      "usedMemoryPercent": 90.4
+    },
+    {
+      "elapsedMs": 254,
+      "availableMemoryMb": 3049,
+      "usedMemoryPercent": 90.7,
+      "cpuPercent": 91.5
+    },
+    {
+      "elapsedMs": 1012,
+      "availableMemoryMb": 2861,
+      "usedMemoryPercent": 91.2,
+      "cpuPercent": 91.5
+    },
+    {
+      "elapsedMs": 2023,
+      "availableMemoryMb": 2786,
+      "usedMemoryPercent": 91.5,
+      "cpuPercent": 92.7
+    },
+    {
+      "elapsedMs": 3022,
+      "availableMemoryMb": 2704,
+      "usedMemoryPercent": 91.7,
+      "cpuPercent": 75.1
+    },
+    {
+      "elapsedMs": 4023,
+      "availableMemoryMb": 2675,
+      "usedMemoryPercent": 91.8,
+      "cpuPercent": 74.1
+    },
+    {
+      "elapsedMs": 5027,
+      "availableMemoryMb": 2685,
+      "usedMemoryPercent": 91.8,
+      "cpuPercent": 57.8
+    },
+    {
+      "elapsedMs": 6027,
+      "availableMemoryMb": 2681,
+      "usedMemoryPercent": 91.8,
+      "cpuPercent": 75.6
+    },
+    {
+      "elapsedMs": 7042,
+      "availableMemoryMb": 2759,
+      "usedMemoryPercent": 91.5,
+      "cpuPercent": 75
+    },
+    {
+      "elapsedMs": 8057,
+      "availableMemoryMb": 2746,
+      "usedMemoryPercent": 91.6,
+      "cpuPercent": 70.4
+    },
+    {
+      "elapsedMs": 9057,
+      "availableMemoryMb": 2958,
+      "usedMemoryPercent": 90.9,
+      "cpuPercent": 98.2
+    },
+    {
+      "elapsedMs": 10070,
+      "availableMemoryMb": 3041,
+      "usedMemoryPercent": 90.7,
+      "cpuPercent": 98.3
+    }
+  ],
+  "pageErrors": []
+}

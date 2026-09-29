@@ -1,0 +1,30 @@
+{
+  "task": "T31.2",
+  "date": "2026-09-29",
+  "production": {
+    "url": "https://town.gdgoc.com",
+    "releaseId": "20260929T054124Z-4bb10f7c",
+    "apiImage": "hufs-town-api:20260929T054124Z-4bb10f7c"
+  },
+  "configuration": {
+    "keyPair": "P-256, URL-safe Base64",
+    "subject": "https://town.gdgoc.com",
+    "privateKeyLocation": "/opt/hufs-town/백엔드/infra/.env.production",
+    "secretValuesDisplayedOrPackaged": false,
+    "databaseOrRedisChanged": false,
+    "apiRecreatedOnly": true
+  },
+  "verification": {
+    "apiContainerHealth": "healthy",
+    "allVapidEnvironmentValuesInjected": true,
+    "publicSsoConfiguration": "configured",
+    "authenticatedBrowserSubscription": "not verified",
+    "externalPushProviderDelivery": "not verified",
+    "twoAccountSsoRequestAndAccept": "not verified"
+  },
+  "notes": [
+    "The first generated key pair used standard Base64, which the current VAPID library rejects. The API automatically returned to the previous environment; no user data was changed.",
+    "The generator and production setup now use URL-safe Base64. The corrected API started successfully and remained healthy.",
+    "Browser permission and subscription are still required before a real notification can be delivered."
+  ]
+}

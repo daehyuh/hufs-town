@@ -1,0 +1,20 @@
+{
+  "checkedDate": "2026-09-29",
+  "environment": "scripts/e2e.ps1 isolated preview API/World/Vite; Playwright Chromium",
+  "file": "프론트/tests/e2e/campus.spec.ts",
+  "test": "keyboard-only joining and movement expose accessible campus status",
+  "result": "PASS",
+  "passed": 2,
+  "total": 2,
+  "languages": ["ko", "en"],
+  "assertions": [
+    "participant and settings tabs remain reachable in Korean and English",
+    "presence, poke preference, and low-spec setting labels use the selected language",
+    "the chat panel title, nearby channel, and message placeholder use the selected language",
+    "keyboard-only entry, panel disclosure and dismissal, world status, and movement remain functional"
+  ],
+  "limitations": [
+    "This covers the main in-world participant and chat panels, not every translated screen.",
+    "No physical device, screen-reader, or real HUFS SSO review was performed."
+  ]
+}

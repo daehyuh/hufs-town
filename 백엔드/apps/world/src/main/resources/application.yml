@@ -1,0 +1,38 @@
+server:
+  address: 127.0.0.1
+  port: 18081
+spring:
+  application:
+    name: hufs-town-world
+  datasource:
+    url: ${DB_URL:jdbc:mariadb://127.0.0.1:3307/hufstown}
+    username: ${DB_USER:hufstown}
+    password: ${DB_PASSWORD:}
+    hikari:
+      connection-init-sql: SET time_zone = '+00:00'
+  data:
+    redis:
+      host: ${REDIS_HOST:127.0.0.1}
+      port: ${REDIS_PORT:6380}
+      timeout: 2s
+management:
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+town:
+  public-origin: ${TOWN_PUBLIC_ORIGIN:http://localhost:5173}
+  allowed-origins: ${TOWN_ALLOWED_ORIGINS:}
+  storage-mode: mariadb-redis
+  world:
+    max-joins-per-tick: ${TOWN_WORLD_MAX_JOINS_PER_TICK:8}
+  chat:
+    retention-days: ${TOWN_CHAT_RETENTION_DAYS:30}
+  auth:
+    mode: ${TOWN_AUTH_MODE:sso}
+    cookie-secure: ${TOWN_COOKIE_SECURE:true}
+  local-preview: false

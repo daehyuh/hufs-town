@@ -1,0 +1,25 @@
+{
+  "checkedDate": "2026-09-29",
+  "environment": "scripts/e2e.ps1 isolated preview API/World/Vite; Playwright Chromium",
+  "file": "프론트/tests/e2e/campus.spec.ts",
+  "test": "in-world language picker updates labels and fits the mobile header",
+  "result": "PASS",
+  "passed": 1,
+  "total": 1,
+  "assertions": [
+    "the Phaser canvas initially draws the Korean self marker",
+    "changing to English redraws the canvas self marker as You",
+    "changing back to Korean restores 나 without replacing the connected world canvas",
+    "the connection remains established and the mobile header fits a 390px viewport"
+  ],
+  "relatedChecks": [
+    "frontend Vitest: 47 files, 159 tests passed",
+    "TypeScript typecheck passed",
+    "production build passed with the existing large Phaser bundle warning",
+    "Prettier check passed"
+  ],
+  "limitations": [
+    "The canvas text capture verifies generated labels, not a physical-device visual or screen-reader review.",
+    "Stage labels also have Korean/English renderer coverage in renderMapLocalization.test.ts."
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "checkedDate": "2026-09-29",
+  "environment": "scripts/e2e.ps1 isolated preview API/World/Vite; existing local Docker SFU; Playwright Chromium mobile emulation; synthetic browser media devices; CDP touch input",
+  "files": [
+    "프론트/src/media/MediaPanel.tsx",
+    "프론트/tests/e2e/media.spec.ts"
+  ],
+  "result": "PASS",
+  "checks": {
+    "mobileMediaWindowTouchE2E": "1/1",
+    "mobileFloatingMediaAxe": "0 violations",
+    "desktopMediaWindowRegressionE2E": "1/1",
+    "frontendVitest": "47 files, 159 tests passed",
+    "typecheck": "PASS",
+    "productionBuild": "PASS",
+    "changedFilesPrettier": "PASS"
+  },
+  "assertions": [
+    "a mobile-sized participant receives microphone, camera, and shared-screen media from a desktop peer through the SFU",
+    "the compact camera pane starts at or below 128x220 pixels and the shared-screen video remains wider than 200 pixels without page overflow",
+    "real CDP touch events move and resize both floating panes while keeping them inside the world stage",
+    "touching an overlapping pane brings that pane to the front so its controls can be used",
+    "incoming and outgoing microphone and camera RTP continue during pane interaction",
+    "the mobile camera and shared-screen panes have zero axe WCAG 2.1 A/AA violations",
+    "the desktop SFU regression still passes screen-window drag, resize, volume adjustment, receiver revocation, and leave cleanup"
+  ],
+  "limitations": [
+    "The mobile browser uses viewport emulation and synthetic Playwright media devices, not a physical phone.",
+    "No iOS/Android Safari, real hardware permissions, external UDP/TURN path, or 100-person media-capacity check was performed.",
+    "The production build retains the existing large Phaser bundle warning."
+  ]
+}

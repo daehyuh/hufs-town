@@ -1,0 +1,2 @@
+ALTER TABLE app_user
+    ADD COLUMN allow_pokes BOOLEAN NOT NULL DEFAULT TRUE;

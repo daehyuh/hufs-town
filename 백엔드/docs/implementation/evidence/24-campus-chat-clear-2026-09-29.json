@@ -1,0 +1,23 @@
+{
+  "checkedDate": "2026-09-29",
+  "environment": "Production MariaDB aggregate counts and current frontend source inspection",
+  "spaceId": "00000000-0000-4000-8000-000000000001",
+  "messageBodyRead": false,
+  "productionCounts": {
+    "campusChatMessages": 0,
+    "campusNearbyMessages": 0,
+    "campusRoomMessages": 0,
+    "directMessages": 0,
+    "directMessageRevisions": 0,
+    "directMessageEventOutbox": 0,
+    "directConversations": 0
+  },
+  "deletionExecutedDuringAudit": false,
+  "sidebar": {
+    "collapseButtonPresent": true,
+    "collapsedStatePersisted": true,
+    "expandTranslationPresent": true,
+    "productionWebHttp": 200
+  },
+  "result": "PASS: requested history scope is already empty; no user-visible record deletion was needed"
+}

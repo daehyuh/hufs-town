@@ -1,0 +1,34 @@
+{
+  "checkedDate": "2026-09-28",
+  "environment": "Playwright Chromium against the isolated preview Vite/API/World stack on loopback.",
+  "change": "Project the requested map point through the camera's clamped viewport before clicking in the cross-partition movement regression.",
+  "diagnosis": "At maximum zoom, the camera could not center the requested point near the map edge. The test clicked the canvas center, which represented a different destination beside the partition. The movement route code was unchanged.",
+  "e2e": {
+    "file": "../../../../프론트/tests/e2e/campus.spec.ts",
+    "focusedTest": "click-to-walk crosses a partition smoothly without backing up",
+    "focusedPassed": 1,
+    "focusedFailed": 0,
+    "campusSuitePassed": 12,
+    "campusSuiteFailed": 0,
+    "areas": [
+      "three-browser movement, emotes, focus stop, and departures",
+      "click-to-walk across a partition without backing up",
+      "authoritative movement under delayed and dropped inputs",
+      "offline retry and seat resume",
+      "poke receiver settings, distance, and cooldown",
+      "Z-key poke to a person in front",
+      "small-screen landing and nickname validation",
+      "mobile and landscape movement controls",
+      "Korean and English keyboard-only joining and movement",
+      "in-world language switching and mobile header",
+      "wardrobe changes across players and profile persistence"
+    ],
+    "runner": "scripts/e2e.ps1 -SkipBuild -TestFile tests/e2e/campus.spec.ts"
+  },
+  "limitations": [
+    "Uses isolated preview services and does not validate production SSO or deployment.",
+    "Does not replace physical-device, real media-hardware, full accessibility, or capacity testing.",
+    "No backlog task was newly marked complete."
+  ],
+  "productionDeployed": false
+}

@@ -1,0 +1,20 @@
+{
+  "date": "2026-09-29",
+  "environment": "Playwright Chromium against localhost:5173; authentication API flows are stubbed by the UI fixture, while the landing authentication mode uses the running SSO-configured backend.",
+  "command": "$env:TOWN_E2E_BASE_URL='http://127.0.0.1:5173'; pnpm exec playwright test tests/e2e/auth.spec.ts tests/e2e/landing-brand.spec.ts --project=chromium",
+  "passed": {
+    "testFiles": 2,
+    "tests": 17,
+    "areas": [
+      "SSO login flow and callback exchange recovery",
+      "logout, global logout, and account deletion confirmation",
+      "Korean/English landing copy, title, html lang, and description metadata updates",
+      "mobile preview avatar shape selection and layout",
+      "mobile Korean/English login copy and GDG HUFS branding"
+    ]
+  },
+  "limitations": [
+    "No real HUFS SSO provider credentials or IdP round-trip was exercised.",
+    "This focused browser suite does not verify physical-device behavior or all language/responsive screens."
+  ]
+}

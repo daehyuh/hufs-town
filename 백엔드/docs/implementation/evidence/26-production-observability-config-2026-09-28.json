@@ -1,0 +1,28 @@
+{
+  "checkedDate": "2026-09-28",
+  "productionCompose": {
+    "defaultServicesExcludePrometheus": true,
+    "observabilityProfileIncludesPrometheus": true,
+    "hostBinding": "127.0.0.1:19090",
+    "containerPort": 9090,
+    "retention": "15d",
+    "memoryLimitBytes": 268435456,
+    "cpuLimit": 0.2,
+    "persistentVolume": "hufstown-production-prometheus",
+    "validation": "Docker Compose config rendered with the example env file and service env resolution disabled; no production .env was read or printed."
+  },
+  "localPrometheusRuntime": {
+    "readinessHttpStatus": 200,
+    "targets": {
+      "api": "up",
+      "world": "up"
+    },
+    "retention": "15d",
+    "scope": "Existing local observability profile only; this is not a production deployment check."
+  },
+  "result": "PASS",
+  "limitations": [
+    "The production Compose profile was not started or deployed.",
+    "External notification delivery, restricted operations access, production scrape health, and metrics restore remain unverified."
+  ]
+}

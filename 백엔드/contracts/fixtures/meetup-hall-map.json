@@ -1,0 +1,431 @@
+{
+  "schemaVersion": 2,
+  "id": "meetup-hall",
+  "revision": "meetup-hall-v2",
+  "name": "GDG 밋업 홀",
+  "width": 48,
+  "height": 34,
+  "spawnX": 24,
+  "spawnY": 30,
+  "collisions": [
+    {
+      "x": 1,
+      "y": 1,
+      "width": 46,
+      "height": 0.5
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "width": 0.5,
+      "height": 32
+    },
+    {
+      "x": 46.5,
+      "y": 1,
+      "width": 0.5,
+      "height": 32
+    },
+    {
+      "x": 1,
+      "y": 32.5,
+      "width": 20,
+      "height": 0.5
+    },
+    {
+      "x": 27,
+      "y": 32.5,
+      "width": 20,
+      "height": 0.5
+    },
+    {
+      "x": 22.125,
+      "y": 7.3500000000000005,
+      "width": 3.75,
+      "height": 0.35
+    },
+    {
+      "x": 21.5625,
+      "y": 7.800000000000001,
+      "width": 4.875,
+      "height": 2
+    },
+    {
+      "x": 3.4375,
+      "y": 4.5,
+      "width": 1.125,
+      "height": 0.5
+    },
+    {
+      "x": 43.4375,
+      "y": 4.5,
+      "width": 1.125,
+      "height": 0.5
+    },
+    {
+      "x": 3.4375,
+      "y": 28.5,
+      "width": 1.125,
+      "height": 0.5
+    },
+    {
+      "x": 43.4375,
+      "y": 28.5,
+      "width": 1.125,
+      "height": 0.5
+    },
+    {
+      "x": 4.375,
+      "y": 8.25,
+      "width": 1.25,
+      "height": 0.75
+    },
+    {
+      "x": 42.375,
+      "y": 8.25,
+      "width": 1.25,
+      "height": 0.75
+    }
+  ],
+  "objects": [
+    {
+      "id": "object-0",
+      "asset": "gdg-sign",
+      "x": 24,
+      "y": 4,
+      "scale": 2
+    },
+    {
+      "id": "object-1",
+      "asset": "screen",
+      "x": 24,
+      "y": 7.7,
+      "scale": 2
+    },
+    {
+      "id": "object-2",
+      "asset": "reception",
+      "x": 24,
+      "y": 9.8,
+      "scale": 2
+    },
+    {
+      "id": "object-3",
+      "asset": "chair-front",
+      "x": 7,
+      "y": 14,
+      "scale": 2
+    },
+    {
+      "id": "object-4",
+      "asset": "chair-front",
+      "x": 12,
+      "y": 14,
+      "scale": 2
+    },
+    {
+      "id": "object-5",
+      "asset": "chair-front",
+      "x": 18,
+      "y": 14,
+      "scale": 2
+    },
+    {
+      "id": "object-6",
+      "asset": "chair-front",
+      "x": 30,
+      "y": 14,
+      "scale": 2
+    },
+    {
+      "id": "object-7",
+      "asset": "chair-front",
+      "x": 36,
+      "y": 14,
+      "scale": 2
+    },
+    {
+      "id": "object-8",
+      "asset": "chair-front",
+      "x": 41,
+      "y": 14,
+      "scale": 2
+    },
+    {
+      "id": "object-9",
+      "asset": "chair-front",
+      "x": 7,
+      "y": 18,
+      "scale": 2
+    },
+    {
+      "id": "object-10",
+      "asset": "chair-front",
+      "x": 12,
+      "y": 18,
+      "scale": 2
+    },
+    {
+      "id": "object-11",
+      "asset": "chair-front",
+      "x": 18,
+      "y": 18,
+      "scale": 2
+    },
+    {
+      "id": "object-12",
+      "asset": "chair-front",
+      "x": 30,
+      "y": 18,
+      "scale": 2
+    },
+    {
+      "id": "object-13",
+      "asset": "chair-front",
+      "x": 36,
+      "y": 18,
+      "scale": 2
+    },
+    {
+      "id": "object-14",
+      "asset": "chair-front",
+      "x": 41,
+      "y": 18,
+      "scale": 2
+    },
+    {
+      "id": "object-15",
+      "asset": "chair-front",
+      "x": 7,
+      "y": 22,
+      "scale": 2
+    },
+    {
+      "id": "object-16",
+      "asset": "chair-front",
+      "x": 12,
+      "y": 22,
+      "scale": 2
+    },
+    {
+      "id": "object-17",
+      "asset": "chair-front",
+      "x": 18,
+      "y": 22,
+      "scale": 2
+    },
+    {
+      "id": "object-18",
+      "asset": "chair-front",
+      "x": 30,
+      "y": 22,
+      "scale": 2
+    },
+    {
+      "id": "object-19",
+      "asset": "chair-front",
+      "x": 36,
+      "y": 22,
+      "scale": 2
+    },
+    {
+      "id": "object-20",
+      "asset": "chair-front",
+      "x": 41,
+      "y": 22,
+      "scale": 2
+    },
+    {
+      "id": "object-21",
+      "asset": "chair-front",
+      "x": 7,
+      "y": 26,
+      "scale": 2
+    },
+    {
+      "id": "object-22",
+      "asset": "chair-front",
+      "x": 12,
+      "y": 26,
+      "scale": 2
+    },
+    {
+      "id": "object-23",
+      "asset": "chair-front",
+      "x": 18,
+      "y": 26,
+      "scale": 2
+    },
+    {
+      "id": "object-24",
+      "asset": "chair-front",
+      "x": 30,
+      "y": 26,
+      "scale": 2
+    },
+    {
+      "id": "object-25",
+      "asset": "chair-front",
+      "x": 36,
+      "y": 26,
+      "scale": 2
+    },
+    {
+      "id": "object-26",
+      "asset": "chair-front",
+      "x": 41,
+      "y": 26,
+      "scale": 2
+    },
+    {
+      "id": "object-27",
+      "asset": "plant-large",
+      "x": 4,
+      "y": 5,
+      "scale": 2
+    },
+    {
+      "id": "object-28",
+      "asset": "plant-large",
+      "x": 44,
+      "y": 5,
+      "scale": 2
+    },
+    {
+      "id": "object-29",
+      "asset": "plant-large",
+      "x": 4,
+      "y": 29,
+      "scale": 2
+    },
+    {
+      "id": "object-30",
+      "asset": "plant-large",
+      "x": 44,
+      "y": 29,
+      "scale": 2
+    },
+    {
+      "id": "object-31",
+      "asset": "water-cooler",
+      "x": 5,
+      "y": 9,
+      "scale": 2
+    },
+    {
+      "id": "object-32",
+      "asset": "water-cooler",
+      "x": 43,
+      "y": 9,
+      "scale": 2
+    }
+  ],
+  "zones": [
+    {
+      "id": "hall",
+      "name": "밋업 홀",
+      "kind": "PUBLIC",
+      "bounds": {
+        "x": 2,
+        "y": 2,
+        "width": 44,
+        "height": 29
+      }
+    }
+  ],
+  "floors": [
+    {
+      "id": "floor-0",
+      "material": "OAK",
+      "bounds": {
+        "x": 1.5,
+        "y": 1.5,
+        "width": 45,
+        "height": 31
+      }
+    },
+    {
+      "id": "floor-1",
+      "material": "TILE",
+      "bounds": {
+        "x": 2,
+        "y": 2,
+        "width": 44,
+        "height": 7
+      }
+    },
+    {
+      "id": "floor-2",
+      "material": "CARPET_BLUE",
+      "bounds": {
+        "x": 2,
+        "y": 10,
+        "width": 44,
+        "height": 21
+      }
+    },
+    {
+      "id": "floor-3",
+      "material": "WOOD",
+      "bounds": {
+        "x": 15,
+        "y": 3,
+        "width": 18,
+        "height": 6
+      }
+    }
+  ],
+  "walls": [
+    {
+      "id": "wall-0",
+      "material": "CREAM",
+      "bounds": {
+        "x": 1,
+        "y": 1,
+        "width": 46,
+        "height": 0.5
+      }
+    },
+    {
+      "id": "wall-1",
+      "material": "CREAM",
+      "bounds": {
+        "x": 1,
+        "y": 1,
+        "width": 0.5,
+        "height": 32
+      }
+    },
+    {
+      "id": "wall-2",
+      "material": "CREAM",
+      "bounds": {
+        "x": 46.5,
+        "y": 1,
+        "width": 0.5,
+        "height": 32
+      }
+    },
+    {
+      "id": "wall-3",
+      "material": "CREAM",
+      "bounds": {
+        "x": 1,
+        "y": 32.5,
+        "width": 20,
+        "height": 0.5
+      }
+    },
+    {
+      "id": "wall-4",
+      "material": "CREAM",
+      "bounds": {
+        "x": 27,
+        "y": 32.5,
+        "width": 20,
+        "height": 0.5
+      }
+    }
+  ],
+  "labels": []
+}

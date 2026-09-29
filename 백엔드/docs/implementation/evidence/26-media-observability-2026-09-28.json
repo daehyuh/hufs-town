@@ -1,0 +1,45 @@
+{
+  "checkedDate": "2026-09-28",
+  "scope": "privacy-safe aggregate media metrics and monitoring configuration",
+  "changes": [
+    "Added an internal-scraper Prometheus exposition endpoint for active media worlds, peers, producers, consumers, recording sessions/capacity, and transcription jobs.",
+    "Metric series contain only bounded source labels and aggregate values; player, world, recording, and token identifiers are omitted.",
+    "Added the media scrape target, service-down alert coverage, and a recording-capacity warning.",
+    "Added Media service health and aggregate media cards to the HUFS Town dashboard."
+  ],
+  "validation": {
+    "mediaControlRecordingTests": {
+      "result": "PASS",
+      "passed": 4,
+      "failed": 0,
+      "assertions": [
+        "Unauthenticated internal scrape route returns Prometheus text exposition.",
+        "Active producers, consumers, peers, worlds, recordings, capacity, and transcription jobs are counted correctly.",
+        "Closed peers, producers, consumers, and completed recordings are excluded.",
+        "World/player/recording identifiers and the control bearer token do not appear in output."
+      ]
+    },
+    "fullMediaTestSuite": {
+      "dockerLinuxResult": "PASS",
+      "passed": 46,
+      "failed": 0,
+      "skipped": 0,
+      "image": "hufs-town-media-media",
+      "imageId": "sha256:10283dc20f8fd77a1aad8fbf745cf8da75e6f27d6cee53c3a8a118e8e1edd8b5",
+      "windowsNativeAttempt": "43 passed, 2 failed, 1 skipped because this Windows installation lacks the mediasoup native worker executable; the Docker Linux run includes and passes both worker-dependent tests."
+    },
+    "prometheusConfig": "PASS: promtool check config validated prometheus.yml and found its rule file.",
+    "prometheusRules": "PASS: promtool check rules validated 7 rules.",
+    "localComposeSyntax": "PASS: docker compose --profile runtime --profile observability config --quiet.",
+    "dashboard": "PASS: dashboard.js syntax and Media card IDs validated; current Prometheus static routes returned HTTP 200 for dashboard HTML and JavaScript.",
+    "isolatedScrapeIntegration": "PASS: a fresh Media container and Prometheus ran on a temporary private Docker network; Prometheus marked http://media:18082/metrics UP and queried hufs_media_active_peers=0.",
+    "composeImagePrepared": "Built the local Compose image tag hufs-town-media-media from the tested source without replacing the running container.",
+    "currentSharedRuntime": "The running Media container still uses image sha256:c286913d47bc267b52281917ec852eef6c455bcf40b7941df32c3da1ab6f0f1b; an authenticated GET /metrics returned 404. The live Prometheus process still has only API and World active scrape targets.",
+    "runtimeMutation": "No shared development or production service container was restarted or reloaded. The isolated test image and temporary Media/Prometheus containers were removed after verification. The local Compose image tag is prepared, but the running Media and Prometheus services have not applied this change."
+  },
+  "notVerified": [
+    "Production deployment and production Media scrape.",
+    "External alert receiver configuration or delivery.",
+    "Prometheus history backup and restore."
+  ]
+}

@@ -1,0 +1,988 @@
+{
+  "schemaVersion": 1,
+  "command": ".\\apps\\media\\scripts\\fanout-capacity.ps1 -Listeners 99 -DurationSeconds 8 -MinimumReceivedBytes 5000",
+  "startedAt": "2026-09-25T16:10:50.5194026Z",
+  "finishedAt": "2026-09-25T16:11:08.3489663Z",
+  "outcome": "passed",
+  "failure": null,
+  "containerExitCode": 0,
+  "containerImage": "hufs-town-fanout:20260926-011050-511-749868-a36b3066",
+  "dockerResources": {
+    "limits": {
+      "memoryMiB": 1024,
+      "cpus": 2,
+      "network": "none (loopback only)"
+    },
+    "sampleCount": 3,
+    "peakDockerReportedCpuPercent": 8.55,
+    "peakCpuPercentOfLimit": 4.28,
+    "peakMemoryUsedMiB": 57.18,
+    "samples": [
+      {
+        "at": "2026-09-25T16:10:57.7229794Z",
+        "cpuPercent": 8.55,
+        "memoryText": "56.62MiB / 1GiB",
+        "memoryUsedMiB": 56.62
+      },
+      {
+        "at": "2026-09-25T16:11:00.4921222Z",
+        "cpuPercent": 8.3,
+        "memoryText": "57.18MiB / 1GiB",
+        "memoryUsedMiB": 57.18
+      },
+      {
+        "at": "2026-09-25T16:11:03.5341736Z",
+        "cpuPercent": 0.0,
+        "memoryText": "0B / 0B",
+        "memoryUsedMiB": 0.0
+      }
+    ]
+  },
+  "fanout": {
+    "schemaVersion": 1,
+    "mode": "isolated-plain-rtp-sfu-fanout",
+    "limits": {
+      "listeners": 99,
+      "durationSeconds": 8,
+      "minimumBytesPerListener": 5000
+    },
+    "participants": {
+      "total": 100,
+      "publishers": 1,
+      "listeners": 99
+    },
+    "policyDomain": "fanout-1790352654871-1db320/event/attendee-load",
+    "policyRefreshIntervalMs": 800,
+    "rtp": {
+      "codec": "audio/opus",
+      "payloadType": 100,
+      "publisherRtpPackets": 401,
+      "publisherRtpBytes": 53341,
+      "listenersReceiving": 99,
+      "listenerPacketTotal": 40359,
+      "listenerByteTotal": 5966103,
+      "minimumListenerBytes": 60213,
+      "maximumListenerBytes": 60289,
+      "consumersWithRtp": 99,
+      "minimumConsumerRtpBytes": 113098,
+      "allListenersMeetThreshold": true,
+      "listenersBelowThreshold": [],
+      "perListener": [
+        {
+          "id": "listener-001",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-002",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-003",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-004",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-005",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-006",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-007",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-008",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-009",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-010",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-011",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-012",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-013",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-014",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-015",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-016",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-017",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-018",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-019",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-020",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-021",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-022",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-023",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-024",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-025",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-026",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-027",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-028",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-029",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-030",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-031",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-032",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-033",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-034",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-035",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-036",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-037",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-038",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-039",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-040",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-041",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-042",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-043",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-044",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-045",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-046",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-047",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-048",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-049",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-050",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-051",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-052",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-053",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-054",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-055",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-056",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-057",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-058",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-059",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-060",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-061",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-062",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-063",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-064",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-065",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-066",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-067",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-068",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-069",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-070",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-071",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-072",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-073",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-074",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-075",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-076",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-077",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-078",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-079",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-080",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-081",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-082",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-083",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-084",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-085",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-086",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-087",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-088",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-089",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-090",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-091",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-092",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-093",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-094",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-095",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-096",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-097",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-098",
+          "udpPackets": 407,
+          "udpBytes": 60213,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        },
+        {
+          "id": "listener-099",
+          "udpPackets": 408,
+          "udpBytes": 60289,
+          "consumerRtp": {
+            "bytes": 113098,
+            "packets": 802
+          }
+        }
+      ]
+    },
+    "timings": {
+      "elapsedSeconds": 8.359,
+      "consumerSetupMs": 143.28
+    },
+    "resources": {
+      "logicalCpuCount": 2,
+      "processCpuMs": 560.95,
+      "processCpuPercentOfOneCore": 6.71,
+      "processRssMiBAtStart": 66.74,
+      "processRssMiBAtEnd": 83.8,
+      "processHeapUsedMiBAtEnd": 14.25,
+      "processMaxRssMiB": 85.87,
+      "nativeWorkerPid": 15,
+      "nativeWorkerCpuMs": 274,
+      "nativeWorkerCpuPercentOfOneCore": 3.28,
+      "nativeWorkerMaxRssMiB": 11.88
+    }
+  },
+  "logFile": "26-media-fanout-2026-09-26.log",
+  "constraints": [
+    "The harness uses one publisher and N UDP/RTP listeners, with actual RTP packets routed through a mediasoup PlainTransport/router.",
+    "It runs in a unique temporary Docker container using --network none; the primary and prior diagnostic containers are not modified.",
+    "Plain RTP validates SFU packet fan-out and resource use, but does not validate browser WebRTC ICE/DTLS, camera encoding, or client decoding/rendering."
+  ]
+}

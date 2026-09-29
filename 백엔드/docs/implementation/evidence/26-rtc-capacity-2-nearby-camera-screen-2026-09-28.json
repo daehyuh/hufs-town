@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "date": "2026-09-28",
+  "suite": "frontend/tests/e2e/media.spec.ts",
+  "test": "real SFU carries microphone, camera and shared-screen RTP, then revokes distant receivers and cleans up on leave",
+  "durationSeconds": 56.7,
+  "participants": 2,
+  "activeSources": ["MICROPHONE", "CAMERA", "SCREEN", "SCREEN_AUDIO"],
+  "inboundAudioAndVideoRtpVerified": true,
+  "sharedScreenAudioVolumeRange": [0, 100],
+  "sharedScreenWindow": ["drag", "resize", "pin", "expand"],
+  "cameraGalleryWindow": ["drag", "resize", "pin"],
+  "distanceExitRevokedConsumersAndStoppedRtp": true,
+  "mediaPath": "isolated Preview API/World and local Docker mediasoup SFU"
+}

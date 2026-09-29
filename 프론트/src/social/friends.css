@@ -1,0 +1,195 @@
+.friends-dialog {
+  width: 100%;
+  max-width: 520px;
+  display: grid;
+  gap: 18px;
+  padding: 4px 0 2px;
+}
+
+.friends-preference,
+.friends-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.friends-preference {
+  justify-content: flex-start;
+  padding: 12px;
+  border: 1px solid #dce8df;
+  border-radius: 12px;
+  background: #f6faf7;
+  cursor: pointer;
+}
+
+.friends-preference input {
+  width: 18px;
+  height: 18px;
+  accent-color: #176441;
+}
+
+.friends-preference span,
+.friends-row > div:first-child {
+  display: grid;
+  gap: 4px;
+}
+
+.friends-preference small,
+.friends-row small,
+.friends-empty {
+  color: #718177;
+  font-size: 12px;
+}
+
+.friends-section {
+  display: grid;
+  gap: 8px;
+}
+
+.friends-section h3 {
+  margin: 0;
+  color: #345a46;
+  font-size: 13px;
+}
+
+.friends-search-field input {
+  width: 100%;
+  min-height: 38px;
+  padding: 8px 11px;
+  border: 1px solid #d6e2da;
+  border-radius: 9px;
+  color: #294a38;
+  background: #fff;
+  font: inherit;
+}
+
+.friends-search-field input:focus-visible {
+  outline: 2px solid #4b9870;
+  outline-offset: 2px;
+}
+
+.friends-search-results {
+  display: grid;
+  gap: 6px;
+  max-height: 190px;
+  overflow: auto;
+}
+
+.friends-relationship {
+  color: #718177;
+}
+
+.friends-relationship.available {
+  color: #176441;
+}
+
+.friends-relationship.unavailable,
+.friends-relationship.cooldown {
+  color: #8b6940;
+}
+
+.friends-search-hint {
+  max-width: 120px;
+  color: #718177;
+  font-size: 11px;
+  text-align: right;
+}
+
+.friends-row {
+  min-height: 54px;
+  padding: 9px 10px;
+  border: 1px solid #e3ebe5;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.friends-row strong {
+  font-size: 13px;
+}
+
+.friends-online {
+  color: #176441;
+  font-weight: 700;
+}
+
+.friends-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.friends-row button,
+.friends-dialog-footer button {
+  min-height: 34px;
+  padding: 6px 11px;
+  border: 1px solid #d6e2da;
+  border-radius: 8px;
+  background: #fff;
+  color: #365343;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.friends-row button.accept {
+  border-color: #176441;
+  background: #176441;
+  color: #fff;
+}
+
+.friends-row button:disabled,
+.friends-dialog-footer button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.friends-empty {
+  margin: 2px 0;
+}
+
+.friends-dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.friends-message {
+  margin: 0;
+  color: #176441;
+  font-size: 12px;
+}
+
+.friends-message.error {
+  color: #a03f37;
+}
+
+@media (max-width: 620px) {
+  .friends-dialog {
+    gap: 14px;
+  }
+
+  .friends-preference {
+    min-height: 56px;
+    padding: 11px;
+  }
+
+  .friends-preference input {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 auto;
+  }
+
+  .town-dialog .friends-dialog .friends-search-field input {
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  .friends-row button,
+  .friends-dialog-footer button {
+    min-height: 44px;
+  }
+
+  .friends-actions {
+    flex-wrap: wrap;
+  }
+}

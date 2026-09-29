@@ -1,0 +1,3857 @@
+openapi: 3.1.0
+info:
+  title: HUFS Town API
+  version: 0.5.0
+  description: GDG HUFS SSO, spaces, invitations, map editing and world admission. Media signaling uses the authenticated world WebSocket contract; Node control routes are private. Never log credentials, invite codes or admission headers.
+paths:
+  /api/v1/bootstrap:
+    get:
+      operationId: getLocalBootstrap
+      responses:
+        "200":
+          description: Local campus configuration. storage=disabled explicitly denotes the no-database preview profile.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  [
+                    protocolVersion,
+                    mode,
+                    storage,
+                    space,
+                    map,
+                    worldPath,
+                    features,
+                  ]
+                properties:
+                  protocolVersion: { type: integer, const: 2 }
+                  mode: { type: string, enum: [local-preview, sso] }
+                  storage: { type: string, enum: [disabled, mariadb-redis] }
+                  space:
+                    type: object
+                    required: [id, name, capacity]
+                    properties:
+                      id: { type: string }
+                      name: { type: string }
+                      capacity: { type: integer, const: 100 }
+                  map:
+                    $ref: "./world.schema.json#/$defs/MapDefinition"
+                  worldPath: { type: string, const: /world/socket }
+                  features:
+                    type: object
+                    required: [media, editor]
+                    properties:
+                      media:
+                        {
+                          type: boolean,
+                          description: Whether the media service is enabled. Runtime readiness arrives in WebSocket mediaState.,
+                        }
+                      editor: { type: boolean }
+                    additionalProperties: { type: boolean }
+  /api/v1/auth/config:
+    get:
+      operationId: getAuthConfiguration
+      responses:
+        "200":
+          description: Public authentication mode and readiness. No credentials returned.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [mode, configured, provider]
+                properties:
+                  mode: { type: string, enum: [preview, sso] }
+                  configured: { type: boolean }
+                  provider: { type: string, const: GDG HUFS SSO }
+  /api/v1/auth/csrf:
+    get:
+      operationId: getCsrfToken
+      responses:
+        "200":
+          description: Creates a pre-login session if needed. Fetch again after login rotation.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [headerName, token]
+                properties:
+                  headerName: { type: string, const: X-CSRF-TOKEN }
+                  token: { type: string }
+  /api/v1/auth/start:
+    post:
+      operationId: startSsoLogin
+      security: [{ csrfHeader: [] }]
+      responses:
+        "200":
+          description: Server-created authorization URL with a browser-bound state (10-minute expiry).
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [authorizationUrl]
+                properties:
+                  authorizationUrl: { type: string, format: uri }
+        "403": { $ref: "#/components/responses/AuthError" }
+        "429": { $ref: "#/components/responses/AuthError" }
+        "503": { $ref: "#/components/responses/AuthError" }
+  /api/v1/auth/exchange:
+    post:
+      operationId: exchangeSsoCode
+      description: HUFS Town additionally requires server-issued state and CSRF. Upstream request matches CODE MASTER's client_id/client_secret/code contract. Never log request bodies.
+      security: [{ csrfHeader: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code, state]
+              properties:
+                code: { type: string, minLength: 1, maxLength: 4096 }
+                state: { type: string, pattern: "^[A-Za-z0-9_-]{43}$" }
+      responses:
+        "200":
+          description: Rotates session ID and CSRF, sets HttpOnly session cookie, returns service profile.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Account" }
+        "400": { $ref: "#/components/responses/AuthError" }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "403": { $ref: "#/components/responses/AuthError" }
+        "429": { $ref: "#/components/responses/AuthError" }
+        "502": { $ref: "#/components/responses/AuthError" }
+        "503": { $ref: "#/components/responses/AuthError" }
+  /api/v1/auth/me:
+    get:
+      operationId: getCurrentAccount
+      security: [{ sessionCookie: [] }]
+      responses:
+        "200":
+          description: Current active account and saved avatar.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Account" }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "403": { $ref: "#/components/responses/AuthError" }
+        "503": { $ref: "#/components/responses/AuthError" }
+  /api/v1/me/calendar/google:
+    get:
+      operationId: getGoogleCalendarConnection
+      security: [{ sessionCookie: [] }]
+      description: Returns the current user's Google Calendar link status, synchronization queue counts, and at most 100 ETag conflicts. A connected calendar is an app-created secondary calendar; HUFS SSO remains independent.
+      responses:
+        "200":
+          description: Google Calendar connection and synchronization status.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  [
+                    enabled,
+                    connected,
+                    reconnectRequired,
+                    pendingCount,
+                    failedCount,
+                    conflicts,
+                  ]
+                properties:
+                  enabled: { type: boolean }
+                  connected: { type: boolean }
+                  reconnectRequired: { type: boolean }
+                  pendingCount: { type: integer, minimum: 0 }
+                  failedCount: { type: integer, minimum: 0 }
+                  conflicts:
+                    type: array
+                    maxItems: 100
+                    items:
+                      type: object
+                      required:
+                        [sourceKind, sourceId, remoteEventId, detectedAt]
+                      properties:
+                        sourceKind:
+                          {
+                            type: string,
+                            enum: [SCHEDULED_EVENT, ROOM_RESERVATION],
+                          }
+                        sourceId: { type: string, format: uuid }
+                        remoteEventId: { type: string, maxLength: 128 }
+                        detectedAt: { type: string, format: date-time }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "503": { $ref: "#/components/responses/AuthError" }
+    delete:
+      operationId: disconnectGoogleCalendar
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Revokes the stored Google grant when possible and removes local credentials and queued work. The HUFS Town secondary calendar and already copied events remain in Google Calendar.
+      responses:
+        "200":
+          description: Calendar link removed.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [connected]
+                properties:
+                  connected: { type: boolean, const: false }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "503": { $ref: "#/components/responses/AuthError" }
+  /api/v1/me/calendar/google/connect:
+    post:
+      operationId: startGoogleCalendarConnection
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Starts a separate Google OAuth grant using only the app-created-calendar scope. OAuth state is single-use, session-bound, and expires after eight minutes.
+      responses:
+        "200":
+          description: Google authorization URL.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [authorizationUrl]
+                properties:
+                  authorizationUrl: { type: string, format: uri }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "429": { $ref: "#/components/responses/AuthError" }
+        "503": { $ref: "#/components/responses/AuthError" }
+  /api/v1/me/calendar/google/conflicts/{sourceKind}/{sourceId}/apply-hufs-town:
+    parameters:
+      - name: sourceKind
+        in: path
+        required: true
+        schema: { type: string, enum: [SCHEDULED_EVENT, ROOM_RESERVATION] }
+      - name: sourceId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    post:
+      operationId: applyHufsTownCalendarVersion
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Explicitly queues the current HUFS Town event or cancellation over a conflicting Google copy. The worker fetches the newest ETag and still uses If-Match to prevent a concurrent overwrite.
+      responses:
+        "200":
+          description: Conflict resolution queued.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [queued]
+                properties:
+                  queued: { type: boolean, const: true }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "404": { $ref: "#/components/responses/AuthError" }
+        "409": { $ref: "#/components/responses/AuthError" }
+        "503": { $ref: "#/components/responses/AuthError" }
+  /api/v1/calendar/google/callback:
+    get:
+      operationId: completeGoogleCalendarConnection
+      description: Google OAuth redirect endpoint. Requires the active HUFS Town session that initiated the request; the callback state is single-use and session-bound. Redirects to the local app with a fixed result code and never reflects provider errors or arbitrary URLs.
+      parameters:
+        - {
+            name: code,
+            in: query,
+            required: false,
+            schema: { type: string, maxLength: 4096 },
+          }
+        - {
+            name: state,
+            in: query,
+            required: false,
+            schema: { type: string, pattern: "^[A-Za-z0-9_-]{43}$" },
+          }
+        - {
+            name: error,
+            in: query,
+            required: false,
+            schema: { type: string, maxLength: 128 },
+          }
+      responses:
+        "302":
+          {
+            description: Redirect to HUFS Town with a fixed calendar result code.,
+          }
+        "400": { $ref: "#/components/responses/AuthError" }
+        "503": { $ref: "#/components/responses/AuthError" }
+  /api/v1/me/friends:
+    get:
+      operationId: getFriendOverview
+      security: [{ sessionCookie: [] }]
+      description: Lists accepted friends and pending requests for the authenticated account. Blocked pairs and inactive accounts are omitted. The response does not reveal current location or map.
+      responses:
+        "200":
+          description: Friend list and request inbox/outbox.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FriendOverview" }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "503": { $ref: "#/components/responses/AuthError" }
+        default: { $ref: "#/components/responses/AuthError" }
+  /api/v1/me/friends/search:
+    get:
+      operationId: searchFriendAccounts
+      security: [{ sessionCookie: [] }]
+      description: Searches active accounts by literal display-name prefix after trimming and NFC normalization. Searches only public profile names and relationship state; email, presence, spaces, maps, and coordinates are never returned. Relationship can be UNAVAILABLE when the target does not accept new friend requests.
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: Trimmed prefix of 2–32 Unicode code points; percent and underscore are treated literally.
+          schema: { type: string, minLength: 2, maxLength: 32 }
+      responses:
+        "200":
+          description: Up to 20 matching active accounts, ordered by display name.
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 20
+                items: { $ref: "#/components/schemas/FriendSearchResult" }
+        "400": { $ref: "#/components/responses/AuthError" }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "429": { $ref: "#/components/responses/AuthError" }
+        "503": { $ref: "#/components/responses/AuthError" }
+        default: { $ref: "#/components/responses/AuthError" }
+  /api/v1/me/friends/requests:
+    post:
+      operationId: createFriendRequest
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Creates a private friend request to an active account. Reciprocal pending requests become accepted. Requests are rejected when either user blocked the other or the target disabled incoming friend requests. Reopened requests receive a fresh requestId. An account may have up to 50 outgoing pending requests and create up to 20 requests in any rolling 60-second window.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/FriendRequestDraft" }
+      responses:
+        "200":
+          description: Existing, pending, or accepted relationship after the operation.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FriendRequestState" }
+        "400": { $ref: "#/components/responses/AuthError" }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "404": { $ref: "#/components/responses/AuthError" }
+        "429": { $ref: "#/components/responses/AuthError" }
+        "503": { $ref: "#/components/responses/AuthError" }
+        default: { $ref: "#/components/responses/AuthError" }
+  /api/v1/me/friends/requests/{requestId}/respond:
+    parameters:
+      - name: requestId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    post:
+      operationId: respondToFriendRequest
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Only the target account can accept or decline a pending friend request. A decline applies a 24-hour retry cooldown for the original requester.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/FriendRequestDecision" }
+      responses:
+        "200":
+          description: Request decision.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status]
+                properties:
+                  status: { type: string, enum: [ACCEPTED, DECLINED] }
+        "400": { $ref: "#/components/responses/AuthError" }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "404": { $ref: "#/components/responses/AuthError" }
+        "409": { $ref: "#/components/responses/AuthError" }
+        "503": { $ref: "#/components/responses/AuthError" }
+        default: { $ref: "#/components/responses/AuthError" }
+  /api/v1/me/friends/requests/{requestId}:
+    parameters:
+      - name: requestId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    delete:
+      operationId: cancelFriendRequest
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: The requester can cancel a pending friend request.
+      responses:
+        "200":
+          description: Request cancelled.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [cancelled]
+                properties:
+                  cancelled: { type: boolean, const: true }
+        "400": { $ref: "#/components/responses/AuthError" }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "404": { $ref: "#/components/responses/AuthError" }
+        "503": { $ref: "#/components/responses/AuthError" }
+        default: { $ref: "#/components/responses/AuthError" }
+  /api/v1/me/friends/{friendUserId}:
+    parameters:
+      - name: friendUserId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    delete:
+      operationId: removeFriend
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Removes an accepted friendship. A later request requires new consent.
+      responses:
+        "200":
+          description: Friend removed.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [removed]
+                properties:
+                  removed: { type: boolean, const: true }
+        "400": { $ref: "#/components/responses/AuthError" }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "404": { $ref: "#/components/responses/AuthError" }
+        "503": { $ref: "#/components/responses/AuthError" }
+        default: { $ref: "#/components/responses/AuthError" }
+  /api/v1/me/friends/preferences:
+    get:
+      operationId: getFriendPreferences
+      security: [{ sessionCookie: [] }]
+      responses:
+        "200":
+          description: Friend request and friend notification preferences.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FriendPreferences" }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "503": { $ref: "#/components/responses/AuthError" }
+        default: { $ref: "#/components/responses/AuthError" }
+    put:
+      operationId: updateFriendPreferences
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/FriendPreferences" }
+      responses:
+        "200":
+          description: Updated friend request and friend notification preferences.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FriendPreferences" }
+        "400": { $ref: "#/components/responses/AuthError" }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "503": { $ref: "#/components/responses/AuthError" }
+        default: { $ref: "#/components/responses/AuthError" }
+  /api/v1/me/join-requests:
+    get:
+      operationId: listIncomingSocialJoinRequests
+      security: [{ sessionCookie: [] }]
+      description: Lists pending meetup requests and approved requests for seven days so the target can continue through ordinary space admission. A destination is included only because the requester explicitly selected and shared that space; the response never contains the target's current space, map, presence, or coordinates.
+      responses:
+        "200":
+          description: Pending requests and recently approved destinations for the authenticated account.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/SocialJoinRequest" }
+        default: { $ref: "#/components/responses/AuthError" }
+    post:
+      operationId: createSocialJoinRequest
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Creates a seven-day asynchronous meetup request for the peer resolved server-side from a DIRECT conversation the caller belongs to. The caller must be a current member of the destination space and explicitly shares its name with the recipient. Group chats and conversations the caller does not belong to are rejected. Both directions of user blocking are enforced. Approval records consent only; the recipient must separately open the destination and pass its normal admission checks.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [conversationId, destinationSpaceId]
+              properties:
+                conversationId: { type: string, format: uuid }
+                destinationSpaceId: { type: string, format: uuid }
+                message: { type: string, maxLength: 160 }
+      responses:
+        "200":
+          description: Existing pending request or newly created request.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SocialJoinRequestState" }
+        default: { $ref: "#/components/responses/AuthError" }
+  /api/v1/me/join-requests/outgoing:
+    get:
+      operationId: listOutgoingSocialJoinRequests
+      security: [{ sessionCookie: [] }]
+      description: Lists the authenticated account's requests from the last seven days, including decisions and expiry.
+      responses:
+        "200":
+          description: Recent requests sent by the authenticated account.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/SocialJoinRequest" }
+        default: { $ref: "#/components/responses/AuthError" }
+  /api/v1/me/join-requests/{requestId}/respond:
+    parameters:
+      - name: requestId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    post:
+      operationId: respondToSocialJoinRequest
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Only the target account can approve or decline its pending request. Approval is a meetup consent signal and does not move either participant. The selected destination remains in the target's request list so they can separately open it through ordinary space admission.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [decision]
+              properties:
+                decision: { type: string, enum: [APPROVE, DECLINE] }
+      responses:
+        "200":
+          description: Request decision.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status]
+                properties:
+                  status: { type: string, enum: [APPROVED, DECLINED, EXPIRED] }
+        default: { $ref: "#/components/responses/AuthError" }
+  /api/v1/me/join-requests/{requestId}/cancel:
+    parameters:
+      - name: requestId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    post:
+      operationId: cancelSocialJoinRequest
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: The requester may cancel their pending request.
+      responses:
+        "200":
+          description: Request cancelled.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [cancelled]
+                properties:
+                  cancelled: { type: boolean, const: true }
+        default: { $ref: "#/components/responses/AuthError" }
+  /api/v1/auth/profile:
+    patch:
+      operationId: updateCurrentProfile
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [displayName, avatar]
+              properties:
+                displayName:
+                  {
+                    type: string,
+                    minLength: 1,
+                    maxLength: 20,
+                    description: Trimmed nickname without control/format characters.,
+                  }
+                avatar: { type: integer, minimum: 0, maximum: 2 }
+      responses:
+        "200":
+          description: Saved profile; used by the next authenticated world connection.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Account" }
+        "400": { $ref: "#/components/responses/AuthError" }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "403": { $ref: "#/components/responses/AuthError" }
+  /api/v1/auth/preferences:
+    patch:
+      operationId: updateAccountPreferences
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Saves account-level interaction preferences. The saved value is loaded into each authenticated world connection; anonymous preview preferences remain local to that browser.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [allowPokes]
+              properties:
+                allowPokes: { type: boolean }
+      responses:
+        "200":
+          description: Updated account, including the saved interaction preference.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Account" }
+        default: { $ref: "#/components/responses/AuthError" }
+  /api/v1/auth/account/deletion-impact:
+    get:
+      operationId: getAccountDeletionImpact
+      security: [{ sessionCookie: [] }]
+      description: Lists owned spaces that must be transferred before account deletion can proceed.
+      responses:
+        "200":
+          description: Owned spaces blocking deletion.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AccountDeletionImpact" }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "403": { $ref: "#/components/responses/AuthError" }
+  /api/v1/auth/account:
+    delete:
+      operationId: deleteCurrentAccount
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Permanently anonymizes the HUFS Town account, removes its SSO identity, profile, memberships and personal content, transfers group-DM ownership, invalidates all sessions, and preserves only required safety evidence for its existing retention period. Spaces owned by the account must first be transferred to another member.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [confirmation]
+              properties:
+                confirmation: { type: string, const: "탈퇴" }
+      responses:
+        "200":
+          description: Account deleted and sessions invalidated.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [deleted]
+                properties:
+                  deleted: { type: boolean, const: true }
+        "400": { $ref: "#/components/responses/AuthError" }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "403": { $ref: "#/components/responses/AuthError" }
+        "409": { $ref: "#/components/responses/AuthError" }
+        "503": { $ref: "#/components/responses/AuthError" }
+  /api/v1/auth/logout:
+    post:
+      operationId: logoutCurrentSession
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      responses:
+        "200":
+          description: Invalidates current browser session; its world tabs disconnect on the next session check.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [loggedOut]
+                properties:
+                  loggedOut: { type: boolean, const: true }
+        "401": { $ref: "#/components/responses/AuthError" }
+        "403": { $ref: "#/components/responses/AuthError" }
+  /api/v1/spaces:
+    get:
+      operationId: listSpaces
+      security: [{ sessionCookie: [] }]
+      description: Server-side substring search and pagination over spaces readable by the caller. Up to 50 results per page. Member spaces are ordered first by last visit; private spaces require membership, and unlisted spaces are listed when the caller is a member, has a pending request, or saved them as a favorite. Access-blocked and archived spaces are omitted unless view=archived; that view returns only spaces owned by the caller.
+      parameters:
+        - name: q
+          in: query
+          schema: { type: string, maxLength: 100 }
+        - name: view
+          in: query
+          schema:
+            {
+              type: string,
+              enum: [browse, mine, favorites, archived],
+              default: browse,
+            }
+        - name: page
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100000, default: 1 }
+        - name: pageSize
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 50, default: 12 }
+      responses:
+        "200": { $ref: "#/components/responses/SpacePage" }
+        default: { $ref: "#/components/responses/SpaceError" }
+    post:
+      operationId: createSpace
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Maximum 20 spaces per owner. Select one of the campus square, study space, or meetup hall starter maps; every new space receives an independent editable map. Older clients that omit templateId retain the OFFICE default. Creation returns OWNER membership. approvalRequired is supported only for PUBLIC and UNLISTED spaces.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - { $ref: "#/components/schemas/SpaceEdit" }
+                - type: object
+                  required: [capacity]
+                  properties:
+                    capacity: { type: integer, minimum: 1, maximum: 100 }
+                    templateId:
+                      {
+                        type: string,
+                        enum: [CAMPUS_SQUARE, STUDY_SPACE, MEETUP_HALL, OFFICE],
+                        default: OFFICE,
+                      }
+      responses:
+        "200": { $ref: "#/components/responses/Space" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    get:
+      operationId: getSpace
+      security: [{ sessionCookie: [] }]
+      description: PRIVATE requires membership; a denied read is indistinguishable from a missing space (404). UNLISTED can be read by ID by any active signed-in account.
+      responses:
+        "200": { $ref: "#/components/responses/Space" }
+        default: { $ref: "#/components/responses/SpaceError" }
+    patch:
+      operationId: updateSpace
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER only. Existing members retain access after visibility changes. Capacity and map template are immutable in this version.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SpaceEdit" }
+      responses:
+        "200": { $ref: "#/components/responses/Space" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/archive:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    post:
+      operationId: archiveSpace
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER only. Preserves the space and its data for restoration. Archived spaces disappear from normal lists and reject new access; an unexpired ownership transfer must be cancelled or resolved first.
+      responses:
+        "200": { $ref: "#/components/responses/SpaceArchiveState" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/restore:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    post:
+      operationId: restoreSpace
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER only. Restores a space from the owner's archived list and re-enables its preserved data and memberships.
+      responses:
+        "200": { $ref: "#/components/responses/SpaceArchiveState" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/clone:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    post:
+      operationId: cloneSpace
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER only. Creates a new PRIVATE space with the requested name, original description/capacity/template/email-domain policy, all maps and the current draft/published state. Map and custom-asset IDs are regenerated; only READY assets are copied. Approval and guest entry are disabled. The new space starts with only the caller as OWNER, no invitations or social/event records, and a fresh publication history. Maximum 20 owned spaces and 50 maps per space.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SpaceCloneRequest" }
+      responses:
+        "200": { $ref: "#/components/responses/Space" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/favorite:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    put:
+      operationId: favoriteSpace
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Saves the caller's favorite. The caller must be able to read the space; PRIVATE spaces require membership and access blocks are enforced. Repeating the request is safe.
+      responses:
+        "200": { $ref: "#/components/responses/SpaceFavoriteState" }
+        default: { $ref: "#/components/responses/SpaceError" }
+    delete:
+      operationId: unfavoriteSpace
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Removes the caller's favorite. Safe to repeat and does not disclose whether the space is still readable.
+      responses:
+        "200": { $ref: "#/components/responses/SpaceFavoriteState" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/admission:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    post:
+      operationId: issueWorldAdmission
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Checks active account and space access, upserts membership and last visit. Nonmembers of approval-required spaces must first be approved or redeem a valid invitation. An optional mapId selects a published map in this space; omission selects its configured entry map. A reservationId enters the reserved private room from 15 minutes before its start through its end; reservationId cannot be combined with portal proof, and any supplied mapId must match the reservation map. Portal arrivals provide sourceSpaceId, sourceMapId, and portalId; the server verifies the published source portal and chooses its destination map and safe spawn. Returns a one-use 30-second Redis ticket bound to user/session/space/map and atomically reserves a seat against space-wide capacity. Supplying the current resumeToken reuses that participant's seat only when the token belongs to the same user and HTTP session. Joined seats are renewed as 20-second leases, including the 15-second reconnect grace. Connect with WebSocket protocols hufs-town-v2 and hufs-ticket.TICKET; server selects hufs-town-v2. Cookie and exact Origin are also required. Obtain a fresh ticket for every reconnect. Never put tickets in URLs or logs.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mapId:
+                  {
+                    type: string,
+                    minLength: 1,
+                    maxLength: 80,
+                    pattern: "^[A-Za-z0-9_-]+$",
+                  }
+                sourceSpaceId:
+                  {
+                    type: string,
+                    minLength: 1,
+                    maxLength: 80,
+                    pattern: "^[A-Za-z0-9_-]+$",
+                  }
+                sourceMapId:
+                  {
+                    type: string,
+                    minLength: 1,
+                    maxLength: 80,
+                    pattern: "^[A-Za-z0-9_-]+$",
+                  }
+                portalId:
+                  {
+                    type: string,
+                    minLength: 1,
+                    maxLength: 80,
+                    pattern: "^[A-Za-z0-9_-]+$",
+                  }
+                resumeToken:
+                  {
+                    type: string,
+                    minLength: 1,
+                    maxLength: 100,
+                    pattern: "^[A-Za-z0-9-]+$",
+                    description: Current world resume token; used to reclaim the same space seat.,
+                  }
+                reservationId:
+                  {
+                    type: string,
+                    format: uuid,
+                    description: Optional reservation ID to enter its private room during the allowed reservation window. Cannot be combined with portal proof.,
+                  }
+      responses:
+        "200":
+          description: Temporary admission.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ticket, expiresInSeconds]
+                properties:
+                  ticket: { type: string, minLength: 43, maxLength: 43 }
+                  expiresInSeconds: { type: integer, const: 30 }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/room-reservations:
+    parameters:
+      - name: spaceId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      operationId: listRoomReservations
+      security: [{ sessionCookie: [] }]
+      description: Lists published private rooms and recent/current reservations visible to the caller. canReserve is true only for a current space member; each reservation's canEdit is true for its organizer or a space manager.
+      responses:
+        "200":
+          description: Reservable rooms and retained reservation records for this space.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/RoomReservationSnapshot" }
+        default: { $ref: "#/components/responses/SpaceError" }
+    post:
+      operationId: createRoomReservation
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Creates a 15-minute-to-8-hour reservation in a currently published private room. Starts at least two minutes ahead and no more than one year ahead. Overlapping reservations for the same room are rejected. Each user may have at most five active future reservations; requestId makes retries idempotent, and the same requestId with a different payload conflicts.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/RoomReservationCreateDraft" }
+      responses:
+        "200":
+          description: Created reservation, or the existing reservation for an identical idempotent retry.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/RoomReservation" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/room-reservations/{reservationId}:
+    parameters:
+      - name: spaceId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+      - name: reservationId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    patch:
+      operationId: updateRoomReservation
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Updates a future, uncancelled reservation. Only its organizer or a space manager may edit it. expectedUpdatedAt is an optimistic concurrency precondition; stale edits return a conflict. The new time and room must satisfy the same creation and overlap rules.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/RoomReservationUpdateDraft" }
+      responses:
+        "200":
+          description: Updated reservation.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/RoomReservation" }
+        default: { $ref: "#/components/responses/SpaceError" }
+    delete:
+      operationId: cancelRoomReservation
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Cancels a future reservation. Only its organizer or a space manager may cancel it. Repeating cancellation returns the current reservation; started reservations cannot be cancelled.
+      responses:
+        "200":
+          description: Reservation state after cancellation.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/RoomReservation" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/recordings:
+    parameters:
+      - name: spaceId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      operationId: listSpaceRecordings
+      security: [{ sessionCookie: [] }]
+      description: Lists retained, completed recordings for current space members. Owners and admins can see every recording; other members can see only recordings in which they participated. Account identifiers and storage paths are never returned.
+      responses:
+        "200":
+          description: Completed recordings visible to this member.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SpaceRecordingArchive" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/recordings/{recordingId}:
+    parameters:
+      - name: spaceId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+      - name: recordingId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    delete:
+      operationId: deleteSpaceRecording
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Deletes a completed recording in this space. The recording requester or a space owner/admin may delete it; the server resolves the space scope from trusted recording metadata.
+      responses:
+        "200":
+          description: Recording removed.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [recordingId, deleted]
+                properties:
+                  recordingId: { type: string, format: uuid }
+                  deleted: { type: boolean, const: true }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/recordings/{recordingId}/tracks/{trackId}/content:
+    parameters:
+      - name: spaceId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+      - name: recordingId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+      - name: trackId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+      - name: Range
+        in: header
+        required: false
+        description: Optional single byte range for seeking.
+        schema:
+          { type: string, pattern: '^bytes=(\d+-\d*|-\d+)$', maxLength: 80 }
+      - name: download
+        in: query
+        required: false
+        schema: { type: boolean, default: false }
+    get:
+      operationId: readSpaceRecordingTrack
+      security: [{ sessionCookie: [] }]
+      description: Streams a retained WebM track for a current space member who participated in the recording, or any space owner/admin. The API proxies the file and supports a single byte range.
+      responses:
+        "200":
+          description: WebM recording content.
+          content:
+            video/webm:
+              schema: { type: string, format: binary }
+        "206":
+          description: Requested byte range of WebM recording content.
+          headers:
+            Content-Range: { schema: { type: string } }
+            Accept-Ranges: { schema: { type: string, const: bytes } }
+          content:
+            video/webm:
+              schema: { type: string, format: binary }
+        "416":
+          description: Byte range is outside the track.
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/members:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    get:
+      operationId: listSpaceMembers
+      security: [{ sessionCookie: [] }]
+      description: OWNER or ADMIN. Lists current members; user IDs are used for management requests and are not rendered as profile data.
+      responses:
+        "200":
+          description: Current space membership.
+          content:
+            application/json:
+              schema:
+                {
+                  type: array,
+                  items: { $ref: "#/components/schemas/SpaceMember" },
+                }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/ownership-transfers/incoming:
+    get:
+      operationId: listIncomingOwnershipTransfers
+      security: [{ sessionCookie: [] }]
+      description: Returns unexpired ownership transfer requests addressed to the authenticated user, limited to spaces where they remain a member and the sender remains the owner.
+      responses:
+        "200":
+          description: Pending requests that the caller can accept or decline.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  { $ref: "#/components/schemas/IncomingOwnershipTransfer" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/invitations/incoming:
+    get:
+      operationId: listIncomingSpaceInvitations
+      security: [{ sessionCookie: [] }]
+      description: Lists active account-targeted space invitations for the authenticated user. Expired, revoked, fully used, archived, or already joined spaces are omitted.
+      responses:
+        "200":
+          description: Invitations addressed to the caller.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/IncomingSpaceInvite" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/join-requests/incoming:
+    get:
+      operationId: listIncomingSpaceJoinRequests
+      security: [{ sessionCookie: [] }]
+      description: Lists up to 200 pending join requests across active, approval-required spaces where the authenticated user is the owner or an administrator. Space details are only returned to managers of those spaces.
+      responses:
+        "200":
+          description: Pending requests for spaces the caller manages.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/IncomingSpaceJoinRequest" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/invitations/{inviteId}/accept:
+    parameters:
+      - name: inviteId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    post:
+      operationId: acceptIncomingSpaceInvitation
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Accepts an unexpired account-targeted invitation addressed to the caller, subject to the space email-domain policy. Membership and invitation use count are updated atomically. Retrying after acceptance returns the current membership.
+      responses:
+        "200":
+          description: The joined space.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Space" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/invitations/{inviteId}/decline:
+    parameters:
+      - name: inviteId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    post:
+      operationId: declineIncomingSpaceInvitation
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Revokes an active account-targeted invitation addressed to the caller.
+      responses:
+        "200":
+          description: Invitation declined.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [declined]
+                properties:
+                  declined: { type: boolean, const: true }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/ownership-transfer:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    get:
+      operationId: getSpaceOwnershipTransfer
+      security: [{ sessionCookie: [] }]
+      description: OWNER only. Returns the current unexpired transfer request for this space, or an empty array when none exists.
+      responses:
+        "200":
+          description: Current pending request.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/SpaceOwnershipTransfer" }
+        default: { $ref: "#/components/responses/SpaceError" }
+    post:
+      operationId: requestSpaceOwnershipTransfer
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER only. Sends a seven-day request to a current member. Only one request may be pending per space. Ownership changes only after the recipient accepts; the previous owner remains an ADMIN.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [targetUserId]
+              properties:
+                targetUserId: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Pending request created.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SpaceOwnershipTransfer" }
+        default: { $ref: "#/components/responses/SpaceError" }
+    delete:
+      operationId: cancelSpaceOwnershipTransfer
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER only. Cancels the current pending request.
+      responses:
+        "200":
+          description: Request cancelled.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [cancelled]
+                properties:
+                  cancelled: { type: boolean, const: true }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/ownership-transfer/respond:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    post:
+      operationId: respondToSpaceOwnershipTransfer
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: The addressed member accepts or declines. Acceptance atomically updates the space owner and member roles; the prior owner remains an ADMIN. Expired or stale requests are discarded without changing ownership.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [decision]
+              properties:
+                decision: { type: string, enum: [ACCEPT, DECLINE] }
+      responses:
+        "200":
+          description: Request response result.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/OwnershipTransferResult" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/members/{userId}:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceId" }
+      - name: userId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    delete:
+      operationId: kickSpaceMember
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN. Removes a regular MEMBER and permanently blocks space re-entry until a manager unblocks them or they redeem a new valid space invite. ADMIN and OWNER accounts cannot be removed through this operation.
+      responses:
+        "200":
+          description: Member removed and access blocked.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [removed, accessBlocked]
+                properties:
+                  removed: { type: boolean, const: true }
+                  accessBlocked: { type: boolean, const: true }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/members/{userId}/role:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceId" }
+      - name: userId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    patch:
+      operationId: updateSpaceMemberRole
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER only. Assigns ADMIN or MEMBER to an existing non-owner member. An ADMIN can manage maps, invites and regular members but cannot change roles or space settings.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [role]
+              properties:
+                role: { type: string, enum: [ADMIN, MEMBER] }
+      responses:
+        "200":
+          description: Updated member role.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [role]
+                properties:
+                  role: { type: string, enum: [ADMIN, MEMBER] }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/access-blocks:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    get:
+      operationId: listSpaceAccessBlocks
+      security: [{ sessionCookie: [] }]
+      description: OWNER or ADMIN. Lists up to 200 accounts currently denied entry to this space.
+      responses:
+        "200":
+          description: Space access blocks.
+          content:
+            application/json:
+              schema:
+                {
+                  type: array,
+                  items: { $ref: "#/components/schemas/SpaceAccessBlock" },
+                }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/access-blocks/{userId}:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceId" }
+      - name: userId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    delete:
+      operationId: unblockSpaceMember
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN. Removes the persistent access block. This does not create membership; the account may request admission again if the space is otherwise readable.
+      responses:
+        "200":
+          description: Access block removed.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [unblocked]
+                properties:
+                  unblocked: { type: boolean, const: true }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/join-requests:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    get:
+      operationId: listPendingSpaceJoinRequests
+      security: [{ sessionCookie: [] }]
+      description: OWNER or ADMIN. Lists up to 200 pending requests for this space.
+      responses:
+        "200":
+          description: Pending join requests.
+          content:
+            application/json:
+              schema:
+                {
+                  type: array,
+                  items: { $ref: "#/components/schemas/SpaceJoinRequest" },
+                }
+        default: { $ref: "#/components/responses/SpaceError" }
+    post:
+      operationId: requestSpaceJoin
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Active accounts may request entry to a readable PUBLIC or UNLISTED approval-required space. A repeated pending request is idempotent. Valid invitation redemption bypasses approval. Approval creates membership; the user then requests a world admission ticket.
+      responses:
+        "200": { $ref: "#/components/responses/SpaceJoinRequestState" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/join-requests/{requestId}/resolve:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceId" }
+      - name: requestId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    post:
+      operationId: resolveSpaceJoinRequest
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN. APPROVE creates membership; REJECT records the decision. A request can be resolved only once.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [decision]
+              properties:
+                decision: { type: string, enum: [APPROVE, REJECT] }
+      responses:
+        "200":
+          description: Request resolved.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [resolved]
+                properties:
+                  resolved: { type: boolean, const: true }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/chat:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    get:
+      operationId: listReceivedChatHistory
+      security: [{ sessionCookie: [] }]
+      description: Returns only messages recorded for this account as an authorized recipient. PRIVATE-room history is further scoped by zoneId. Expired messages are excluded; default page is the latest 50.
+      parameters:
+        - name: channel
+          in: query
+          required: true
+          schema: { type: string, enum: [nearby, room] }
+        - name: zoneId
+          in: query
+          required: false
+          schema: { type: string, minLength: 1, maxLength: 64 }
+        - name: beforeId
+          in: query
+          required: false
+          schema: { type: string, format: uuid }
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+      responses:
+        "200":
+          description: Authorized recent messages, oldest first within this page.
+          content:
+            application/json:
+              schema:
+                {
+                  type: array,
+                  items: { $ref: "#/components/schemas/ChatHistoryEntry" },
+                }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/invites:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    get:
+      operationId: listSpaceInvitations
+      security: [{ sessionCookie: [] }]
+      description: OWNER or ADMIN; 50 newest invitation metadata entries. Raw codes and their hashes are never returned.
+      responses:
+        "200":
+          description: Invitation metadata.
+          content:
+            application/json:
+              schema:
+                { type: array, items: { $ref: "#/components/schemas/Invite" } }
+        default: { $ref: "#/components/responses/SpaceError" }
+    post:
+      operationId: createSpaceInvitation
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN. At most 20 active, unexhausted invites per space. Code is returned only at creation and stored as SHA-256. UI uses /#invite=CODE so it survives the SSO round-trip via tab sessionStorage without being sent in page requests.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [hours, maxUses]
+              properties:
+                hours: { type: integer, minimum: 1, maximum: 168 }
+                maxUses: { type: integer, minimum: 1, maximum: 100 }
+      responses:
+        "200":
+          description: Newly created invitation; retain the code now.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [invite, code]
+                properties:
+                  invite: { $ref: "#/components/schemas/Invite" }
+                  code: { type: string, minLength: 22, maxLength: 22 }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/invites/{inviteId}/revoke:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceId" }
+      - name: inviteId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    post:
+      operationId: revokeSpaceInvitation
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN; cancels future acceptance. Does not remove existing members. Repeated revocation is idempotent.
+      responses:
+        "200":
+          description: Invitation revoked.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [revoked]
+                properties:
+                  revoked: { type: boolean, const: true }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/redeem:
+    post:
+      operationId: redeemSpaceInvitation
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Space-row and invite-row locks serialize concurrent acceptance. A current member can reuse an unexpired, unrevoked code without consuming another use, even if its quota is now exhausted. Invalid, expired, revoked and exhausted codes share an error response.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code]
+              properties:
+                code: { type: string, pattern: "^[A-Za-z0-9_-]{22}$" }
+      responses:
+        "200": { $ref: "#/components/responses/Space" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/events:
+    parameters: [{ $ref: "#/components/parameters/SpaceAssetSpaceId" }]
+    get:
+      operationId: listSpaceEventHistory
+      security: [{ sessionCookie: [] }]
+      description: OWNER and ADMIN only. Lists up to 100 persisted events with the number of distinct signed-in attendees; anonymous sessions are counted individually.
+      responses:
+        "200":
+          description: Recent event history.
+          content:
+            application/json:
+              schema:
+                {
+                  type: array,
+                  items: { $ref: "#/components/schemas/EventSummary" },
+                }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/events/{eventId}/results:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceAssetSpaceId" }
+      - name: eventId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      operationId: getSpaceEventResults
+      security: [{ sessionCookie: [] }]
+      description: OWNER and ADMIN only. Returns Q&A, poll totals, and deduplicated attendee summaries. Reconnected sessions for one account are merged and their attendance durations are summed.
+      responses:
+        "200":
+          description: Event results and attendee summaries.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/EventResults" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/events/{eventId}/attendance.csv:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceAssetSpaceId" }
+      - name: eventId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      operationId: exportSpaceEventAttendance
+      security: [{ sessionCookie: [] }]
+      description: OWNER and ADMIN only. Exports one row per distinct signed-in attendee or anonymous session, with reconnect sessions merged. User-provided cells are escaped to prevent spreadsheet formula execution.
+      responses:
+        "200":
+          description: UTF-8 CSV attendance export.
+          content:
+            text/csv:
+              schema: { type: string, format: binary }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/scheduled-events:
+    parameters: [{ $ref: "#/components/parameters/SpaceAssetSpaceId" }]
+    get:
+      operationId: listScheduledSpaceEvents
+      security: [{ sessionCookie: [] }]
+      description: Lists upcoming events and cancellations from the last 30 days. PUBLIC and UNLISTED spaces are readable unless the account is access-blocked; PRIVATE schedules require membership.
+      responses:
+        "200":
+          description: At most 50 upcoming event schedules.
+          content:
+            application/json:
+              schema:
+                {
+                  type: array,
+                  items: { $ref: "#/components/schemas/ScheduledEvent" },
+                }
+        default: { $ref: "#/components/responses/SpaceError" }
+    post:
+      operationId: createScheduledSpaceEvent
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER and ADMIN only. Starts 1 minute to 365 days ahead; optional end is 1 minute to 12 hours after start. HTTPS materials only, max 50 upcoming schedules per space and 10 created per account per day.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ScheduledEventDraft" }
+      responses:
+        "200":
+          description: Created schedule.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ScheduledEvent" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/scheduled-events/{eventId}:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceAssetSpaceId" }
+      - name: eventId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    patch:
+      operationId: updateScheduledSpaceEvent
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER and ADMIN only. Only future, non-cancelled schedules can be updated.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ScheduledEventDraft" }
+      responses:
+        "200":
+          description: Updated schedule.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ScheduledEvent" }
+        default: { $ref: "#/components/responses/SpaceError" }
+    delete:
+      operationId: cancelScheduledSpaceEvent
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER and ADMIN only. Cancellation is retained so attendees can see the notice.
+      responses:
+        "200":
+          description: Cancelled schedule.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ScheduledEvent" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/scheduled-events/{eventId}/rsvp:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceAssetSpaceId" }
+      - name: eventId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    put:
+      operationId: respondToScheduledEvent
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Any active account that can read the space may respond GOING, INTERESTED, or DECLINED to a future event. Only aggregate counts and the caller's own response are returned; this expresses intent and does not reserve a seat or grant space admission.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ScheduledEventRsvpDraft" }
+      responses:
+        "200":
+          description: Updated schedule and aggregate RSVP counts.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ScheduledEvent" }
+        default: { $ref: "#/components/responses/SpaceError" }
+    delete:
+      operationId: clearScheduledEventResponse
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Removes the caller's response. This is allowed after cancellation or start so the user can withdraw their saved preference.
+      responses:
+        "200":
+          description: Updated schedule and aggregate RSVP counts.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ScheduledEvent" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/assets:
+    parameters: [{ $ref: "#/components/parameters/SpaceAssetSpaceId" }]
+    get:
+      operationId: listSpaceAssets
+      security: [{ sessionCookie: [] }]
+      description: Returns approved user assets visible to a member of the space. URLs are same-origin authenticated content routes.
+      responses:
+        "200":
+          description: Space asset catalog.
+          content:
+            application/json:
+              schema:
+                {
+                  type: array,
+                  items: { $ref: "#/components/schemas/SpaceAsset" },
+                }
+        default: { $ref: "#/components/responses/SpaceError" }
+    post:
+      operationId: uploadSpaceAsset
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN only. Accepts one PNG or JPEG image up to 2MB; the server checks dimensions before decoding, resizes to at most 512px, strips embedded metadata by re-encoding as PNG, and creates a 96px thumbnail. New assets remain private and unavailable to maps until an OWNER explicitly approves them. Pending and approved files count toward the per-space quotas of 500 assets and 100MB.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [file]
+              properties:
+                file: { type: string, format: binary }
+      responses:
+        "200":
+          description: Pending review metadata, or an existing approved asset when the image is already present.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SpaceAssetUpload" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/assets/review:
+    parameters: [{ $ref: "#/components/parameters/SpaceAssetSpaceId" }]
+    get:
+      operationId: listPendingSpaceAssetReviews
+      security: [{ sessionCookie: [] }]
+      description: OWNER only. Lists up to 100 pending images for review. The review-content URL is available only to the current space owner.
+      responses:
+        "200":
+          description: Pending asset reviews.
+          content:
+            application/json:
+              schema:
+                {
+                  type: array,
+                  items: { $ref: "#/components/schemas/PendingSpaceAsset" },
+                }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/boards/{boardId}/posts:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceAssetSpaceId" }
+      - name: boardId
+        in: path
+        required: true
+        schema: { type: string, pattern: "^[A-Za-z0-9_-]{1,80}$" }
+    get:
+      operationId: listPublishedSpaceBoardPosts
+      security: [{ sessionCookie: [] }]
+      description: Lists the latest 50 posts for a BOARD object in the currently published map. The boardId is the map object ID.
+      responses:
+        "200":
+          description: Recent board posts, oldest first.
+          content:
+            application/json:
+              schema:
+                {
+                  type: array,
+                  items: { $ref: "#/components/schemas/SpaceBoardPost" },
+                }
+        default: { $ref: "#/components/responses/SpaceError" }
+    post:
+      operationId: createSpaceBoardPost
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Adds a plain-text post to a currently published BOARD object. Five posts per account per minute and 200 retained posts per board.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SpaceBoardPostDraft" }
+      responses:
+        "200":
+          description: Created post.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SpaceBoardPost" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/boards/{boardId}/posts/{postId}:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceAssetSpaceId" }
+      - name: boardId
+        in: path
+        required: true
+        schema: { type: string, pattern: "^[A-Za-z0-9_-]{1,80}$" }
+      - name: postId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    delete:
+      operationId: deleteSpaceBoardPost
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Deletes a board post written by the current account or any post when the current account is a space manager.
+      responses:
+        "200":
+          description: Deleted.
+          content:
+            application/json:
+              schema:
+                {
+                  type: object,
+                  required: [deleted],
+                  properties: { deleted: { type: boolean, const: true } },
+                }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/boards/{boardId}/whiteboard:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceAssetSpaceId" }
+      - name: boardId
+        in: path
+        required: true
+        schema: { type: string, pattern: "^[A-Za-z0-9_-]{1,80}$" }
+    get:
+      operationId: getPublishedSpaceWhiteboard
+      security: [{ sessionCookie: [] }]
+      description: Loads the persisted shared drawing state for a currently published BOARD object. Only logged-in space members can read it.
+      responses:
+        "200":
+          description: Current document and manager capability.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SpaceWhiteboard" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/boards/{boardId}/whiteboard/operations:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceAssetSpaceId" }
+      - name: boardId
+        in: path
+        required: true
+        schema: { type: string, pattern: "^[A-Za-z0-9_-]{1,80}$" }
+    post:
+      operationId: applySpaceWhiteboardOperation
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Appends a unique stroke or clears the document. Concurrent strokes merge under a database row lock; operation IDs make retries idempotent. Only space managers may clear. A drawing board must be a currently published BOARD object.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SpaceWhiteboardMutation" }
+      responses:
+        "200":
+          description: Current document after applying the operation.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SpaceWhiteboard" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/assets/{assetId}:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceAssetSpaceId" }
+      - name: assetId
+        in: path
+        required: true
+        schema: { type: string, pattern: "^custom_[0-9a-fA-F-]{36}$" }
+    delete:
+      operationId: deleteSpaceAsset
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN only. An asset referenced by a draft or published revision cannot be deleted.
+      responses:
+        "200":
+          description: Deleted.
+          content:
+            application/json:
+              schema:
+                {
+                  type: object,
+                  required: [deleted],
+                  properties: { deleted: { type: boolean, const: true } },
+                }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/assets/{assetId}/approve:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceAssetSpaceId" }
+      - name: assetId
+        in: path
+        required: true
+        schema: { type: string, pattern: "^custom_[0-9a-fA-F-]{36}$" }
+    post:
+      operationId: approveSpaceAsset
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER only. Transitions a pending asset to READY so it can be used by map drafts and published worlds.
+      responses:
+        "200":
+          description: Approved asset.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SpaceAsset" }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/assets/{assetId}/reject:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceAssetSpaceId" }
+      - name: assetId
+        in: path
+        required: true
+        schema: { type: string, pattern: "^custom_[0-9a-fA-F-]{36}$" }
+    post:
+      operationId: rejectSpaceAsset
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER only. Marks a pending asset rejected and removes its quarantined image bytes.
+      responses:
+        "200":
+          description: Rejected.
+          content:
+            application/json:
+              schema:
+                {
+                  type: object,
+                  required: [rejected],
+                  properties: { rejected: { type: boolean, const: true } },
+                }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/assets/{assetId}/content:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceAssetSpaceId" }
+      - name: assetId
+        in: path
+        required: true
+        schema: { type: string, pattern: "^custom_[0-9a-fA-F-]{36}$" }
+    get:
+      operationId: getSpaceAssetContent
+      security: [{ sessionCookie: [] }]
+      responses:
+        "200":
+          description: Sanitized PNG asset bytes.
+          content: { image/png: { schema: { type: string, format: binary } } }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/assets/{assetId}/thumbnail:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceAssetSpaceId" }
+      - name: assetId
+        in: path
+        required: true
+        schema: { type: string, pattern: "^custom_[0-9a-fA-F-]{36}$" }
+    get:
+      operationId: getSpaceAssetThumbnail
+      security: [{ sessionCookie: [] }]
+      responses:
+        "200":
+          description: Sanitized PNG thumbnail bytes.
+          content: { image/png: { schema: { type: string, format: binary } } }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{spaceId}/assets/{assetId}/review-content:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceAssetSpaceId" }
+      - name: assetId
+        in: path
+        required: true
+        schema: { type: string, pattern: "^custom_[0-9a-fA-F-]{36}$" }
+    get:
+      operationId: getPendingSpaceAssetReviewContent
+      security: [{ sessionCookie: [] }]
+      description: OWNER only. Returns a sanitized pending image thumbnail for the approval screen. This route never serves the file to ordinary members.
+      responses:
+        "200":
+          description: Sanitized PNG review thumbnail.
+          content: { image/png: { schema: { type: string, format: binary } } }
+        default: { $ref: "#/components/responses/SpaceError" }
+  /api/v1/spaces/{id}/map:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    get:
+      operationId: getPublishedMap
+      security: [{ sessionCookie: [] }]
+      description: Requires access to the space. Lazily seeds the default office and refreshes the monotonic Redis cache. Never returns its draft.
+      responses:
+        "200":
+          description: Published map revision.
+          content:
+            application/json:
+              schema: { $ref: "./world.schema.json#/$defs/MapDefinition" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps:
+    parameters: [{ $ref: "#/components/parameters/SpaceMapsSpaceId" }]
+    get:
+      operationId: listSpaceMaps
+      security: [{ sessionCookie: [] }]
+      description: OWNER or ADMIN. Ordered map catalog. The original map whose ID equals the space ID remains the entry map.
+      responses:
+        "200":
+          description: Maps in this space, in editor order.
+          content:
+            application/json:
+              schema:
+                {
+                  type: array,
+                  items: { $ref: "#/components/schemas/SpaceMapSummary" },
+                }
+        default: { $ref: "#/components/responses/MapError" }
+    post:
+      operationId: createSpaceMap
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN. Creates a separate draft and immutable INITIAL revision from a supported template. Published maps can be entered directly or targeted by a portal.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SpaceMapCreate" }
+      responses:
+        "200":
+          description: Created map.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/SpaceMapSummary" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/order:
+    parameters: [{ $ref: "#/components/parameters/SpaceMapsSpaceId" }]
+    put:
+      operationId: reorderSpaceMaps
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN. Must include every map ID exactly once. Display order is independent from the configured entry map.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [mapIds]
+              properties:
+                mapIds:
+                  {
+                    type: array,
+                    minItems: 1,
+                    maxItems: 50,
+                    uniqueItems: true,
+                    items: { type: string, format: uuid },
+                  }
+      responses:
+        "200":
+          description: Updated map order.
+          content:
+            application/json:
+              schema:
+                {
+                  type: array,
+                  items: { $ref: "#/components/schemas/SpaceMapSummary" },
+                }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/clone:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    post:
+      operationId: cloneSpaceMap
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN. Copies a valid map draft into a new map with a new map ID and immutable initial revision. Space map limit is 50.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/SpaceMapClone" }
+      responses:
+        "200":
+          description: Cloned map.
+          content:
+            {
+              application/json:
+                { schema: { $ref: "#/components/schemas/SpaceMapSummary" } },
+            }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    delete:
+      operationId: deleteSpaceMap
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN. Deletes a non-entry map with its drafts and revision history. The canonical map and maps referenced by current portals cannot be deleted.
+      responses:
+        "200":
+          description: Map deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [deleted]
+                properties: { deleted: { type: boolean, const: true } }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/entry:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    put:
+      operationId: setSpaceEntryMap
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN. Makes this the entry map for new admissions and portals that target the destination entry map.
+      responses:
+        "200":
+          description: Updated ordered map catalog.
+          content:
+            {
+              application/json:
+                {
+                  schema:
+                    {
+                      type: array,
+                      items: { $ref: "#/components/schemas/SpaceMapSummary" },
+                    },
+                },
+            }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/published:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    get:
+      operationId: getSpaceMapPublished
+      security: [{ sessionCookie: [] }]
+      description: Requires space access. Returns the selected map's published revision, never its draft.
+      responses:
+        "200":
+          description: Published map revision.
+          content:
+            {
+              application/json:
+                {
+                  schema: { $ref: "./world.schema.json#/$defs/MapDefinition" },
+                },
+            }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/editor:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    get:
+      operationId: getSpaceMapDraft
+      security: [{ sessionCookie: [] }]
+      description: OWNER or ADMIN. Reading does not acquire the editing lease.
+      responses:
+        "200": { $ref: "#/components/responses/MapEditor" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/publication/{revisionId}:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+      - name: revisionId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      operationId: getSpaceMapPublicationStatus
+      security: [{ sessionCookie: [] }]
+      description: OWNER or ADMIN. Reports Redis delivery and per-world-node application acknowledgements for this immutable revision.
+      responses:
+        "200":
+          description: Publication delivery and world application status.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MapPublicationStatus" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/lease:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    post:
+      operationId: acquireSpaceMapLease
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN. An independent 45-second editing lease bound to session and client UUID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [clientId, takeover]
+              properties:
+                clientId: { type: string, format: uuid }
+                takeover: { type: boolean }
+      responses:
+        "200":
+          description: Lease granted. Never log the token.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [token, fence, expiresAt, editor]
+                properties:
+                  token: { type: string }
+                  fence: { type: integer }
+                  expiresAt: { type: string, format: date-time }
+                  editor: { $ref: "#/components/schemas/MapEditor" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/lease/renew:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    post:
+      operationId: renewSpaceMapLease
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      requestBody: { $ref: "#/components/requestBodies/MapLease" }
+      responses:
+        "200":
+          description: Lease extended for 45 seconds.
+          content:
+            {
+              application/json:
+                {
+                  schema:
+                    {
+                      type: object,
+                      properties:
+                        { expiresAt: { type: string, format: date-time } },
+                    },
+                },
+            }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/lease/release:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    post:
+      operationId: releaseSpaceMapLease
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      requestBody: { $ref: "#/components/requestBodies/MapLease" }
+      responses:
+        "200":
+          description: Valid lease released.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  released: { type: boolean, const: true }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/draft:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    post:
+      operationId: saveSpaceMapDraft
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN and current map lease required. Idempotent operation ID and optimistic base version. Maximum request body 512000 bytes.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - { $ref: "#/components/schemas/MapPublish" }
+                - type: object
+                  required: [operationId, map]
+                  properties:
+                    operationId: { type: string, format: uuid }
+                    map: { $ref: "./world.schema.json#/$defs/MapDefinition" }
+      responses:
+        "200": { $ref: "#/components/responses/MapEditor" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/edit/enable:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    post:
+      operationId: enableCollaborativeMapEditing
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN. Switches a map to the sequenced operation log only after the legacy lease has expired/released and the supplied draft version is current. The schemaVersion 2 draft remains the sequence-zero snapshot.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [baseVersion]
+              properties: { baseVersion: { type: integer, minimum: 1 } }
+      responses:
+        "200":
+          description: Collaborative mode enabled with the existing draft as its base snapshot.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MapCollaborativeSync" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/edit:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    get:
+      operationId: getCollaborativeMapEdits
+      security: [{ sessionCookie: [] }]
+      description: OWNER or ADMIN. Returns the current materialized draft and a bounded page of durable operations after afterSequence. Poll with the last returned sequence to resume after reconnect.
+      parameters:
+        - {
+            name: afterSequence,
+            in: query,
+            schema: { type: integer, minimum: 0, default: 0 },
+          }
+        - {
+            name: limit,
+            in: query,
+            schema: { type: integer, minimum: 1, maximum: 250, default: 250 },
+          }
+      responses:
+        "200":
+          description: Current schemaVersion 2 draft and ordered operations.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MapCollaborativeSync" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/edit/operations:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    post:
+      operationId: applyCollaborativeMapEdit
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN. Applies a bounded atomic command. Disjoint entity edits can be rebased from an older sequence; overlapping entity edits return 409 with the current editor snapshot. Operation ID is idempotent and actor identity is derived from the authenticated session.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "./map-editing.schema.json#/$defs/Command" }
+      responses:
+        "200":
+          description: Accepted operation and current editor snapshot.
+          content:
+            application/json:
+              schema:
+                { $ref: "#/components/schemas/MapCollaborativeOperationResult" }
+        "409":
+          description: Overlapping map edits; includes the current sequence and editor snapshot.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/MapCollaborativeConflict" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/edit/undo:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    post:
+      operationId: undoCollaborativeMapEdit
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN. Creates a compensating operation for the caller's own sequence only if no later edit conflicts with its inverse.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "./map-editing.schema.json#/$defs/UndoCommand" }
+      responses:
+        "200":
+          description: New compensating operation.
+          content:
+            application/json:
+              schema:
+                { $ref: "#/components/schemas/MapCollaborativeOperationResult" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/edit/publish:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    post:
+      operationId: publishCollaborativeMapRevision
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN. Locks the map, verifies the exact edit sequence and draft version, then validates and publishes one immutable revision. The client and operation IDs make retries idempotent. Optionally publishes an existing revision as a rollback while preserving the current collaborative draft. A stale barrier is rejected with 409, and manager rights are checked again for each request.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MapCollaborativePublish" }
+      responses:
+        "200":
+          description: Validated revision and the edit sequence included in the publication.
+          content:
+            application/json:
+              schema:
+                { $ref: "#/components/schemas/MapCollaborativePublication" }
+        "409":
+          description: Edit sequence or draft version changed before the publication barrier.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - { $ref: "#/components/schemas/MapCollaborativeConflict" }
+                  - { $ref: "#/components/schemas/AuthError" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/edit/presence:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    get:
+      operationId: listCollaborativeMapPresence
+      security: [{ sessionCookie: [] }]
+      description: OWNER or ADMIN. Returns unexpired editor selections; presence is ephemeral and is not stored in map history.
+      parameters:
+        - name: clientId
+          in: query
+          required: false
+          schema: { type: string, format: uuid }
+          description: Excludes this caller's own editor tab.
+      responses:
+        "200":
+          description: Active map editors.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [participants]
+                properties:
+                  participants:
+                    type: array
+                    items:
+                      type: object
+                      required:
+                        [userId, displayName, clientId, selection, updatedAt]
+                      properties:
+                        userId: { type: string, format: uuid }
+                        displayName: { type: string }
+                        clientId: { type: string, format: uuid }
+                        selection:
+                          type: array
+                          items:
+                            type: object
+                            required: [collection, entityId]
+                            properties:
+                              collection:
+                                {
+                                  type: string,
+                                  enum:
+                                    [
+                                      objects,
+                                      floors,
+                                      walls,
+                                      zones,
+                                      labels,
+                                      portals,
+                                    ],
+                                }
+                              entityId:
+                                { type: string, minLength: 1, maxLength: 128 }
+                        updatedAt: { type: integer, format: int64 }
+        default: { $ref: "#/components/responses/MapError" }
+    post:
+      operationId: updateCollaborativeMapPresence
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN. Stores a short-lived selection heartbeat in Redis only.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [clientId, selection]
+              properties:
+                clientId: { type: string, format: uuid }
+                selection:
+                  type: array
+                  maxItems: 100
+                  items:
+                    type: object
+                    additionalProperties: false
+                    required: [collection, entityId]
+                    properties:
+                      collection:
+                        {
+                          type: string,
+                          enum:
+                            [objects, floors, walls, zones, labels, portals],
+                        }
+                      entityId: { type: string, minLength: 1, maxLength: 128 }
+      responses:
+        "200":
+          description: Presence refreshed.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [updated]
+                properties: { updated: { type: boolean } }
+        default: { $ref: "#/components/responses/MapError" }
+    delete:
+      operationId: removeCollaborativeMapPresence
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      parameters:
+        - name: clientId
+          in: query
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        "200":
+          description: Presence removed.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [removed]
+                properties: { removed: { type: boolean } }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/publish:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    post:
+      operationId: publishSpaceMap
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Validates and advances this map's published revision. Existing participants in that map receive the published revision; new entrants receive it through map-specific admission.
+      requestBody: { $ref: "#/components/requestBodies/MapPublishBody" }
+      responses:
+        "200": { $ref: "#/components/responses/MapEditor" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/history:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    get:
+      operationId: listSpaceMapRevisions
+      security: [{ sessionCookie: [] }]
+      description: OWNER or ADMIN. Latest 20 revisions for the selected map.
+      responses:
+        "200":
+          description: Immutable revision metadata.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: { type: string, format: uuid }
+                    sequence: { type: integer }
+                    createdAt: { type: string, format: date-time }
+                    reason: { type: string, enum: [INITIAL, PUBLISH, ROLLBACK] }
+                    name: { type: string }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{spaceId}/maps/{mapId}/restore:
+    parameters:
+      - { $ref: "#/components/parameters/SpaceMapsSpaceId" }
+      - { $ref: "#/components/parameters/MapId" }
+    post:
+      operationId: restoreSpaceMapRevision
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Copies an older revision from the same map into a new publication.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - { $ref: "#/components/schemas/MapPublish" }
+                - type: object
+                  required: [revisionId]
+                  properties: { revisionId: { type: string, format: uuid } }
+      responses:
+        "200": { $ref: "#/components/responses/MapEditor" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{id}/map/editor:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    get:
+      operationId: getMapDraft
+      security: [{ sessionCookie: [] }]
+      description: OWNER or ADMIN. Reading does not acquire the editing lease.
+      responses:
+        "200": { $ref: "#/components/responses/MapEditor" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{id}/map/lease:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    post:
+      operationId: acquireMapLease
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER or ADMIN. A 45-second lease is bound to HTTP session and editor client UUID. Explicit takeover increments the fencing token and invalidates the previous editor.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [clientId, takeover]
+              properties:
+                clientId: { type: string, format: uuid }
+                takeover: { type: boolean }
+      responses:
+        "200":
+          description: Lease granted. Never log the token.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [token, fence, expiresAt, editor]
+                properties:
+                  token: { type: string }
+                  fence: { type: integer }
+                  expiresAt: { type: string, format: date-time }
+                  editor: { $ref: "#/components/schemas/MapEditor" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{id}/map/lease/renew:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    post:
+      operationId: renewMapLease
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      requestBody: { $ref: "#/components/requestBodies/MapLease" }
+      responses:
+        "200":
+          description: Lease extended for 45 seconds.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  expiresAt: { type: string, format: date-time }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{id}/map/lease/release:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    post:
+      operationId: releaseMapLease
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      requestBody: { $ref: "#/components/requestBodies/MapLease" }
+      responses:
+        "200":
+          description: Valid lease released.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  released: { type: boolean, const: true }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{id}/map/draft:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    post:
+      operationId: saveMapDraft
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: OWNER and current lease required. Idempotent operationId with content hash and optimistic baseVersion. Rebuilds collisions from trusted assets and walls. A structurally valid draft may contain publication issues. Maximum request body 512000 bytes.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - { $ref: "#/components/schemas/MapPublish" }
+                - type: object
+                  required: [operationId, map]
+                  properties:
+                    operationId: { type: string, format: uuid }
+                    map: { $ref: "./world.schema.json#/$defs/MapDefinition" }
+      responses:
+        "200": { $ref: "#/components/responses/MapEditor" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{id}/map/publish:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    post:
+      operationId: publishMap
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Validates spawn and reachable zones, inserts immutable revision and durable outbox, and atomically advances the published pointer. Active worlds receive mapChanged followed by a new welcome epoch; obsolete snapshots carry their old mapRevision.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/MapPublish" }
+      responses:
+        "200": { $ref: "#/components/responses/MapEditor" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{id}/map/history:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    get:
+      operationId: listMapRevisions
+      security: [{ sessionCookie: [] }]
+      description: OWNER or ADMIN, latest 20 revisions in descending sequence order.
+      responses:
+        "200":
+          description: Immutable revision metadata.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: { type: string, format: uuid }
+                    sequence: { type: integer }
+                    createdAt: { type: string, format: date-time }
+                    reason: { type: string, enum: [INITIAL, PUBLISH, ROLLBACK] }
+                    name: { type: string }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/spaces/{id}/map/restore:
+    parameters: [{ $ref: "#/components/parameters/SpaceId" }]
+    post:
+      operationId: restoreMapRevision
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Copies an older revision from this same space into a new publication; never mutates old history. Replaces the current draft.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - { $ref: "#/components/schemas/MapPublish" }
+                - type: object
+                  required: [revisionId]
+                  properties:
+                    revisionId: { type: string, format: uuid }
+      responses:
+        "200": { $ref: "#/components/responses/MapEditor" }
+        default: { $ref: "#/components/responses/MapError" }
+  /api/v1/reports/access:
+    get:
+      operationId: getReportAccess
+      security: [{ sessionCookie: [] }]
+      responses:
+        "200":
+          description: Whether the current account may review reports.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [administrator]
+                properties:
+                  administrator: { type: boolean }
+        default: { $ref: "#/components/responses/AuthError" }
+  /api/v1/reports:
+    post:
+      operationId: createDirectMessageReport
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      description: Reports a direct message the current account can access. Participant reports are submitted through the authenticated world WebSocket so the server can resolve the current occupant's account securely.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [messageId, category]
+              properties:
+                messageId: { type: string, format: uuid }
+                category:
+                  {
+                    type: string,
+                    enum: [HARASSMENT, THREAT, SPAM, PERSONAL_INFO, OTHER],
+                  }
+                details: { type: string, maxLength: 1000 }
+      responses:
+        "200":
+          description: Report accepted.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [reportId, created]
+                properties:
+                  reportId: { type: string, format: uuid }
+                  created: { type: boolean }
+        default: { $ref: "#/components/responses/AuthError" }
+  /api/v1/admin/reports:
+    get:
+      operationId: listModerationReports
+      security: [{ sessionCookie: [] }]
+      parameters:
+        - name: status
+          in: query
+          schema:
+            {
+              type: string,
+              enum: [OPEN, REVIEWING, RESOLVED, DISMISSED],
+              default: OPEN,
+            }
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 100, default: 50 }
+      responses:
+        "200":
+          description: Reports available to an administrator. Results include both direct-message and live participant reports.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/ModerationReport" }
+        default: { $ref: "#/components/responses/AuthError" }
+  /api/v1/admin/reports/{reportId}:
+    parameters:
+      - name: reportId
+        in: path
+        required: true
+        schema: { type: string, format: uuid }
+    patch:
+      operationId: reviewModerationReport
+      security: [{ sessionCookie: [], csrfHeader: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [status]
+              properties:
+                status: { type: string, enum: [REVIEWING, RESOLVED, DISMISSED] }
+                note: { type: string, maxLength: 1000 }
+      responses:
+        "200":
+          description: Updated report.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ModerationReport" }
+        default: { $ref: "#/components/responses/AuthError" }
+components:
+  requestBodies:
+    MapLease:
+      required: true
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/MapLease" }
+    MapPublishBody:
+      required: true
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/MapPublish" }
+  parameters:
+    SpaceId:
+      name: id
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+    SpaceAssetSpaceId:
+      name: spaceId
+      in: path
+      required: true
+      schema: { type: string, format: uuid }
+    SpaceMapsSpaceId:
+      name: spaceId
+      in: path
+      required: true
+      schema:
+        {
+          type: string,
+          minLength: 1,
+          maxLength: 80,
+          pattern: "^[A-Za-z0-9_-]+$",
+        }
+    MapId:
+      name: mapId
+      in: path
+      required: true
+      schema:
+        {
+          type: string,
+          minLength: 1,
+          maxLength: 80,
+          pattern: "^[A-Za-z0-9_-]+$",
+        }
+  securitySchemes:
+    sessionCookie: { type: apiKey, in: cookie, name: HUFS_TOWN_SESSION }
+    csrfHeader: { type: apiKey, in: header, name: X-CSRF-TOKEN }
+  schemas:
+    FriendOverview:
+      type: object
+      required: [friends, incoming, outgoing]
+      properties:
+        friends:
+          type: array
+          items: { $ref: "#/components/schemas/FriendAccount" }
+        incoming:
+          type: array
+          items: { $ref: "#/components/schemas/FriendRequest" }
+        outgoing:
+          type: array
+          items: { $ref: "#/components/schemas/FriendRequest" }
+    FriendAccount:
+      type: object
+      required: [userId, displayName, since, online]
+      properties:
+        userId: { type: string, format: uuid }
+        displayName: { type: string }
+        since: { type: string, format: date-time }
+        online:
+          {
+            type: boolean,
+            description: True only while this friend opts into presence sharing. False also covers private presence.,
+          }
+    FriendSearchResult:
+      type: object
+      required: [userId, displayName, relationship]
+      properties:
+        userId: { type: string, format: uuid }
+        displayName: { type: string }
+        relationship:
+          type: string
+          enum: [FRIEND, INCOMING, OUTGOING, COOLDOWN, AVAILABLE, UNAVAILABLE]
+    FriendRequest:
+      type: object
+      required: [id, userId, displayName, requestedAt]
+      properties:
+        id: { type: string, format: uuid }
+        userId: { type: string, format: uuid }
+        displayName: { type: string }
+        requestedAt: { type: string, format: date-time }
+    FriendRequestDraft:
+      type: object
+      required: [targetUserId]
+      properties:
+        targetUserId: { type: string, format: uuid }
+    FriendRequestState:
+      type: object
+      required: [id, status, requestedAt]
+      properties:
+        id: { type: string, format: uuid }
+        status: { type: string, enum: [PENDING, ACCEPTED] }
+        requestedAt: { type: string, format: date-time }
+    FriendRequestDecision:
+      type: object
+      required: [decision]
+      properties:
+        decision: { type: string, enum: [ACCEPT, DECLINE] }
+    FriendPreferences:
+      type: object
+      required:
+        [
+          allowFriendRequests,
+          allowFriendNotifications,
+          sharePresenceWithFriends,
+        ]
+      properties:
+        allowFriendRequests: { type: boolean }
+        allowFriendNotifications: { type: boolean }
+        sharePresenceWithFriends:
+          {
+            type: boolean,
+            description: Defaults to false; only a coarse online indicator is shared with accepted friends.,
+          }
+    ModerationReport:
+      type: object
+      required:
+        [
+          reportId,
+          reporterName,
+          targetName,
+          conversationId,
+          messageId,
+          category,
+          details,
+          evidenceText,
+          status,
+          createdAt,
+          reviewedAt,
+          reviewerName,
+          reviewNote,
+          sourceType,
+          spaceId,
+        ]
+      properties:
+        reportId: { type: string, format: uuid }
+        reporterName: { type: string }
+        targetName: { type: string }
+        conversationId: { type: [string, "null"], format: uuid }
+        messageId: { type: [string, "null"], format: uuid }
+        category:
+          {
+            type: string,
+            enum: [HARASSMENT, THREAT, SPAM, PERSONAL_INFO, OTHER],
+          }
+        details: { type: string, maxLength: 1000 }
+        evidenceText: { type: string, maxLength: 500 }
+        status: { type: string, enum: [OPEN, REVIEWING, RESOLVED, DISMISSED] }
+        createdAt: { type: integer, format: int64 }
+        reviewedAt: { type: [integer, "null"], format: int64 }
+        reviewerName: { type: [string, "null"] }
+        reviewNote: { type: [string, "null"], maxLength: 1000 }
+        sourceType: { type: string, enum: [DIRECT_MESSAGE, PLAYER] }
+        spaceId: { type: [string, "null"], format: uuid }
+    MapLease:
+      type: object
+      required: [token, fence, clientId]
+      properties:
+        token:
+          { type: string, description: Secret editing lease token; never log. }
+        fence: { type: integer, minimum: 1 }
+        clientId: { type: string, format: uuid }
+    MapPublish:
+      type: object
+      required: [lease, baseVersion]
+      properties:
+        lease: { $ref: "#/components/schemas/MapLease" }
+        baseVersion: { type: integer, minimum: 1 }
+    MapEditor:
+      type: object
+      required: [version, map, publishedRevision, issues]
+      properties:
+        version: { type: integer }
+        map: { $ref: "./world.schema.json#/$defs/MapDefinition" }
+        publishedRevision: { type: string, format: uuid }
+        issues: { type: array, items: { type: string } }
+        publication: { $ref: "#/components/schemas/MapPublicationStatus" }
+    MapCollaborativeSync:
+      type: object
+      required: [editor, sequence, operations, hasMore]
+      properties:
+        editor: { $ref: "#/components/schemas/MapEditor" }
+        sequence: { type: integer, minimum: 0 }
+        operations:
+          type: array
+          items: { $ref: "./map-editing.schema.json#/$defs/OperationEvent" }
+        hasMore: { type: boolean }
+    MapCollaborativeOperationResult:
+      type: object
+      required: [editor, sequence, operation, duplicate]
+      properties:
+        editor: { $ref: "#/components/schemas/MapEditor" }
+        sequence: { type: integer, minimum: 0 }
+        operation: { $ref: "./map-editing.schema.json#/$defs/OperationEvent" }
+        duplicate: { type: boolean }
+    MapCollaborativePublish:
+      type: object
+      required: [clientId, operationId, baseSequence, baseVersion]
+      properties:
+        clientId: { type: string, format: uuid }
+        operationId:
+          {
+            type: string,
+            format: uuid,
+            description: Idempotency key for safe retries.,
+          }
+        baseSequence: { type: integer, minimum: 0 }
+        baseVersion: { type: integer, minimum: 1 }
+        revisionId:
+          {
+            type: [string, "null"],
+            format: uuid,
+            description: Optional earlier revision to publish as a rollback.,
+          }
+    MapCollaborativePublication:
+      type: object
+      required: [editor, editSequence, publishedEditSequence, duplicate]
+      properties:
+        editor: { $ref: "#/components/schemas/MapEditor" }
+        editSequence:
+          {
+            type: integer,
+            minimum: 0,
+            description: Current collaborative draft sequence.,
+          }
+        publishedEditSequence:
+          {
+            type: integer,
+            minimum: 0,
+            description: Sequence included in the immutable revision.,
+          }
+        duplicate:
+          {
+            type: boolean,
+            description: True when this operation ID already published the same revision.,
+          }
+    MapCollaborativeConflict:
+      type: object
+      required: [code, message, sequence, editor]
+      properties:
+        code: { type: string, const: MAP_EDIT_CONFLICT }
+        message: { type: string }
+        sequence: { type: integer, minimum: 0 }
+        editor: { $ref: "#/components/schemas/MapEditor" }
+    MapPublicationStatus:
+      type: object
+      required:
+        [
+          revisionId,
+          sequence,
+          state,
+          targetNodes,
+          appliedNodes,
+          pendingNodes,
+          offlineNodes,
+        ]
+      properties:
+        revisionId: { type: string, format: uuid }
+        sequence: { type: integer, minimum: 1 }
+        state: { type: string, enum: [PUBLISHING, APPLYING, APPLIED, DEGRADED] }
+        targetNodes: { type: integer, minimum: 0 }
+        appliedNodes: { type: integer, minimum: 0 }
+        pendingNodes: { type: integer, minimum: 0 }
+        offlineNodes: { type: integer, minimum: 0 }
+    SpaceMapSummary:
+      type: object
+      required:
+        [mapId, name, sortOrder, entry, version, publishedRevision, updatedAt]
+      properties:
+        mapId:
+          {
+            type: string,
+            minLength: 1,
+            maxLength: 80,
+            pattern: "^[A-Za-z0-9_-]+$",
+          }
+        name: { type: string, minLength: 1, maxLength: 60 }
+        sortOrder: { type: integer, minimum: 0 }
+        entry: { type: boolean }
+        version: { type: integer, minimum: 1 }
+        publishedRevision: { type: string, format: uuid }
+        updatedAt: { type: string, format: date-time }
+    SpaceMapCreate:
+      type: object
+      required: [name, templateId]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 60 }
+        templateId:
+          {
+            type: string,
+            enum: [OFFICE, CAMPUS_SQUARE, STUDY_SPACE, MEETUP_HALL],
+          }
+    SpaceMapClone:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string, minLength: 1, maxLength: 60 }
+    SpaceAsset:
+      type: object
+      required:
+        [
+          id,
+          name,
+          url,
+          thumbnailUrl,
+          width,
+          height,
+          footprint,
+          category,
+          source,
+          layer,
+          status,
+        ]
+      properties:
+        id: { type: string, pattern: "^custom_[0-9a-fA-F-]{36}$" }
+        name: { type: string, maxLength: 180 }
+        url: { type: string, format: uri-reference }
+        thumbnailUrl: { type: string, format: uri-reference }
+        width: { type: integer, minimum: 1, maximum: 512 }
+        height: { type: integer, minimum: 1, maximum: 512 }
+        footprint: { type: [object, "null"] }
+        category: { type: string, const: 사용자 에셋 }
+        source: { type: string, const: uploaded }
+        layer: { type: string, const: OBJECT }
+        status: { type: string, const: READY }
+    SpaceAssetUpload:
+      type: object
+      required:
+        [
+          id,
+          name,
+          url,
+          thumbnailUrl,
+          width,
+          height,
+          footprint,
+          category,
+          source,
+          layer,
+          status,
+        ]
+      properties:
+        id: { type: string, pattern: "^custom_[0-9a-fA-F-]{36}$" }
+        name: { type: string, maxLength: 180 }
+        url: { type: string, format: uri-reference }
+        thumbnailUrl: { type: string, format: uri-reference }
+        width: { type: integer, minimum: 1, maximum: 512 }
+        height: { type: integer, minimum: 1, maximum: 512 }
+        footprint: { type: [object, "null"] }
+        category: { type: string, const: 사용자 에셋 }
+        source: { type: string, const: uploaded }
+        layer: { type: string, const: OBJECT }
+        status: { type: string, enum: [PENDING, READY] }
+    PendingSpaceAsset:
+      type: object
+      required:
+        [id, name, uploadedBy, width, height, uploadedAt, reviewContentUrl]
+      properties:
+        id: { type: string, pattern: "^custom_[0-9a-fA-F-]{36}$" }
+        name: { type: string, maxLength: 180 }
+        uploadedBy: { type: string, maxLength: 80 }
+        width: { type: integer, minimum: 1, maximum: 512 }
+        height: { type: integer, minimum: 1, maximum: 512 }
+        uploadedAt: { type: integer, format: int64 }
+        reviewContentUrl: { type: string, format: uri-reference }
+    EventSummary:
+      type: object
+      required:
+        [id, title, description, resourceUrl, startedAt, endedAt, attendeeCount]
+      properties:
+        id: { type: string, format: uuid }
+        title: { type: string, maxLength: 80 }
+        description: { type: string, maxLength: 280 }
+        resourceUrl: { type: string, maxLength: 512 }
+        startedAt: { type: string, format: date-time }
+        endedAt:
+          oneOf:
+            - { type: string, format: date-time }
+            - { type: string, maxLength: 0 }
+        attendeeCount: { type: integer, minimum: 0 }
+    EventQuestionResult:
+      type: object
+      required:
+        [
+          id,
+          askerName,
+          text,
+          answered,
+          answer,
+          answererName,
+          askedAt,
+          answeredAt,
+        ]
+      properties:
+        id: { type: string, format: uuid }
+        askerName: { type: string, maxLength: 20 }
+        text: { type: string, maxLength: 280 }
+        answered: { type: boolean }
+        answer: { type: string, maxLength: 280 }
+        answererName: { type: string, maxLength: 20 }
+        askedAt: { type: string, format: date-time }
+        answeredAt:
+          oneOf:
+            - { type: string, format: date-time }
+            - { type: string, maxLength: 0 }
+    EventPollOptionResult:
+      type: object
+      required: [index, label, voteCount]
+      properties:
+        index: { type: integer, minimum: 0, maximum: 5 }
+        label: { type: string, maxLength: 80 }
+        voteCount: { type: integer, minimum: 0 }
+    EventPollResult:
+      type: object
+      required: [id, question, closed, createdAt, closedAt, options]
+      properties:
+        id: { type: string, format: uuid }
+        question: { type: string, maxLength: 160 }
+        closed: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        closedAt:
+          oneOf:
+            - { type: string, format: date-time }
+            - { type: string, maxLength: 0 }
+        options:
+          {
+            type: array,
+            maxItems: 6,
+            items: { $ref: "#/components/schemas/EventPollOptionResult" },
+          }
+    EventAttendanceResult:
+      type: object
+      required:
+        [
+          participantId,
+          userId,
+          displayName,
+          joinedAt,
+          lastSeenAt,
+          leftAt,
+          attendedSeconds,
+          sessionCount,
+        ]
+      properties:
+        participantId:
+          {
+            type: string,
+            maxLength: 48,
+            description: Stable user identity,
+            or guest session identity.,
+          }
+        userId: { type: [string, "null"], format: uuid }
+        displayName: { type: string, maxLength: 20 }
+        joinedAt: { type: string, format: date-time }
+        lastSeenAt: { type: string, format: date-time }
+        leftAt:
+          oneOf:
+            - { type: string, format: date-time }
+            - { type: string, maxLength: 0 }
+        attendedSeconds: { type: integer, minimum: 0 }
+        sessionCount: { type: integer, minimum: 1 }
+    EventResults:
+      type: object
+      required: [event, questions, polls, attendance]
+      properties:
+        event: { $ref: "#/components/schemas/EventSummary" }
+        questions:
+          {
+            type: array,
+            maxItems: 100,
+            items: { $ref: "#/components/schemas/EventQuestionResult" },
+          }
+        polls:
+          {
+            type: array,
+            maxItems: 100,
+            items: { $ref: "#/components/schemas/EventPollResult" },
+          }
+        attendance:
+          {
+            type: array,
+            items: { $ref: "#/components/schemas/EventAttendanceResult" },
+          }
+    ScheduledEventDraft:
+      type: object
+      required:
+        [title, description, instructions, resourceUrl, startsAt, endsAt]
+      additionalProperties: false
+      properties:
+        title: { type: string, minLength: 1, maxLength: 80 }
+        description: { type: string, maxLength: 280 }
+        instructions: { type: string, maxLength: 500 }
+        resourceUrl:
+          { type: string, maxLength: 512, description: Empty or HTTPS URL. }
+        startsAt: { type: string, format: date-time }
+        endsAt:
+          oneOf:
+            - { type: string, format: date-time }
+            - { type: string, maxLength: 0 }
+    ScheduledEvent:
+      type: object
+      required:
+        [
+          id,
+          title,
+          description,
+          instructions,
+          resourceUrl,
+          startsAt,
+          endsAt,
+          cancelled,
+          createdAt,
+          updatedAt,
+          goingCount,
+          interestedCount,
+          declinedCount,
+          myResponse,
+        ]
+      properties:
+        id: { type: string, format: uuid }
+        title: { type: string, maxLength: 80 }
+        description: { type: string, maxLength: 280 }
+        instructions: { type: string, maxLength: 500 }
+        resourceUrl: { type: string, maxLength: 512 }
+        startsAt: { type: string, format: date-time }
+        endsAt:
+          description: Empty when no end time is set.
+          oneOf:
+            - { type: string, format: date-time }
+            - { type: string, maxLength: 0 }
+        cancelled: { type: boolean }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+        goingCount: { type: integer, minimum: 0 }
+        interestedCount: { type: integer, minimum: 0 }
+        declinedCount: { type: integer, minimum: 0 }
+        myResponse: { type: string, enum: ["", GOING, INTERESTED, DECLINED] }
+    ScheduledEventRsvpDraft:
+      type: object
+      required: [response]
+      additionalProperties: false
+      properties:
+        response: { type: string, enum: [GOING, INTERESTED, DECLINED] }
+    SpaceBoardPost:
+      type: object
+      required: [id, authorName, body, createdAt, own, deletable]
+      properties:
+        id: { type: string, format: uuid }
+        authorName: { type: string, maxLength: 60 }
+        body: { type: string, maxLength: 2000 }
+        createdAt:
+          {
+            type: integer,
+            format: int64,
+            minimum: 0,
+            description: Epoch milliseconds.,
+          }
+        own: { type: boolean }
+        deletable: { type: boolean }
+    SpaceBoardPostDraft:
+      type: object
+      required: [body]
+      additionalProperties: false
+      properties:
+        body: { type: string, minLength: 1, maxLength: 500 }
+    SpaceWhiteboard:
+      type: object
+      required: [revision, strokes, updatedAt, canClear]
+      properties:
+        revision: { type: integer, format: int64, minimum: 0 }
+        strokes:
+          type: array
+          maxItems: 300
+          items: { $ref: "#/components/schemas/SpaceWhiteboardStroke" }
+        updatedAt:
+          {
+            type: integer,
+            format: int64,
+            minimum: 0,
+            description: Epoch milliseconds.,
+          }
+        canClear: { type: boolean }
+    SpaceWhiteboardStroke:
+      type: object
+      required: [id, color, width, points]
+      properties:
+        id: { type: string, format: uuid }
+        color: { type: string, pattern: "^#[0-9A-Fa-f]{6}$" }
+        width: { type: integer, minimum: 1, maximum: 24 }
+        points:
+          type: array
+          minItems: 1
+          maxItems: 120
+          items:
+            type: object
+            required: [x, y]
+            properties:
+              x: { type: integer, minimum: 0, maximum: 1000 }
+              y: { type: integer, minimum: 0, maximum: 1000 }
+    SpaceWhiteboardMutation:
+      type: object
+      required: [operationId, kind, expectedRevision]
+      additionalProperties: false
+      properties:
+        operationId: { type: string, format: uuid }
+        kind: { type: string, enum: [ADD_STROKE, CLEAR] }
+        expectedRevision:
+          {
+            type: integer,
+            format: int64,
+            minimum: 0,
+            description: Required to safely clear only the revision the manager reviewed.,
+          }
+        stroke: { $ref: "#/components/schemas/SpaceWhiteboardStrokeDraft" }
+    SpaceWhiteboardStrokeDraft:
+      type: object
+      required: [color, width, points]
+      additionalProperties: false
+      properties:
+        color: { type: string, pattern: "^#[0-9A-Fa-f]{6}$" }
+        width: { type: integer, minimum: 1, maximum: 24 }
+        points:
+          type: array
+          minItems: 1
+          maxItems: 120
+          items:
+            type: object
+            required: [x, y]
+            properties:
+              x: { type: integer, minimum: 0, maximum: 1000 }
+              y: { type: integer, minimum: 0, maximum: 1000 }
+    RoomReservationRoom:
+      type: object
+      required: [mapId, mapName, zoneId, zoneName, capacity]
+      properties:
+        mapId: { type: string, format: uuid }
+        mapName: { type: string, maxLength: 60 }
+        zoneId:
+          {
+            type: string,
+            minLength: 1,
+            maxLength: 64,
+            pattern: "^[A-Za-z0-9_-]+$",
+          }
+        zoneName: { type: string, maxLength: 40 }
+        capacity:
+          { type: [integer, "null"], format: int64, minimum: 1, maximum: 100 }
+    RoomReservation:
+      type: object
+      required:
+        [
+          id,
+          mapId,
+          zoneId,
+          mapName,
+          zoneName,
+          roomAvailable,
+          title,
+          organizerName,
+          mine,
+          canEdit,
+          startsAt,
+          endsAt,
+          cancelledAt,
+          createdAt,
+          updatedAt,
+        ]
+      properties:
+        id: { type: string, format: uuid }
+        mapId: { type: string, format: uuid }
+        zoneId:
+          {
+            type: string,
+            minLength: 1,
+            maxLength: 64,
+            pattern: "^[A-Za-z0-9_-]+$",
+          }
+        mapName:
+          {
+            type: string,
+            maxLength: 60,
+            description: Falls back to '삭제된 지도' if the original map is no longer published.,
+          }
+        zoneName:
+          {
+            type: string,
+            maxLength: 40,
+            description: Falls back to '삭제된 회의실' if the original room is no longer published.,
+          }
+        roomAvailable:
+          {
+            type: boolean,
+            description: Whether the room still exists in a published map.,
+          }
+        title: { type: string, maxLength: 80 }
+        organizerName: { type: string, maxLength: 20 }
+        mine:
+          {
+            type: boolean,
+            description: Whether the authenticated user organized this reservation.,
+          }
+        canEdit:
+          {
+            type: boolean,
+            description: Whether the authenticated user may edit or cancel this reservation.,
+          }
+        startsAt: { type: string, format: date-time }
+        endsAt: { type: string, format: date-time }
+        cancelledAt:
+          description: Empty string when the reservation has not been cancelled.
+          oneOf:
+            - { type: string, format: date-time }
+            - { type: string, maxLength: 0 }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    RoomReservationSnapshot:
+      type: object
+      required: [rooms, reservations, canReserve]
+      properties:
+        rooms:
+          type: array
+          items: { $ref: "#/components/schemas/RoomReservationRoom" }
+        reservations:
+          type: array
+          maxItems: 500
+          items: { $ref: "#/components/schemas/RoomReservation" }
+        canReserve:
+          {
+            type: boolean,
+            description: True when the caller is a current member of the space.,
+          }
+    RoomReservationDraft:
+      type: object
+      required: [requestId, mapId, zoneId, title, startsAt, endsAt]
+      properties:
+        requestId:
+          {
+            type: string,
+            format: uuid,
+            description: Required by both create and update request DTOs; create uses it as the idempotency key.,
+          }
+        mapId: { type: string, format: uuid }
+        zoneId:
+          {
+            type: string,
+            minLength: 1,
+            maxLength: 64,
+            pattern: "^[A-Za-z0-9_-]+$",
+          }
+        title: { type: string, minLength: 1, maxLength: 80 }
+        startsAt:
+          {
+            type: string,
+            format: date-time,
+            description: Must be from 2 minutes to 365 days ahead.,
+          }
+        endsAt:
+          {
+            type: string,
+            format: date-time,
+            description: Reservation duration must be from 15 minutes to 8 hours.,
+          }
+    RoomReservationCreateDraft:
+      $ref: "#/components/schemas/RoomReservationDraft"
+    RoomReservationUpdateDraft:
+      allOf:
+        - { $ref: "#/components/schemas/RoomReservationDraft" }
+        - type: object
+          required: [expectedUpdatedAt]
+          properties:
+            expectedUpdatedAt:
+              {
+                type: string,
+                format: date-time,
+                description: Must exactly match the reservation's current updatedAt value.,
+              }
+    SpaceRecordingArchive:
+      type: object
+      required: [recordings, usedBytes]
+      properties:
+        recordings:
+          type: array
+          items: { $ref: "#/components/schemas/SpaceRecording" }
+        usedBytes:
+          {
+            type: integer,
+            minimum: 0,
+            description: Total bytes visible to the current member.,
+          }
+    SpaceRecording:
+      type: object
+      required:
+        [
+          recordingId,
+          mapId,
+          mapRevision,
+          zoneId,
+          startedAt,
+          endedAt,
+          retentionExpiresAt,
+          sources,
+          tracks,
+          bytes,
+          canDelete,
+        ]
+      properties:
+        recordingId: { type: string, format: uuid }
+        mapId: { type: string, format: uuid }
+        mapRevision: { type: string, format: uuid }
+        zoneId: { type: string, maxLength: 128 }
+        startedAt:
+          { type: integer, minimum: 0, description: Unix epoch milliseconds. }
+        endedAt:
+          { type: integer, minimum: 0, description: Unix epoch milliseconds. }
+        retentionExpiresAt:
+          { type: integer, minimum: 0, description: Unix epoch milliseconds. }
+        sources:
+          type: array
+          items:
+            { type: string, enum: [MICROPHONE, CAMERA, SCREEN, SCREEN_AUDIO] }
+        tracks:
+          type: array
+          items: { $ref: "#/components/schemas/SpaceRecordingTrack" }
+        bytes: { type: integer, minimum: 0 }
+        canDelete: { type: boolean }
+    SpaceRecordingTrack:
+      type: object
+      required: [trackId, source, bytes]
+      properties:
+        trackId: { type: string, format: uuid }
+        source:
+          { type: string, enum: [MICROPHONE, CAMERA, SCREEN, SCREEN_AUDIO] }
+        bytes: { type: integer, minimum: 0 }
+    SpaceEdit:
+      type: object
+      required: [name, description, visibility]
+      properties:
+        name:
+          {
+            type: string,
+            minLength: 1,
+            maxLength: 60,
+            description: Trimmed; no control/format characters.,
+          }
+        description:
+          {
+            type: string,
+            maxLength: 300,
+            description: Trimmed single-line description; no control/format characters.,
+          }
+        visibility: { type: string, enum: [PUBLIC, UNLISTED, PRIVATE] }
+        approvalRequired:
+          {
+            type: boolean,
+            default: false,
+            description: Only applies to PUBLIC or UNLISTED spaces. Existing members and valid invitees can enter without owner approval.,
+          }
+    SpaceCloneRequest:
+      type: object
+      required: [name]
+      additionalProperties: false
+      properties:
+        name:
+          {
+            type: string,
+            minLength: 1,
+            maxLength: 60,
+            description: Trimmed clone name; no control/format characters.,
+          }
+    Space:
+      allOf:
+        - { $ref: "#/components/schemas/SpaceEdit" }
+        - type: object
+          required:
+            [
+              id,
+              capacity,
+              templateId,
+              role,
+              approvalRequired,
+              joinRequestStatus,
+              favorite,
+              archived,
+            ]
+          properties:
+            id: { type: string, format: uuid }
+            capacity: { type: integer, minimum: 1, maximum: 100 }
+            templateId:
+              {
+                type: string,
+                enum: [CAMPUS_SQUARE, STUDY_SPACE, MEETUP_HALL, OFFICE],
+              }
+            role: { type: string, enum: [OWNER, ADMIN, MEMBER, ""] }
+            approvalRequired: { type: boolean }
+            joinRequestStatus:
+              { type: string, enum: [PENDING, APPROVED, REJECTED, ""] }
+            favorite:
+              {
+                type: boolean,
+                description: Whether the authenticated user saved this space.,
+              }
+            archived:
+              {
+                type: boolean,
+                description: True when returned by the owner's archived-space view.,
+              }
+    SpaceArchiveState:
+      type: object
+      required: [archived]
+      properties:
+        archived: { type: boolean }
+    SpaceFavoriteState:
+      type: object
+      required: [favorite]
+      properties:
+        favorite: { type: boolean }
+    SpacePage:
+      type: object
+      required:
+        [items, page, pageSize, totalItems, totalPages, hasNext, hasPrevious]
+      properties:
+        items:
+          type: array
+          items: { $ref: "#/components/schemas/Space" }
+        page: { type: integer, minimum: 1 }
+        pageSize: { type: integer, minimum: 1, maximum: 50 }
+        totalItems: { type: integer, format: int64, minimum: 0 }
+        totalPages: { type: integer, minimum: 0 }
+        hasNext: { type: boolean }
+        hasPrevious: { type: boolean }
+    SpaceMember:
+      type: object
+      required: [userId, displayName, role, joinedAt, lastVisitedAt]
+      properties:
+        userId: { type: string, format: uuid }
+        displayName: { type: string }
+        role: { type: string, enum: [OWNER, ADMIN, MEMBER] }
+        joinedAt: { type: integer, format: int64 }
+        lastVisitedAt: { type: [integer, "null"], format: int64 }
+    SpaceOwnershipTransfer:
+      type: object
+      required:
+        [spaceId, targetUserId, targetDisplayName, requestedAt, expiresAt]
+      properties:
+        spaceId: { type: string, format: uuid }
+        targetUserId: { type: string, format: uuid }
+        targetDisplayName: { type: string }
+        requestedAt: { type: integer, format: int64 }
+        expiresAt: { type: integer, format: int64 }
+    IncomingOwnershipTransfer:
+      type: object
+      required: [spaceId, spaceName, ownerDisplayName, requestedAt, expiresAt]
+      properties:
+        spaceId: { type: string, format: uuid }
+        spaceName: { type: string }
+        ownerDisplayName: { type: string }
+        requestedAt: { type: integer, format: int64 }
+        expiresAt: { type: integer, format: int64 }
+    IncomingSpaceInvite:
+      type: object
+      required:
+        [
+          inviteId,
+          spaceId,
+          spaceName,
+          inviterDisplayName,
+          ownerDisplayName,
+          createdAt,
+          expiresAt,
+        ]
+      properties:
+        inviteId: { type: string, format: uuid }
+        spaceId: { type: string, format: uuid }
+        spaceName: { type: string }
+        inviterDisplayName: { type: string }
+        ownerDisplayName: { type: string }
+        createdAt: { type: integer, format: int64 }
+        expiresAt: { type: integer, format: int64 }
+    OwnershipTransferResult:
+      type: object
+      required: [status]
+      properties:
+        status:
+          { type: string, enum: [ACCEPTED, DECLINED, EXPIRED, UNAVAILABLE] }
+    SpaceAccessBlock:
+      type: object
+      required: [userId, displayName, blockedAt]
+      properties:
+        userId: { type: string, format: uuid }
+        displayName: { type: string }
+        blockedAt: { type: integer, format: int64 }
+    SpaceJoinRequest:
+      type: object
+      required: [id, userId, displayName, requestedAt]
+      properties:
+        id: { type: string, format: uuid }
+        userId: { type: string, format: uuid }
+        displayName: { type: string }
+        requestedAt: { type: integer, format: int64 }
+    IncomingSpaceJoinRequest:
+      type: object
+      required: [spaceId, spaceName, request]
+      properties:
+        spaceId: { type: string, format: uuid }
+        spaceName: { type: string }
+        request: { $ref: "#/components/schemas/SpaceJoinRequest" }
+    SpaceJoinRequestState:
+      type: object
+      required: [status, requestedAt]
+      properties:
+        status: { type: string, enum: [PENDING, MEMBER] }
+        requestedAt: { type: integer, format: int64 }
+    SocialJoinRequest:
+      type: object
+      required:
+        [
+          id,
+          displayName,
+          message,
+          status,
+          requestedAt,
+          expiresAt,
+          destinationSpaceId,
+          destinationSpaceName,
+        ]
+      properties:
+        id: { type: string, format: uuid }
+        displayName: { type: string }
+        message: { type: string, maxLength: 160 }
+        status:
+          {
+            type: string,
+            enum: [PENDING, APPROVED, DECLINED, CANCELLED, EXPIRED],
+          }
+        requestedAt: { type: integer, format: int64 }
+        expiresAt: { type: integer, format: int64 }
+        destinationSpaceId: { type: string, format: uuid, nullable: true }
+        destinationSpaceName: { type: string, maxLength: 60, nullable: true }
+    SocialJoinRequestState:
+      type: object
+      required: [id, status, requestedAt, expiresAt]
+      properties:
+        id: { type: string, format: uuid }
+        status: { type: string, enum: [PENDING] }
+        requestedAt: { type: integer, format: int64 }
+        expiresAt: { type: integer, format: int64 }
+    Invite:
+      type: object
+      required: [id, expiresAt, maxUses, useCount, revoked]
+      properties:
+        id: { type: string, format: uuid }
+        expiresAt: { type: string, format: date-time }
+        maxUses: { type: integer, minimum: 1, maximum: 100 }
+        useCount: { type: integer, minimum: 0, maximum: 100 }
+        revoked: { type: boolean }
+    ChatHistoryEntry:
+      type: object
+      required:
+        [
+          type,
+          messageId,
+          clientMessageId,
+          channel,
+          senderId,
+          senderName,
+          avatar,
+          text,
+          sentAt,
+          zoneId,
+          own,
+        ]
+      properties:
+        type: { type: string, const: chatEvent }
+        messageId: { type: string, format: uuid }
+        clientMessageId: { type: string, maxLength: 64 }
+        channel: { type: string, enum: [nearby, room] }
+        senderId: { type: string, format: uuid }
+        senderName: { type: string }
+        avatar: { type: integer, minimum: 0, maximum: 2 }
+        text: { type: string, maxLength: 500 }
+        sentAt: { type: integer, format: int64 }
+        zoneId: { type: string, maxLength: 64 }
+        own:
+          {
+            type: boolean,
+            description: Whether this message was authored by the authenticated account.,
+          }
+    Account:
+      type: object
+      required: [userId, displayName, avatar, allowPokes]
+      properties:
+        userId: { type: string, format: uuid }
+        displayName: { type: string }
+        avatar: { type: integer, minimum: 0, maximum: 2 }
+        allowPokes:
+          {
+            type: boolean,
+            description: Whether other participants may send the account a poke.,
+          }
+    AccountDeletionImpact:
+      type: object
+      required: [ownedSpaces]
+      properties:
+        ownedSpaces:
+          type: array
+          items:
+            type: object
+            required: [id, name]
+            properties:
+              id: { type: string, format: uuid }
+              name: { type: string, maxLength: 60 }
+    AuthError:
+      type: object
+      required: [code, message]
+      properties:
+        code: { type: string }
+        message: { type: string }
+  responses:
+    MapEditor:
+      description: Saved draft and publication validation issues.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/MapEditor" }
+    MapError:
+      description: 400 invalid map/publication; 401 missing session; 403 owner/account/CSRF denied; 404 space/revision unavailable; 409 lease/version/operation conflict; 413 body exceeds 512000 bytes; 503 storage unavailable. Existing publication remains intact on validation failure.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/AuthError" }
+    Space:
+      description: Space metadata and the caller's role.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Space" }
+    SpaceJoinRequestState:
+      description: Current account's request state. MEMBER means the account already has membership.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/SpaceJoinRequestState" }
+    SpaceFavoriteState:
+      description: Current account's saved favorite state.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/SpaceFavoriteState" }
+    SpaceArchiveState:
+      description: Current archive state after the owner's archive or restore request.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/SpaceArchiveState" }
+    SpacePage:
+      description: Visible spaces for the requested server-side filter and page.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/SpacePage" }
+    SpaceError:
+      description: 400 invalid input/invite/event date; 401 session missing; 403 owner/account/CSRF/approval/access-block denied; 404 missing or private space; 409 quota/request/event/ownership-transfer/archive conflict; 429 per-account rate or daily event limit; 503 storage unavailable. Uses the common code/message shape.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/AuthError" }
+    AuthError:
+      description: Authentication, policy, CSRF, rate limit, configuration or provider failure. No upstream body or secret is returned.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/AuthError" }

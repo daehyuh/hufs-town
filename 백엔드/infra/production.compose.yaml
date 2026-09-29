@@ -1,0 +1,243 @@
+name: hufs-town
+
+services:
+  mariadb:
+    image: mariadb:11.4.10
+    environment:
+      MARIADB_DATABASE: hufstown
+      MARIADB_USER: hufstown
+      MARIADB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in the deployment env file}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Set DB_ROOT_PASSWORD in the deployment env file}
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-time-zone=+00:00
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+    mem_limit: 2g
+    cpus: 0.75
+
+  redis:
+    image: redis:7.4.8-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+    mem_limit: 512m
+    cpus: 0.25
+
+  media:
+    image: hufs-town-media:${TOWN_RELEASE_ID:-latest}
+    build:
+      context: ../apps/media
+      dockerfile: Dockerfile
+    environment:
+      MEDIA_CONTROL_TOKEN: ${MEDIA_CONTROL_TOKEN:?Set MEDIA_CONTROL_TOKEN in the deployment env file}
+      MEDIA_ANNOUNCED_ADDRESS: ${MEDIA_ANNOUNCED_ADDRESS:?Set MEDIA_ANNOUNCED_ADDRESS in the deployment env file}
+      MEDIA_RTC_PORT: 44444
+      MEDIA_ICE_SERVERS_JSON: ${MEDIA_ICE_SERVERS_JSON:-[]}
+      MEDIA_TURN_SHARED_SECRET: ${MEDIA_TURN_SHARED_SECRET:-}
+      MEDIA_TURN_CREDENTIAL_TTL_SECONDS: ${MEDIA_TURN_CREDENTIAL_TTL_SECONDS:-21600}
+      MEDIA_RECORDINGS_ROOT: /data/recordings
+      MEDIA_RECORDING_MAX_DURATION_MS: ${MEDIA_RECORDING_MAX_DURATION_MS:-3600000}
+      MEDIA_RECORDING_MAX_BYTES: ${MEDIA_RECORDING_MAX_BYTES:-1073741824}
+      MEDIA_RECORDING_SPACE_MAX_BYTES: ${MEDIA_RECORDING_SPACE_MAX_BYTES:-10737418240}
+      MEDIA_RECORDING_MIN_FREE_BYTES: ${MEDIA_RECORDING_MIN_FREE_BYTES:-134217728}
+      MEDIA_RECORDING_MAX_ACTIVE: ${MEDIA_RECORDING_MAX_ACTIVE:-2}
+      MEDIA_TRANSCRIPTION_API_KEY: ${MEDIA_TRANSCRIPTION_API_KEY:-}
+      MEDIA_TRANSCRIPTION_API_BASE: ${MEDIA_TRANSCRIPTION_API_BASE:-https://api.openai.com/v1}
+      MEDIA_TRANSCRIPTION_MODEL: ${MEDIA_TRANSCRIPTION_MODEL:-gpt-4o-transcribe-diarize}
+    volumes:
+      - town-recordings:/data/recordings
+    ports:
+      - "${MEDIA_RTC_BIND_ADDRESS:-0.0.0.0}:44444:44444/udp"
+      - "${MEDIA_RTC_BIND_ADDRESS:-0.0.0.0}:44444:44444/tcp"
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - fetch('http://127.0.0.1:18082/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))
+      interval: 5s
+      timeout: 3s
+      retries: 12
+    restart: unless-stopped
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 128
+    mem_limit: 1g
+    cpus: 0.75
+
+  turn:
+    image: coturn/coturn:4.18.0-r0
+    profiles: ["turn"]
+    network_mode: host
+    entrypoint: ["/bin/sh", "/opt/hufs-town/turn-entrypoint.sh"]
+    environment:
+      MEDIA_TURN_SHARED_SECRET: ${MEDIA_TURN_SHARED_SECRET:-}
+      TURN_RELAY_IP: ${TURN_RELAY_IP:-}
+      TURN_EXTERNAL_IP: ${TURN_EXTERNAL_IP:-}
+      TURN_REALM: ${TURN_REALM:-town.gdgoc.com}
+    volumes:
+      - ./turn/entrypoint.sh:/opt/hufs-town/turn-entrypoint.sh:ro
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=1m,mode=1777
+    restart: unless-stopped
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 32
+    mem_limit: 256m
+    cpus: 0.5
+
+  api:
+    image: hufs-town-api:${TOWN_RELEASE_ID:-latest}
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.jvm
+      args:
+        APP_NAME: api
+        TOWN_SKIP_BUILD_TESTS: ${TOWN_SKIP_BUILD_TESTS:-false}
+    env_file:
+      - .env.production
+    environment:
+      SERVER_ADDRESS: 0.0.0.0
+      SERVER_PORT: 18080
+      MANAGEMENT_SERVER_PORT: 18082
+      DB_URL: jdbc:mariadb://mariadb:3306/hufstown
+      DB_USER: hufstown
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in the deployment env file}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      TOWN_AUTH_MODE: sso
+      TOWN_PUBLIC_ORIGIN: ${TOWN_PUBLIC_ORIGIN:?Set TOWN_PUBLIC_ORIGIN in the deployment env file}
+      TOWN_COOKIE_SECURE: "true"
+      TOWN_WORLD_ENDPOINTS: ${WORLD_PUBLIC_ENDPOINT:?Set WORLD_PUBLIC_ENDPOINT in the deployment env file}
+      TOWN_ASSET_ROOT: /data/assets
+      TOWN_MEDIA_ENABLED: "true"
+      MEDIA_CONTROL_URL: http://media:18082
+      MEDIA_CONTROL_TOKEN: ${MEDIA_CONTROL_TOKEN:?Set MEDIA_CONTROL_TOKEN in the deployment env file}
+      MEDIA_TURN_SHARED_SECRET: ""
+    volumes:
+      - town-assets:/data/assets
+    ports:
+      - "127.0.0.1:18090:18080"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      media:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:18082/actuator/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 45s
+    restart: unless-stopped
+    mem_limit: 2g
+    cpus: 0.75
+
+  world:
+    image: hufs-town-world:${TOWN_RELEASE_ID:-latest}
+    build:
+      context: ..
+      dockerfile: infra/Dockerfile.jvm
+      args:
+        APP_NAME: world
+        TOWN_SKIP_BUILD_TESTS: ${TOWN_SKIP_BUILD_TESTS:-false}
+    env_file:
+      - .env.production
+    environment:
+      SERVER_ADDRESS: 0.0.0.0
+      SERVER_PORT: 18081
+      MANAGEMENT_SERVER_PORT: 18083
+      DB_URL: jdbc:mariadb://mariadb:3306/hufstown
+      DB_USER: hufstown
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in the deployment env file}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      TOWN_PUBLIC_ORIGIN: ${TOWN_PUBLIC_ORIGIN:?Set TOWN_PUBLIC_ORIGIN in the deployment env file}
+      MEDIA_CONTROL_URL: http://media:18082
+      MEDIA_CONTROL_TOKEN: ${MEDIA_CONTROL_TOKEN:?Set MEDIA_CONTROL_TOKEN in the deployment env file}
+      MEDIA_TURN_SHARED_SECRET: ""
+    ports:
+      - "127.0.0.1:18091:18081"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      media:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:18083/actuator/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 45s
+    restart: unless-stopped
+    mem_limit: 3g
+    cpus: 0.75
+
+  web:
+    image: hufs-town-web:${TOWN_RELEASE_ID:-latest}
+    build:
+      context: ../..
+      dockerfile: 프론트/Dockerfile.production
+    ports:
+      - "127.0.0.1:18088:80"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1/ || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+    mem_limit: 256m
+    cpus: 0.25
+
+  prometheus:
+    image: prom/prometheus:v3.14.0
+    profiles: ["observability"]
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.listen-address=0.0.0.0:9090
+      - --web.user-assets=/etc/prometheus/dashboard
+    ports:
+      - "127.0.0.1:19090:9090"
+    volumes:
+      - ./prometheus:/etc/prometheus:ro
+      - prometheus-data:/prometheus
+    depends_on:
+      api:
+        condition: service_healthy
+      world:
+        condition: service_healthy
+    restart: unless-stopped
+    mem_limit: 256m
+    cpus: 0.2
+
+volumes:
+  mariadb-data:
+    name: hufstown-production-mariadb
+  redis-data:
+    name: hufstown-production-redis
+  town-assets:
+    name: hufstown-production-assets
+  town-recordings:
+    name: hufstown-production-recordings
+  prometheus-data:
+    name: hufstown-production-prometheus

@@ -1,0 +1,211 @@
+{
+  "runAtUtc": "2026-09-27T11:34:34Z",
+  "scope": "Packaged preview World bootJar in its own JVM; 100 movement-enabled WebSocket clients run in Gradle test worker JVM",
+  "requestedClientCount": 100,
+  "warmupSeconds": 5,
+  "steadyStateSeconds": 30,
+  "maxJoinsPerTick": 4,
+  "serverPid": 1351452,
+  "serverJar": "C:\\Project\\hufstown\\.build\\backend\\apps\\world\\libs\\world-0.1.0-SNAPSHOT.jar",
+  "serverAddress": "127.0.0.1:64846",
+  "serverMeasurementWindowSeconds": 37.719,
+  "serverCpuPercentOfOneCore": 68.1,
+  "serverWorkingSetPeakMiB": 366.9,
+  "serverWorkingSetEndMiB": 318.4,
+  "serverCpuEndSeconds": 51.719,
+  "loadGeneratorProcessId": 1329964,
+  "loadGeneratorCpuPercentOfOneCore": 70.0,
+  "loadGeneratorCpuMeasurement": "Test JVM ProcessCpuTime delta over the complete client test interval",
+  "loadGeneratorWorkingSetPeakMiB": 332.5,
+  "loadGeneratorWorkingSetEndMiB": null,
+  "joinPhase50msOverrunGateMet": false,
+  "steadyState50msOverrunGateMet": true,
+  "steadyStateP95Available": true,
+  "joinPhaseTickMaxScope": "Actuator timer max at phase end; cumulative since packaged World startup",
+  "steadyStateTickMaxScope": "Actuator timer max at phase end; cumulative since packaged World startup",
+  "steadyStateP95Scope": "Dedicated p95 gauge from a 3 x 10-second rolling histogram, read after the measured movement phase",
+  "performanceCaveat": "Preview-only WebSocket presence load: media fanout and production MariaDB/Redis runtime are not included",
+  "diagnosticRun": false,
+  "jfrStatus": null,
+  "jfrPath": null,
+  "dockerWorldTargeted": false,
+  "actualMediaLoad": false,
+  "capacityResult": {
+    "requestedClients": 100,
+    "acceptedClients": 100,
+    "allClientsObservedFullSpaceRoster": true,
+    "minimumAoiPlayersVisibleAtPhaseEnd": 50,
+    "maximumAoiPlayersVisibleAtPhaseEnd": 100,
+    "movementEnabled": true,
+    "clientsObservedMoving": 100,
+    "movementMessagesSubmitted": 35100,
+    "loadGeneratorCpuPercentOfOneCore": 70.02948217575195,
+    "loadGeneratorHeapUsedBytesAtEnd": 64154448,
+    "loadGeneratorHeapMaxBytes": 536870912,
+    "overflowClientCode": "FULL",
+    "connectMs": 354,
+    "joinAndConvergenceMs": 1517,
+    "testElapsedMs": 37037,
+    "activePlayersAtConvergence": 100.0,
+    "activeConnectionsAtConvergence": 100.0,
+    "connectPhase": {
+      "scope": "From first WebSocket connection attempt until all 100 sockets are open",
+      "tickCount": 6.0,
+      "tickMeanMs": 0.19686666666666786,
+      "tickOverrunsOver50ms": 0.0,
+      "tickMaxMsAtPhaseEnd": 15.205400000000001,
+      "tickMaxScope": "Actuator timer max at phase end; cumulative since packaged World startup"
+    },
+    "joinPhase": {
+      "scope": "From join commands after all sockets are open until all clients observe the full roster",
+      "tickCount": 30.0,
+      "tickMeanMs": 9.546383333333333,
+      "tickOverrunsOver50ms": 2.0,
+      "tickMaxMsAtPhaseEnd": 95.86930000000001,
+      "tickMaxScope": "Actuator timer max at phase end; cumulative since packaged World startup",
+      "actorPhaseWork": {
+        "commands": {
+          "tickCount": 30.0,
+          "totalMs": 1.3339000000000003,
+          "meanMsPerTick": 0.04446333333333334,
+          "maxMsSinceWorldStartup": 0.5837
+        },
+        "joins": {
+          "tickCount": 30.0,
+          "totalMs": 94.2816,
+          "meanMsPerTick": 3.1427199999999997,
+          "maxMsSinceWorldStartup": 50.4832
+        },
+        "simulation": {
+          "tickCount": 30.0,
+          "totalMs": 6.817100000000002,
+          "meanMsPerTick": 0.22723666666666673,
+          "maxMsSinceWorldStartup": 1.3573000000000002
+        },
+        "room_state": {
+          "tickCount": 30.0,
+          "totalMs": 28.497700000000002,
+          "meanMsPerTick": 0.9499233333333333,
+          "maxMsSinceWorldStartup": 9.3352
+        },
+        "maintenance": {
+          "tickCount": 30.0,
+          "totalMs": 0.4177,
+          "meanMsPerTick": 0.013923333333333334,
+          "maxMsSinceWorldStartup": 0.3524
+        },
+        "media_policy": {
+          "tickCount": 15.0,
+          "totalMs": 0.047399999999999984,
+          "meanMsPerTick": 0.0031599999999999987,
+          "maxMsSinceWorldStartup": 0.025400000000000002
+        },
+        "snapshots": {
+          "tickCount": 15.0,
+          "totalMs": 142.474,
+          "meanMsPerTick": 9.498266666666666,
+          "maxMsSinceWorldStartup": 85.388
+        },
+        "publication": {
+          "tickCount": 15.0,
+          "totalMs": 7.501200000000001,
+          "meanMsPerTick": 0.5000800000000001,
+          "maxMsSinceWorldStartup": 5.2024
+        }
+      },
+      "actorJoinCommands": {
+        "count": 100.0,
+        "totalMs": 91.8393,
+        "meanMs": 0.9183929999999999,
+        "maxMsSinceWorldStartup": 46.83
+      }
+    },
+    "capacityPhase": {
+      "scope": "From opening the capacity+1 socket until FULL rejection",
+      "tickCount": 1.0,
+      "tickMeanMs": 4.271699999999989,
+      "tickOverrunsOver50ms": 0.0,
+      "tickMaxMsAtPhaseEnd": 95.86930000000001,
+      "tickMaxScope": "Actuator timer max at phase end; cumulative since packaged World startup"
+    },
+    "steadyState": {
+      "warmupDurationSeconds": 5,
+      "requestedDurationSeconds": 30,
+      "measuredDurationMs": 30042,
+      "tickCount": 600.0,
+      "tickMeanMs": 1.1592339999999999,
+      "tickOverrunsOver50ms": 0.0,
+      "tickMaxMsAtPhaseEnd": 12.1194,
+      "tickMaxScope": "Actuator timer max at phase end; cumulative since packaged World startup",
+      "tickP95Available": true,
+      "tickP95Scope": "Dedicated p95 gauge from a 3 x 10-second rolling histogram, read after the measured movement phase",
+      "tickP95Ms": 3.129344,
+      "sampledRollingP95Ms": [
+        4.440064,
+        3.006464,
+        2.998272,
+        3.129344
+      ],
+      "resourceSamples": [
+        {
+          "elapsedSeconds": 10,
+          "rollingTickP95Ms": 4.440064,
+          "serverTickCount": 200.0,
+          "serverTickOverruns": 0.0,
+          "serverHeapUsedBytes": 102317880.0,
+          "serverCommandQueueSize": 30.0,
+          "serverJoinQueueSize": 0.0,
+          "activePlayers": 100.0,
+          "activeConnections": 100.0,
+          "loadGeneratorHeapUsedBytes": 86586528
+        },
+        {
+          "elapsedSeconds": 20,
+          "rollingTickP95Ms": 3.006464,
+          "serverTickCount": 401.0,
+          "serverTickOverruns": 0.0,
+          "serverHeapUsedBytes": 63208736.0,
+          "serverCommandQueueSize": 0.0,
+          "serverJoinQueueSize": 0.0,
+          "activePlayers": 100.0,
+          "activeConnections": 100.0,
+          "loadGeneratorHeapUsedBytes": 67664088
+        },
+        {
+          "elapsedSeconds": 30,
+          "rollingTickP95Ms": 2.998272,
+          "serverTickCount": 600.0,
+          "serverTickOverruns": 0.0,
+          "serverHeapUsedBytes": 77898368.0,
+          "serverCommandQueueSize": 0.0,
+          "serverJoinQueueSize": 0.0,
+          "activePlayers": 100.0,
+          "activeConnections": 100.0,
+          "loadGeneratorHeapUsedBytes": 141565008
+        },
+        {
+          "elapsedSeconds": 30,
+          "rollingTickP95Ms": 3.129344,
+          "serverTickCount": 600.0,
+          "serverTickOverruns": 0.0,
+          "serverHeapUsedBytes": 77898368.0,
+          "serverCommandQueueSize": 100.0,
+          "serverJoinQueueSize": 0.0,
+          "activePlayers": 100.0,
+          "activeConnections": 100.0,
+          "loadGeneratorHeapUsedBytes": 64154448
+        }
+      ],
+      "sampledRollingP95WindowCount": 4,
+      "sampledRollingP95MaximumMs": 4.440064,
+      "sampledRollingP95WindowsOver25Ms": 0,
+      "activePlayersAtPhaseEnd": 100.0,
+      "activeConnectionsAtPhaseEnd": 100.0,
+      "commandQueueSizeAtPhaseEnd": 100.0,
+      "joinQueueSizeAtPhaseEnd": 0.0,
+      "serverHeapUsedBytesAtPhaseEnd": 77898368.0
+    },
+    "commandQueueCapacity": 512.0,
+    "joinQueueCapacity": 512.0
+  }
+}

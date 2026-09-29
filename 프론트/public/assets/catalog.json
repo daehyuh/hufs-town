@@ -1,0 +1,301 @@
+{
+  "use": "local-development",
+  "selected": {
+    "gdg-horizontal.svg": {
+      "url": "/assets/gdg-horizontal.svg",
+      "sha256": "ea3ea754c3046d5ffa50a149103598d57e48e5b243b0379a7331ecf76df17e7c"
+    },
+    "gdg-mark.svg": {
+      "url": "/assets/gdg-mark.svg",
+      "sha256": "428651144bb7894ce6f36289f81bac10d180d0e03c476f31a4ee91b4f644c862"
+    },
+    "campus.png": {
+      "url": "/assets/campus.png",
+      "width": 2181,
+      "height": 1599,
+      "sha256": "9dfa5e1422b16f5fb8d0a4925b325c8f360a24af6609b81b02328baa2e341883"
+    },
+    "avatar-0-0.png": {
+      "url": "/assets/avatar-0-0.png",
+      "width": 48,
+      "height": 64,
+      "sha256": "4617fbb62ce489ee549fbf32a4adfe7581a313db7e3a1e0b4eccfc1a4e7ac70f"
+    },
+    "avatar-0-1.png": {
+      "url": "/assets/avatar-0-1.png",
+      "width": 48,
+      "height": 64,
+      "sha256": "1cae8e9ce66b831e59d8e09c4bdd8bd7222b30c661c6fa304cebcf82b0fe02c5"
+    },
+    "avatar-0-2.png": {
+      "url": "/assets/avatar-0-2.png",
+      "width": 48,
+      "height": 64,
+      "sha256": "6870c0dc3c45d410024d6bb002d34fbda760031f527ee82efb7b2d0838d4f0c7"
+    },
+    "avatar-1-0.png": {
+      "url": "/assets/avatar-1-0.png",
+      "width": 48,
+      "height": 64,
+      "sha256": "a0d218e0ea45e447b49a271f1c68810961da94e4aa97ee489ee0f9b2040a7607"
+    },
+    "avatar-1-1.png": {
+      "url": "/assets/avatar-1-1.png",
+      "width": 48,
+      "height": 64,
+      "sha256": "46d0e83cbbeec3ad36d91837f65beb7bfca212bf3816370801a4e6ff4e7b694e"
+    },
+    "avatar-1-2.png": {
+      "url": "/assets/avatar-1-2.png",
+      "width": 48,
+      "height": 64,
+      "sha256": "5119b054850d3675d756ff489c066a6fd8443b474f9328c90270874fdf1f39cd"
+    },
+    "avatar-2-0.png": {
+      "url": "/assets/avatar-2-0.png",
+      "width": 48,
+      "height": 64,
+      "sha256": "765a09c3fcc6388918bd76e099c139600c4847db010b6eebd6286a21820318ba"
+    },
+    "avatar-2-1.png": {
+      "url": "/assets/avatar-2-1.png",
+      "width": 48,
+      "height": 64,
+      "sha256": "d7f84d0cb977d1d12a6b0db82cf3e890751de82cd042d1374d1c9cafbaeae7b8"
+    },
+    "avatar-2-2.png": {
+      "url": "/assets/avatar-2-2.png",
+      "width": 48,
+      "height": 64,
+      "sha256": "c14439c9b56667394217c7ee968a7b8eb85684226dc2f19951bf00731d3b58ac"
+    },
+    "tree_deciduous_huge_1.png": {
+      "url": "/assets/tree_deciduous_huge_1.png",
+      "width": 48,
+      "height": 48,
+      "sha256": "65bd6b3ada9a376a4446dbcc881b205d6831641ae79005da08b8a8b075162e40"
+    },
+    "tree_deciduous_1.png": {
+      "url": "/assets/tree_deciduous_1.png",
+      "width": 32,
+      "height": 32,
+      "sha256": "a7837b47ce8601df7a1b015e9d8c804ed0470a354ee1b9654f51040e95b8e4fd"
+    },
+    "tree_deciduous_small_1.png": {
+      "url": "/assets/tree_deciduous_small_1.png",
+      "width": 16,
+      "height": 32,
+      "sha256": "b5295852d7d7127269230541d7b83ab8e6fef7460e337073892ed13a8cc9b20a"
+    },
+    "bush_1.png": {
+      "url": "/assets/bush_1.png",
+      "width": 16,
+      "height": 16,
+      "sha256": "d4f4d2990aed08868a98d3426278c7b75dc2308391f3331ec8580e234dda5fd3"
+    },
+    "bush_berries_1.png": {
+      "url": "/assets/bush_berries_1.png",
+      "width": 16,
+      "height": 16,
+      "sha256": "bf1d8e39844355d45f2f37586b32d5eaaf43e413ca72a02f58a866d1ec242de3"
+    },
+    "house_woodland_1.png": {
+      "url": "/assets/house_woodland_1.png",
+      "width": 48,
+      "height": 48,
+      "sha256": "68100d7a0d8657d7ab7bec9af69e26626682980ec2e996bee80deadacbd3eef0"
+    },
+    "house_woodland_big.png": {
+      "url": "/assets/house_woodland_big.png",
+      "width": 48,
+      "height": 64,
+      "sha256": "8f80ccee595067c8990e4d39782426f7af82c99fdbd715a9d7a500f6e1fc834a"
+    },
+    "sign_1.png": {
+      "url": "/assets/sign_1.png",
+      "width": 16,
+      "height": 16,
+      "sha256": "2480d972341bb8ac6c07d733995b2e5b5a2bfd758f281ab84a371c6f65311251"
+    },
+    "tree_stump.png": {
+      "url": "/assets/tree_stump.png",
+      "width": 16,
+      "height": 16,
+      "sha256": "d90fc7f97a330228d75512eac06ba1d6bf482e14bf0cef7ebffc9f71873e2b8f"
+    },
+    "tree_potted_1.png": {
+      "url": "/assets/tree_potted_1.png",
+      "width": 16,
+      "height": 32,
+      "sha256": "b50ec846086cfa986b31a77cde621ab273e4e5bb4e8be51641fb3eaeddf54318"
+    },
+    "campfire_stones.png": {
+      "url": "/assets/campfire_stones.png",
+      "width": 16,
+      "height": 16,
+      "sha256": "0dfe136233cc9e77cb8cd4c091aef978c19361ddc9c77f8a70d9561ce5e37cbb"
+    },
+    "crate_1.png": {
+      "url": "/assets/crate_1.png",
+      "width": 16,
+      "height": 16,
+      "sha256": "7db2dbd979d4a0d5cc79f2ae2610d4c83bd93c9ed9ab4b554eed81988867216d"
+    },
+    "woodland.png": {
+      "url": "/assets/woodland.png",
+      "width": 256,
+      "height": 256,
+      "sha256": "9420faed20179ea850b0706a6b5a57282e6ff5a1ddc9ea737d3328cd0ad9bb68"
+    }
+  },
+  "avatars": [
+    {
+      "id": 0,
+      "body": "average",
+      "layers": [
+        "/assets/avatar-0-0.png",
+        "/assets/avatar-0-1.png",
+        "/assets/avatar-0-2.png"
+      ],
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "columns": 3,
+      "rows": {
+        "down": 0,
+        "left": 1,
+        "right": 2,
+        "up": 3
+      },
+      "idleColumn": 1,
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": 1,
+      "body": "dainty",
+      "layers": [
+        "/assets/avatar-1-0.png",
+        "/assets/avatar-1-1.png",
+        "/assets/avatar-1-2.png"
+      ],
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "columns": 3,
+      "rows": {
+        "down": 0,
+        "left": 1,
+        "right": 2,
+        "up": 3
+      },
+      "idleColumn": 1,
+      "anchor": [
+        0.5,
+        1
+      ]
+    },
+    {
+      "id": 2,
+      "body": "heavy",
+      "layers": [
+        "/assets/avatar-2-0.png",
+        "/assets/avatar-2-1.png",
+        "/assets/avatar-2-2.png"
+      ],
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "columns": 3,
+      "rows": {
+        "down": 0,
+        "left": 1,
+        "right": 2,
+        "up": 3
+      },
+      "idleColumn": 1,
+      "anchor": [
+        0.5,
+        1
+      ]
+    }
+  ],
+  "groups": {
+    "brand": {
+      "mark": "/assets/gdg-mark.svg",
+      "horizontal": "/assets/gdg-horizontal.svg",
+      "campusIllustration": "/assets/campus.png"
+    },
+    "avatarSheets": [
+      {
+        "id": "avatar-0-0",
+        "url": "/assets/avatar-0-0.png",
+        "frameWidth": 16,
+        "frameHeight": 16
+      },
+      {
+        "id": "avatar-0-1",
+        "url": "/assets/avatar-0-1.png",
+        "frameWidth": 16,
+        "frameHeight": 16
+      },
+      {
+        "id": "avatar-0-2",
+        "url": "/assets/avatar-0-2.png",
+        "frameWidth": 16,
+        "frameHeight": 16
+      },
+      {
+        "id": "avatar-1-0",
+        "url": "/assets/avatar-1-0.png",
+        "frameWidth": 16,
+        "frameHeight": 16
+      },
+      {
+        "id": "avatar-1-1",
+        "url": "/assets/avatar-1-1.png",
+        "frameWidth": 16,
+        "frameHeight": 16
+      },
+      {
+        "id": "avatar-1-2",
+        "url": "/assets/avatar-1-2.png",
+        "frameWidth": 16,
+        "frameHeight": 16
+      },
+      {
+        "id": "avatar-2-0",
+        "url": "/assets/avatar-2-0.png",
+        "frameWidth": 16,
+        "frameHeight": 16
+      },
+      {
+        "id": "avatar-2-1",
+        "url": "/assets/avatar-2-1.png",
+        "frameWidth": 16,
+        "frameHeight": 16
+      },
+      {
+        "id": "avatar-2-2",
+        "url": "/assets/avatar-2-2.png",
+        "frameWidth": 16,
+        "frameHeight": 16
+      }
+    ],
+    "campusSquare": [
+      "campus-tree-large",
+      "campus-tree",
+      "campus-tree-small",
+      "campus-bush",
+      "campus-berries",
+      "campus-house",
+      "campus-house-large",
+      "campus-sign",
+      "gdg-sign"
+    ],
+    "woodlandAtlas": {
+      "url": "/assets/woodland.png",
+      "frameWidth": 16,
+      "frameHeight": 16
+    }
+  }
+}

@@ -1,0 +1,735 @@
+{
+  "schemaVersion": 2,
+  "id": "campus-square",
+  "revision": "campus-square-v2",
+  "name": "캠퍼스 광장",
+  "width": 48,
+  "height": 34,
+  "spawnX": 24,
+  "spawnY": 30,
+  "collisions": [
+    {
+      "x": 1,
+      "y": 1,
+      "width": 46,
+      "height": 0.5
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "width": 0.5,
+      "height": 32
+    },
+    {
+      "x": 46.5,
+      "y": 1,
+      "width": 0.5,
+      "height": 32
+    },
+    {
+      "x": 1,
+      "y": 32.5,
+      "width": 20,
+      "height": 0.5
+    },
+    {
+      "x": 27,
+      "y": 32.5,
+      "width": 20,
+      "height": 0.5
+    },
+    {
+      "x": 31.5,
+      "y": 19.5,
+      "width": 13.5,
+      "height": 0.5
+    },
+    {
+      "x": 31.5,
+      "y": 19.5,
+      "width": 0.5,
+      "height": 9.5
+    },
+    {
+      "x": 45,
+      "y": 19.5,
+      "width": 0.5,
+      "height": 9.5
+    },
+    {
+      "x": 31.5,
+      "y": 28.5,
+      "width": 4.5,
+      "height": 0.5
+    },
+    {
+      "x": 40.5,
+      "y": 28.5,
+      "width": 4.5,
+      "height": 0.5
+    },
+    {
+      "x": 4.125,
+      "y": 4.5,
+      "width": 0.75,
+      "height": 0.5
+    },
+    {
+      "x": 10.625,
+      "y": 4,
+      "width": 0.75,
+      "height": 0.5
+    },
+    {
+      "x": 36.625,
+      "y": 4,
+      "width": 0.75,
+      "height": 0.5
+    },
+    {
+      "x": 43.125,
+      "y": 4.5,
+      "width": 0.75,
+      "height": 0.5
+    },
+    {
+      "x": 3.625,
+      "y": 15.5,
+      "width": 0.75,
+      "height": 0.5
+    },
+    {
+      "x": 13.625,
+      "y": 15.5,
+      "width": 0.75,
+      "height": 0.5
+    },
+    {
+      "x": 15.625,
+      "y": 22.5,
+      "width": 0.75,
+      "height": 0.5
+    },
+    {
+      "x": 15.625,
+      "y": 28.5,
+      "width": 0.75,
+      "height": 0.5
+    },
+    {
+      "x": 29.625,
+      "y": 15.5,
+      "width": 0.75,
+      "height": 0.5
+    },
+    {
+      "x": 43.625,
+      "y": 14.5,
+      "width": 0.75,
+      "height": 0.5
+    },
+    {
+      "x": 5.75,
+      "y": 9,
+      "width": 2.5,
+      "height": 1
+    },
+    {
+      "x": 39.75,
+      "y": 9,
+      "width": 2.5,
+      "height": 1
+    },
+    {
+      "x": 2.625,
+      "y": 23.5,
+      "width": 0.75,
+      "height": 0.5
+    },
+    {
+      "x": 6.625,
+      "y": 25.5,
+      "width": 0.75,
+      "height": 0.5
+    },
+    {
+      "x": 10.625,
+      "y": 23.5,
+      "width": 0.75,
+      "height": 0.5
+    },
+    {
+      "x": 3.625,
+      "y": 27.5,
+      "width": 0.75,
+      "height": 0.5
+    },
+    {
+      "x": 9.625,
+      "y": 27.5,
+      "width": 0.75,
+      "height": 0.5
+    },
+    {
+      "x": 13.625,
+      "y": 21.5,
+      "width": 0.75,
+      "height": 0.5
+    },
+    {
+      "x": 22.125,
+      "y": 7.050000000000001,
+      "width": 3.75,
+      "height": 0.35
+    },
+    {
+      "x": 21.5625,
+      "y": 7.800000000000001,
+      "width": 4.875,
+      "height": 2
+    },
+    {
+      "x": 35.125,
+      "y": 21.5,
+      "width": 3.75,
+      "height": 1.5
+    },
+    {
+      "x": 33.125,
+      "y": 25.5,
+      "width": 1.75,
+      "height": 1.5
+    },
+    {
+      "x": 40.125,
+      "y": 25.5,
+      "width": 1.75,
+      "height": 1.5
+    },
+    {
+      "x": 36.125,
+      "y": 26,
+      "width": 2.75,
+      "height": 1
+    },
+    {
+      "x": 2.625,
+      "y": 11.5,
+      "width": 0.75,
+      "height": 0.5
+    },
+    {
+      "x": 44.625,
+      "y": 11.5,
+      "width": 0.75,
+      "height": 0.5
+    }
+  ],
+  "objects": [
+    {
+      "id": "object-0",
+      "asset": "campus-tree-large",
+      "x": 4.5,
+      "y": 5,
+      "scale": 2
+    },
+    {
+      "id": "object-1",
+      "asset": "campus-tree",
+      "x": 11,
+      "y": 4.5,
+      "scale": 2
+    },
+    {
+      "id": "object-2",
+      "asset": "campus-tree",
+      "x": 37,
+      "y": 4.5,
+      "scale": 2
+    },
+    {
+      "id": "object-3",
+      "asset": "campus-tree-large",
+      "x": 43.5,
+      "y": 5,
+      "scale": 2
+    },
+    {
+      "id": "object-4",
+      "asset": "campus-tree-small",
+      "x": 4,
+      "y": 16,
+      "scale": 2
+    },
+    {
+      "id": "object-5",
+      "asset": "campus-tree-small",
+      "x": 14,
+      "y": 16,
+      "scale": 2
+    },
+    {
+      "id": "object-6",
+      "asset": "campus-tree",
+      "x": 16,
+      "y": 23,
+      "scale": 2
+    },
+    {
+      "id": "object-7",
+      "asset": "campus-tree-small",
+      "x": 16,
+      "y": 29,
+      "scale": 2
+    },
+    {
+      "id": "object-8",
+      "asset": "campus-tree-small",
+      "x": 30,
+      "y": 16,
+      "scale": 2
+    },
+    {
+      "id": "object-9",
+      "asset": "campus-tree",
+      "x": 44,
+      "y": 15,
+      "scale": 2
+    },
+    {
+      "id": "object-10",
+      "asset": "campus-house-large",
+      "x": 7,
+      "y": 10,
+      "scale": 2
+    },
+    {
+      "id": "object-11",
+      "asset": "campus-house",
+      "x": 41,
+      "y": 10,
+      "scale": 2
+    },
+    {
+      "id": "object-12",
+      "asset": "campus-bush",
+      "x": 3,
+      "y": 24,
+      "scale": 2
+    },
+    {
+      "id": "object-13",
+      "asset": "campus-berries",
+      "x": 7,
+      "y": 26,
+      "scale": 2
+    },
+    {
+      "id": "object-14",
+      "asset": "campus-bush",
+      "x": 11,
+      "y": 24,
+      "scale": 2
+    },
+    {
+      "id": "object-15",
+      "asset": "campus-bush",
+      "x": 4,
+      "y": 28,
+      "scale": 2
+    },
+    {
+      "id": "object-16",
+      "asset": "campus-berries",
+      "x": 10,
+      "y": 28,
+      "scale": 2
+    },
+    {
+      "id": "object-17",
+      "asset": "campus-bush",
+      "x": 14,
+      "y": 22,
+      "scale": 2
+    },
+    {
+      "id": "object-18",
+      "asset": "gdg-sign",
+      "x": 24,
+      "y": 4.4,
+      "scale": 2
+    },
+    {
+      "id": "object-19",
+      "asset": "screen",
+      "x": 24,
+      "y": 7.4,
+      "scale": 2
+    },
+    {
+      "id": "object-20",
+      "asset": "reception",
+      "x": 24,
+      "y": 9.8,
+      "scale": 2
+    },
+    {
+      "id": "object-21",
+      "asset": "chair-front",
+      "x": 8,
+      "y": 13,
+      "scale": 2
+    },
+    {
+      "id": "object-22",
+      "asset": "chair-front",
+      "x": 14,
+      "y": 13,
+      "scale": 2
+    },
+    {
+      "id": "object-23",
+      "asset": "chair-front",
+      "x": 20,
+      "y": 13,
+      "scale": 2
+    },
+    {
+      "id": "object-24",
+      "asset": "chair-front",
+      "x": 28,
+      "y": 13,
+      "scale": 2
+    },
+    {
+      "id": "object-25",
+      "asset": "chair-front",
+      "x": 34,
+      "y": 13,
+      "scale": 2
+    },
+    {
+      "id": "object-26",
+      "asset": "chair-front",
+      "x": 40,
+      "y": 13,
+      "scale": 2
+    },
+    {
+      "id": "object-27",
+      "asset": "chair-front",
+      "x": 8,
+      "y": 16.5,
+      "scale": 2
+    },
+    {
+      "id": "object-28",
+      "asset": "chair-front",
+      "x": 14,
+      "y": 16.5,
+      "scale": 2
+    },
+    {
+      "id": "object-29",
+      "asset": "chair-front",
+      "x": 20,
+      "y": 16.5,
+      "scale": 2
+    },
+    {
+      "id": "object-30",
+      "asset": "chair-front",
+      "x": 28,
+      "y": 16.5,
+      "scale": 2
+    },
+    {
+      "id": "object-31",
+      "asset": "chair-front",
+      "x": 34,
+      "y": 16.5,
+      "scale": 2
+    },
+    {
+      "id": "object-32",
+      "asset": "chair-front",
+      "x": 40,
+      "y": 16.5,
+      "scale": 2
+    },
+    {
+      "id": "object-33",
+      "asset": "chair-front",
+      "x": 8,
+      "y": 19,
+      "scale": 2
+    },
+    {
+      "id": "object-34",
+      "asset": "chair-front",
+      "x": 14,
+      "y": 19,
+      "scale": 2
+    },
+    {
+      "id": "object-35",
+      "asset": "chair-front",
+      "x": 20,
+      "y": 19,
+      "scale": 2
+    },
+    {
+      "id": "object-36",
+      "asset": "chair-front",
+      "x": 28,
+      "y": 19,
+      "scale": 2
+    },
+    {
+      "id": "object-37",
+      "asset": "chair-front",
+      "x": 34,
+      "y": 19,
+      "scale": 2
+    },
+    {
+      "id": "object-38",
+      "asset": "chair-front",
+      "x": 40,
+      "y": 19,
+      "scale": 2
+    },
+    {
+      "id": "object-39",
+      "asset": "sofa-sage",
+      "x": 37,
+      "y": 23,
+      "scale": 2
+    },
+    {
+      "id": "object-40",
+      "asset": "armchair",
+      "x": 34,
+      "y": 27,
+      "scale": 2
+    },
+    {
+      "id": "object-41",
+      "asset": "armchair",
+      "x": 41,
+      "y": 27,
+      "scale": 2
+    },
+    {
+      "id": "object-42",
+      "asset": "coffee-table",
+      "x": 37.5,
+      "y": 27,
+      "scale": 2
+    },
+    {
+      "id": "object-43",
+      "asset": "campus-sign",
+      "x": 3,
+      "y": 12,
+      "scale": 2
+    },
+    {
+      "id": "object-44",
+      "asset": "campus-sign",
+      "x": 45,
+      "y": 12,
+      "scale": 2
+    }
+  ],
+  "zones": [
+    {
+      "id": "plaza",
+      "name": "캠퍼스 광장",
+      "kind": "PUBLIC",
+      "bounds": {
+        "x": 2,
+        "y": 10,
+        "width": 44,
+        "height": 9
+      }
+    },
+    {
+      "id": "garden",
+      "name": "조용한 정원",
+      "kind": "SILENT",
+      "bounds": {
+        "x": 2,
+        "y": 20,
+        "width": 12,
+        "height": 8
+      }
+    },
+    {
+      "id": "pavilion",
+      "name": "대화 정자",
+      "kind": "PRIVATE",
+      "bounds": {
+        "x": 32,
+        "y": 20,
+        "width": 12,
+        "height": 8
+      }
+    }
+  ],
+  "floors": [
+    {
+      "id": "floor-0",
+      "material": "GRASS",
+      "bounds": {
+        "x": 1.5,
+        "y": 1.5,
+        "width": 45,
+        "height": 31
+      }
+    },
+    {
+      "id": "floor-1",
+      "material": "PAVERS",
+      "bounds": {
+        "x": 20,
+        "y": 2,
+        "width": 8,
+        "height": 30
+      }
+    },
+    {
+      "id": "floor-2",
+      "material": "PAVERS",
+      "bounds": {
+        "x": 2,
+        "y": 27,
+        "width": 44,
+        "height": 3
+      }
+    },
+    {
+      "id": "floor-3",
+      "material": "WOOD",
+      "bounds": {
+        "x": 16,
+        "y": 3,
+        "width": 16,
+        "height": 6
+      }
+    },
+    {
+      "id": "floor-4",
+      "material": "CARPET_SAGE",
+      "bounds": {
+        "x": 2,
+        "y": 20,
+        "width": 12,
+        "height": 8
+      }
+    }
+  ],
+  "walls": [
+    {
+      "id": "wall-0",
+      "material": "CREAM",
+      "bounds": {
+        "x": 1,
+        "y": 1,
+        "width": 46,
+        "height": 0.5
+      }
+    },
+    {
+      "id": "wall-1",
+      "material": "CREAM",
+      "bounds": {
+        "x": 1,
+        "y": 1,
+        "width": 0.5,
+        "height": 32
+      }
+    },
+    {
+      "id": "wall-2",
+      "material": "CREAM",
+      "bounds": {
+        "x": 46.5,
+        "y": 1,
+        "width": 0.5,
+        "height": 32
+      }
+    },
+    {
+      "id": "wall-3",
+      "material": "CREAM",
+      "bounds": {
+        "x": 1,
+        "y": 32.5,
+        "width": 20,
+        "height": 0.5
+      }
+    },
+    {
+      "id": "wall-4",
+      "material": "CREAM",
+      "bounds": {
+        "x": 27,
+        "y": 32.5,
+        "width": 20,
+        "height": 0.5
+      }
+    },
+    {
+      "id": "wall-5",
+      "material": "SAGE",
+      "bounds": {
+        "x": 31.5,
+        "y": 19.5,
+        "width": 13.5,
+        "height": 0.5
+      }
+    },
+    {
+      "id": "wall-6",
+      "material": "SAGE",
+      "bounds": {
+        "x": 31.5,
+        "y": 19.5,
+        "width": 0.5,
+        "height": 9.5
+      }
+    },
+    {
+      "id": "wall-7",
+      "material": "SAGE",
+      "bounds": {
+        "x": 45,
+        "y": 19.5,
+        "width": 0.5,
+        "height": 9.5
+      }
+    },
+    {
+      "id": "wall-8",
+      "material": "SAGE",
+      "bounds": {
+        "x": 31.5,
+        "y": 28.5,
+        "width": 4.5,
+        "height": 0.5
+      }
+    },
+    {
+      "id": "wall-9",
+      "material": "SAGE",
+      "bounds": {
+        "x": 40.5,
+        "y": 28.5,
+        "width": 4.5,
+        "height": 0.5
+      }
+    }
+  ],
+  "labels": []
+}

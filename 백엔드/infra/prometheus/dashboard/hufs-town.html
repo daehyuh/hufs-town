@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>HUFS Town 운영 현황</title>
+    <link rel="stylesheet" href="/user/dashboard.css" />
+    <script src="/user/dashboard.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">HUFS TOWN · SERVICE OBSERVABILITY</p>
+        <h1>운영 현황</h1>
+        <p class="subtitle">API·실시간 월드·미디어 서버 상태와 집계 지표</p>
+      </div>
+      <div class="top-actions">
+        <span
+          id="refresh-status"
+          class="refresh-status"
+          role="status"
+          aria-live="polite"
+          >불러오는 중…</span
+        >
+        <a class="text-link" href="/alerts">경보 규칙</a>
+        <a class="text-link" href="/targets">수집 대상</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="overview" aria-labelledby="services-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">SERVICE HEALTH</p>
+            <h2 id="services-title">서비스 연결</h2>
+          </div>
+          <div class="range-picker" role="group" aria-label="그래프 표시 범위">
+            <button type="button" data-range="1h" aria-pressed="true">
+              1시간
+            </button>
+            <button type="button" data-range="6h" aria-pressed="false">
+              6시간
+            </button>
+            <button type="button" data-range="24h" aria-pressed="false">
+              24시간
+            </button>
+          </div>
+        </div>
+        <div class="service-grid">
+          <article class="service-card">
+            <span class="service-name">API</span>
+            <span id="api-target" class="service-state" data-state="unknown"
+              >확인 중</span
+            >
+            <span class="service-detail">요청 처리·인증</span>
+          </article>
+          <article class="service-card">
+            <span class="service-name">World</span>
+            <span id="world-target" class="service-state" data-state="unknown"
+              >확인 중</span
+            >
+            <span class="service-detail">실시간 이동·동기화</span>
+          </article>
+          <article class="service-card">
+            <span class="service-name">Media</span>
+            <span id="media-target" class="service-state" data-state="unknown"
+              >확인 중</span
+            >
+            <span class="service-detail">근거리 통화·화면 공유</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="metrics-grid" aria-label="현재 주요 지표">
+        <article class="metric-card">
+          <span>월드 참가자</span><strong id="players">—</strong
+          ><small>현재 활성 플레이어</small>
+        </article>
+        <article class="metric-card">
+          <span>WebSocket 연결</span><strong id="connections">—</strong
+          ><small>현재 연결 수</small>
+        </article>
+        <article class="metric-card">
+          <span>월드 tick p95</span><strong id="tick-p95">—</strong
+          ><small>최근 지연 · ms</small>
+        </article>
+        <article class="metric-card">
+          <span>명령 큐 사용률</span><strong id="queue-pressure">—</strong
+          ><small>현재 대기 / 최대 용량</small>
+        </article>
+        <article class="metric-card">
+          <span>입장 대기 큐 사용률</span><strong id="join-queue-pressure">—</strong
+          ><small>
+            <span id="join-queue-size">—</span> / <span id="join-queue-capacity">—</span> 대기 용량 ·
+            최근 5분 거절 <span id="join-queue-rejected">—</span>회
+          </small>
+        </article>
+        <article class="metric-card">
+          <span>API 요청률</span><strong id="api-rate">—</strong
+          ><small>최근 5분 평균 · 초당 요청</small>
+        </article>
+        <article class="metric-card">
+          <span>API 5xx 비율</span><strong id="api-errors">—</strong
+          ><small>최근 5분 평균</small>
+        </article>
+        <article class="metric-card">
+          <span>JVM heap 사용률</span><strong id="heap-usage">—</strong
+          ><small>API와 World 합산</small>
+        </article>
+        <article class="metric-card">
+          <span>미디어 참가자</span><strong id="media-peers">—</strong
+          ><small>활성 미디어 연결</small>
+        </article>
+        <article class="metric-card">
+          <span>송신 미디어 트랙</span><strong id="media-producers">—</strong
+          ><small>마이크·카메라·화면</small>
+        </article>
+        <article class="metric-card">
+          <span>수신 미디어 트랙</span><strong id="media-consumers">—</strong
+          ><small>활성 구독 트랙</small>
+        </article>
+        <article class="metric-card">
+          <span>녹화 세션</span><strong id="recording-sessions">—</strong
+          ><small>동시 한도 <span id="recording-capacity">—</span>개</small>
+        </article>
+        <article class="metric-card">
+          <span>전사 작업</span><strong id="transcription-jobs">—</strong
+          ><small>진행 중인 녹화 전사</small>
+        </article>
+      </section>
+
+      <section class="chart-grid" aria-label="지표 변화 그래프">
+        <article class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">WORLD</p>
+              <h2>월드 처리 지연</h2>
+            </div>
+            <span class="unit">ms · p95</span>
+          </div>
+          <div
+            id="tick-chart"
+            class="chart"
+            role="img"
+            aria-label="월드 tick p95 그래프"
+          ></div>
+        </article>
+        <article class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">API</p>
+              <h2>API 요청량</h2>
+            </div>
+            <span class="unit">요청 / 초</span>
+          </div>
+          <div
+            id="request-chart"
+            class="chart"
+            role="img"
+            aria-label="API 요청량 그래프"
+          ></div>
+        </article>
+        <article class="panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">WORLD</p>
+              <h2>입장 대기 큐 압력</h2>
+            </div>
+            <span class="unit">용량 사용률 · %</span>
+          </div>
+          <div
+            id="join-queue-chart"
+            class="chart"
+            role="img"
+            aria-label="월드 입장 대기 큐 용량 사용률 그래프"
+          ></div>
+        </article>
+      </section>
+      <p id="data-notice" class="data-notice" hidden></p>
+    </main>
+
+    <footer>
+      지표 수집 주기 15초 · Prometheus 경보 규칙은 수신 경로를 별도로
+      구성해야 전달됩니다.
+    </footer>
+  </body>
+</html>

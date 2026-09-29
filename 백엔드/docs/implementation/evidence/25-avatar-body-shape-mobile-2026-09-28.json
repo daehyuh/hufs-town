@@ -1,0 +1,40 @@
+{
+  "date": "2026-09-28",
+  "change": "Show one live avatar preview with a body-shape selector",
+  "surfaces": [
+    "pre-entry profile form",
+    "signed-in account profile editor",
+    "in-world wardrobe remains a single preview with visual outfit assets"
+  ],
+  "mobile": {
+    "viewport": "390x844",
+    "bodyShapeSelectorFontSize": "16px",
+    "bodyShapeSelectorMinimumHeight": "44px",
+    "horizontalOverflow": "none",
+    "oneAvatarPreview": true
+  },
+  "profile": {
+    "shapeChoiceSurvivesSaveAndReload": true,
+    "appearanceChangesReachOtherPlayers": true,
+    "outfitHairAndSkinAssetChoices": "passed"
+  },
+  "e2e": {
+    "testsPassed": 31,
+    "testsFailed": 0,
+    "areas": [
+      "SSO and profile flows",
+      "guest entry",
+      "Korean and English accessibility",
+      "shared wardrobe appearance",
+      "nearby chat and mobile keyboard",
+      "event opt-in",
+      "private-room chat",
+      "screen-share layout"
+    ],
+    "runner": "isolated Preview"
+  },
+  "unit": "46 files / 157 tests passed",
+  "build": "frontend production build passed",
+  "formatting": "Prettier passed",
+  "productionDeployed": false
+}

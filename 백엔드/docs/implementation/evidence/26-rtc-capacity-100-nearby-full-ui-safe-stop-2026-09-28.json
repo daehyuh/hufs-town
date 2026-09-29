@@ -1,0 +1,913 @@
+{
+  "status": "FAILED_OR_SAFE_STOP",
+  "startedAt": "2026-09-28T00:58:02.043Z",
+  "finishedAt": "2026-09-28T01:00:27.014Z",
+  "tier": 100,
+  "participantsRequested": 100,
+  "participantsJoined": 40,
+  "failure": "Safe stop: host CPU remained at or above 95% for 20 consecutive one-second samples.",
+  "rtpHoldSeconds": 0,
+  "mediaEngine": "isolated host capacity SFU 127.0.0.1:18083; RTP 44445",
+  "hostLimits": {
+    "minFreeMemoryMb": 2048,
+    "stopIfCpuAtOrAbovePercentForSeconds": 95,
+    "cpuStopConsecutiveSamples": 20,
+    "maxClients": 100
+  },
+  "resourceSamples": [
+    {
+      "elapsedMs": 2,
+      "availableMemoryMb": 7386,
+      "usedMemoryPercent": 77.4
+    },
+    {
+      "elapsedMs": 218,
+      "availableMemoryMb": 7339,
+      "usedMemoryPercent": 77.5,
+      "cpuPercent": 75.7
+    },
+    {
+      "elapsedMs": 1002,
+      "availableMemoryMb": 7160,
+      "usedMemoryPercent": 78.1,
+      "cpuPercent": 69.2
+    },
+    {
+      "elapsedMs": 2006,
+      "availableMemoryMb": 7097,
+      "usedMemoryPercent": 78.3,
+      "cpuPercent": 66.5
+    },
+    {
+      "elapsedMs": 3018,
+      "availableMemoryMb": 6938,
+      "usedMemoryPercent": 78.7,
+      "cpuPercent": 46.5
+    },
+    {
+      "elapsedMs": 4019,
+      "availableMemoryMb": 6822,
+      "usedMemoryPercent": 79.1,
+      "cpuPercent": 55.8
+    },
+    {
+      "elapsedMs": 5026,
+      "availableMemoryMb": 6671,
+      "usedMemoryPercent": 79.6,
+      "cpuPercent": 78.2
+    },
+    {
+      "elapsedMs": 6025,
+      "availableMemoryMb": 6603,
+      "usedMemoryPercent": 79.8,
+      "cpuPercent": 82.1
+    },
+    {
+      "elapsedMs": 7029,
+      "availableMemoryMb": 6716,
+      "usedMemoryPercent": 79.4,
+      "cpuPercent": 85.8
+    },
+    {
+      "elapsedMs": 8033,
+      "availableMemoryMb": 6649,
+      "usedMemoryPercent": 79.6,
+      "cpuPercent": 89.9
+    },
+    {
+      "elapsedMs": 8131,
+      "availableMemoryMb": 6648,
+      "usedMemoryPercent": 79.6,
+      "cpuPercent": 76.3
+    },
+    {
+      "elapsedMs": 9032,
+      "availableMemoryMb": 6477,
+      "usedMemoryPercent": 80.2,
+      "cpuPercent": 82.6
+    },
+    {
+      "elapsedMs": 10049,
+      "availableMemoryMb": 6445,
+      "usedMemoryPercent": 80.3,
+      "cpuPercent": 93.8
+    },
+    {
+      "elapsedMs": 11062,
+      "availableMemoryMb": 6297,
+      "usedMemoryPercent": 80.7,
+      "cpuPercent": 99.8
+    },
+    {
+      "elapsedMs": 12062,
+      "availableMemoryMb": 6250,
+      "usedMemoryPercent": 80.8,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 13071,
+      "availableMemoryMb": 6174,
+      "usedMemoryPercent": 81.1,
+      "cpuPercent": 95.3
+    },
+    {
+      "elapsedMs": 14070,
+      "availableMemoryMb": 6149,
+      "usedMemoryPercent": 81.2,
+      "cpuPercent": 92.1
+    },
+    {
+      "elapsedMs": 15070,
+      "availableMemoryMb": 6084,
+      "usedMemoryPercent": 81.4,
+      "cpuPercent": 85.7
+    },
+    {
+      "elapsedMs": 16071,
+      "availableMemoryMb": 5960,
+      "usedMemoryPercent": 81.7,
+      "cpuPercent": 93.6
+    },
+    {
+      "elapsedMs": 17070,
+      "availableMemoryMb": 5946,
+      "usedMemoryPercent": 81.8,
+      "cpuPercent": 95.7
+    },
+    {
+      "elapsedMs": 18071,
+      "availableMemoryMb": 5800,
+      "usedMemoryPercent": 82.2,
+      "cpuPercent": 95.6
+    },
+    {
+      "elapsedMs": 19075,
+      "availableMemoryMb": 5749,
+      "usedMemoryPercent": 82.4,
+      "cpuPercent": 95.1
+    },
+    {
+      "elapsedMs": 19287,
+      "availableMemoryMb": 5790,
+      "usedMemoryPercent": 82.3,
+      "cpuPercent": 84.9
+    },
+    {
+      "elapsedMs": 20078,
+      "availableMemoryMb": 5707,
+      "usedMemoryPercent": 82.5,
+      "cpuPercent": 95.2
+    },
+    {
+      "elapsedMs": 21080,
+      "availableMemoryMb": 5735,
+      "usedMemoryPercent": 82.4,
+      "cpuPercent": 83
+    },
+    {
+      "elapsedMs": 22082,
+      "availableMemoryMb": 5697,
+      "usedMemoryPercent": 82.5,
+      "cpuPercent": 74.9
+    },
+    {
+      "elapsedMs": 23083,
+      "availableMemoryMb": 5637,
+      "usedMemoryPercent": 82.7,
+      "cpuPercent": 79.5
+    },
+    {
+      "elapsedMs": 24083,
+      "availableMemoryMb": 5528,
+      "usedMemoryPercent": 83.1,
+      "cpuPercent": 75.5
+    },
+    {
+      "elapsedMs": 25084,
+      "availableMemoryMb": 5488,
+      "usedMemoryPercent": 83.2,
+      "cpuPercent": 78.4
+    },
+    {
+      "elapsedMs": 26088,
+      "availableMemoryMb": 5377,
+      "usedMemoryPercent": 83.5,
+      "cpuPercent": 87.7
+    },
+    {
+      "elapsedMs": 27087,
+      "availableMemoryMb": 5344,
+      "usedMemoryPercent": 83.6,
+      "cpuPercent": 84
+    },
+    {
+      "elapsedMs": 28097,
+      "availableMemoryMb": 5233,
+      "usedMemoryPercent": 84,
+      "cpuPercent": 91.1
+    },
+    {
+      "elapsedMs": 29101,
+      "availableMemoryMb": 5191,
+      "usedMemoryPercent": 84.1,
+      "cpuPercent": 92.2
+    },
+    {
+      "elapsedMs": 29579,
+      "availableMemoryMb": 5174,
+      "usedMemoryPercent": 84.1,
+      "cpuPercent": 85.5
+    },
+    {
+      "elapsedMs": 30101,
+      "availableMemoryMb": 5083,
+      "usedMemoryPercent": 84.4,
+      "cpuPercent": 93.4
+    },
+    {
+      "elapsedMs": 31108,
+      "availableMemoryMb": 4997,
+      "usedMemoryPercent": 84.7,
+      "cpuPercent": 96.6
+    },
+    {
+      "elapsedMs": 32160,
+      "availableMemoryMb": 4938,
+      "usedMemoryPercent": 84.9,
+      "cpuPercent": 99.7
+    },
+    {
+      "elapsedMs": 33176,
+      "availableMemoryMb": 4896,
+      "usedMemoryPercent": 85,
+      "cpuPercent": 96.6
+    },
+    {
+      "elapsedMs": 34170,
+      "availableMemoryMb": 4764,
+      "usedMemoryPercent": 85.4,
+      "cpuPercent": 97.3
+    },
+    {
+      "elapsedMs": 35169,
+      "availableMemoryMb": 4770,
+      "usedMemoryPercent": 85.4,
+      "cpuPercent": 96.4
+    },
+    {
+      "elapsedMs": 36172,
+      "availableMemoryMb": 4733,
+      "usedMemoryPercent": 85.5,
+      "cpuPercent": 90.4
+    },
+    {
+      "elapsedMs": 37174,
+      "availableMemoryMb": 4604,
+      "usedMemoryPercent": 85.9,
+      "cpuPercent": 95.4
+    },
+    {
+      "elapsedMs": 38237,
+      "availableMemoryMb": 4590,
+      "usedMemoryPercent": 85.9,
+      "cpuPercent": 99.3
+    },
+    {
+      "elapsedMs": 39250,
+      "availableMemoryMb": 4570,
+      "usedMemoryPercent": 86,
+      "cpuPercent": 87.8
+    },
+    {
+      "elapsedMs": 40289,
+      "availableMemoryMb": 4450,
+      "usedMemoryPercent": 86.4,
+      "cpuPercent": 94.1
+    },
+    {
+      "elapsedMs": 41400,
+      "availableMemoryMb": 4363,
+      "usedMemoryPercent": 86.6,
+      "cpuPercent": 98.5
+    },
+    {
+      "elapsedMs": 42398,
+      "availableMemoryMb": 4327,
+      "usedMemoryPercent": 86.7,
+      "cpuPercent": 90.5
+    },
+    {
+      "elapsedMs": 43398,
+      "availableMemoryMb": 4205,
+      "usedMemoryPercent": 87.1,
+      "cpuPercent": 92.8
+    },
+    {
+      "elapsedMs": 44398,
+      "availableMemoryMb": 4251,
+      "usedMemoryPercent": 87,
+      "cpuPercent": 96.8
+    },
+    {
+      "elapsedMs": 44904,
+      "availableMemoryMb": 4215,
+      "usedMemoryPercent": 87.1,
+      "cpuPercent": 88.5
+    },
+    {
+      "elapsedMs": 45399,
+      "availableMemoryMb": 4124,
+      "usedMemoryPercent": 87.4,
+      "cpuPercent": 96.3
+    },
+    {
+      "elapsedMs": 46462,
+      "availableMemoryMb": 4046,
+      "usedMemoryPercent": 87.6,
+      "cpuPercent": 97.8
+    },
+    {
+      "elapsedMs": 47593,
+      "availableMemoryMb": 4001,
+      "usedMemoryPercent": 87.7,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 48493,
+      "availableMemoryMb": 4001,
+      "usedMemoryPercent": 87.7,
+      "cpuPercent": 95.5
+    },
+    {
+      "elapsedMs": 49516,
+      "availableMemoryMb": 3926,
+      "usedMemoryPercent": 88,
+      "cpuPercent": 94.3
+    },
+    {
+      "elapsedMs": 50516,
+      "availableMemoryMb": 3846,
+      "usedMemoryPercent": 88.2,
+      "cpuPercent": 98.7
+    },
+    {
+      "elapsedMs": 51541,
+      "availableMemoryMb": 3825,
+      "usedMemoryPercent": 88.3,
+      "cpuPercent": 95.6
+    },
+    {
+      "elapsedMs": 52558,
+      "availableMemoryMb": 3816,
+      "usedMemoryPercent": 88.3,
+      "cpuPercent": 95.2
+    },
+    {
+      "elapsedMs": 53554,
+      "availableMemoryMb": 3735,
+      "usedMemoryPercent": 88.6,
+      "cpuPercent": 91
+    },
+    {
+      "elapsedMs": 54558,
+      "availableMemoryMb": 3748,
+      "usedMemoryPercent": 88.5,
+      "cpuPercent": 99.9
+    },
+    {
+      "elapsedMs": 55634,
+      "availableMemoryMb": 3649,
+      "usedMemoryPercent": 88.8,
+      "cpuPercent": 99.6
+    },
+    {
+      "elapsedMs": 56689,
+      "availableMemoryMb": 3650,
+      "usedMemoryPercent": 88.8,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 57669,
+      "availableMemoryMb": 3735,
+      "usedMemoryPercent": 88.6,
+      "cpuPercent": 99.5
+    },
+    {
+      "elapsedMs": 58709,
+      "availableMemoryMb": 3656,
+      "usedMemoryPercent": 88.8,
+      "cpuPercent": 99
+    },
+    {
+      "elapsedMs": 59707,
+      "availableMemoryMb": 3616,
+      "usedMemoryPercent": 88.9,
+      "cpuPercent": 99.4
+    },
+    {
+      "elapsedMs": 60715,
+      "availableMemoryMb": 3592,
+      "usedMemoryPercent": 89,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 61717,
+      "availableMemoryMb": 3558,
+      "usedMemoryPercent": 89.1,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 62793,
+      "availableMemoryMb": 3529,
+      "usedMemoryPercent": 89.2,
+      "cpuPercent": 98.3
+    },
+    {
+      "elapsedMs": 63788,
+      "availableMemoryMb": 3493,
+      "usedMemoryPercent": 89.3,
+      "cpuPercent": 94.5
+    },
+    {
+      "elapsedMs": 65277,
+      "availableMemoryMb": 3488,
+      "usedMemoryPercent": 89.3,
+      "cpuPercent": 99.4
+    },
+    {
+      "elapsedMs": 65903,
+      "availableMemoryMb": 3460,
+      "usedMemoryPercent": 89.4,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 66780,
+      "availableMemoryMb": 3429,
+      "usedMemoryPercent": 89.5,
+      "cpuPercent": 99.1
+    },
+    {
+      "elapsedMs": 66903,
+      "availableMemoryMb": 3430,
+      "usedMemoryPercent": 89.5,
+      "cpuPercent": 96.1
+    },
+    {
+      "elapsedMs": 68010,
+      "availableMemoryMb": 3391,
+      "usedMemoryPercent": 89.6,
+      "cpuPercent": 97.5
+    },
+    {
+      "elapsedMs": 69010,
+      "availableMemoryMb": 3362,
+      "usedMemoryPercent": 89.7,
+      "cpuPercent": 98.7
+    },
+    {
+      "elapsedMs": 70060,
+      "availableMemoryMb": 3603,
+      "usedMemoryPercent": 89,
+      "cpuPercent": 95
+    },
+    {
+      "elapsedMs": 71063,
+      "availableMemoryMb": 3883,
+      "usedMemoryPercent": 88.1,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 72198,
+      "availableMemoryMb": 4047,
+      "usedMemoryPercent": 87.6,
+      "cpuPercent": 98.4
+    },
+    {
+      "elapsedMs": 73190,
+      "availableMemoryMb": 4097,
+      "usedMemoryPercent": 87.4,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 74210,
+      "availableMemoryMb": 4409,
+      "usedMemoryPercent": 86.5,
+      "cpuPercent": 96.4
+    },
+    {
+      "elapsedMs": 75208,
+      "availableMemoryMb": 4447,
+      "usedMemoryPercent": 86.4,
+      "cpuPercent": 99.2
+    },
+    {
+      "elapsedMs": 76277,
+      "availableMemoryMb": 4403,
+      "usedMemoryPercent": 86.5,
+      "cpuPercent": 98.5
+    },
+    {
+      "elapsedMs": 77342,
+      "availableMemoryMb": 4520,
+      "usedMemoryPercent": 86.1,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 78289,
+      "availableMemoryMb": 4550,
+      "usedMemoryPercent": 86.1,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 79662,
+      "availableMemoryMb": 4563,
+      "usedMemoryPercent": 86,
+      "cpuPercent": 97.3
+    },
+    {
+      "elapsedMs": 80501,
+      "availableMemoryMb": 4568,
+      "usedMemoryPercent": 86,
+      "cpuPercent": 96.8
+    },
+    {
+      "elapsedMs": 81494,
+      "availableMemoryMb": 4561,
+      "usedMemoryPercent": 86,
+      "cpuPercent": 94.9
+    },
+    {
+      "elapsedMs": 82506,
+      "availableMemoryMb": 4427,
+      "usedMemoryPercent": 86.4,
+      "cpuPercent": 91.1
+    },
+    {
+      "elapsedMs": 83650,
+      "availableMemoryMb": 4422,
+      "usedMemoryPercent": 86.4,
+      "cpuPercent": 99.2
+    },
+    {
+      "elapsedMs": 84686,
+      "availableMemoryMb": 4407,
+      "usedMemoryPercent": 86.5,
+      "cpuPercent": 92.7
+    },
+    {
+      "elapsedMs": 85688,
+      "availableMemoryMb": 4367,
+      "usedMemoryPercent": 86.6,
+      "cpuPercent": 97.5
+    },
+    {
+      "elapsedMs": 87183,
+      "availableMemoryMb": 4302,
+      "usedMemoryPercent": 86.8,
+      "cpuPercent": 98.1
+    },
+    {
+      "elapsedMs": 87868,
+      "availableMemoryMb": 4298,
+      "usedMemoryPercent": 86.8,
+      "cpuPercent": 99.9
+    },
+    {
+      "elapsedMs": 88879,
+      "availableMemoryMb": 4302,
+      "usedMemoryPercent": 86.8,
+      "cpuPercent": 97.9
+    },
+    {
+      "elapsedMs": 89162,
+      "availableMemoryMb": 4290,
+      "usedMemoryPercent": 86.9,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 89927,
+      "availableMemoryMb": 4203,
+      "usedMemoryPercent": 87.1,
+      "cpuPercent": 97.2
+    },
+    {
+      "elapsedMs": 90961,
+      "availableMemoryMb": 4145,
+      "usedMemoryPercent": 87.3,
+      "cpuPercent": 99.7
+    },
+    {
+      "elapsedMs": 92017,
+      "availableMemoryMb": 4108,
+      "usedMemoryPercent": 87.4,
+      "cpuPercent": 99.4
+    },
+    {
+      "elapsedMs": 93054,
+      "availableMemoryMb": 4091,
+      "usedMemoryPercent": 87.5,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 94127,
+      "availableMemoryMb": 4035,
+      "usedMemoryPercent": 87.6,
+      "cpuPercent": 96.6
+    },
+    {
+      "elapsedMs": 95218,
+      "availableMemoryMb": 3987,
+      "usedMemoryPercent": 87.8,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 96330,
+      "availableMemoryMb": 3930,
+      "usedMemoryPercent": 88,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 97406,
+      "availableMemoryMb": 4017,
+      "usedMemoryPercent": 87.7,
+      "cpuPercent": 98.7
+    },
+    {
+      "elapsedMs": 98321,
+      "availableMemoryMb": 4000,
+      "usedMemoryPercent": 87.7,
+      "cpuPercent": 99.5
+    },
+    {
+      "elapsedMs": 99321,
+      "availableMemoryMb": 3943,
+      "usedMemoryPercent": 87.9,
+      "cpuPercent": 94.7
+    },
+    {
+      "elapsedMs": 100396,
+      "availableMemoryMb": 3924,
+      "usedMemoryPercent": 88,
+      "cpuPercent": 99.6
+    },
+    {
+      "elapsedMs": 101405,
+      "availableMemoryMb": 3858,
+      "usedMemoryPercent": 88.2,
+      "cpuPercent": 96.8
+    },
+    {
+      "elapsedMs": 102446,
+      "availableMemoryMb": 3841,
+      "usedMemoryPercent": 88.2,
+      "cpuPercent": 99.4
+    },
+    {
+      "elapsedMs": 103527,
+      "availableMemoryMb": 3819,
+      "usedMemoryPercent": 88.3,
+      "cpuPercent": 97.3
+    },
+    {
+      "elapsedMs": 104496,
+      "availableMemoryMb": 3743,
+      "usedMemoryPercent": 88.5,
+      "cpuPercent": 96.1
+    },
+    {
+      "elapsedMs": 105565,
+      "availableMemoryMb": 3686,
+      "usedMemoryPercent": 88.7,
+      "cpuPercent": 96.8
+    },
+    {
+      "elapsedMs": 106648,
+      "availableMemoryMb": 3635,
+      "usedMemoryPercent": 88.9,
+      "cpuPercent": 98.9
+    },
+    {
+      "elapsedMs": 107668,
+      "availableMemoryMb": 3628,
+      "usedMemoryPercent": 88.9,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 108815,
+      "availableMemoryMb": 3627,
+      "usedMemoryPercent": 88.9,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 109757,
+      "availableMemoryMb": 3605,
+      "usedMemoryPercent": 89,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 110948,
+      "availableMemoryMb": 3575,
+      "usedMemoryPercent": 89,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 111802,
+      "availableMemoryMb": 3534,
+      "usedMemoryPercent": 89.2,
+      "cpuPercent": 98.2
+    },
+    {
+      "elapsedMs": 112803,
+      "availableMemoryMb": 3489,
+      "usedMemoryPercent": 89.3,
+      "cpuPercent": 99.1
+    },
+    {
+      "elapsedMs": 113896,
+      "availableMemoryMb": 3449,
+      "usedMemoryPercent": 89.4,
+      "cpuPercent": 98.8
+    },
+    {
+      "elapsedMs": 114926,
+      "availableMemoryMb": 3466,
+      "usedMemoryPercent": 89.4,
+      "cpuPercent": 99.1
+    },
+    {
+      "elapsedMs": 115191,
+      "availableMemoryMb": 3466,
+      "usedMemoryPercent": 89.4,
+      "cpuPercent": 83.5
+    },
+    {
+      "elapsedMs": 116050,
+      "availableMemoryMb": 3371,
+      "usedMemoryPercent": 89.7,
+      "cpuPercent": 96.2
+    },
+    {
+      "elapsedMs": 117024,
+      "availableMemoryMb": 3313,
+      "usedMemoryPercent": 89.8,
+      "cpuPercent": 95.3
+    },
+    {
+      "elapsedMs": 118017,
+      "availableMemoryMb": 3266,
+      "usedMemoryPercent": 90,
+      "cpuPercent": 96.3
+    },
+    {
+      "elapsedMs": 119058,
+      "availableMemoryMb": 3338,
+      "usedMemoryPercent": 89.8,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 120044,
+      "availableMemoryMb": 3355,
+      "usedMemoryPercent": 89.7,
+      "cpuPercent": 97.6
+    },
+    {
+      "elapsedMs": 121112,
+      "availableMemoryMb": 3426,
+      "usedMemoryPercent": 89.5,
+      "cpuPercent": 97.4
+    },
+    {
+      "elapsedMs": 122204,
+      "availableMemoryMb": 3410,
+      "usedMemoryPercent": 89.6,
+      "cpuPercent": 99.7
+    },
+    {
+      "elapsedMs": 123217,
+      "availableMemoryMb": 3379,
+      "usedMemoryPercent": 89.6,
+      "cpuPercent": 93.2
+    },
+    {
+      "elapsedMs": 124220,
+      "availableMemoryMb": 3375,
+      "usedMemoryPercent": 89.7,
+      "cpuPercent": 99.7
+    },
+    {
+      "elapsedMs": 125236,
+      "availableMemoryMb": 3364,
+      "usedMemoryPercent": 89.7,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 126409,
+      "availableMemoryMb": 3344,
+      "usedMemoryPercent": 89.8,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 127333,
+      "availableMemoryMb": 3289,
+      "usedMemoryPercent": 89.9,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 128446,
+      "availableMemoryMb": 3254,
+      "usedMemoryPercent": 90,
+      "cpuPercent": 99.1
+    },
+    {
+      "elapsedMs": 129509,
+      "availableMemoryMb": 3251,
+      "usedMemoryPercent": 90,
+      "cpuPercent": 98.3
+    },
+    {
+      "elapsedMs": 131156,
+      "availableMemoryMb": 3263,
+      "usedMemoryPercent": 90,
+      "cpuPercent": 98.2
+    },
+    {
+      "elapsedMs": 131587,
+      "availableMemoryMb": 3252,
+      "usedMemoryPercent": 90,
+      "cpuPercent": 99.6
+    },
+    {
+      "elapsedMs": 132592,
+      "availableMemoryMb": 3256,
+      "usedMemoryPercent": 90,
+      "cpuPercent": 98.1
+    },
+    {
+      "elapsedMs": 133823,
+      "availableMemoryMb": 3221,
+      "usedMemoryPercent": 90.1,
+      "cpuPercent": 98.8
+    },
+    {
+      "elapsedMs": 134873,
+      "availableMemoryMb": 3160,
+      "usedMemoryPercent": 90.3,
+      "cpuPercent": 95.7
+    },
+    {
+      "elapsedMs": 135864,
+      "availableMemoryMb": 3167,
+      "usedMemoryPercent": 90.3,
+      "cpuPercent": 97.5
+    },
+    {
+      "elapsedMs": 136873,
+      "availableMemoryMb": 3135,
+      "usedMemoryPercent": 90.4,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 137972,
+      "availableMemoryMb": 2997,
+      "usedMemoryPercent": 90.8,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 138997,
+      "availableMemoryMb": 2996,
+      "usedMemoryPercent": 90.8,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 140020,
+      "availableMemoryMb": 2940,
+      "usedMemoryPercent": 91,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 141091,
+      "availableMemoryMb": 2907,
+      "usedMemoryPercent": 91.1,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 142211,
+      "availableMemoryMb": 2861,
+      "usedMemoryPercent": 91.2,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 143529,
+      "availableMemoryMb": 2830,
+      "usedMemoryPercent": 91.3,
+      "cpuPercent": 100
+    },
+    {
+      "elapsedMs": 144351,
+      "availableMemoryMb": 2870,
+      "usedMemoryPercent": 91.2,
+      "cpuPercent": 100
+    }
+  ],
+  "pageErrors": []
+}

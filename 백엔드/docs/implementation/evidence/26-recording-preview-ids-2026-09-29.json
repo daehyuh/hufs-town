@@ -1,0 +1,34 @@
+{
+  "date": "2026-09-29",
+  "change": "Map non-UUID metadata from anonymous preview sessions to deterministic, scope-separated UUIDs only when requesting an SFU recording. Production identifiers and already valid preview UUIDs pass through unchanged.",
+  "files": [
+    "apps/world/src/main/java/town/hufs/world/WorldAuthentication.java",
+    "apps/world/src/main/java/town/hufs/world/WorldHandler.java",
+    "apps/world/src/main/java/town/hufs/world/RecordingMetadataId.java",
+    "apps/world/src/test/java/town/hufs/world/WorldRecordingTest.java",
+    "apps/world/src/test/java/town/hufs/world/RecordingMetadataIdTest.java"
+  ],
+  "validation": {
+    "world_tests": {
+      "command": "scripts/gradle.ps1 :apps:world:test",
+      "passed": 64,
+      "failed": 0,
+      "skipped": 1
+    },
+    "world_jar": "scripts/gradle.ps1 :apps:world:bootJar passed",
+    "real_sfu_browser": {
+      "command": "scripts/e2e.ps1 -SkipBuild -Media -TestFile tests/e2e/media.spec.ts",
+      "passed": 15,
+      "failed": 0,
+      "notes": [
+        "Consent-gated microphone recording finalized a playable WebM with RTP packets and matching source selection.",
+        "Microphone/camera capture, permission denial, device switching, room-boundary revocation, and 12-participant audio/video/screen fan-out passed."
+      ]
+    }
+  },
+  "limitations": [
+    "The recording E2E uses anonymous preview identities and a local SFU; production SSO identifiers were preserved by code path but not tested against the live IdP.",
+    "Physical phone media and public TURN routing remain unverified."
+  ],
+  "deployment": "No production services changed."
+}

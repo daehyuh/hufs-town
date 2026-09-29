@@ -1,0 +1,48 @@
+.dialog-action-form {
+  display: grid;
+  gap: 18px;
+  color: #455244;
+  font-size: 14px;
+}
+.dialog-action-message {
+  margin: 0;
+  line-height: 1.65;
+  white-space: pre-line;
+}
+.dialog-action-field {
+  display: grid;
+  gap: 8px;
+  color: #42513f;
+  font-size: 14px;
+  font-weight: 700;
+}
+.dialog-action-field input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 46px;
+  font-size: 16px;
+}
+.dialog-action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+.dialog-action-buttons button {
+  min-height: 44px;
+  border: 1px solid #cbd7c5;
+  border-radius: 10px;
+  padding: 9px 16px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.dialog-action-buttons .dialog-action-secondary {
+  background: #fff;
+  color: #40513f;
+}
+.dialog-action-buttons .dialog-action-primary {
+  border-color: #436a45;
+  background: #436a45;
+  color: #fff;
+}

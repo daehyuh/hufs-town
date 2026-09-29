@@ -1,0 +1,44 @@
+{
+  "checkedDate": "2026-09-28",
+  "scope": "Enable an isolated HTTPS Tailnet preview for core microphone, camera, nearby chat, and screen sharing checks on a real phone.",
+  "implementation": {
+    "httpPreview": "Kept -TailnetPreview anonymous and media-disabled.",
+    "httpsPreview": {
+      "auth": "Anonymous preview profile; SSO client credentials are cleared.",
+      "origin": "Device MagicDNS HTTPS name through Tailscale Serve.",
+      "webApiWorld": "Separate Vite/API/World ports with exact-origin validation, secure cookie, and same-origin API/WebSocket proxy.",
+      "media": "Dedicated SFU project; control API on loopback; WebRTC TCP/UDP bound and announced on the host Tailnet IPv4.",
+      "existingRoutes": "Existing Tailscale Serve configuration is not replaced; stop removes the route only when its saved configuration fingerprint still matches."
+    }
+  },
+  "validation": {
+    "powershellSyntax": "PASS for scripts/dev.ps1 and scripts/media.ps1.",
+    "dockerComposeBindings": {
+      "result": "PASS",
+      "control": "127.0.0.1:18088 -> container 18082/tcp",
+      "webrtc": [
+        "100.87.52.42:44446 -> container 44446/udp",
+        "100.87.52.42:44446 -> container 44446/tcp"
+      ],
+      "note": "The address is discovered dynamically at runtime; this rendering check used the current host address."
+    },
+    "frontendProductionBuild": "PASS; existing Phaser chunk-size warning remains.",
+    "localStartup": {
+      "mediaContainer": "Healthy",
+      "apiManagementHealth": "UP on 18086",
+      "worldManagementHealth": "UP on 18087",
+      "cleanup": "API, World, web, and the dedicated media container stopped; existing 5173 and 44444-44445 listeners were left untouched."
+    },
+    "tailscaleHttps": {
+      "serveConfig": "Not activated; get-config contained only the version field.",
+      "urlProbe": "HTTPS endpoint did not respond.",
+      "status": "NOT VERIFIED"
+    }
+  },
+  "remaining": [
+    "Complete any tailnet HTTPS activation prompt and verify the route over HTTPS.",
+    "Open the HTTPS preview on a Tailscale-connected phone and verify secure media capture and actual microphone, camera, and screen-share RTP.",
+    "Verify Windows Firewall/tailnet ACL and external TURN behavior where direct tailnet UDP is unavailable.",
+    "This anonymous preview does not validate HUFS SSO or production deployment."
+  ]
+}

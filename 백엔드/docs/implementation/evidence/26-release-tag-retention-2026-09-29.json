@@ -1,0 +1,29 @@
+{
+  "checkedDate": "2026-09-29",
+  "result": "PASS",
+  "policy": {
+    "dryRunDefault": true,
+    "alwaysProtectCurrentRelease": true,
+    "alwaysProtectPreviousRelease": true,
+    "protectRunningContainerImageIds": true,
+    "removeImageTagsOnly": true,
+    "volumeOrUserDataMutation": false
+  },
+  "production": {
+    "previewKeepCount": 2,
+    "removedTags": [
+      "hufs-town-web:20260929T050924Z-b351a6f5",
+      "hufs-town-api:20260929T050924Z-b351a6f5"
+    ],
+    "retainedReleaseIds": [
+      "20260929T051303Z-978e39b6",
+      "legacy-20260929T050943Z"
+    ],
+    "retainedServiceReleaseTags": 8,
+    "dockerImageCountBefore": 28,
+    "dockerImageCountAfter": 27,
+    "runningContainers": 6,
+    "publicWebHttp": 200,
+    "ssoConfigured": true
+  }
+}

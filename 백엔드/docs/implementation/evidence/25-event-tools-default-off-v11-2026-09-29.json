@@ -1,0 +1,37 @@
+{
+  "checkedDate": "2026-09-29",
+  "environment": "Vitest; scripts/e2e.ps1 isolated preview API/World/Vite; Playwright Chromium",
+  "files": [
+    "프론트/src/events/eventToolsPreference.ts",
+    "프론트/tests/unit/eventToolsPreference.test.ts",
+    "프론트/tests/e2e/event-roster.spec.ts"
+  ],
+  "preference": {
+    "currentKey": "hufs-town.event-tools.v11",
+    "clearedPreviousKey": "hufs-town.event-tools.v10",
+    "default": false,
+    "explicitOptInIsRemembered": true
+  },
+  "tests": [
+    {
+      "name": "eventToolsPreference.test.ts",
+      "result": "PASS",
+      "passed": 2,
+      "total": 2
+    },
+    {
+      "name": "presenter tools stay off by default while core communication controls remain available",
+      "result": "PASS",
+      "passed": 1,
+      "total": 1,
+      "checks": [
+        "old opt-in preferences are cleared",
+        "presenter tools stay hidden by default",
+        "microphone, camera, screen sharing, and Enter-to-chat remain available"
+      ]
+    }
+  ],
+  "limitations": [
+    "This change was tested locally and has not been deployed to production."
+  ]
+}

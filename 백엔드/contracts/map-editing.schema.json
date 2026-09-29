@@ -1,0 +1,311 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://hufs.town/contracts/map-editing-v1",
+  "title": "HUFS Town collaborative map editing contract",
+  "description": "Semantic, server-sequenced edits. Actor identity and sequence are assigned by the server, never trusted from the submitting client.",
+  "$ref": "#/$defs/Command",
+  "$defs": {
+    "Command": {
+      "type": "object",
+      "properties": {
+        "protocolVersion": { "type": "integer", "const": 1 },
+        "mapId": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,80}$" },
+        "clientId": { "type": "string", "format": "uuid" },
+        "operationId": { "type": "string", "format": "uuid" },
+        "baseSequence": { "type": "integer", "minimum": 0 },
+        "actions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "items": { "$ref": "#/$defs/Action" }
+        }
+      },
+      "required": [
+        "protocolVersion",
+        "mapId",
+        "clientId",
+        "operationId",
+        "baseSequence",
+        "actions"
+      ],
+      "additionalProperties": false
+    },
+    "UndoCommand": {
+      "type": "object",
+      "properties": {
+        "protocolVersion": { "type": "integer", "const": 1 },
+        "mapId": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,80}$" },
+        "clientId": { "type": "string", "format": "uuid" },
+        "operationId": { "type": "string", "format": "uuid" },
+        "baseSequence": { "type": "integer", "minimum": 0 },
+        "undoSequence": { "type": "integer", "minimum": 1 }
+      },
+      "required": [
+        "protocolVersion",
+        "mapId",
+        "clientId",
+        "operationId",
+        "baseSequence",
+        "undoSequence"
+      ],
+      "additionalProperties": false
+    },
+    "Action": {
+      "oneOf": [
+        { "$ref": "#/$defs/AddObject" },
+        { "$ref": "#/$defs/AddFloor" },
+        { "$ref": "#/$defs/AddWall" },
+        { "$ref": "#/$defs/AddZone" },
+        { "$ref": "#/$defs/AddLabel" },
+        { "$ref": "#/$defs/AddPortal" },
+        { "$ref": "#/$defs/ReplaceObject" },
+        { "$ref": "#/$defs/ReplaceFloor" },
+        { "$ref": "#/$defs/ReplaceWall" },
+        { "$ref": "#/$defs/ReplaceZone" },
+        { "$ref": "#/$defs/ReplaceLabel" },
+        { "$ref": "#/$defs/ReplacePortal" },
+        { "$ref": "#/$defs/DeleteEntity" },
+        { "$ref": "#/$defs/ReorderEntity" },
+        { "$ref": "#/$defs/SetMapName" },
+        { "$ref": "#/$defs/SetSpawnX" },
+        { "$ref": "#/$defs/SetSpawnY" }
+      ]
+    },
+    "AddObject": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "ENTITY_ADD" },
+        "collection": { "const": "objects" },
+        "entity": {
+          "$ref": "https://hufs.town/contracts/world-v1#/$defs/MapObject"
+        },
+        "afterId": { "type": ["string", "null"], "maxLength": 80 }
+      },
+      "required": ["kind", "collection", "entity"],
+      "additionalProperties": false
+    },
+    "AddFloor": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "ENTITY_ADD" },
+        "collection": { "const": "floors" },
+        "entity": {
+          "$ref": "https://hufs.town/contracts/world-v1#/$defs/FloorPatch"
+        },
+        "afterId": { "type": ["string", "null"], "maxLength": 80 }
+      },
+      "required": ["kind", "collection", "entity"],
+      "additionalProperties": false
+    },
+    "AddWall": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "ENTITY_ADD" },
+        "collection": { "const": "walls" },
+        "entity": {
+          "$ref": "https://hufs.town/contracts/world-v1#/$defs/Wall"
+        },
+        "afterId": { "type": ["string", "null"], "maxLength": 80 }
+      },
+      "required": ["kind", "collection", "entity"],
+      "additionalProperties": false
+    },
+    "AddZone": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "ENTITY_ADD" },
+        "collection": { "const": "zones" },
+        "entity": {
+          "$ref": "https://hufs.town/contracts/world-v1#/$defs/Zone"
+        },
+        "afterId": { "type": ["string", "null"], "maxLength": 80 }
+      },
+      "required": ["kind", "collection", "entity"],
+      "additionalProperties": false
+    },
+    "AddLabel": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "ENTITY_ADD" },
+        "collection": { "const": "labels" },
+        "entity": {
+          "$ref": "https://hufs.town/contracts/world-v1#/$defs/MapLabel"
+        },
+        "afterId": { "type": ["string", "null"], "maxLength": 80 }
+      },
+      "required": ["kind", "collection", "entity"],
+      "additionalProperties": false
+    },
+    "AddPortal": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "ENTITY_ADD" },
+        "collection": { "const": "portals" },
+        "entity": {
+          "$ref": "https://hufs.town/contracts/world-v1#/$defs/Portal"
+        },
+        "afterId": { "type": ["string", "null"], "maxLength": 80 }
+      },
+      "required": ["kind", "collection", "entity"],
+      "additionalProperties": false
+    },
+    "ReplaceObject": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "ENTITY_REPLACE" },
+        "collection": { "const": "objects" },
+        "entity": {
+          "$ref": "https://hufs.town/contracts/world-v1#/$defs/MapObject"
+        }
+      },
+      "required": ["kind", "collection", "entity"],
+      "additionalProperties": false
+    },
+    "ReplaceFloor": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "ENTITY_REPLACE" },
+        "collection": { "const": "floors" },
+        "entity": {
+          "$ref": "https://hufs.town/contracts/world-v1#/$defs/FloorPatch"
+        }
+      },
+      "required": ["kind", "collection", "entity"],
+      "additionalProperties": false
+    },
+    "ReplaceWall": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "ENTITY_REPLACE" },
+        "collection": { "const": "walls" },
+        "entity": { "$ref": "https://hufs.town/contracts/world-v1#/$defs/Wall" }
+      },
+      "required": ["kind", "collection", "entity"],
+      "additionalProperties": false
+    },
+    "ReplaceZone": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "ENTITY_REPLACE" },
+        "collection": { "const": "zones" },
+        "entity": { "$ref": "https://hufs.town/contracts/world-v1#/$defs/Zone" }
+      },
+      "required": ["kind", "collection", "entity"],
+      "additionalProperties": false
+    },
+    "ReplaceLabel": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "ENTITY_REPLACE" },
+        "collection": { "const": "labels" },
+        "entity": {
+          "$ref": "https://hufs.town/contracts/world-v1#/$defs/MapLabel"
+        }
+      },
+      "required": ["kind", "collection", "entity"],
+      "additionalProperties": false
+    },
+    "ReplacePortal": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "ENTITY_REPLACE" },
+        "collection": { "const": "portals" },
+        "entity": {
+          "$ref": "https://hufs.town/contracts/world-v1#/$defs/Portal"
+        }
+      },
+      "required": ["kind", "collection", "entity"],
+      "additionalProperties": false
+    },
+    "DeleteEntity": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "ENTITY_DELETE" },
+        "collection": {
+          "type": "string",
+          "enum": ["objects", "floors", "walls", "zones", "labels", "portals"]
+        },
+        "entityId": { "type": "string", "minLength": 1, "maxLength": 80 }
+      },
+      "required": ["kind", "collection", "entityId"],
+      "additionalProperties": false
+    },
+    "ReorderEntity": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "ENTITY_REORDER" },
+        "collection": {
+          "type": "string",
+          "enum": ["objects", "floors", "walls", "zones", "labels", "portals"]
+        },
+        "entityId": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "afterId": { "type": ["string", "null"], "maxLength": 80 }
+      },
+      "required": ["kind", "collection", "entityId", "afterId"],
+      "additionalProperties": false
+    },
+    "SetMapName": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "MAP_FIELD_SET" },
+        "field": { "const": "name" },
+        "value": { "type": "string", "minLength": 1, "maxLength": 60 }
+      },
+      "required": ["kind", "field", "value"],
+      "additionalProperties": false
+    },
+    "SetSpawnX": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "MAP_FIELD_SET" },
+        "field": { "const": "spawnX" },
+        "value": { "type": "number" }
+      },
+      "required": ["kind", "field", "value"],
+      "additionalProperties": false
+    },
+    "SetSpawnY": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "MAP_FIELD_SET" },
+        "field": { "const": "spawnY" },
+        "value": { "type": "number" }
+      },
+      "required": ["kind", "field", "value"],
+      "additionalProperties": false
+    },
+    "OperationEvent": {
+      "type": "object",
+      "properties": {
+        "mapId": { "type": "string", "pattern": "^[A-Za-z0-9_-]{1,80}$" },
+        "sequence": { "type": "integer", "minimum": 1 },
+        "actorId": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "actorName": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "clientId": { "type": "string", "format": "uuid" },
+        "operationId": { "type": "string", "format": "uuid" },
+        "baseSequence": { "type": "integer", "minimum": 0 },
+        "undoOfSequence": { "type": ["integer", "null"], "minimum": 1 },
+        "actions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 128,
+          "items": { "$ref": "#/$defs/Action" }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "mapId",
+        "sequence",
+        "actorId",
+        "actorName",
+        "clientId",
+        "operationId",
+        "baseSequence",
+        "undoOfSequence",
+        "actions",
+        "createdAt"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

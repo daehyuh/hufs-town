@@ -1,0 +1,40 @@
+{
+  "checkedDate": "2026-09-29",
+  "environment": "scripts/e2e.ps1 isolated preview API/World/Vite; Playwright Chromium at 390x844; axe-core WCAG 2.1 A/AA",
+  "file": "프론트/tests/e2e/meetup-language.spec.ts",
+  "test": {
+    "name": "meetup requests stay localized and accessible in English",
+    "result": "PASS",
+    "checks": [
+      "English meetup title, request details, policy note, and actions",
+      "English approval action and success notice",
+      "no Korean UI text in the English request inbox",
+      "no horizontal page overflow at 390px width",
+      "request inbox passes axe-core WCAG 2.1 A/AA"
+    ]
+  },
+  "accessibility": {
+    "violationsBeforeFix": [
+      {
+        "id": "color-contrast",
+        "impact": "serious",
+        "targets": [
+          ".meetup-request-copy > small",
+          ".meetup-request-note"
+        ]
+      }
+    ],
+    "violationsAfterFix": 0,
+    "change": "Raised meetup request details from 8px to 11px, policy/helper text from 8px to 10px, and darkened both text colors to #59624f."
+  },
+  "validation": {
+    "test": "1/1 Playwright E2E passed",
+    "frontendUnitTests": "47 files, 159 tests passed",
+    "productionBuild": "PASS",
+    "prettier": "PASS"
+  },
+  "limitations": [
+    "Authentication, API responses, and World socket are isolated fixtures; no live HUFS SSO accounts were used.",
+    "Automated Chromium checks do not replace physical-device or screen-reader review; T25.1 and T32.1 remain incomplete."
+  ]
+}

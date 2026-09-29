@@ -1,0 +1,28 @@
+{
+  "checkedDate": "2026-09-29",
+  "environment": "scripts/e2e.ps1 isolated preview API/World/Vite; Playwright Chromium",
+  "files": [
+    "프론트/src/events/eventToolsPreference.ts",
+    "프론트/tests/unit/eventToolsPreference.test.ts",
+    "프론트/tests/e2e/event-roster.spec.ts",
+    "프론트/tests/e2e/event-media.spec.ts"
+  ],
+  "result": "PASS",
+  "checks": {
+    "eventRosterChromium": "2/2",
+    "eventToolsPreferenceVitest": "2/2",
+    "frontendVitest": "47 files, 159 tests passed",
+    "typecheck": "PASS",
+    "productionBuild": "PASS"
+  },
+  "assertions": [
+    "event/presenter tools remain hidden after migration from saved versions v1 through v8",
+    "microphone, camera, screen share, and nearby chat stay available while event tools are hidden",
+    "users can explicitly enable the event tools setting and authorized managers can still run the event flow",
+    "event-media tests opt in through the current v9 preference key"
+  ],
+  "limitations": [
+    "No production deployment or real HUFS SSO review was performed.",
+    "Production build retains the existing large Phaser bundle warning."
+  ]
+}

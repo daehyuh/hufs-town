@@ -1,0 +1,26 @@
+{
+  "checkedDate": "2026-09-29",
+  "environment": "scripts/e2e.ps1 isolated preview API/World/Vite; Playwright Chromium",
+  "files": [
+    "프론트/src/events/eventToolsPreference.ts",
+    "프론트/tests/unit/eventToolsPreference.test.ts",
+    "프론트/tests/e2e/event-roster.spec.ts",
+    "프론트/tests/e2e/event-media.spec.ts"
+  ],
+  "result": "PASS",
+  "checks": {
+    "eventRosterChromium": "2/2",
+    "eventToolsPreferenceVitest": "2/2",
+    "typecheck": "PASS",
+    "changedFilesPrettier": "PASS"
+  },
+  "assertions": [
+    "a saved v9 opt-in is cleared during migration so event and presenter tools are hidden by default",
+    "nearby chat, microphone, camera, and screen sharing remain available while those tools are hidden",
+    "a user can explicitly opt in using the new v10 setting, and an authorized manager can still use event controls"
+  ],
+  "limitations": [
+    "No production deployment or real HUFS SSO review was performed.",
+    "The event-media SFU suite was not rerun because this change only updates the preference key; the event-roster Chromium flow verified the new key and migration."
+  ]
+}

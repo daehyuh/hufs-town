@@ -1,0 +1,37 @@
+{
+  "runAtUtc": "2026-09-25T16:44:09Z",
+  "scope": "Fresh isolated Docker World built from current source; preview auth; media disabled; 100 moving WebSocket clients; capacity+1 probe after movement warmup.",
+  "dockerServicesChanged": false,
+  "actualMediaLoad": false,
+  "warmupDurationSeconds": 60,
+  "steadyState": {
+    "measuredDurationMs": 60048,
+    "tickCount": 1200.0,
+    "tickMeanMs": 1.8241044741666668,
+    "tickMaxMsAtPhaseEnd": 6.980891000000001,
+    "tickOverrunsOver50ms": 0.0,
+    "finalRollingP95Ms": 3.653632,
+    "sampledRollingP95MaximumMs": 4.17792,
+    "sampledRollingP95WindowsOver25Ms": 0,
+    "activePlayersAtPhaseEnd": 100.0,
+    "activeConnectionsAtPhaseEnd": 100.0,
+    "commandQueueSizeAtPhaseEnd": 100.0,
+    "commandQueueCapacity": 512.0,
+    "serverHeapUsedBytesAtPhaseEnd": 111628544.0
+  },
+  "admission": {
+    "requestedClients": 100,
+    "acceptedClients": 100,
+    "overflowClientCode": "FULL",
+    "connectMs": 478,
+    "joinAndConvergenceMs": 495,
+    "capacityPhase": {
+      "scope": "From opening the capacity+1 socket until FULL rejection",
+      "tickCount": 2.0,
+      "tickMeanMs": 3.361678999999951,
+      "tickOverrunsOver50ms": 0.0
+    }
+  },
+  "resourceSampling": "World Actuator metrics sampled; separate Docker CPU/working-set sampler was not attached for this run.",
+  "interpretation": "One 60-second warmup and 60-second movement measurement passed with all 100 clients connected, FULL for client 101, zero tick overruns above 50 ms during both warmed rejection and steady state, and no sampled rolling p95 window above 25 ms. World-only; not RTC, TURN, or integrated long-duration evidence."
+}

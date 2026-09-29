@@ -1,0 +1,23 @@
+{
+  "checkedDate": "2026-09-28",
+  "environment": "Isolated Preview API/World/Vite runner with Windows Playwright browser builds; synthetic browser environment",
+  "testFile": "프론트/tests/e2e/browser-compat.spec.ts",
+  "result": "PASS",
+  "engines": {
+    "chromium": "PASS",
+    "firefox": "PASS",
+    "webkit": "PASS"
+  },
+  "checks": [
+    "anonymous guest admission and Phaser canvas startup",
+    "microphone/camera preflight capability guidance",
+    "E key interaction with a nearby object",
+    "Enter opens the nearby-chat composer",
+    "low-spec setting persists across renderer restart"
+  ],
+  "limitations": [
+    "Windows Playwright WebKit behavior does not represent macOS or iOS Safari.",
+    "No physical microphone, camera, screen capture, or low-spec device was used.",
+    "The World protocol is mocked; this is not a live phone or production session."
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "checkedDate": "2026-09-29",
+  "environment": "scripts/e2e.ps1 isolated preview API/World/Vite; existing local Docker SFU; Playwright Chromium mobile emulation; synthetic browser media devices",
+  "files": [
+    "프론트/src/media/MediaPanel.tsx",
+    "프론트/tests/e2e/media.spec.ts"
+  ],
+  "result": "PASS",
+  "checks": {
+    "mobileScreenShareWithCameraE2E": "1/1",
+    "frontendVitest": "47 files, 159 tests passed",
+    "typecheck": "PASS",
+    "changedFilesPrettier": "PASS",
+    "productionBuild": "PASS"
+  },
+  "assertions": [
+    "a mobile-sized receiver gets microphone, camera, and shared-screen media through the SFU while the desktop peer shares a screen",
+    "the floating camera tile stays at or below 128x220 pixels and within the world stage",
+    "the shared-screen video remains wider than 200 pixels in the compact layout",
+    "the compact layout has no horizontal overflow"
+  ],
+  "limitations": [
+    "Mobile browser media uses synthetic Playwright devices and viewport emulation, not a physical phone.",
+    "No real-device camera, microphone permission, iOS/Android browser, external UDP/TURN route, or 100-person media-capacity check was performed."
+  ]
+}

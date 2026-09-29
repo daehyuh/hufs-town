@@ -1,0 +1,28 @@
+.build/
+.local/
+/.hufs-town-source-files
+/hufs-code-master-server/
+/디자인에셋/
+
+# Tool output and generated files.
+**/node_modules/
+**/build/
+**/.build/
+**/.gradle/
+**/.gradle-container-cache/
+**/dist/
+**/coverage/
+**/test-results/
+**/playwright-report/
+**/*.tsbuildinfo
+**/*.log
+
+# Local credentials and environment files. Keep only safe templates.
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.local.example
+
+# Operating-system metadata.
+**/.DS_Store
+**/Thumbs.db
