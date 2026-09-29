@@ -223,6 +223,14 @@ export function SpaceLobby({
   >([]);
   const [admissionInboxLoading, setAdmissionInboxLoading] = useState(true);
   const [admissionInboxError, setAdmissionInboxError] = useState("");
+  const [admissionInboxCursor, setAdmissionInboxCursor] = useState<
+    string | null
+  >(null);
+  const [admissionInboxHasMore, setAdmissionInboxHasMore] = useState(false);
+  const [admissionInboxMoreLoading, setAdmissionInboxMoreLoading] =
+    useState(false);
+  const admissionInboxPagesLoaded = useRef(1);
+  const admissionInboxRequestInFlight = useRef(false);
   const [pendingAdmissionIds, setPendingAdmissionIds] = useState<string[]>(() =>
     readPendingAdmissionIds(account.userId),
   );
@@ -293,9 +301,32 @@ export function SpaceLobby({
     }
   }
   async function refreshAdmissionInbox(showLoading = false) {
-    if (showLoading) setAdmissionInboxLoading(true);
+    if (admissionInboxRequestInFlight.current) return;
+    admissionInboxRequestInFlight.current = true;
+    const pageCount = showLoading ? 1 : admissionInboxPagesLoaded.current;
+    if (showLoading) {
+      admissionInboxPagesLoaded.current = 1;
+      setAdmissionInboxLoading(true);
+    }
     try {
-      setAdmissionInbox(await api.listIncomingJoinRequests());
+      const items: typeof admissionInbox = [];
+      let cursor: string | undefined;
+      let nextCursor: string | null = null;
+      let hasMore = false;
+      let pagesLoaded = 0;
+      for (let page = 0; page < pageCount; page += 1) {
+        const result = await api.listIncomingJoinRequests(cursor);
+        items.push(...result.items);
+        nextCursor = result.nextCursor;
+        hasMore = result.hasMore;
+        pagesLoaded += 1;
+        if (!hasMore || !nextCursor) break;
+        cursor = nextCursor;
+      }
+      setAdmissionInbox(items);
+      setAdmissionInboxCursor(nextCursor);
+      setAdmissionInboxHasMore(hasMore);
+      admissionInboxPagesLoaded.current = pagesLoaded;
       setAdmissionInboxError("");
     } catch (cause) {
       setAdmissionInboxError(
@@ -304,7 +335,46 @@ export function SpaceLobby({
           : t("lobby.admissionInboxError"),
       );
     } finally {
-      setAdmissionInboxLoading(false);
+      admissionInboxRequestInFlight.current = false;
+      if (showLoading) setAdmissionInboxLoading(false);
+    }
+  }
+  async function loadMoreAdmissionInbox() {
+    const cursor = admissionInboxCursor;
+    if (
+      !cursor ||
+      !admissionInboxHasMore ||
+      admissionInboxRequestInFlight.current
+    )
+      return;
+    admissionInboxRequestInFlight.current = true;
+    setAdmissionInboxMoreLoading(true);
+    try {
+      const result = await api.listIncomingJoinRequests(cursor);
+      setAdmissionInbox((current) => {
+        const known = new Set(
+          current.map((item) => `${item.spaceId}:${item.request.id}`),
+        );
+        return [
+          ...current,
+          ...result.items.filter(
+            (item) => !known.has(`${item.spaceId}:${item.request.id}`),
+          ),
+        ];
+      });
+      setAdmissionInboxCursor(result.nextCursor);
+      setAdmissionInboxHasMore(result.hasMore);
+      admissionInboxPagesLoaded.current += 1;
+      setAdmissionInboxError("");
+    } catch (cause) {
+      setAdmissionInboxError(
+        language === "ko" && cause instanceof Error
+          ? cause.message
+          : t("lobby.admissionInboxError"),
+      );
+    } finally {
+      admissionInboxRequestInFlight.current = false;
+      setAdmissionInboxMoreLoading(false);
     }
   }
   useEffect(() => {
@@ -1291,6 +1361,7 @@ export function SpaceLobby({
                     {admissionInbox.length > 0 && (
                       <span className="admission-request-count">
                         {formatNumber(language, admissionInbox.length)}
+                        {admissionInboxHasMore ? "+" : ""}
                       </span>
                     )}
                   </h2>
@@ -1367,6 +1438,18 @@ export function SpaceLobby({
                   </div>
                 </article>
               ))}
+              {admissionInboxHasMore && (
+                <button
+                  type="button"
+                  className="text-button invitation-inbox-refresh"
+                  disabled={admissionInboxMoreLoading || admissionInboxLoading}
+                  onClick={() => void loadMoreAdmissionInbox()}
+                >
+                  {admissionInboxMoreLoading
+                    ? t("lobby.admissionInboxLoading")
+                    : t("lobby.admissionInboxLoadMore")}
+                </button>
+              )}
             </section>
           )}
         {incomingOwnershipTransfers.length > 0 && (

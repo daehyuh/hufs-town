@@ -1,0 +1,37 @@
+{
+  "date": "2026-09-29",
+  "releaseId": "20260929T110500Z-admission-pages",
+  "previousReleaseId": "20260929T103827Z-admission-inbox",
+  "origin": "https://town.gdgoc.com",
+  "status": "PASS",
+  "change": "Replace the global 200-request truncation with keyset cursor pages and add load-more controls to the lobby and world approval inboxes. Pages are ordered newest first, default to 50 items, and re-check active account, manager membership, approval mode, and archive status on every request.",
+  "verification": {
+    "frontendTypeScriptAndProductionBuild": "passed locally and during production web image build",
+    "prettier": "passed",
+    "apiBootJar": "passed locally with Java 21 and during production API image build",
+    "automatedTests": "not run per user preference",
+    "deployment": "passed; web, api, world, and media built sequentially and release health checks passed",
+    "applicationContainers": {
+      "web": "healthy",
+      "api": "healthy",
+      "world": "healthy",
+      "media": "healthy",
+      "mariadb": "healthy",
+      "redis": "healthy",
+      "prometheus": "running"
+    },
+    "nginxConfiguration": "passed",
+    "publicWebsiteHttpStatus": 200,
+    "pageTitleMatches": true,
+    "ssoConfigured": true,
+    "spaceCapacity": 100,
+    "mediaAdvertised": true,
+    "webSocketWithoutOriginStatus": 403,
+    "trustedOriginWithoutSessionStatus": 401
+  },
+  "limits": [
+    "The approval flow was not manually exercised with multiple signed-in HUFS SSO accounts.",
+    "The existing per-space join-request management endpoint retains its separate 200-item limit."
+  ],
+  "dataHandling": "No database rows, persistent volumes, production preferences, or environment files were changed."
+}

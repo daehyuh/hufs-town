@@ -73,6 +73,11 @@ export interface IncomingSpaceJoinRequest {
   spaceName: string;
   request: SpaceJoinRequest;
 }
+export interface IncomingSpaceJoinRequestPage {
+  items: IncomingSpaceJoinRequest[];
+  nextCursor: string | null;
+  hasMore: boolean;
+}
 export interface SpaceOwnershipTransfer {
   spaceId: string;
   targetUserId: string;
@@ -193,8 +198,10 @@ export const unblockMember = (id: string, userId: string) =>
   );
 export const listJoinRequests = (id: string) =>
   apiGet<SpaceJoinRequest[]>(`spaces/${id}/join-requests`);
-export const listIncomingJoinRequests = () =>
-  apiGet<IncomingSpaceJoinRequest[]>("spaces/join-requests/incoming");
+export const listIncomingJoinRequests = (cursor?: string) =>
+  apiGet<IncomingSpaceJoinRequestPage>(
+    `spaces/join-requests/incoming${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ""}`,
+  );
 export const requestJoin = (id: string) =>
   apiMutate<{ status: "PENDING" | "MEMBER"; requestedAt: number }>(
     `spaces/${id}/join-requests`,

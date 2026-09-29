@@ -124,6 +124,27 @@
   padding: 0;
   list-style: none;
 }
+.world-admission-load-more {
+  display: block;
+  width: calc(100% - 28px);
+  min-height: 34px;
+  margin: 7px 14px 12px;
+  border: 1px solid #dfe8d8;
+  border-radius: 8px;
+  background: #f6f9f3;
+  color: #526a47;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 650;
+  cursor: pointer;
+}
+.world-admission-load-more:hover:not(:disabled) {
+  background: #edf5e8;
+}
+.world-admission-load-more:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
 .world-admission-request {
   display: grid;
   gap: 11px;

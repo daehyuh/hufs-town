@@ -35,6 +35,7 @@ class Spaces {
     record AccessBlock(String userId, String displayName, long blockedAt) {}
     record JoinRequest(String id, String userId, String displayName, long requestedAt) {}
     record IncomingJoinRequest(String spaceId, String spaceName, JoinRequest request) {}
+    record IncomingJoinRequestPage(List<IncomingJoinRequest> items, String nextCursor, boolean hasMore) {}
     record JoinRequestState(String status, long requestedAt) {}
     record FavoriteState(boolean favorite) {}
     record OwnershipTransfer(String spaceId, String targetUserId, String targetDisplayName, long requestedAt, long expiresAt) {}
@@ -459,9 +460,11 @@ class Spaces {
             """, (r, n) -> new JoinRequest(r.getString("id"),r.getString("user_id"),r.getString("display_name"),
             r.getTimestamp("requested_at").getTime()), id);
     }
-    List<IncomingJoinRequest> incomingJoinRequests(String user) {
+    IncomingJoinRequestPage incomingJoinRequests(String user, String cursor, int limit) {
         active(user);
-        return db.query("""
+        if (limit < 1 || limit > 100) throw invalid();
+        JoinRequestCursor after = decodeJoinRequestCursor(cursor);
+        String query = """
             SELECT space.id AS space_id,space.name AS space_name,jr.id AS request_id,
                 jr.user_id,account.display_name,jr.requested_at
             FROM town_space space
@@ -470,10 +473,50 @@ class Spaces {
             JOIN space_join_request jr ON jr.space_id=space.id AND jr.status='PENDING'
             JOIN app_user account ON account.id=jr.user_id AND account.status='ACTIVE' AND account.deleted_at IS NULL
             WHERE space.archived_at IS NULL AND space.approval_required=TRUE
-            ORDER BY jr.requested_at,space.name,jr.user_id LIMIT 200
-            """, (r, n) -> new IncomingJoinRequest(r.getString("space_id"),r.getString("space_name"),
-                new JoinRequest(r.getString("request_id"),r.getString("user_id"),r.getString("display_name"),
-                    r.getTimestamp("requested_at").getTime())), user);
+            """;
+        List<Object> arguments = new ArrayList<>(List.of(user));
+        if (after != null) {
+            query += " AND (jr.requested_at<? OR (jr.requested_at=? AND jr.id<?))\n";
+            arguments.add(after.requestedAt());
+            arguments.add(after.requestedAt());
+            arguments.add(after.requestId());
+        }
+        query += " ORDER BY jr.requested_at DESC,jr.id DESC LIMIT ?";
+        arguments.add(limit + 1);
+        List<IncomingJoinRequestRow> rows = db.query(query, (r, n) -> {
+            Timestamp requestedAt = r.getTimestamp("requested_at");
+            return new IncomingJoinRequestRow(r.getString("space_id"), r.getString("space_name"),
+                new JoinRequest(r.getString("request_id"), r.getString("user_id"), r.getString("display_name"),
+                    requestedAt.getTime()), requestedAt);
+        }, arguments.toArray());
+        boolean hasMore = rows.size() > limit;
+        List<IncomingJoinRequestRow> page = rows.subList(0, Math.min(rows.size(), limit));
+        List<IncomingJoinRequest> items = page.stream().map(IncomingJoinRequestRow::item).toList();
+        String nextCursor = hasMore ? encodeJoinRequestCursor(page.getLast()) : null;
+        return new IncomingJoinRequestPage(items, nextCursor, hasMore);
+    }
+    private record JoinRequestCursor(Timestamp requestedAt, String requestId) {}
+    private record IncomingJoinRequestRow(String spaceId, String spaceName, JoinRequest request, Timestamp requestedAt) {
+        IncomingJoinRequest item() { return new IncomingJoinRequest(spaceId, spaceName, request); }
+    }
+    private static String encodeJoinRequestCursor(IncomingJoinRequestRow row) {
+        String value = row.requestedAt().toString() + "|" + row.request().id();
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(value.getBytes(StandardCharsets.UTF_8));
+    }
+    private static JoinRequestCursor decodeJoinRequestCursor(String value) {
+        if (value == null || value.isBlank()) return null;
+        if (value.length() > 200) throw invalid();
+        try {
+            String decoded = new String(Base64.getUrlDecoder().decode(value), StandardCharsets.UTF_8);
+            int separator = decoded.lastIndexOf('|');
+            if (separator <= 0) throw invalid();
+            Timestamp requestedAt = Timestamp.valueOf(decoded.substring(0, separator));
+            String requestId = decoded.substring(separator + 1);
+            if (!validUserId(requestId)) throw invalid();
+            return new JoinRequestCursor(requestedAt, requestId);
+        } catch (IllegalArgumentException malformed) {
+            throw invalid();
+        }
     }
     void resolveJoinRequest(String id, String user, String requestId, String decision) {
         if (!validUserId(requestId) || decision == null || !Set.of("APPROVE", "REJECT").contains(decision)) throw invalid();

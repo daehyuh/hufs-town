@@ -218,6 +218,7 @@ const messages = {
       "승인제 공간에 들어오려는 사람을 확인하고 바로 승인하거나 거절할 수 있어요.",
     "lobby.admissionInboxRefresh": "입장 승인 요청 새로고침",
     "lobby.admissionInboxLoading": "승인 요청을 확인하는 중이에요…",
+    "lobby.admissionInboxLoadMore": "더 많은 요청 보기",
     "lobby.admissionInboxError": "입장 승인 요청을 불러오지 못했어요.",
     "lobby.admissionRequestFrom": "{space} 공간 입장을 요청했어요.",
     "lobby.invitationFrom": "{name}님이 초대를 보냈어요.",
@@ -1841,7 +1842,8 @@ const messages = {
     "media.error.dismiss": "통화 알림 닫기",
     "media.error.blocked": "운영 설정으로 이 미디어 기능을 사용할 수 없어요.",
     "media.error.busy": "통화 서버가 바빠요. 잠시 후 다시 시도해 주세요.",
-    "media.error.screenCapacity": "이 대화 범위에서는 화면 공유를 최대 8개까지 동시에 볼 수 있어요. 다른 공유가 끝나면 다시 시도해 주세요.",
+    "media.error.screenCapacity":
+      "이 대화 범위에서는 화면 공유를 최대 8개까지 동시에 볼 수 있어요. 다른 공유가 끝나면 다시 시도해 주세요.",
     "media.error.denied":
       "이 통화 기능을 사용할 수 없어요. 권한과 공간 설정을 확인해 주세요.",
     "media.error.disabled": "현재 통화 서버를 사용할 수 없어요.",
@@ -2637,6 +2639,7 @@ const messages = {
       "Review requests to enter spaces that require approval.",
     "lobby.admissionInboxRefresh": "Refresh join requests",
     "lobby.admissionInboxLoading": "Checking for join requests…",
+    "lobby.admissionInboxLoadMore": "Load more requests",
     "lobby.admissionInboxError": "Could not load join requests.",
     "lobby.admissionRequestFrom": "Requested access to {space}.",
     "lobby.invitationFrom": "Invited by {name}.",
@@ -4332,7 +4335,8 @@ const messages = {
     "media.error.blocked":
       "This media feature is disabled by the space settings.",
     "media.error.busy": "The call server is busy. Try again shortly.",
-    "media.error.screenCapacity": "Up to 8 screens can be shared in this conversation area at once. Try again when one stops.",
+    "media.error.screenCapacity":
+      "Up to 8 screens can be shared in this conversation area at once. Try again when one stops.",
     "media.error.denied":
       "This call action is not available. Check your access and the space settings.",
     "media.error.disabled": "The call server is currently unavailable.",

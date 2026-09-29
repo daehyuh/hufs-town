@@ -41,8 +41,11 @@ class SpaceController {
     @GetMapping("/invitations/incoming") List<Spaces.IncomingSpaceInvite> incomingSpaceInvites(@AuthenticationPrincipal TownPrincipal p) {
         return spaces.incomingSpaceInvites(p.userId());
     }
-    @GetMapping("/join-requests/incoming") List<Spaces.IncomingJoinRequest> incomingJoinRequests(@AuthenticationPrincipal TownPrincipal p) {
-        return spaces.incomingJoinRequests(p.userId());
+    @GetMapping("/join-requests/incoming") Spaces.IncomingJoinRequestPage incomingJoinRequests(
+            @AuthenticationPrincipal TownPrincipal p,
+            @RequestParam(required = false) String cursor,
+            @RequestParam(defaultValue = "50") int limit) {
+        return spaces.incomingJoinRequests(p.userId(), cursor, limit);
     }
     @PostMapping("/invitations/{inviteId}/accept") Spaces.Space acceptSpaceInvite(@PathVariable String inviteId,
                                                                                      @AuthenticationPrincipal TownPrincipal p) {

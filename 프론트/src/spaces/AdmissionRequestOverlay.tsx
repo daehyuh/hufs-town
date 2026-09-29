@@ -28,6 +28,8 @@ export function AdmissionRequestOverlay({
   const { language, t } = useLanguage();
   const canAcceptInvite = !!onAcceptInvite;
   const [requests, setRequests] = useState<IncomingSpaceJoinRequest[]>([]);
+  const requestCount = useRef(requests.length);
+  requestCount.current = requests.length;
   const [invites, setInvites] = useState<IncomingSpaceInvite[]>([]);
   const [admissionLoading, setAdmissionLoading] = useState(
     !!spaceId || canAcceptInvite,
@@ -35,6 +37,9 @@ export function AdmissionRequestOverlay({
   const [inviteLoading, setInviteLoading] = useState(canAcceptInvite);
   const [admissionError, setAdmissionError] = useState("");
   const [inviteError, setInviteError] = useState("");
+  const [admissionCursor, setAdmissionCursor] = useState<string | null>(null);
+  const [admissionHasMore, setAdmissionHasMore] = useState(false);
+  const [admissionMoreLoading, setAdmissionMoreLoading] = useState(false);
   const [notice, setNotice] = useState("");
   const [open, setOpen] = useState(true);
   const [busyKey, setBusyKey] = useState("");
@@ -43,6 +48,8 @@ export function AdmissionRequestOverlay({
   );
   const knownRequestIds = useRef(new Set<string>());
   const knownInviteIds = useRef(new Set<string>());
+  const admissionPagesLoaded = useRef(1);
+  const admissionRefreshInFlight = useRef(false);
   const acceptInviteRef = useRef(onAcceptInvite);
   useEffect(() => {
     acceptInviteRef.current = onAcceptInvite;
@@ -51,15 +58,34 @@ export function AdmissionRequestOverlay({
   const refreshAdmissions = useCallback(
     async (active?: () => boolean) => {
       if (!spaceId && !canAcceptInvite) return;
-      setAdmissionLoading(true);
+      if (admissionRefreshInFlight.current) return;
+      admissionRefreshInFlight.current = true;
+      const pageCount = canAcceptInvite ? admissionPagesLoaded.current : 1;
+      if (requestCount.current === 0) setAdmissionLoading(true);
       try {
-        const result = canAcceptInvite
-          ? await listIncomingJoinRequests()
-          : (await listJoinRequests(spaceId!)).map((request) => ({
-              spaceId: spaceId!,
-              spaceName: spaceName ?? "",
-              request,
-            }));
+        let result: IncomingSpaceJoinRequest[];
+        let nextCursor: string | null = null;
+        let hasMore = false;
+        let pagesLoaded = 0;
+        if (canAcceptInvite) {
+          result = [];
+          let cursor: string | undefined;
+          for (let page = 0; page < pageCount; page += 1) {
+            const response = await listIncomingJoinRequests(cursor);
+            result.push(...response.items);
+            nextCursor = response.nextCursor;
+            hasMore = response.hasMore;
+            pagesLoaded += 1;
+            if (!hasMore || !nextCursor) break;
+            cursor = nextCursor;
+          }
+        } else {
+          result = (await listJoinRequests(spaceId!)).map((request) => ({
+            spaceId: spaceId!,
+            spaceName: spaceName ?? "",
+            request,
+          }));
+        }
         if (active && !active()) return;
         if (
           result.some(
@@ -74,16 +100,60 @@ export function AdmissionRequestOverlay({
           result.map((item) => `${item.spaceId}:${item.request.id}`),
         );
         setRequests(result);
+        setAdmissionCursor(nextCursor);
+        setAdmissionHasMore(hasMore);
+        if (canAcceptInvite) admissionPagesLoaded.current = pagesLoaded;
         setAdmissionError("");
       } catch {
         if (active && !active()) return;
         setAdmissionError(t("lobby.admissionInboxError"));
       } finally {
+        admissionRefreshInFlight.current = false;
         if (!active || active()) setAdmissionLoading(false);
       }
     },
     [canAcceptInvite, spaceId, spaceName, t],
   );
+
+  async function loadMoreAdmissions() {
+    const cursor = admissionCursor;
+    if (
+      !canAcceptInvite ||
+      !cursor ||
+      !admissionHasMore ||
+      admissionRefreshInFlight.current
+    )
+      return;
+    admissionRefreshInFlight.current = true;
+    setAdmissionMoreLoading(true);
+    try {
+      const result = await listIncomingJoinRequests(cursor);
+      setRequests((current) => {
+        const known = new Set(
+          current.map((item) => `${item.spaceId}:${item.request.id}`),
+        );
+        const additions = result.items.filter(
+          (item) => !known.has(`${item.spaceId}:${item.request.id}`),
+        );
+        for (const item of additions)
+          known.add(`${item.spaceId}:${item.request.id}`);
+        return [...current, ...additions];
+      });
+      setAdmissionCursor(result.nextCursor);
+      setAdmissionHasMore(result.hasMore);
+      admissionPagesLoaded.current += 1;
+      setAdmissionError("");
+    } catch (cause) {
+      setAdmissionError(
+        language === "ko" && cause instanceof Error
+          ? cause.message
+          : t("lobby.admissionInboxError"),
+      );
+    } finally {
+      admissionRefreshInFlight.current = false;
+      setAdmissionMoreLoading(false);
+    }
+  }
 
   const refreshInvites = useCallback(
     async (active?: () => boolean) => {
@@ -263,7 +333,12 @@ export function AdmissionRequestOverlay({
       >
         <Bell size={16} aria-hidden="true" />
         <span>{t("lobby.worldInbox")}</span>
-        {itemCount > 0 && <strong>{itemCount}</strong>}
+        {itemCount > 0 && (
+          <strong>
+            {itemCount}
+            {admissionHasMore ? "+" : ""}
+          </strong>
+        )}
         <ChevronUp size={15} aria-hidden="true" />
       </button>
     );
@@ -282,7 +357,10 @@ export function AdmissionRequestOverlay({
             {spaceName && <small>{spaceName}</small>}
           </div>
           {itemCount > 0 && (
-            <span className="world-admission-count">{itemCount}</span>
+            <span className="world-admission-count">
+              {itemCount}
+              {admissionHasMore ? "+" : ""}
+            </span>
           )}
         </div>
         <div className="world-admission-tools">
@@ -390,6 +468,18 @@ export function AdmissionRequestOverlay({
                 );
               })}
             </ul>
+            {admissionHasMore && (
+              <button
+                type="button"
+                className="world-admission-load-more"
+                disabled={admissionMoreLoading || admissionLoading}
+                onClick={() => void loadMoreAdmissions()}
+              >
+                {admissionMoreLoading
+                  ? t("lobby.admissionInboxLoading")
+                  : t("lobby.admissionInboxLoadMore")}
+              </button>
+            )}
           </section>
         )}
         {admissionLoading &&
