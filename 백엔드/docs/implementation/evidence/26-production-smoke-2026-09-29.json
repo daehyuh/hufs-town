@@ -1,0 +1,33 @@
+{
+  "date": "2026-09-29",
+  "releaseId": "20260929T0841Z-multi-screen-8",
+  "origin": "https://town.gdgoc.com",
+  "status": "PASS",
+  "checks": {
+    "websiteHttpStatus": 200,
+    "pageTitle": "GDG HUFS 훕스타운",
+    "authConfigHttpStatus": 200,
+    "ssoConfigured": true,
+    "bootstrapHttpStatus": 200,
+    "spaceCapacity": 100,
+    "running": true,
+    "mediaAdvertised": true,
+    "webSocketWithoutOriginStatus": 403,
+    "trustedOriginWithoutSessionStatus": 401,
+    "applicationContainers": {
+      "web": "healthy",
+      "api": "healthy",
+      "world": "healthy",
+      "media": "healthy",
+      "mariadb": "healthy",
+      "redis": "healthy"
+    },
+    "nginxConfiguration": "passed"
+  },
+  "limits": [
+    "This unauthenticated smoke does not verify a complete HUFS SSO sign-in.",
+    "The media feature flag does not prove a live multi-participant RTP session.",
+    "The advertised 100-person capacity has not been verified under production load.",
+    "External TURN reachability and actual screen-share delivery remain unverified."
+  ]
+}
