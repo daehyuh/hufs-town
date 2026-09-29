@@ -5,10 +5,10 @@
 ## 현재 운영 상태
 
 - 서비스: [https://town.gdgoc.com](https://town.gdgoc.com)
-- 현재 앱 릴리스: `20260929T0932Z-no-profile-links`
+- 현재 앱 릴리스: `20260929T100917Z-friend-settings`
 - 운영 서버 별칭: `daehyuh-1`; 프로젝트: `/opt/hufs-town`
 - Compose: `/opt/hufs-town/백엔드/infra/production.compose.yaml`
-- 현재 확인 결과: Web/API/World/Media/MariaDB/Redis healthy, Nginx와 certbot.timer active, 공개 HTTPS·SSO 설정·기본 공간 정원 100·월드 WebSocket 접근 거부 경계 정상.
+- 현재 확인 결과: `20260929T100917Z-friend-settings` 배포 뒤 Web/API/World/Media/MariaDB/Redis가 healthy이고, Nginx 검사·공개 HTTPS·SSO 설정·기본 공간 정원 100·미디어 활성·World WebSocket 접근 거부 경계가 정상이다. 친구 공개/요청 설정은 People 패널의 설정 탭에서 관리한다. [최신 배포 증거](../implementation/evidence/26-friend-settings-tab-production-2026-09-29.json)
 - Prometheus는 `observability` 프로필로 실행되며 `127.0.0.1:19090`에만 바인딩된다. 규칙 파일은 있지만 Alertmanager 수신 경로가 없어 장애 알림은 외부로 전달되지 않는다.
 - `TOWN_ADMIN_USER_IDS`에는 현재 승인 계정 UUID가 설정되지 않았다. 따라서 신고 검토와 운영 분석은 승인된 계정을 지정하기 전까지 사용할 수 없다. [확인 증거](../implementation/evidence/24-admin-allowlist-state-2026-09-29.json)
 
@@ -59,9 +59,9 @@ sudo docker compose --env-file infra/.env.production -f infra/production.compose
 
 - 공간 정원 100은 설정값이다. 운영 ARM64 호스트에서 실제 100명 월드·SFU 미디어 부하는 검증되지 않았다.
 - 공개 UDP 44444의 외부 경로는 확인되지 않았고 TURN은 운영에 설정되지 않았다. 네트워크가 UDP를 제한하면 미디어 연결이 실패할 수 있다.
-- 최대 8개 동시 화면공유가 구현·배포됐지만, 실제 복수 계정의 동시 송출과 수신은 확인되지 않았다.
+- 최대 8개 동시 화면공유와 한 화면 내 카메라형 갤러리가 배포됐지만, 실제 복수 계정의 동시 송출과 수신은 확인되지 않았다. [갤러리 증거](../implementation/evidence/26-screen-gallery-fit-production-2026-09-29.json)
 - 현재 공개 smoke는 인증 없는 HTTP/SSO 설정 확인이다. 실제 HUFS SSO 로그인, 카메라·마이크·화면공유 RTP 통화 성공을 증명하지 않는다.
 - 오프사이트 운영 백업이 없으며, DB나 업로드 저장소 손실 후 복구 사본이 없다.
 - 운영 경보의 외부 수신처는 아직 연결되지 않았다.
 
-상세 배포 절차와 향후 백업 선택 시의 별도 방법은 [운영 배포 문서](production-deployment.md)를 참조한다. 최신 외부 확인은 [2026-09-29 운영 smoke 증거](../implementation/evidence/26-production-smoke-2026-09-29.json)에 기록되어 있다.
+상세 배포 절차와 향후 백업 선택 시의 별도 방법은 [운영 배포 문서](production-deployment.md)를 참조한다. 최신 외부 확인과 릴리스는 [2026-09-29 친구 설정 배포 증거](../implementation/evidence/26-friend-settings-tab-production-2026-09-29.json)에 기록되어 있다.
