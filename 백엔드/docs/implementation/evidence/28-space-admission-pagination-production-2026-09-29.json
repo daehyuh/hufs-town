@@ -1,0 +1,42 @@
+{
+  "date": "2026-09-29",
+  "releaseId": "20260929T113100Z-space-admission-cursor",
+  "previousReleaseId": "20260929T110500Z-admission-pages",
+  "origin": "https://town.gdgoc.com",
+  "status": "PASS",
+  "change": "Remove the separate 200-item truncation from per-space join-request management and add newest-first 50-item cursor pagination, load-more controls, and refresh of already loaded pages.",
+  "verification": {
+    "frontendTypeScriptAndProductionBuild": "passed locally and during production web image build",
+    "prettier": "passed",
+    "apiBootJar": "passed locally with Java 21 and during production API image build",
+    "automatedTests": "not run per user preference",
+    "deployment": "passed; web, api, world, and media built sequentially and release health checks passed",
+    "applicationContainers": {
+      "web": "healthy",
+      "api": "healthy",
+      "world": "healthy",
+      "media": "healthy",
+      "mariadb": "healthy",
+      "redis": "healthy",
+      "prometheus": "running"
+    },
+    "nginxConfiguration": "passed",
+    "publicWebsiteHttpStatus": 200,
+    "pageTitle": "GDG HUFS 훕스타운",
+    "pageTitleMatches": true,
+    "authConfigHttpStatus": 200,
+    "ssoConfigured": true,
+    "bootstrapHttpStatus": 200,
+    "spaceCapacity": 100,
+    "running": true,
+    "ssoLogin": true,
+    "mediaAdvertised": true,
+    "webSocketWithoutOriginStatus": 403,
+    "trustedOriginWithoutSessionStatus": 401
+  },
+  "limits": [
+    "The pagination boundaries and approval decisions were not manually exercised against a dataset exceeding 200 requests.",
+    "The approval flow was not manually exercised with multiple signed-in HUFS SSO accounts."
+  ],
+  "dataHandling": "No database rows, persistent volumes, production preferences, or environment files were changed."
+}

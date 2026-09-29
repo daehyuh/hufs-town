@@ -60,31 +60,36 @@ export function AdmissionRequestOverlay({
       if (!spaceId && !canAcceptInvite) return;
       if (admissionRefreshInFlight.current) return;
       admissionRefreshInFlight.current = true;
-      const pageCount = canAcceptInvite ? admissionPagesLoaded.current : 1;
+      const pageCount = admissionPagesLoaded.current;
       if (requestCount.current === 0) setAdmissionLoading(true);
       try {
         let result: IncomingSpaceJoinRequest[];
         let nextCursor: string | null = null;
         let hasMore = false;
         let pagesLoaded = 0;
-        if (canAcceptInvite) {
-          result = [];
-          let cursor: string | undefined;
-          for (let page = 0; page < pageCount; page += 1) {
+        result = [];
+        let cursor: string | undefined;
+        for (let page = 0; page < pageCount; page += 1) {
+          if (canAcceptInvite) {
             const response = await listIncomingJoinRequests(cursor);
             result.push(...response.items);
             nextCursor = response.nextCursor;
             hasMore = response.hasMore;
-            pagesLoaded += 1;
-            if (!hasMore || !nextCursor) break;
-            cursor = nextCursor;
+          } else {
+            const response = await listJoinRequests(spaceId!, cursor);
+            result.push(
+              ...response.items.map((request) => ({
+                spaceId: spaceId!,
+                spaceName: spaceName ?? "",
+                request,
+              })),
+            );
+            nextCursor = response.nextCursor;
+            hasMore = response.hasMore;
           }
-        } else {
-          result = (await listJoinRequests(spaceId!)).map((request) => ({
-            spaceId: spaceId!,
-            spaceName: spaceName ?? "",
-            request,
-          }));
+          pagesLoaded += 1;
+          if (!hasMore || !nextCursor) break;
+          cursor = nextCursor;
         }
         if (active && !active()) return;
         if (
@@ -102,7 +107,7 @@ export function AdmissionRequestOverlay({
         setRequests(result);
         setAdmissionCursor(nextCursor);
         setAdmissionHasMore(hasMore);
-        if (canAcceptInvite) admissionPagesLoaded.current = pagesLoaded;
+        admissionPagesLoaded.current = pagesLoaded;
         setAdmissionError("");
       } catch {
         if (active && !active()) return;
@@ -117,30 +122,42 @@ export function AdmissionRequestOverlay({
 
   async function loadMoreAdmissions() {
     const cursor = admissionCursor;
-    if (
-      !canAcceptInvite ||
-      !cursor ||
-      !admissionHasMore ||
-      admissionRefreshInFlight.current
-    )
+    if (!cursor || !admissionHasMore || admissionRefreshInFlight.current)
       return;
     admissionRefreshInFlight.current = true;
     setAdmissionMoreLoading(true);
     try {
-      const result = await listIncomingJoinRequests(cursor);
+      let result: IncomingSpaceJoinRequest[];
+      let nextCursor: string | null;
+      let hasMore: boolean;
+      if (canAcceptInvite) {
+        const page = await listIncomingJoinRequests(cursor);
+        result = page.items;
+        nextCursor = page.nextCursor;
+        hasMore = page.hasMore;
+      } else {
+        const page = await listJoinRequests(spaceId!, cursor);
+        result = page.items.map((request) => ({
+          spaceId: spaceId!,
+          spaceName: spaceName ?? "",
+          request,
+        }));
+        nextCursor = page.nextCursor;
+        hasMore = page.hasMore;
+      }
       setRequests((current) => {
         const known = new Set(
           current.map((item) => `${item.spaceId}:${item.request.id}`),
         );
-        const additions = result.items.filter(
+        const additions = result.filter(
           (item) => !known.has(`${item.spaceId}:${item.request.id}`),
         );
         for (const item of additions)
           known.add(`${item.spaceId}:${item.request.id}`);
         return [...current, ...additions];
       });
-      setAdmissionCursor(result.nextCursor);
-      setAdmissionHasMore(result.hasMore);
+      setAdmissionCursor(nextCursor);
+      setAdmissionHasMore(hasMore);
       admissionPagesLoaded.current += 1;
       setAdmissionError("");
     } catch (cause) {

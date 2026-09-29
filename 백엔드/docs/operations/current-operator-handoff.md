@@ -5,10 +5,10 @@
 ## 현재 운영 상태
 
 - 서비스: [https://town.gdgoc.com](https://town.gdgoc.com)
-- 현재 앱 릴리스: `20260929T110500Z-admission-pages`
+- 현재 앱 릴리스: `20260929T113100Z-space-admission-cursor`
 - 운영 서버 별칭: `daehyuh-1`; 프로젝트: `/opt/hufs-town`
 - Compose: `/opt/hufs-town/백엔드/infra/production.compose.yaml`
-- 현재 확인 결과: `20260929T110500Z-admission-pages` 배포 뒤 Web/API/World/Media/MariaDB/Redis가 healthy이고, Nginx 검사·공개 HTTPS·SSO 설정·기본 공간 정원 100·미디어 활성·World WebSocket 접근 거부 경계가 정상이다. 친구 공개/요청 설정은 People 패널의 설정 탭에서 관리한다. 모든 맵 생성·저장·게시 API 요청 본문은 512KB로 제한된다. 로비의 입장 승인 요청함은 권한 검증이 포함된 단일 조회에서 50건씩 커서 페이지로 이어지며, 월드 승인 패널에서도 같은 목록을 제공한다. [최신 배포 증거](../implementation/evidence/27-admission-inbox-pagination-production-2026-09-29.json)
+- 현재 확인 결과: `20260929T113100Z-space-admission-cursor` 배포 뒤 Web/API/World/Media/MariaDB/Redis가 healthy이고, Nginx 검사·공개 HTTPS·SSO 설정·기본 공간 정원 100·미디어 활성·World WebSocket 접근 거부 경계가 정상이다. 친구 공개/요청 설정은 People 패널의 설정 탭에서 관리한다. 모든 맵 생성·저장·게시 API 요청 본문은 512KB로 제한된다. 로비 통합 승인 요청함과 공간별 멤버 관리의 입장 요청 목록 모두 최신순 50건 커서 페이지와 이어보기를 제공한다. [최신 배포 증거](../implementation/evidence/28-space-admission-pagination-production-2026-09-29.json)
 - Prometheus는 `observability` 프로필로 실행되며 `127.0.0.1:19090`에만 바인딩된다. 규칙 파일은 있지만 Alertmanager 수신 경로가 없어 장애 알림은 외부로 전달되지 않는다.
 - `TOWN_ADMIN_USER_IDS`에는 현재 승인 계정 UUID가 설정되지 않았다. 따라서 신고 검토와 운영 분석은 승인된 계정을 지정하기 전까지 사용할 수 없다. [확인 증거](../implementation/evidence/24-admin-allowlist-state-2026-09-29.json)
 

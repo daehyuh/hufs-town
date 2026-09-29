@@ -203,6 +203,14 @@ export function SpaceLobby({
   const [joinRequests, setJoinRequests] = useState<SpaceJoinRequest[]>([]);
   const [joinRequestError, setJoinRequestError] = useState("");
   const [joinRequestsRefresh, setJoinRequestsRefresh] = useState(0);
+  const [joinRequestCursor, setJoinRequestCursor] = useState<string | null>(
+    null,
+  );
+  const [joinRequestsHasMore, setJoinRequestsHasMore] = useState(false);
+  const [joinRequestMoreLoading, setJoinRequestMoreLoading] = useState(false);
+  const joinRequestPagesLoaded = useRef(1);
+  const joinRequestSpaceRef = useRef("");
+  const joinRequestInFlight = useRef(false);
   const [ownershipTransfer, setOwnershipTransfer] = useState<
     SpaceOwnershipTransfer[]
   >([]);
@@ -337,6 +345,59 @@ export function SpaceLobby({
     } finally {
       admissionInboxRequestInFlight.current = false;
       if (showLoading) setAdmissionInboxLoading(false);
+    }
+  }
+  async function loadJoinRequestPageRange(spaceId: string, pageCount: number) {
+    const items: SpaceJoinRequest[] = [];
+    let cursor: string | undefined;
+    let nextCursor: string | null = null;
+    let hasMore = false;
+    let pagesLoaded = 0;
+    for (let page = 0; page < pageCount; page += 1) {
+      const result = await api.listJoinRequests(spaceId, cursor);
+      items.push(...result.items);
+      nextCursor = result.nextCursor;
+      hasMore = result.hasMore;
+      pagesLoaded += 1;
+      if (!hasMore || !nextCursor) break;
+      cursor = nextCursor;
+    }
+    return { items, nextCursor, hasMore, pagesLoaded };
+  }
+  async function loadMoreSpaceJoinRequests() {
+    const spaceId = modal?.kind === "members" ? modal.space.id : "";
+    const cursor = joinRequestCursor;
+    if (
+      !spaceId ||
+      !cursor ||
+      !joinRequestsHasMore ||
+      joinRequestInFlight.current
+    )
+      return;
+    joinRequestInFlight.current = true;
+    setJoinRequestMoreLoading(true);
+    try {
+      const result = await api.listJoinRequests(spaceId, cursor);
+      setJoinRequests((current) => {
+        const known = new Set(current.map((request) => request.id));
+        return [
+          ...current,
+          ...result.items.filter((request) => !known.has(request.id)),
+        ];
+      });
+      setJoinRequestCursor(result.nextCursor);
+      setJoinRequestsHasMore(result.hasMore);
+      joinRequestPagesLoaded.current += 1;
+      setJoinRequestError("");
+    } catch (cause) {
+      setJoinRequestError(
+        language === "ko" && cause instanceof Error
+          ? cause.message
+          : t("lobby.error.joinRequestRefresh"),
+      );
+    } finally {
+      joinRequestInFlight.current = false;
+      setJoinRequestMoreLoading(false);
     }
   }
   async function loadMoreAdmissionInbox() {
@@ -572,22 +633,41 @@ export function SpaceLobby({
       ? modal.space.id
       : "";
   useEffect(() => {
-    if (!joinRequestSpaceId) return;
+    if (!joinRequestSpaceId) {
+      joinRequestSpaceRef.current = "";
+      joinRequestPagesLoaded.current = 1;
+      return;
+    }
+    if (joinRequestSpaceRef.current !== joinRequestSpaceId) {
+      joinRequestSpaceRef.current = joinRequestSpaceId;
+      joinRequestPagesLoaded.current = 1;
+      setJoinRequests([]);
+      setJoinRequestCursor(null);
+      setJoinRequestsHasMore(false);
+    }
     let active = true;
     let refreshing = false;
     const refresh = async () => {
-      if (refreshing) return;
+      if (refreshing || joinRequestInFlight.current) return;
       refreshing = true;
+      joinRequestInFlight.current = true;
       try {
-        const items = await api.listJoinRequests(joinRequestSpaceId);
+        const result = await loadJoinRequestPageRange(
+          joinRequestSpaceId,
+          joinRequestPagesLoaded.current,
+        );
         if (active) {
-          setJoinRequests(items);
+          setJoinRequests(result.items);
+          setJoinRequestCursor(result.nextCursor);
+          setJoinRequestsHasMore(result.hasMore);
+          joinRequestPagesLoaded.current = result.pagesLoaded;
           setJoinRequestError("");
         }
       } catch {
         if (active) setJoinRequestError(t("lobby.error.joinRequestRefresh"));
       } finally {
         refreshing = false;
+        joinRequestInFlight.current = false;
       }
     };
     void refresh();
@@ -603,6 +683,10 @@ export function SpaceLobby({
   const operationsSpaceId = modal?.kind === "operations" ? modal.space.id : "";
   useEffect(() => {
     if (!operationsSpaceId) return;
+    if (joinRequestSpaceRef.current !== operationsSpaceId) {
+      joinRequestSpaceRef.current = operationsSpaceId;
+      joinRequestPagesLoaded.current = 1;
+    }
     let active = true;
     let refreshing = false;
     const refreshOperations = async () => {
@@ -629,7 +713,10 @@ export function SpaceLobby({
         const [nextMembers, nextRequests, nextInvites, nextBlocks] =
           await Promise.all([
             api.listMembers(operationsSpaceId),
-            api.listJoinRequests(operationsSpaceId),
+            loadJoinRequestPageRange(
+              operationsSpaceId,
+              joinRequestPagesLoaded.current,
+            ),
             api.listInvites(operationsSpaceId),
             api.listAccessBlocks(operationsSpaceId),
           ]);
@@ -641,7 +728,10 @@ export function SpaceLobby({
             : current,
         );
         setMembers(nextMembers);
-        setJoinRequests(nextRequests);
+        setJoinRequests(nextRequests.items);
+        setJoinRequestCursor(nextRequests.nextCursor);
+        setJoinRequestsHasMore(nextRequests.hasMore);
+        joinRequestPagesLoaded.current = nextRequests.pagesLoaded;
         setInvites(nextInvites);
         setAccessBlocks(nextBlocks);
         setOperationsUpdatedAt(Date.now());
@@ -844,7 +934,14 @@ export function SpaceLobby({
       await api.resolveJoinRequest(spaceId, request.id, decision);
       setNotice(confirmation);
       try {
-        setJoinRequests(await api.listJoinRequests(spaceId));
+        const result = await loadJoinRequestPageRange(
+          spaceId,
+          joinRequestPagesLoaded.current,
+        );
+        setJoinRequests(result.items);
+        setJoinRequestCursor(result.nextCursor);
+        setJoinRequestsHasMore(result.hasMore);
+        joinRequestPagesLoaded.current = result.pagesLoaded;
         setJoinRequestError("");
       } catch {
         setJoinRequestError(t("lobby.notice.requestRefreshFailed"));
@@ -2025,7 +2122,9 @@ export function SpaceLobby({
                       <dt>{t("lobby.operation.pending")}</dt>
                       <dd>
                         {t("lobby.operation.requestCount", {
-                          count: formatNumber(language, joinRequests.length),
+                          count:
+                            formatNumber(language, joinRequests.length) +
+                            (joinRequestsHasMore ? "+" : ""),
                         })}
                       </dd>
                     </div>
@@ -2174,7 +2273,9 @@ export function SpaceLobby({
               )}
               <h3>
                 {t("lobby.members.joinRequests", {
-                  count: formatNumber(language, joinRequests.length),
+                  count:
+                    formatNumber(language, joinRequests.length) +
+                    (joinRequestsHasMore ? "+" : ""),
                 })}
               </h3>
               {joinRequestError && (
@@ -2195,43 +2296,57 @@ export function SpaceLobby({
                     : t("lobby.members.joinRequestsEmpty")}
                 </p>
               ) : (
-                <ul className="invite-list">
-                  {joinRequests.map((request) => (
-                    <li key={request.id}>
-                      <span>
-                        <strong>{request.displayName}</strong>
-                        <small>
-                          {t("lobby.members.requestedAt", {
-                            date: formatDate(language, request.requestedAt, {
-                              dateStyle: "medium",
-                              timeStyle: "short",
-                            }),
-                          })}
-                        </small>
-                      </span>
-                      <div className="join-request-actions">
-                        <button
-                          className="text-button approve"
-                          disabled={busy || Boolean(joinRequestError)}
-                          onClick={() =>
-                            resolveAdmissionRequest(request, "APPROVE")
-                          }
-                        >
-                          {t("lobby.members.approve")}
-                        </button>
-                        <button
-                          className="text-button member-remove"
-                          disabled={busy || Boolean(joinRequestError)}
-                          onClick={() =>
-                            resolveAdmissionRequest(request, "REJECT")
-                          }
-                        >
-                          {t("lobby.members.reject")}
-                        </button>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
+                <>
+                  <ul className="invite-list">
+                    {joinRequests.map((request) => (
+                      <li key={request.id}>
+                        <span>
+                          <strong>{request.displayName}</strong>
+                          <small>
+                            {t("lobby.members.requestedAt", {
+                              date: formatDate(language, request.requestedAt, {
+                                dateStyle: "medium",
+                                timeStyle: "short",
+                              }),
+                            })}
+                          </small>
+                        </span>
+                        <div className="join-request-actions">
+                          <button
+                            className="text-button approve"
+                            disabled={busy || Boolean(joinRequestError)}
+                            onClick={() =>
+                              resolveAdmissionRequest(request, "APPROVE")
+                            }
+                          >
+                            {t("lobby.members.approve")}
+                          </button>
+                          <button
+                            className="text-button member-remove"
+                            disabled={busy || Boolean(joinRequestError)}
+                            onClick={() =>
+                              resolveAdmissionRequest(request, "REJECT")
+                            }
+                          >
+                            {t("lobby.members.reject")}
+                          </button>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                  {joinRequestsHasMore && (
+                    <button
+                      type="button"
+                      className="text-button invitation-inbox-refresh"
+                      disabled={joinRequestMoreLoading || busy}
+                      onClick={() => void loadMoreSpaceJoinRequests()}
+                    >
+                      {joinRequestMoreLoading
+                        ? t("lobby.admissionInboxLoading")
+                        : t("lobby.admissionInboxLoadMore")}
+                    </button>
+                  )}
+                </>
               )}
               <h3>
                 {t("lobby.members.current", {

@@ -68,6 +68,11 @@ export interface SpaceJoinRequest {
   displayName: string;
   requestedAt: number;
 }
+export interface SpaceJoinRequestPage {
+  items: SpaceJoinRequest[];
+  nextCursor: string | null;
+  hasMore: boolean;
+}
 export interface IncomingSpaceJoinRequest {
   spaceId: string;
   spaceName: string;
@@ -196,8 +201,10 @@ export const unblockMember = (id: string, userId: string) =>
     undefined,
     "DELETE",
   );
-export const listJoinRequests = (id: string) =>
-  apiGet<SpaceJoinRequest[]>(`spaces/${id}/join-requests`);
+export const listJoinRequests = (id: string, cursor?: string) =>
+  apiGet<SpaceJoinRequestPage>(
+    `spaces/${id}/join-requests${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ""}`,
+  );
 export const listIncomingJoinRequests = (cursor?: string) =>
   apiGet<IncomingSpaceJoinRequestPage>(
     `spaces/join-requests/incoming${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ""}`,

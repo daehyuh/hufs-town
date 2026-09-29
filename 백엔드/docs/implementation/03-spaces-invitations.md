@@ -114,3 +114,7 @@ V21은 `space_member.manager`를 추가하고 OWNER/MEMBER 저장 구조는 유�
 ### 입장 승인 요청함 페이지 넘김 (2026-09-29)
 
 통합 승인 요청함의 고정 200건 제한을 없앴다. API는 최근 요청부터 50건씩 반환하고, 불투명 커서로 다음 묶음을 읽는다(요청당 상한 100건). 페이지를 요청할 때마다 활성 계정, 현재 OWNER/ADMIN 멤버십, 승인제 및 보관 상태를 다시 확인한다. 로비와 월드 승인 패널의 `더 많은 요청 보기`가 이어지는 요청을 추가하고, 자동 새로고침은 이미 불러온 페이지 수만큼 다시 조회한다. TypeScript/production build, Prettier, Java 21 API bootJar가 통과했으며 사용자의 선호에 따라 자동 테스트는 실행하지 않았다. 실제 복수 SSO 계정 승인 왕복 검증은 남아 있다([운영 증거](evidence/27-admission-inbox-pagination-production-2026-09-29.json)).
+
+### 공간별 입장 요청 페이지 넘김 (2026-09-29)
+
+멤버 관리와 공간 운영 화면이 사용하는 `GET /api/v1/spaces/{id}/join-requests`에도 남아 있던 고정 200건 제한을 제거했다. 같은 최신순 50개 커서 페이지 형식과 더 보기 UI를 적용하고, 새로고침은 이미 불러온 페이지를 유지한다. 각 조회에서 관리자 권한을 다시 검사한다. Java 21 API bootJar와 프론트 TypeScript/production build가 통과했고 운영 배포와 HTTPS·SSO·정원·미디어·WebSocket smoke가 통과했다. 사용자의 선호에 따라 자동 테스트 및 복수 SSO 계정 검증은 수행하지 않았다([운영 증거](evidence/28-space-admission-pagination-production-2026-09-29.json)).

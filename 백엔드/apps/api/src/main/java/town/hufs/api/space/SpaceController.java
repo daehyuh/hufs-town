@@ -96,7 +96,12 @@ class SpaceController {
         limit(p); return spaces.respondOwnershipTransfer(id, p.userId(), decision.decision());
     }
     @GetMapping("/{id}/access-blocks") List<Spaces.AccessBlock> accessBlocks(@PathVariable String id, @AuthenticationPrincipal TownPrincipal p) { return spaces.accessBlocks(id, p.userId()); }
-    @GetMapping("/{id}/join-requests") List<Spaces.JoinRequest> joinRequests(@PathVariable String id, @AuthenticationPrincipal TownPrincipal p) { return spaces.joinRequests(id, p.userId()); }
+    @GetMapping("/{id}/join-requests") Spaces.JoinRequestPage joinRequests(
+            @PathVariable String id, @AuthenticationPrincipal TownPrincipal p,
+            @RequestParam(required = false) String cursor,
+            @RequestParam(defaultValue = "50") int limit) {
+        return spaces.joinRequests(id, p.userId(), cursor, limit);
+    }
     @PostMapping("/{id}/join-requests") Spaces.JoinRequestState requestJoin(@PathVariable String id, @AuthenticationPrincipal TownPrincipal p) {
         limit(p); return spaces.requestJoin(id, p.userId());
     }
