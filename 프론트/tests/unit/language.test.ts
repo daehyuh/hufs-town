@@ -115,10 +115,14 @@ describe("language preference and resources", () => {
     );
     expect(translate("ko", "landing.title")).toBe("GDG HUFS 훕스타운");
     expect(translate("en", "landing.title")).toBe("GDG HUFS Town");
-    expect(translate("ko", "landing.subtitle")).toContain("HUFS SSO");
+    expect(translate("ko", "landing.subtitle")).toContain("HUFS 통합 인증");
+    expect(translate("ko", "landing.subtitle")).not.toContain("이메일");
+    expect(translate("ko", "landing.subtitle")).not.toContain("비밀번호");
     expect(translate("ko", "landing.subtitle")).not.toContain("미리보기");
     expect(translate("ko", "landing.subtitle.preview")).toContain("미리보기");
     expect(translate("en", "landing.subtitle")).toContain("HUFS SSO");
+    expect(translate("en", "landing.subtitle")).not.toContain("public email");
+    expect(translate("en", "landing.subtitle")).not.toContain("password");
     expect(translate("en", "landing.subtitle")).not.toContain("preview");
     expect(translate("en", "landing.subtitle.preview")).toContain(
       "local preview",

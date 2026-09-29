@@ -89,14 +89,14 @@ it("renders world utility controls in Korean and English", () => {
   const korean = renderUtilities("ko");
   const english = renderUtilities("en");
 
-  expect(korean).toContain('aria-label="터치 이동 조작"');
+  expect(korean).toContain('aria-label="이동 조이스틱"');
   expect(korean).toContain('aria-label="위로 이동"');
   expect(korean).toContain("달리기");
   expect(korean).toContain("지도 범례");
   expect(korean).toContain("공동 화이트보드");
   expect(korean).toContain("처음 그리면 공간 참가자에게 함께 보여요.");
 
-  expect(english).toContain('aria-label="Touch movement controls"');
+  expect(english).toContain('aria-label="Movement joystick"');
   expect(english).toContain('aria-label="Move up"');
   expect(english).toContain("Run");
   expect(english).toContain("Map legend");
