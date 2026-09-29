@@ -93,3 +93,5 @@ pnpm build
 편집 UX의 참고: [Gather 공식 공간 편집 안내](https://support.gather.town/articles/8435554423-customize-your-space), [ZEP 공식 맵 에디터 안내](https://promotion.zep.us/2026-zep-school-contest-guide/). 화면 구조와 작업 흐름을 참고했으며 제공받지 않은 제품 에셋은 복제하지 않았다.
 
 2026-09-28 기본 지도 문구 정리: GDG HUFS 운영 캠퍼스의 맵 이름을 `GDG HUFS 훕스타운`으로 바꾸고, 기본 캠퍼스·광장·스터디·밋업 템플릿에서 `WELCOME`, 회의 번호, 공간 소개 같은 장식 라벨을 제거했다. 이동/접근 정책에 쓰이는 구역 이름과 GDG 픽셀 아트 표식은 유지한다. 지도 fixture/생성기 일치 검사와 모든 템플릿 무라벨 검사, Chromium 에셋 E2E 5/5, protocol 계약 테스트 및 저장 지도 복원 통합 검사가 통과했다. 기존에 공간 소유자가 직접 편집·게시한 지도는 자동 덮어쓰지 않는다.
+
+2026-09-29 맵 저장 요청 크기 제한 보완: 맵 에디터가 실제 사용하는 `/api/v1/spaces/{spaceId}/maps/**` POST 경로가 기존 본문 제한 필터의 경로 조건에서 누락된 점을 수정했다. 새 맵 생성·초안 저장·게시·복원·공동 편집을 포함한 맵 POST 요청 모두 Content-Length와 chunked 본문 양쪽에서 512,000바이트를 넘으면 413으로 거절한다. JDK 21 API 컴파일과 운영 배포·공개 서비스 smoke가 통과했다. 요청에 따라 자동 테스트는 실행하지 않았으며, 로그인한 계정으로 512KB 초과/이하 저장을 왕복하는 검수는 남아 있다([운영 증거](evidence/26-map-body-limit-production-2026-09-29.json)).

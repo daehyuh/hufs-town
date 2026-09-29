@@ -1,0 +1,33 @@
+{
+  "date": "2026-09-29",
+  "releaseId": "20260929T102245Z-map-body-limit",
+  "origin": "https://town.gdgoc.com",
+  "status": "PASS",
+  "change": "Apply the existing 512,000-byte limit to every POST endpoint under /api/v1/spaces/{spaceId}/maps, including map creation, draft save, publish, restore, and collaborative edits. Content-Length requests are rejected before buffering; streaming requests are read only up to the limit plus one byte and rejected with HTTP 413 when oversized.",
+  "verification": {
+    "apiCompileJavaWithJdk21": "passed",
+    "automatedTests": "not run per user preference",
+    "productionBuild": "web, api, world, and media images built sequentially; API and World Gradle builds skipped test tasks per deployment policy",
+    "deployment": "passed; release 20260929T102245Z-map-body-limit replaced 20260929T100917Z-friend-settings",
+    "applicationContainers": {
+      "web": "healthy",
+      "api": "healthy",
+      "world": "healthy",
+      "media": "healthy",
+      "mariadb": "healthy",
+      "redis": "healthy",
+      "prometheus": "running"
+    },
+    "nginxConfiguration": "passed",
+    "publicWebsiteHttpStatus": 200,
+    "ssoConfigured": true,
+    "spaceCapacity": 100,
+    "mediaAdvertised": true,
+    "webSocketWithoutOriginStatus": 403,
+    "trustedOriginWithoutSessionStatus": 401
+  },
+  "limits": [
+    "A signed-in editor request was not manually sent at the 512,000-byte boundary; automated tests were omitted per user preference."
+  ],
+  "dataHandling": "No database rows, persistent volumes, production preferences, or environment files were changed."
+}

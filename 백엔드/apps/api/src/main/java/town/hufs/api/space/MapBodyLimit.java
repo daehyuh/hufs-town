@@ -10,8 +10,10 @@ import java.nio.charset.StandardCharsets;
 @Component
 class MapBodyLimit extends OncePerRequestFilter {
     static final int LIMIT=512_000;
+    private static final String MAP_WRITE_PATH = "/api/v1/spaces/[^/]+/(?:map|maps)(?:/.*)?";
+
     @Override protected boolean shouldNotFilter(HttpServletRequest request) {
-        return !request.getMethod().equals("POST") || !request.getRequestURI().matches("/api/v1/spaces/[^/]+/map(?:/.*)?|/api/v1/spaces/[^/]+/maps/[^/]+/edit(?:/.*)?");
+        return !"POST".equals(request.getMethod()) || !request.getRequestURI().matches(MAP_WRITE_PATH);
     }
     @Override protected void doFilterInternal(HttpServletRequest request,HttpServletResponse response,FilterChain chain) throws ServletException,IOException {
         if(request.getContentLengthLong()>LIMIT){reject(response);return;}
