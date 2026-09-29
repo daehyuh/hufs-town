@@ -1185,6 +1185,8 @@ T26.2 릴리스 이미지 태그 보존·정리(2026-09-29): 현재 릴리스와
 
 T26.2 운영 Prometheus 배포(2026-09-29): 기존 API·World·Media 컨테이너는 건드리지 않고 Compose `observability` 프로필로 Prometheus를 시작했다. readiness와 내부 대시보드 HTTP 200, API·World·Media 세 target 모두 `up`, `127.0.0.1:19090` loopback 바인딩, 공개 홈 HTTP 200 및 SSO `configured=true`를 확인했다. 순간 자원 표본은 CPU 0.12%, 메모리 32.59 MiB/256 MiB였다. 외부 경보 수신자는 미설정이며 실제 알림 전달은 확인하지 않아 T26.2는 미완료다([운영 증거](../implementation/evidence/26-production-observability-rollout-2026-09-29.json)).
 
+T25.2 모바일 화면 공간 기본값(2026-09-29): 캠퍼스 사이드 메뉴를 기본 접힘으로 바꾸고 새 저장 키를 적용해 이전 버전에서 자동 저장된 펼침 값이 새 기본값을 덮지 않게 했다. 사용자가 다시 펼치거나 접으면 새 키에 선택을 저장한다. 프론트 타입 검사·프로덕션 빌드, 공개 JS 에셋의 새 키 HTTP 200, SSO 설정 및 API·World·Media Prometheus scrape `up`을 확인했다. 자동 테스트는 요청에 따라 실행하지 않았고 실기기 접근성 확인은 T25.2에 남아 있다([배포 증거](../implementation/evidence/25-sidebar-collapsed-default-production-2026-09-29.json)).
+
 캠퍼스 채팅 UI 투명도(2026-09-29): 빠른 근거리 입력창과 채팅 패널이 반투명 색상이어도 3~8px 배경 흐림과 높은 흰색 혼합률 때문에 맵이 거의 보이지 않던 부분을 조정했다. 표면 투명도를 22~36%로 낮추고 흐림을 1~2px로 줄였다. 별도 로컬 테스트는 실행하지 않고 `pnpm build`의 타입 검사·프로덕션 빌드를 통과한 뒤 릴리스 `20260929T063319Z-b55897d`로 배포했다. 6개 서비스 healthy, Nginx 설정, HTTPS 200, SSO configured=true, 정원 100, 미디어 활성 상태를 확인했고, 제공된 CSS 에셋에서도 빠른 채팅 22% 표면/1px 흐림과 채팅 패널 2px 흐림을 확인했다. 브라우저 세션이 로그인 화면이라 인증된 월드에서의 실제 시각 검수는 남아 있다. 푸시로 시작된 GitHub Actions(run 36531631856)는 20분 제한으로 Chromium 회귀 테스트 101이 시작될 때 취소됐으며, 프론트엔드·Java 통합·미디어 단계만 통과했다. 브라우저 회귀 전체 결과는 미완료이며 재실행하지 않았다([운영 증거](../implementation/evidence/25-chat-transparency-production-2026-09-29.json)).
 
 CI 브라우저 회귀 시간 제한(2026-09-29): run 36531631856이 세 브라우저 단계에서 workflow의 20분 제한으로 끝까지 완료되지 않아 전체 제한을 40분으로 늘렸다. 이 설정만 변경했고 테스트를 재실행하지 않았다. 다음 CI가 실행되는 일반 소스 푸시에서 브라우저 회귀 완료 여부를 확인한다.

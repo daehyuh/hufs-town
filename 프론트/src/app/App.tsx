@@ -528,7 +528,11 @@ export function App() {
         ? t(authErrorKey)
         : authError;
   function reportAuthFailure(cause: unknown, fallback: TranslationKey) {
-    if (cause instanceof AuthError && cause.code && authFailureTranslations[cause.code]) {
+    if (
+      cause instanceof AuthError &&
+      cause.code &&
+      authFailureTranslations[cause.code]
+    ) {
       setAuthError("");
       setAuthErrorKey(authFailureTranslations[cause.code]);
       return;
@@ -2561,14 +2565,18 @@ function Campus({
   const [panel, setPanel] = useState<"map" | "people" | "chat" | null>(null);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
     try {
-      return localStorage.getItem("hufs-town.sidebar-collapsed") === "true";
+      const saved = localStorage.getItem("hufs-town.sidebar-collapsed.v2");
+      return saved === null ? true : saved === "true";
     } catch {
-      return false;
+      return true;
     }
   });
   useEffect(() => {
     try {
-      localStorage.setItem("hufs-town.sidebar-collapsed", String(sidebarCollapsed));
+      localStorage.setItem(
+        "hufs-town.sidebar-collapsed.v2",
+        String(sidebarCollapsed),
+      );
     } catch {
       // The collapsed state still applies for the current visit.
     }

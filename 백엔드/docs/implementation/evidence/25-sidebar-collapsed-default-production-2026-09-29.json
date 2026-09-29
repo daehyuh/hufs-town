@@ -1,0 +1,25 @@
+{
+  "date": "2026-09-29",
+  "release": "20260929T072851Z-sidebar-collapse",
+  "previousRelease": "20260929T070125Z-c94eabf",
+  "change": {
+    "default": "collapsed",
+    "preferenceStorageKey": "hufs-town.sidebar-collapsed.v2",
+    "behavior": "No v2 preference starts collapsed. Expanding or collapsing is persisted for later visits.",
+    "migration": "The old preference key is intentionally ignored so its previously auto-saved expanded default does not override the new collapsed default."
+  },
+  "validation": {
+    "frontendTypecheckAndProductionBuild": "passed",
+    "automatedTests": "not run per user preference",
+    "publicHomeHttpStatus": 200,
+    "publicAssetHttpStatus": 200,
+    "publicAssetContainsNewPreferenceKey": true,
+    "ssoConfigured": true,
+    "applicationServicesHealthy": ["web", "api", "world", "media"],
+    "prometheusTargets": {
+      "api": "up",
+      "world": "up",
+      "media": "up"
+    }
+  }
+}
