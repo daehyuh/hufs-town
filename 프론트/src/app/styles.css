@@ -3702,39 +3702,39 @@ kbd {
 .info-panel:has(.chat-panel-content) {
   overflow: hidden;
   border-left-color: #e3e8db85;
-  background: #f9fbf278;
+  background: rgb(249 251 242 / 34%);
   box-shadow: -12px 0 32px #25391a1c;
-  backdrop-filter: blur(8px) saturate(1.08);
-  -webkit-backdrop-filter: blur(8px) saturate(1.08);
+  backdrop-filter: blur(2px) saturate(1.04);
+  -webkit-backdrop-filter: blur(2px) saturate(1.04);
 }
 .info-panel:has(.chat-panel-content) .chat-tabs {
   border-color: #e8eddf99;
-  background: #f5f7f18a;
+  background: rgb(245 247 241 / 24%);
 }
 .info-panel:has(.chat-panel-content) .chat-tabs button.active {
-  background: #ffffffa6;
+  background: rgb(255 255 255 / 36%);
 }
 .info-panel:has(.chat-panel-content) .chat-scope-tabs button {
-  background: #ffffffa6;
+  background: rgb(255 255 255 / 36%);
 }
 .info-panel:has(.chat-panel-content) .chat-scope-tabs button.active {
-  background: #f1f6eb9c;
+  background: rgb(241 246 235 / 34%);
 }
 .info-panel:has(.chat-panel-content) .chat-message-body {
   border-color: #edf0e87d;
-  background: #fafbf877;
+  background: rgb(250 251 248 / 26%);
 }
 .info-panel:has(.chat-panel-content) .chat-message.own .chat-message-body {
   border-color: #e4ecdc7d;
-  background: #f2f7ec7d;
+  background: rgb(242 247 236 / 30%);
 }
 .info-panel:has(.chat-panel-content) .chat-message.failed .chat-message-body {
   border-color: #efd8d280;
-  background: #fff8f67f;
+  background: rgb(255 248 246 / 36%);
 }
 .info-panel:has(.chat-panel-content) .chat-compose {
   border-color: #e3e9dc8a;
-  background: #fafbf894;
+  background: rgb(250 251 248 / 34%);
 }
 .chat-panel-content {
   display: flex;
@@ -4589,12 +4589,12 @@ kbd {
 .map-quick-chat-trigger,
 .map-quick-chat-form {
   width: 100%;
-  border: 1px solid #dfe8d566;
+  border: 1px solid rgb(223 232 213 / 42%);
   border-radius: 15px;
-  background: #ffffff55;
+  background: rgb(255 255 255 / 22%);
   box-shadow: 0 8px 24px #293a221a;
-  backdrop-filter: blur(3px) saturate(1.04);
-  -webkit-backdrop-filter: blur(3px) saturate(1.04);
+  backdrop-filter: blur(1px) saturate(1.02);
+  -webkit-backdrop-filter: blur(1px) saturate(1.02);
 }
 .map-quick-chat-trigger {
   min-height: 50px;
@@ -4674,10 +4674,10 @@ kbd {
   min-width: 0;
   height: 48px;
   padding: 0 13px;
-  border: 1px solid #e3e9dc70;
+  border: 1px solid rgb(227 233 220 / 45%);
   border-radius: 11px;
   outline: none;
-  background: #ffffff55;
+  background: rgb(255 255 255 / 22%);
   color: #354332;
   font: inherit;
   font-size: 15px;
@@ -4855,10 +4855,10 @@ kbd {
     transform: translateX(-50%);
     border: 1px solid #ffffff85;
     border-radius: 21px;
-    background: #f5f8ef78;
+    background: rgb(245 248 239 / 34%);
     box-shadow: 0 16px 42px #1d2f273d;
-    backdrop-filter: blur(8px) saturate(1.08);
-    -webkit-backdrop-filter: blur(8px) saturate(1.08);
+    backdrop-filter: blur(2px) saturate(1.04);
+    -webkit-backdrop-filter: blur(2px) saturate(1.04);
   }
   .info-panel:has(.chat-panel-content) .chat-panel-content {
     margin-top: 8px;
