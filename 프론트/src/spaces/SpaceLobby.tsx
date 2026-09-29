@@ -295,44 +295,7 @@ export function SpaceLobby({
   async function refreshAdmissionInbox(showLoading = false) {
     if (showLoading) setAdmissionInboxLoading(true);
     try {
-      const firstPage = await api.listSpaces({
-        query: "",
-        view: "mine",
-        page: 1,
-        pageSize: 50,
-      });
-      const pages = await Promise.all(
-        Array.from({ length: Math.max(0, firstPage.totalPages - 1) }, (_, i) =>
-          api.listSpaces({
-            query: "",
-            view: "mine",
-            page: i + 2,
-            pageSize: 50,
-          }),
-        ),
-      );
-      const managerSpaces = [firstPage, ...pages]
-        .flatMap((page) => page.items)
-        .filter(
-          (space) =>
-            space.approvalRequired &&
-            (space.role === "OWNER" || space.role === "ADMIN"),
-        );
-      const requestsBySpace = await Promise.all(
-        managerSpaces.map(async (space) => ({
-          space,
-          requests: await api.listJoinRequests(space.id),
-        })),
-      );
-      setAdmissionInbox(
-        requestsBySpace.flatMap(({ space, requests }) =>
-          requests.map((request) => ({
-            spaceId: space.id,
-            spaceName: space.name,
-            request,
-          })),
-        ),
-      );
+      setAdmissionInbox(await api.listIncomingJoinRequests());
       setAdmissionInboxError("");
     } catch (cause) {
       setAdmissionInboxError(

@@ -106,3 +106,7 @@ V21은 `space_member.manager`를 추가하고 OWNER/MEMBER 저장 구조는 유�
 공간 홈은 현재 계정으로 도착한 활성 초대를 불러와 공간 이름·소유자·만료 시각과 수락/거절 버튼을 보여준다. 목록은 브라우저 복귀 때와 15초 간격으로 갱신되고, 새로고침·재시도 상태를 제공한다. 수락 뒤 공간은 내 공간 목록으로 바뀌고, 거절 뒤 초대는 보관함에서 제거된다.
 
 `SsoIntegrationTest.invitationLimitsAreAtomicIdempotentRevocableAndExpiring`의 확장 시나리오는 다른 계정의 조회·수락·거절 차단, ADMIN이 만든 초대의 발급자/소유자 구분, 대상 계정 수락과 사용 횟수 1회 유지, 초대 만료 뒤 수락 재시도, 거절에 따른 코드 폐기를 확인한다. `invite-flow.spec.ts`의 Playwright 두 시나리오는 초대 코드 진입과 계정 초대함 수락/거절 UI를 확인한다. 프론트 Vitest 48개, 타입 검사, production build, Prettier, OpenAPI Java/TypeScript 계약 74종 검사가 통과했다. Testcontainers에서 V47 적용을 확인했고, 로컬 API 컨테이너 로그는 V46→V47 마이그레이션 완료를 확인한다. API health UP, Tailnet UI 200, 비로그인 초대 보관함 API 401을 확인했다. Playwright의 계정 초대 API는 목 처리했으며 실제 HUFS SSO 두 계정의 브라우저 초대 수락/거절 검수는 아직 하지 않았다.
+
+### 입장 승인 요청함 단일 조회 (2026-09-29)
+
+로비는 이전에 내 공간 목록의 모든 페이지를 불러온 뒤 승인제 관리 공간마다 별도 요청을 보내 승인 요청함을 구성했다. 이제 `GET /api/v1/spaces/join-requests/incoming`을 사용해 서버가 소유자/관리자 권한과 승인제·보관 여부를 확인한 한 번의 조회 결과를 표시한다. 승인 요청이 많은 공간을 관리해도 네트워크 요청 수가 공간 수에 따라 늘지 않으며, 권한이 바뀐 공간 한 곳의 조회 실패가 다른 공간 요청을 숨기지 않는다. 프론트 타입 검사와 프로덕션 빌드가 통과했고 자동 테스트는 요청에 따라 실행하지 않았다. 실제 SSO 계정 승인 왕복은 남아 있다([운영 증거](evidence/26-admission-inbox-single-query-production-2026-09-29.json)).

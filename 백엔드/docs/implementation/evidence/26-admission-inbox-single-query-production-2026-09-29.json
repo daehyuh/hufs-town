@@ -1,0 +1,32 @@
+{
+  "date": "2026-09-29",
+  "releaseId": "20260929T103827Z-admission-inbox",
+  "origin": "https://town.gdgoc.com",
+  "status": "PASS",
+  "change": "Replace the lobby admission inbox fan-out over every managed space with the existing permission-checked incoming join-request endpoint. This removes per-space list requests and prevents one stale or failing space request from masking all other pending approvals.",
+  "verification": {
+    "frontendTypeScriptAndProductionBuild": "passed locally and during production web image build",
+    "automatedTests": "not run per user preference",
+    "deployment": "passed; release 20260929T103827Z-admission-inbox replaced 20260929T102245Z-map-body-limit",
+    "applicationContainers": {
+      "web": "healthy",
+      "api": "healthy",
+      "world": "healthy",
+      "media": "healthy",
+      "mariadb": "healthy",
+      "redis": "healthy",
+      "prometheus": "running"
+    },
+    "nginxConfiguration": "passed",
+    "publicWebsiteHttpStatus": 200,
+    "ssoConfigured": true,
+    "spaceCapacity": 100,
+    "mediaAdvertised": true,
+    "webSocketWithoutOriginStatus": 403,
+    "trustedOriginWithoutSessionStatus": 401
+  },
+  "limits": [
+    "The invitation and approval flow was not manually exercised with multiple signed-in HUFS SSO accounts."
+  ],
+  "dataHandling": "No database rows, persistent volumes, production preferences, or environment files were changed."
+}
