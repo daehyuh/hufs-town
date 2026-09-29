@@ -1,0 +1,32 @@
+{
+  "date": "2026-09-29",
+  "environment": "production",
+  "deployment": {
+    "composeProfile": "observability",
+    "service": "prometheus",
+    "image": "prom/prometheus:v3.14.0",
+    "hostBinding": "127.0.0.1:19090",
+    "readiness": "ready",
+    "dashboardHttpStatus": 200,
+    "targets": {
+      "api": "up",
+      "world": "up",
+      "media": "up"
+    },
+    "resourceSnapshot": {
+      "cpu": "0.12%",
+      "memory": "32.59 MiB / 256 MiB"
+    }
+  },
+  "applicationSmoke": {
+    "publicHomeHttpStatus": 200,
+    "ssoConfigured": true,
+    "applicationContainersRestarted": false
+  },
+  "limitations": [
+    "Dashboard is reachable only from the production host or an SSH tunnel.",
+    "No external alert receiver is configured or verified.",
+    "Production backups remain intentionally unconfigured per operator decision; a host or database storage failure can cause permanent data loss."
+  ],
+  "verification": "Readiness, dashboard response, scrape target health, loopback binding, public home, SSO configuration, and container state were checked. No test suite or application build was run."
+}
