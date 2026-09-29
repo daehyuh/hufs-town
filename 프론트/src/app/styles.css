@@ -4753,6 +4753,9 @@ kbd {
     width: auto;
     transform: none;
   }
+  .map-quick-chat.is-open {
+    bottom: max(10px, calc(var(--app-keyboard-inset, 0px) - 78px));
+  }
   .map-quick-chat-trigger {
     min-height: 46px;
     gap: 8px;
@@ -4872,6 +4875,10 @@ kbd {
     right: 10px;
     left: auto;
     width: 48px;
+  }
+  .map-quick-chat.is-open {
+    bottom: max(10px, calc(var(--app-keyboard-inset, 0px) - 72px));
+    width: min(310px, calc(100vw - 84px));
   }
   .map-quick-chat-trigger {
     justify-content: center;
