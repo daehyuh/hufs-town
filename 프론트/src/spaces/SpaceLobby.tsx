@@ -20,7 +20,6 @@ import {
   Archive,
   ArchiveRestore,
   CalendarDays,
-  CalendarClock,
   BookOpen,
   Mic2,
   Trees,
@@ -39,9 +38,7 @@ import {
 import { Avatar } from "../components/Avatar";
 import { OfficePreview } from "./OfficePreview";
 import { ScheduledEventsDialog } from "../events/ScheduledEventsDialog";
-import { RoomReservationsDialog } from "../events/RoomReservationsDialog";
 import { SpaceExtensionsDialog } from "./SpaceExtensionsDialog";
-import { canEditReservationMap } from "../events/roomReservations";
 import {
   AuthError,
   deleteCurrentAccount,
@@ -190,7 +187,6 @@ export function SpaceLobby({
   );
   const [modal, setModal] = useState<Modal>();
   const [scheduleSpace, setScheduleSpace] = useState<Space>();
-  const [reservationSpace, setReservationSpace] = useState<Space>();
   const [extensionsSpace, setExtensionsSpace] = useState<Space>();
   const [profileOpen, setProfileOpen] = useState(false);
   const [deletionOpen, setDeletionOpen] = useState(false);
@@ -1713,14 +1709,6 @@ export function SpaceLobby({
                           <CalendarDays size={17} />
                         </button>
                         <button
-                          className="icon-button"
-                          title={t("lobby.reservations")}
-                          aria-label={`${s.name} ${t("lobby.reservations")}`}
-                          onClick={() => setReservationSpace(s)}
-                        >
-                          <CalendarClock size={17} />
-                        </button>
-                        <button
                           className="space-secondary enter-space"
                           onClick={() => enterOrRequest(s)}
                           disabled={
@@ -2737,24 +2725,6 @@ export function SpaceLobby({
         <SpaceExtensionsDialog
           space={extensionsSpace}
           close={() => setExtensionsSpace(undefined)}
-        />
-      )}
-      {reservationSpace && (
-        <RoomReservationsDialog
-          space={reservationSpace}
-          close={() => setReservationSpace(undefined)}
-          enter={(mapId, reservationId) => {
-            const target = reservationSpace;
-            setReservationSpace(undefined);
-            enterOrRequest(target, mapId, reservationId);
-          }}
-          canEditMap={canEditReservationMap(reservationSpace.role)}
-          editMap={() => {
-            const target = reservationSpace;
-            if (!canEditReservationMap(target.role)) return;
-            setReservationSpace(undefined);
-            onEditMap(target);
-          }}
         />
       )}
       {children}

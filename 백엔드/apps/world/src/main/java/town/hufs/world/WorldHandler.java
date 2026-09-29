@@ -25,7 +25,8 @@ import java.util.concurrent.atomic.AtomicReference;
 @Component
 public class WorldHandler extends TextWebSocketHandler implements SubProtocolCapable {
     private static final int MAX_SNAPSHOT_SYNC_FAILURES = 3;
-    private static final List<String> WORLD_FEATURES = List.of("PARTICIPANT_REPORTS", "PERSISTENT_SIT", "EXTENDED_EMOTES", "ROOM_NOTES", "ROOM_RECORDING", "SCAVENGER_HUNT", "MICROPHONE_PRESENCE");
+    private static final List<String> WORLD_FEATURES = List.of("PARTICIPANT_REPORTS", "PERSISTENT_SIT", "EXTENDED_EMOTES", "SCAVENGER_HUNT", "MICROPHONE_PRESENCE");
+    private static final List<String> ROOM_EXTRA_FEATURES = List.of("ROOM_NOTES", "ROOM_RECORDING");
     @Override public List<String> getSubProtocols() { return List.of("hufs-town-v2"); }
     private final ObjectMapper json = new ObjectMapper().enable(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES)
         .enable(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES).enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
@@ -79,6 +80,8 @@ public class WorldHandler extends TextWebSocketHandler implements SubProtocolCap
     private final EventPersistence eventPersistence;
     private final WorldDndPresence dndPresence;
     private volatile ProductAnalytics productAnalytics;
+    @Value("${town.features.room-extras.enabled:false}")
+    private boolean roomExtrasEnabled;
     @Value("${town.world.max-joins-per-tick:8}")
     private int maxJoinsPerTick = 8;
     private volatile RoomNotesStore roomNotesStore;
@@ -585,7 +588,7 @@ public class WorldHandler extends TextWebSocketHandler implements SubProtocolCap
         metrics.recordJoinPhase("player_attach", System.nanoTime() - joinPhaseStarted);
         joinPhaseStarted = System.nanoTime();
         sendMapChanged(c, roomId, published);
-        control(c, new Welcome("welcome", 2, p.id, p.token, p.epoch, map.revision(), 50, WORLD_FEATURES));
+        control(c, new Welcome("welcome", 2, p.id, p.token, p.epoch, map.revision(), 50, worldFeatures()));
         // Membership fanout is batched once after this actor drains its command queue.
         // Sending the full participant list for every join makes a burst of N joins
         // repeatedly sort and serialize a growing list for all connected clients.
@@ -1403,6 +1406,10 @@ public class WorldHandler extends TextWebSocketHandler implements SubProtocolCap
     private void roomNote(Connection c, RoomNoteRequest request) {
         Player player = c.player;
         String zoneId = roomNoteZone(player);
+        if (!roomExtrasEnabled) {
+            roomNoteAck(c, request, zoneId, false, request.baseRevision(), "ROOM_EXTRAS_DISABLED", "현재 회의실 공유 메모 기능은 사용할 수 없어요.");
+            return;
+        }
         if (!validRoomNoteParticipant(c, player, request.epoch(), zoneId)) {
             roomNoteAck(c, request, zoneId, false, 0, "ROOM_NOTE_FORBIDDEN", "공유 메모는 로그인한 회의실 참가자만 사용할 수 있어요.");
             return;
@@ -1490,6 +1497,10 @@ public class WorldHandler extends TextWebSocketHandler implements SubProtocolCap
         }
     }
     private void roomRecording(Connection c, RoomRecordingRequest request) {
+        if (!roomExtrasEnabled) {
+            roomRecordingAck(c, request, null, false, "ROOM_EXTRAS_DISABLED", "현재 회의실 녹화 기능은 사용할 수 없어요.");
+            return;
+        }
         Player player = c.player;
         if (!validRoomNoteParticipant(c, player, request.epoch(), request.zoneId())) {
             roomRecordingAck(c, request, null, false, "ROOM_RECORDING_FORBIDDEN", "로그인한 비공개 회의실 참가자만 녹화를 사용할 수 있어요.");
@@ -2888,7 +2899,7 @@ public class WorldHandler extends TextWebSocketHandler implements SubProtocolCap
             p.move=null;p.moving=false;p.epoch++;p.ackSeq=-1;
             if(p.barrier==null)p.mediaEpoch++;
             p.barrier=null;p.lastMediaState="";
-            if(p.connection!=null){resetSnapshotState(p.connection);p.connection.input.set(null);sendMapChanged(p.connection,worldRoomId,published);control(p.connection,new Welcome("welcome",2,p.id,p.token,p.epoch,map.revision(),50,WORLD_FEATURES));}
+            if(p.connection!=null){resetSnapshotState(p.connection);p.connection.input.set(null);sendMapChanged(p.connection,worldRoomId,published);control(p.connection,new Welcome("welcome",2,p.id,p.token,p.epoch,map.revision(),50,worldFeatures()));}
         }
     }
     private void sendMapChanged(Connection connection, String worldRoomId, PublishedMaps.Published published) {
@@ -3722,6 +3733,12 @@ public class WorldHandler extends TextWebSocketHandler implements SubProtocolCap
         if (publicationStore != null) try { publicationStore.removeNode(worldNodeId); }
         catch (RuntimeException unavailable) { org.slf4j.LoggerFactory.getLogger(getClass()).warn("Could not expire world map publication targets during shutdown", unavailable); }
         authChecks.shutdownNow(); ticker.shutdownNow(); connections.values().forEach(c -> c.sender.close()); sends.shutdownNow(); closes.shutdownNow();
+    }
+    private List<String> worldFeatures() {
+        if (!roomExtrasEnabled) return WORLD_FEATURES;
+        ArrayList<String> features = new ArrayList<>(WORLD_FEATURES);
+        features.addAll(ROOM_EXTRA_FEATURES);
+        return List.copyOf(features);
     }
     private static final class Connection {
         final WebSocketSession session; final SessionSender sender;

@@ -19,7 +19,6 @@ import {
   Compass,
   DoorOpen,
   Flag,
-  FileText,
   LogOut,
   Mic,
   MicOff,
@@ -106,12 +105,10 @@ import {
   type SpaceBoardPost,
 } from "../spaces/boards";
 import { SharedWhiteboard } from "../spaces/SharedWhiteboard";
-import { RoomNoteDialog } from "../spaces/RoomNoteDialog";
 import { AdmissionRequestOverlay } from "../spaces/AdmissionRequestOverlay";
 import { Dialog } from "../components/Dialog";
 import { PanelDisclosureButton } from "./PanelDisclosureButton";
 import { MediaController } from "../media/MediaController";
-import { RoomRecordingControls } from "../media/RoomRecordingControls";
 import { listSpaceAssets } from "../editor/assetsClient";
 import { ASSETS_BY_ID, replaceCustomAssets } from "../game/officeAssets";
 import {
@@ -2854,7 +2851,6 @@ function Campus({
     title: string;
     description?: string;
   }>();
-  const [roomNoteDialogOpen, setRoomNoteDialogOpen] = useState(false);
   const [boardMode, setBoardMode] = useState<"posts" | "whiteboard">("posts");
   const [boardPosts, setBoardPosts] = useState<SpaceBoardPost[]>([]);
   const [boardDraft, setBoardDraft] = useState("");
@@ -3032,9 +3028,6 @@ function Campus({
   const currentRoom = state.rooms.find((room) => room.zoneId === self?.zoneId);
   const placeName =
     currentRoom?.name ?? zone?.name ?? t("campus.place.commonFallback");
-  useEffect(() => {
-    if (zone?.kind !== "PRIVATE" || !currentRoom) setRoomNoteDialogOpen(false);
-  }, [currentRoom, zone?.kind]);
   useEffect(() => {
     if (!activeBoard) {
       setBoardPosts([]);
@@ -4592,27 +4585,6 @@ function Campus({
                   })}
                 </span>
               </div>
-              <button
-                type="button"
-                className="room-note-open"
-                aria-haspopup="dialog"
-                onClick={() => setRoomNoteDialogOpen(true)}
-              >
-                <FileText size={14} aria-hidden="true" />
-                {t("roomNote.open")}
-              </button>
-              <RoomRecordingControls
-                connection={connection}
-                spaceId={bootstrap.space.id}
-                canViewArchive={Boolean(session.userId)}
-                zoneId={currentRoom.zoneId}
-                roomName={currentRoom.name}
-                isHost={isRoomHost}
-                selfId={state.selfId}
-                online={online}
-                recording={state.roomRecordingState}
-                ack={state.lastRoomRecordingAck}
-              />
               {isRoomHost ? (
                 <>
                   <label>
@@ -7204,17 +7176,6 @@ function Campus({
             )}
           </section>
         </Dialog>
-      )}
-      {roomNoteDialogOpen && zone?.kind === "PRIVATE" && currentRoom && (
-        <RoomNoteDialog
-          key={currentRoom.zoneId}
-          roomName={currentRoom.name}
-          roomNote={state.roomNoteState}
-          ack={state.lastRoomNoteAck}
-          connection={connection}
-          online={online}
-          close={() => setRoomNoteDialogOpen(false)}
-        />
       )}
       {objectInteraction && (
         <Dialog

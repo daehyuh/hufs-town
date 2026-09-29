@@ -31,6 +31,7 @@ import java.util.regex.Pattern;
 @RestController
 @RequestMapping("/api/v1/spaces/{spaceId}/recordings")
 @ConditionalOnProperty(name = "town.auth.mode", havingValue = "sso", matchIfMissing = true)
+@ConditionalOnProperty(name = "town.features.room-extras.enabled", havingValue = "true")
 class SpaceRecordingArchiveController {
     private static final Pattern UUID_PATTERN = Pattern.compile("(?i)^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$");
     private static final Pattern SINGLE_BYTE_RANGE = Pattern.compile("bytes=(?:\\d+-\\d*|-\\d+)");

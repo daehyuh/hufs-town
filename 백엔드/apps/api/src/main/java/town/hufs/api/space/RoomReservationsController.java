@@ -15,6 +15,7 @@ import town.hufs.auth.TownPrincipal;
 @RestController
 @RequestMapping("/api/v1/spaces/{spaceId}/room-reservations")
 @ConditionalOnProperty(name = "town.auth.mode", havingValue = "sso", matchIfMissing = true)
+@ConditionalOnProperty(name = "town.features.room-extras.enabled", havingValue = "true")
 class RoomReservationsController {
     private final RoomReservations reservations;
 

@@ -504,6 +504,61 @@ type CameraTileData = {
   stream?: MediaStream;
   mirror: boolean;
 };
+type ScreenTileData = {
+  id: string;
+  playerId?: string;
+  label: string;
+  item?: RemoteMedia;
+  stream?: MediaStream;
+};
+function ScreenShareTile({
+  tile,
+  audioActive,
+  audioVolume,
+  onAudioVolumeChange,
+}: {
+  tile: ScreenTileData;
+  audioActive: boolean;
+  audioVolume: number;
+  onAudioVolumeChange: (volume: number) => void;
+}) {
+  const { t } = useLanguage();
+  return (
+    <article className="screen-share-tile" data-player-id={tile.id}>
+      <header>
+        <span>
+          <MonitorUp size={14} aria-hidden="true" />
+          <strong>{tile.label}</strong>
+        </span>
+        {audioActive && tile.playerId && (
+          <label className="screen-audio-volume">
+            <Volume2 size={13} aria-hidden="true" />
+            <input
+              type="range"
+              min={0}
+              max={100}
+              step={5}
+              value={audioVolume}
+              aria-label={t("media.screen.volume", { name: tile.label })}
+              onChange={(event) =>
+                onAudioVolumeChange(Number(event.target.value))
+              }
+            />
+            <output>{audioVolume}%</output>
+          </label>
+        )}
+      </header>
+      {tile.item ? (
+        <TrackVideo
+          item={tile.item}
+          label={t("media.screen.remoteTitle", { name: tile.label })}
+        />
+      ) : tile.stream ? (
+        <StreamVideo stream={tile.stream} label={t("media.screen.selfTitle")} />
+      ) : null}
+    </article>
+  );
+}
 function RemoteAudio({
   item,
   volume,
@@ -980,7 +1035,17 @@ export function MediaStage({
       (left, right) =>
         eventSpeakerRank(left.playerId) - eventSpeakerRank(right.playerId),
     );
-  const screen = screenItems[0];
+  const screenTiles: ScreenTileData[] = [
+    ...(view.screenStream
+      ? [{ id: "__self__", label: t("media.screen.selfTitle"), stream: view.screenStream }]
+      : []),
+    ...screenItems.map((item) => ({
+      id: item.playerId,
+      playerId: item.playerId,
+      label: name(item.playerId),
+      item,
+    })),
+  ];
   const cameras = view.remote
     .filter((r) => r.source === "CAMERA")
     .sort(
@@ -1036,8 +1101,8 @@ export function MediaStage({
       setPinnedCameraId(null);
   }, [cameraTileKey, pinnedCameraId]);
   useEffect(() => {
-    if (!screen && !view.screenStream) setPinnedScreen(false);
-  }, [screen, view.screenStream]);
+    if (screenTiles.length === 0) setPinnedScreen(false);
+  }, [screenTiles.length]);
   useEffect(() => {
     if (!eventMode) return;
     setCameraLayout("gallery");
@@ -1237,12 +1302,10 @@ export function MediaStage({
                 ))}
             </div>
           </details>
-          {screen && (
+          {screenTiles.length > 0 && (
             <p>
               <MonitorUp size={13} />
-              {t("media.event.screenPriority", {
-                name: name(screen.playerId),
-              })}
+              {t("media.screen.label")} · {formatNumber(language, screenTiles.length)}
             </p>
           )}
         </section>
@@ -1381,7 +1444,7 @@ export function MediaStage({
           />
         </div>
       )}
-      {(screen || view.screenStream) && (
+      {screenTiles.length > 0 && (
         <section
           className={`shared-screen ${expanded ? "expanded" : ""} ${pinnedScreen ? "pinned" : ""}`}
           style={{
@@ -1413,11 +1476,10 @@ export function MediaStage({
             <span>
               <Move size={14} aria-hidden="true" />
               <MonitorUp size={16} />
-              {screen
-                ? t("media.screen.remoteTitle", {
-                    name: name(screen.playerId),
-                  })
-                : t("media.screen.selfTitle")}
+              {t("media.screen.label")}
+              <small className="screen-share-count">
+                {formatNumber(language, screenTiles.length)}
+              </small>
             </span>
             <span className="shared-screen-actions">
               {view.screen && (
@@ -1430,28 +1492,6 @@ export function MediaStage({
                 >
                   <VideoOff size={14} aria-hidden="true" />
                 </button>
-              )}
-              {screen && activeScreenAudio.has(screen.playerId) && (
-                <label className="screen-audio-volume">
-                  <Volume2 size={14} aria-hidden="true" />
-                  <input
-                    type="range"
-                    min={0}
-                    max={100}
-                    step={5}
-                    value={screenAudioVolumes[screen.playerId] ?? 100}
-                    aria-label={t("media.screen.volume", {
-                      name: name(screen.playerId),
-                    })}
-                    onChange={(event) =>
-                      setScreenAudioVolumes((current) => ({
-                        ...current,
-                        [screen.playerId]: Number(event.target.value),
-                      }))
-                    }
-                  />
-                  <output>{screenAudioVolumes[screen.playerId] ?? 100}%</output>
-                </label>
               )}
               <button
                 aria-label={
@@ -1493,19 +1533,29 @@ export function MediaStage({
               </button>
             </span>
           </header>
-          {screen ? (
-            <TrackVideo
-              item={screen}
-              label={t("media.screen.remoteTitle", {
-                name: name(screen.playerId),
-              })}
-            />
-          ) : (
-            <StreamVideo
-              stream={view.screenStream!}
-              label={t("media.screen.selfTitle")}
-            />
-          )}
+          <div className="shared-screen-gallery">
+            {screenTiles.map((tile) => (
+              <ScreenShareTile
+                key={tile.id}
+                tile={tile}
+                audioActive={Boolean(
+                  tile.playerId && activeScreenAudio.has(tile.playerId),
+                )}
+                audioVolume={
+                  tile.playerId
+                    ? (screenAudioVolumes[tile.playerId] ?? 100)
+                    : 100
+                }
+                onAudioVolumeChange={(volume) => {
+                  if (!tile.playerId) return;
+                  setScreenAudioVolumes((current) => ({
+                    ...current,
+                    [tile.playerId!]: volume,
+                  }));
+                }}
+              />
+            ))}
+          </div>
           <button
             type="button"
             className="floating-panel-resize"

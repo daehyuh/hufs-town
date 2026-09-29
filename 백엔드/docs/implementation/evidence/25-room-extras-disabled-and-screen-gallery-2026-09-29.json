@@ -1,0 +1,34 @@
+{
+  "date": "2026-09-29",
+  "latestRelease": "20260929T082443Z-screen-gallery",
+  "previousRelease": "20260929T081314Z-room-extras-off",
+  "changes": {
+    "roomExtras": {
+      "default": "disabled",
+      "disabledFeatures": [
+        "room shared notes",
+        "room reservations and reservation archive access",
+        "room recording controls and archive access"
+      ],
+      "preserved": [
+        "private-room membership and admission",
+        "room-local chat, microphone, camera, and screen sharing",
+        "existing notes, reservations, and recordings data"
+      ]
+    },
+    "screenSharing": {
+      "display": "responsive gallery of all policy-delivered SCREEN tracks and the local shared screen",
+      "controls": "per-sharer screen-audio volume when that sharer publishes screen audio"
+    }
+  },
+  "verification": {
+    "frontendProductionBuild": "passed",
+    "apiAndWorldBootJarBuild": "passed with test tasks skipped",
+    "productionContainers": "web, api, world, media, mariadb, and redis healthy",
+    "nginxConfiguration": "passed",
+    "publicHttpsSsoAndBootstrapSmoke": "passed",
+    "automatedTests": "not run per user request",
+    "simultaneousMultiSharerLiveSession": "not verified"
+  },
+  "dataHandling": "No database rows, recordings, or uploaded files were deleted. Production SSO secrets and persistent volumes were preserved."
+}
