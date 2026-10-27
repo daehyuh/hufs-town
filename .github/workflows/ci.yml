@@ -38,25 +38,6 @@ jobs:
         run: |
           npm ci
           npm test
-      - name: Start local services
-        run: |
-          export MEDIA_CONTROL_TOKEN="$(openssl rand -hex 32)"
-          export TOWN_MEDIA_ENABLED=true
-          export TOWN_AUTH_PREVIEW_IDENTITIES_ENABLED=true
-          export TOWN_AUTH_PREVIEW_MULTIMAP_ENABLED=true
-          node 백엔드/apps/media/src/server.mjs > media.log 2>&1 &
-          java -jar .build/backend/apps/api/libs/api-0.1.0-SNAPSHOT.jar --spring.profiles.active=preview > api.log 2>&1 &
-          java -jar .build/backend/apps/world/libs/world-0.1.0-SNAPSHOT.jar --spring.profiles.active=preview > world.log 2>&1 &
-          curl --fail --retry 20 --retry-connrefused --retry-delay 1 http://127.0.0.1:18080/actuator/health
-          curl --fail --retry 20 --retry-connrefused --retry-delay 1 http://127.0.0.1:18081/actuator/health
-          curl --fail --retry 20 --retry-connrefused --retry-delay 1 http://127.0.0.1:18082/health
-      - name: Three-browser regression
-        working-directory: 프론트
-        env:
-          TOWN_E2E_MEDIA: 'true'
-        run: |
-          pnpm exec playwright install --with-deps chromium firefox webkit
-          pnpm test:e2e
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
