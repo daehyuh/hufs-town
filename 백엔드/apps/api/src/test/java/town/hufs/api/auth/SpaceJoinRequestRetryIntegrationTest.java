@@ -90,7 +90,7 @@ class SpaceJoinRequestRetryIntegrationTest {
 
         var rejected = owner.post(requestPath + "/" + requestId + "/resolve", Map.of("decision", "REJECT"));
         assertThat(rejected.statusCode()).as(rejected.body()).isEqualTo(200);
-        assertThat(json.readTree(owner.get(requestPath).body())).isEmpty();
+        assertThat(json.readTree(owner.get(requestPath).body()).path("items")).isEmpty();
         assertThat(json.readTree(requester.get("/spaces/" + spaceId).body())
             .path("joinRequestStatus").asText()).isEqualTo("REJECTED");
 
