@@ -32,7 +32,7 @@ it("renders friend management labels and accessibility text in Korean", () => {
 
   expect(markup).toContain('aria-label="친구 관리"');
   expect(markup).toContain('aria-label="닫기"');
-  expect(markup).toContain("친구 요청 받기");
+  expect(markup).toContain("받은 요청 0");
   expect(markup).toContain("친구 찾기");
   expect(markup).toContain("친구 정보를 불러오는 중…");
 });
@@ -42,7 +42,7 @@ it("renders friend management labels and accessibility text in English", () => {
 
   expect(markup).toContain('aria-label="Manage friends"');
   expect(markup).toContain('aria-label="Close"');
-  expect(markup).toContain("Allow friend requests");
+  expect(markup).toContain("Incoming requests 0");
   expect(markup).toContain("Find friends");
   expect(markup).toContain("Loading friends…");
   expect(markup).not.toContain("친구 요청 받기");
