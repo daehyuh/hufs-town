@@ -31,20 +31,25 @@ test("a later successful approval poll clears its previous error", async ({
     let status = 200;
 
     if (path === "/api/v1/spaces" && networkRequest.method() === "GET") {
+      body = {
+        items: [room],
+        page: 1,
+        pageSize: 12,
+        totalItems: 1,
+        totalPages: 1,
+        hasNext: false,
+        hasPrevious: false,
+      };
+    } else if (
+      path === `/api/v1/spaces/${room.id}` &&
+      networkRequest.method() === "GET"
+    ) {
       if (failNextRead) {
         failNextRead = false;
         status = 503;
         body = { message: "임시 연결 오류" };
       } else {
-        body = {
-          items: [room],
-          page: 1,
-          pageSize: 12,
-          totalItems: 1,
-          totalPages: 1,
-          hasNext: false,
-          hasPrevious: false,
-        };
+        body = room;
       }
     } else if (path.endsWith("/ownership-transfers/incoming")) {
       body = [];

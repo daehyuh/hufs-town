@@ -201,14 +201,43 @@ export const unblockMember = (id: string, userId: string) =>
     undefined,
     "DELETE",
   );
-export const listJoinRequests = (id: string, cursor?: string) =>
-  apiGet<SpaceJoinRequestPage>(
-    `spaces/${id}/join-requests${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ""}`,
+function normalizeCursorPage<T>(result: {
+  items: T[];
+  nextCursor: string | null;
+  hasMore: boolean;
+} | T[]) {
+  if (Array.isArray(result))
+    return { items: result, nextCursor: null, hasMore: false };
+  if (!Array.isArray(result.items))
+    return { items: [], nextCursor: null, hasMore: false };
+  return result;
+}
+
+export const listJoinRequests = async (id: string, cursor?: string) =>
+  normalizeCursorPage(
+    await apiGet<SpaceJoinRequestPage | SpaceJoinRequest[]>(
+      `spaces/${id}/join-requests${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ""}`,
+    ),
   );
-export const listIncomingJoinRequests = (cursor?: string) =>
-  apiGet<IncomingSpaceJoinRequestPage>(
+export const listIncomingJoinRequests = async (cursor?: string) => {
+  const result = await apiGet<
+    IncomingSpaceJoinRequestPage | IncomingSpaceJoinRequest[]
+  >(
     `spaces/join-requests/incoming${cursor ? `?cursor=${encodeURIComponent(cursor)}` : ""}`,
   );
+  const page = normalizeCursorPage(result);
+  return {
+    ...page,
+    items: page.items.filter(
+      (item) =>
+        !!item &&
+        typeof item === "object" &&
+        !!item.request &&
+        typeof item.request.id === "string" &&
+        typeof item.spaceId === "string",
+    ),
+  };
+};
 export const requestJoin = (id: string) =>
   apiMutate<{ status: "PENDING" | "MEMBER"; requestedAt: number }>(
     `spaces/${id}/join-requests`,
@@ -237,10 +266,18 @@ export const cancelOwnershipTransfer = (id: string) =>
     undefined,
     "DELETE",
   );
-export const listIncomingOwnershipTransfers = () =>
-  apiGet<IncomingOwnershipTransfer[]>("spaces/ownership-transfers/incoming");
-export const listIncomingSpaceInvites = () =>
-  apiGet<IncomingSpaceInvite[]>("spaces/invitations/incoming");
+export const listIncomingOwnershipTransfers = async () => {
+  const result = await apiGet<IncomingOwnershipTransfer[] | unknown>(
+    "spaces/ownership-transfers/incoming",
+  );
+  return Array.isArray(result) ? (result as IncomingOwnershipTransfer[]) : [];
+};
+export const listIncomingSpaceInvites = async () => {
+  const result = await apiGet<IncomingSpaceInvite[] | unknown>(
+    "spaces/invitations/incoming",
+  );
+  return Array.isArray(result) ? (result as IncomingSpaceInvite[]) : [];
+};
 export const acceptSpaceInvite = (inviteId: string) =>
   apiMutate<Space>(`spaces/invitations/${encodeURIComponent(inviteId)}/accept`);
 export const declineSpaceInvite = (inviteId: string) =>

@@ -97,7 +97,9 @@ test("an owner can archive a space, restore it, and archived cards cannot be ent
 
   await archivedCard.getByRole("button", { name: `${room.name} 복원` }).click();
   await expect(archivedCard).toHaveCount(0);
-  await expect(page.getByRole("status")).toContainText("공간을 복원했어요.");
+  await expect(page.locator(".space-notice")).toContainText(
+    "공간을 복원했어요.",
+  );
   expect(mutations).toEqual([
     "/api/v1/spaces/archive-space/archive",
     "/api/v1/spaces/archive-space/restore",

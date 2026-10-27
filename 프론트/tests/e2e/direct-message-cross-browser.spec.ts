@@ -340,6 +340,8 @@ async function enterSpace(page: Page) {
   await expect(page.locator(".app-header .brand")).toHaveText(
     "GDG HUFS 훕스타운",
   );
+  const expandSidebar = page.getByRole("button", { name: "사이드바 펼치기" });
+  if (await expandSidebar.isVisible()) await expandSidebar.click();
 }
 
 test("DM delivery updates the other browser inbox and unread receipt", async ({

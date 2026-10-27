@@ -692,6 +692,9 @@ async function join(
   previewIdentity = "",
   waitForMediaReady = true,
 ) {
+  await page.addInitScript(() =>
+    localStorage.setItem("hufs-town.sidebar-collapsed.v2", "false"),
+  );
   const seen: {
     media?: MediaState;
     recording?: RoomRecordingState;
@@ -2246,6 +2249,12 @@ test("a locked private room admits a guest only after the host approves their kn
 test("recording waits for every consent and finalizes a playable file containing only the selected source", async ({
   browser,
 }, testInfo) => {
+  test.skip(
+    !/^[a-f0-9]{12,64}$/i.test(
+      process.env.TOWN_E2E_MEDIA_CONTAINER ?? "",
+    ),
+    "Recording verification requires a media Docker container.",
+  );
   test.setTimeout(180_000);
   recordingContainer();
   const contexts = await Promise.all(

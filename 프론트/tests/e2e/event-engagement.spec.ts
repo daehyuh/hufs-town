@@ -16,6 +16,9 @@ async function expectAccessible(page: Page, view: string) {
 }
 
 async function joinEventPreview(page: Page, name: string, language = "ko") {
+  await page.addInitScript(() =>
+    localStorage.setItem("hufs-town.sidebar-collapsed.v2", "false"),
+  );
   if (language === "en")
     await page.addInitScript(() => localStorage.setItem("hufs.language", "en"));
   await page.goto("/");

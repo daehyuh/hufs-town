@@ -122,6 +122,10 @@ for (const language of ["ko", "en"] as const) {
   test(`${language} room reservation validation stays localized`, async ({
     page,
   }) => {
+    test.skip(
+      process.env.TOWN_E2E_ROOM_EXTRAS !== "true",
+      "Room reservation extras are intentionally disabled by default.",
+    );
     const labels =
       language === "ko"
         ? {

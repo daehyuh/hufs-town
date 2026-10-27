@@ -410,7 +410,7 @@ button:hover:not(:disabled) {
   gap: 3px;
 }
 .join-appearance-tab-copy small {
-  color: #718064;
+  color: #59684f;
   font-size: 10px;
 }
 .join-appearance-tab-copy strong {
@@ -3645,6 +3645,9 @@ kbd {
   .join-appearance-tab {
     min-height: 54px;
     padding: 5px 6px;
+  }
+  .join-body-shape select {
+    font-size: 16px;
   }
   .join-appearance-options {
     grid-template-columns: repeat(4, minmax(0, 1fr));

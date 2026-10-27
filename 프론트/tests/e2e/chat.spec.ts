@@ -8,6 +8,9 @@ type ChatEvent = {
 };
 
 async function join(page: Page, name: string) {
+  await page.addInitScript(() =>
+    localStorage.setItem("hufs-town.sidebar-collapsed.v2", "false"),
+  );
   const events: ChatEvent[] = [];
   page.on("websocket", (socket) =>
     socket.on("framereceived", (frame) => {

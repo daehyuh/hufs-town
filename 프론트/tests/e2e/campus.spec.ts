@@ -15,6 +15,9 @@ declare global {
 }
 
 async function join(page: Page, name: string, avatar = "아바타 1") {
+  await page.addInitScript(() =>
+    localStorage.setItem("hufs-town.sidebar-collapsed.v2", "false"),
+  );
   const seen: {
     welcome?: Welcome;
     welcomes: Welcome[];

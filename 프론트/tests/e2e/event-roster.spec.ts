@@ -13,6 +13,9 @@ async function join(
   enableEventTools = false,
 ): Promise<Seen> {
   const seen: Seen = { errors: [] };
+  await page.addInitScript(() =>
+    localStorage.setItem("hufs-town.sidebar-collapsed.v2", "false"),
+  );
   page.on("pageerror", (error) => seen.errors.push(error.message));
   page.on("websocket", (socket) =>
     socket.on("framereceived", (frame) => {

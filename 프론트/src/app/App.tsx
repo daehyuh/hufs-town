@@ -1305,7 +1305,7 @@ function JoinForm({
       <div className="join-appearance-picker">
         <div
           className="join-appearance-tabs"
-          aria-label={t("join.avatarCaption")}
+          aria-label={`${t("join.skin")}, ${t("join.hair")}, ${t("join.clothing")}`}
         >
           {(["skin", "clothing", "hair"] as const).map((part) => {
             const value = appearance[part];

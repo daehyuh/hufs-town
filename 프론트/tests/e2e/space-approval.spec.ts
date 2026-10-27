@@ -202,6 +202,18 @@ test("an approved requester sees entry become available after the next refresh",
           hasNext: false,
           hasPrevious: false,
         };
+      } else if (
+        path === `/api/v1/spaces/${room.id}` &&
+        networkRequest.method() === "GET"
+      ) {
+        body =
+          role === "owner"
+            ? room
+            : {
+                ...room,
+                role: approved ? "MEMBER" : "",
+                joinRequestStatus: joinStatus,
+              };
       } else if (path.endsWith("/ownership-transfers/incoming")) {
         body = [];
       } else if (
@@ -267,20 +279,19 @@ test("an approved requester sees entry become available after the next refresh",
   const applicantRefresh = applicantPage.waitForResponse((response) => {
     const request = response.request();
     return (
-      new URL(response.url()).pathname === "/api/v1/spaces" &&
+      new URL(response.url()).pathname === `/api/v1/spaces/${room.id}` &&
       request.method() === "GET"
     );
   });
   await applicantPage.clock.runFor(10_000);
   const response = await applicantRefresh;
-  const refreshed = (await response.json()) as {
-    items: Array<{ role: string }>;
-  };
-  expect(refreshed.items[0]?.role).toBe("MEMBER");
+  const refreshed = (await response.json()) as { role: string };
+  expect(refreshed.role).toBe("MEMBER");
+  const joinDialog = applicantPage.getByRole("dialog", { name: room.name });
+  await expect(joinDialog).toBeVisible();
   await expect(
-    applicantCard.getByRole("button", { name: "입장하기" }),
+    joinDialog.getByRole("button", { name: "캠퍼스 입장하기" }),
   ).toBeEnabled();
-  await expect(applicantCard).toContainText("승인제 공간");
   await ownerPage.close();
 });
 
@@ -303,25 +314,34 @@ test("a rejected requester can ask again and enter after the next approval", asy
       expect(networkRequest.headers()["x-csrf-token"]).toBe("test-csrf");
 
     if (path === "/api/v1/spaces" && networkRequest.method() === "GET") {
+      body = {
+        items: [
+          {
+            ...room,
+            role: approved ? "MEMBER" : "",
+            joinRequestStatus: joinStatus,
+          },
+        ],
+        page: 1,
+        pageSize: 12,
+        totalItems: 1,
+        totalPages: 1,
+        hasNext: false,
+        hasPrevious: false,
+      };
+    } else if (
+      path === `/api/v1/spaces/${room.id}` &&
+      networkRequest.method() === "GET"
+    ) {
       if (failNextSpacesRead) {
         failNextSpacesRead = false;
         status = 503;
         body = { message: "임시 연결 오류" };
       } else {
         body = {
-          items: [
-            {
-              ...room,
-              role: approved ? "MEMBER" : "",
-              joinRequestStatus: joinStatus,
-            },
-          ],
-          page: 1,
-          pageSize: 12,
-          totalItems: 1,
-          totalPages: 1,
-          hasNext: false,
-          hasPrevious: false,
+          ...room,
+          role: approved ? "MEMBER" : "",
+          joinRequestStatus: joinStatus,
         };
       }
     } else if (path.endsWith("/ownership-transfers/incoming")) {

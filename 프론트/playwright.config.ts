@@ -8,6 +8,20 @@ export default defineConfig({
   use: {
     baseURL,
     viewport: { width: 1440, height: 900 },
+    storageState: {
+      cookies: [],
+      origins: [
+        {
+          origin: new URL(baseURL).origin,
+          localStorage: [
+            {
+              name: "hufs-town.sidebar-collapsed.v2",
+              value: "false",
+            },
+          ],
+        },
+      ],
+    },
     screenshot: "only-on-failure",
     trace: "retain-on-failure",
     launchOptions:

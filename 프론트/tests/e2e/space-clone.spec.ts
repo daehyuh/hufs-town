@@ -145,7 +145,7 @@ test("an owner clones a space by name and sees the private clone in Mine", async
     visibility: "PRIVATE",
     role: "OWNER",
   });
-  await expect(page.getByRole("status")).toContainText(
+  await expect(page.locator(".space-notice")).toContainText(
     "공간을 복제했어요. 내 공간에서 확인할 수 있어요.",
   );
 });

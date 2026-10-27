@@ -8,6 +8,7 @@ type Probe = {
 async function joinOnMap(page: Page, name: string, mapId: string) {
   await page.addInitScript(
     ({ initialMapId, profileName }) => {
+      localStorage.setItem("hufs-town.sidebar-collapsed.v2", "false");
       localStorage.setItem(
         "hufs-town.preview-profile",
         JSON.stringify({

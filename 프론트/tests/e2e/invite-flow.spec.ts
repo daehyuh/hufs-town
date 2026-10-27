@@ -481,9 +481,11 @@ test("accepts and declines account-targeted invitations from the space inbox", a
 
   const acceptCard = inbox.getByRole("article").filter({ hasText: space.name });
   await acceptCard.getByRole("button", { name: "수락" }).click();
-  await expect(page.locator(".space-notice")).toContainText(
-    "도서관 스터디룸 공간에 참여했어요.",
-  );
+  const entryDialog = page.getByRole("dialog", { name: space.name });
+  await expect(entryDialog).toBeVisible();
+  await expect(
+    entryDialog.getByRole("button", { name: "캠퍼스 입장하기" }),
+  ).toBeEnabled();
   await expect(inbox.getByRole("article")).toHaveCount(0);
   await expect(
     page.getByRole("article").filter({ hasText: space.name }),

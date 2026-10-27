@@ -64,6 +64,14 @@ test("an owner rejection clears the queue and lets the requester ask again", asy
           hasNext: false,
           hasPrevious: false,
         };
+      } else if (
+        path === `/api/v1/spaces/${space.id}` &&
+        networkRequest.method() === "GET"
+      ) {
+        body =
+          role === "owner"
+            ? space
+            : { ...space, role: "", joinRequestStatus: joinStatus };
       } else if (path.endsWith("/ownership-transfers/incoming")) {
         body = [];
       } else if (
