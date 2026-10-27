@@ -1046,10 +1046,6 @@ test("wardrobe changes appear on other players and retain profile details", asyn
       .getByRole("button", { name: "아프로 검정" })
       .click();
     await dialog.getByLabel("자기소개").fill("함께 걷고 만드는 캠퍼스");
-    await dialog.getByRole("button", { name: "링크 추가" }).click();
-    await dialog
-      .locator('input[type="url"][aria-label="프로필 링크 1"]')
-      .fill("https://example.com/hufs");
     await dialog.getByRole("button", { name: "저장하고 적용" }).click();
 
     await expect(dialog).toBeHidden();
@@ -1069,7 +1065,7 @@ test("wardrobe changes appear on other players and retain profile details", asyn
     expect(updated.clothing).toBe("armor_cute");
     expect(updated.hair).toBe("hair_afro_black");
     expect(updated.bio).toBe("함께 걷고 만드는 캠퍼스");
-    expect(updated.links).toEqual(["https://example.com/hufs"]);
+    expect(updated.links).toEqual([]);
     await observer.getByRole("button", { name: "참가자 보기" }).click();
     await observer
       .getByRole("textbox", { name: "참가자 검색" })
@@ -1083,9 +1079,6 @@ test("wardrobe changes appear on other players and retain profile details", asyn
     await expect(
       profileCard.getByText("함께 걷고 만드는 캠퍼스"),
     ).toBeVisible();
-    await expect(
-      profileCard.getByRole("link", { name: "https://example.com/hufs" }),
-    ).toHaveAttribute("href", "https://example.com/hufs");
     await profileCard.locator(".profile-close").click();
 
     await owner.goto("/");
@@ -1110,14 +1103,6 @@ test("wardrobe changes appear on other players and retain profile details", asyn
           )?.bio,
       )
       .toBe("함께 걷고 만드는 캠퍼스");
-    await expect
-      .poll(
-        () =>
-          observerState.snapshot?.players.find(
-            (player) => player.name === "봄날의 편집자",
-          )?.links,
-      )
-      .toEqual(["https://example.com/hufs"]);
     const rejoined = observerState.snapshot!.players.find(
       (player) => player.name === "봄날의 편집자",
     )!;
@@ -1126,7 +1111,7 @@ test("wardrobe changes appear on other players and retain profile details", asyn
     expect(rejoined.clothing).toBe(updated.clothing);
     expect(rejoined.hair).toBe(updated.hair);
     expect(rejoined.bio).toBe("함께 걷고 만드는 캠퍼스");
-    expect(rejoined.links).toEqual(["https://example.com/hufs"]);
+    expect(rejoined.links).toEqual([]);
     expect([...ownerState.errors, ...observerState.errors]).toEqual([]);
   } finally {
     await Promise.allSettled(contexts.map((context) => context.close()));

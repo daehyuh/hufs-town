@@ -135,7 +135,7 @@ test("event Q&A and polls stay localized for an English host and attendee", asyn
     await host.getByRole("button", { name: "Close poll" }).click();
     await expect(attendee.locator(".event-poll")).toContainText("Closed");
   } finally {
-    await Promise.all(contexts.map((context) => context.close()));
+    await Promise.allSettled(contexts.map((context) => context.close()));
   }
 });
 

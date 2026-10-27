@@ -181,6 +181,6 @@ test("event roster shows all participants and managers can grant a raised hand",
     expect(manager.errors).toEqual([]);
     expect(participant.errors).toEqual([]);
   } finally {
-    await Promise.all(contexts.map((context) => context.close()));
+    await Promise.allSettled(contexts.map((context) => context.close()));
   }
 });
