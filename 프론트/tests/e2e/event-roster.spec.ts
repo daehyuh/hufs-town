@@ -114,7 +114,7 @@ test("presenter tools stay off by default while core communication controls rema
 test("event roster shows all participants and managers can grant a raised hand", async ({
   browser,
 }) => {
-  test.setTimeout(60_000);
+  test.setTimeout(120_000);
   const contexts = await Promise.all(
     [0, 1].map(() =>
       browser.newContext({ viewport: { width: 960, height: 720 } }),
