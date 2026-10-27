@@ -91,4 +91,5 @@ await writeFile(path.join(out, 'catalog.json'), JSON.stringify({ use: 'local-dev
 console.log(`${manifest.length} source files catalogued; ${Object.keys(selected).length} assets copied. Distribution rights unverified.`);
 await import('./create-office-assets.mjs');
 await import('./create-sample-map.mjs');
+await import('./create-large-campus-map.mjs');
 await import('./create-space-templates.mjs');

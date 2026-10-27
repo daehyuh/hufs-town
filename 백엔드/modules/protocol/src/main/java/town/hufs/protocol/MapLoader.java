@@ -8,12 +8,16 @@ public final class MapLoader {
     public static MapDefinition campus() {
         return load("campus-map.json");
     }
+    public static MapDefinition largeCampus() {
+        return load("large-campus-map.json");
+    }
     public static MapDefinition template(String id) {
         return switch (id) {
             case "OFFICE" -> campus();
             case "CAMPUS_SQUARE" -> load("campus-square-map.json");
             case "STUDY_SPACE" -> load("study-space-map.json");
             case "MEETUP_HALL" -> load("meetup-hall-map.json");
+            case "LARGE_CAMPUS" -> largeCampus();
             default -> throw new IllegalArgumentException("Unknown space map template");
         };
     }
