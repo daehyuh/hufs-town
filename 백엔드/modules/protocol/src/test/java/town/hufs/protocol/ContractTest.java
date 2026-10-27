@@ -12,7 +12,7 @@ class ContractTest {
         assertThat(move.dx()).isEqualTo(0.5);
         assertThat(move.dy()).isEqualTo(-0.125);
         assertThat(MapLoader.campus().schemaVersion()).isEqualTo(2);
-        assertThat(MapLoader.campus().revision()).isEqualTo("office-v2");
+        assertThat(MapLoader.campus().revision()).isEqualTo("office-v3");
         assertThat(MapLoader.campus().name()).isEqualTo("GDG HUFS 훕스타운");
         assertThat(MapLoader.campus().labels()).isEmpty();
         assertThat(OfficeCatalog.asset("desk-monitor").width()).isEqualTo(48);
