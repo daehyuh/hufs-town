@@ -687,7 +687,7 @@ export function MapEditor({
   }
   useEffect(() => {
     fit();
-  }, [map?.id, map?.width, map?.height]);
+  }, [map?.id]);
   function remove() {
     if (!map || !writable) return;
     const removable = selected.filter(

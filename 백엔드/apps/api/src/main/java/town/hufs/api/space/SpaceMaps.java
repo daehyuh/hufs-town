@@ -391,6 +391,7 @@ class SpaceMaps {
                 if(value==null)throw invalidEdit();
                 if(field.equals("name")){if(!value.isTextual()||value.asText().isBlank()||value.asText().length()>60)throw invalidEdit();}
                 else if(field.equals("spawnX")||field.equals("spawnY")){if(!value.isNumber()||!Double.isFinite(value.doubleValue()))throw invalidEdit();}
+                else if(field.equals("width")||field.equals("height")){if(!value.isIntegralNumber()||value.longValue()<16||value.longValue()>96)throw invalidEdit();}
                 else throw invalidEdit();
             }else throw invalidEdit();
         }
@@ -443,7 +444,7 @@ class SpaceMaps {
     private MapDefinition applyActions(MapDefinition source,ArrayNode actions){
         var objects=new ArrayList<>(source.objects());var floors=new ArrayList<>(source.floors());var walls=new ArrayList<>(source.walls());
         var zones=new ArrayList<>(source.zones());var labels=new ArrayList<>(source.labels());var portals=new ArrayList<>(source.portals()==null?List.<Portal>of():source.portals());
-        String name=source.name();double spawnX=source.spawnX(),spawnY=source.spawnY();
+        String name=source.name();double spawnX=source.spawnX(),spawnY=source.spawnY();long width=source.width(),height=source.height();
         for(JsonNode action:actions){
             String kind=action.path("kind").asText(),collection=action.path("collection").asText();
             if(kind.equals("MAP_FIELD_SET")){
@@ -451,6 +452,8 @@ class SpaceMaps {
                     case "name"->name=action.path("value").asText();
                     case "spawnX"->spawnX=action.path("value").doubleValue();
                     case "spawnY"->spawnY=action.path("value").doubleValue();
+                    case "width"->width=action.path("value").longValue();
+                    case "height"->height=action.path("value").longValue();
                     default->throw invalidEdit();
                 }
                 continue;
@@ -498,7 +501,7 @@ class SpaceMaps {
                 default->throw invalidEdit();
             }
         }
-        return new MapDefinition(source.schemaVersion(),source.id(),source.revision(),name,source.width(),source.height(),spawnX,spawnY,source.collisions(),objects,zones,floors,walls,labels,portals);
+        return new MapDefinition(source.schemaVersion(),source.id(),source.revision(),name,width,height,spawnX,spawnY,source.collisions(),objects,zones,floors,walls,labels,portals);
     }
     private <T> T convert(JsonNode value,Class<T> type){try{return json.treeToValue(value,type);}catch(Exception e){throw invalidEdit();}}
     private static <T> int index(List<T> values,String id,java.util.function.Function<T,String> idOf){for(int i=0;i<values.size();i++)if(Objects.equals(idOf.apply(values.get(i)),id))return i;return -1;}
@@ -533,7 +536,7 @@ class SpaceMaps {
                 String after=previousId(source,collection,id,Set.of());if(after==null)inverse.putNull("afterId");else inverse.put("afterId",after);
             }else{
                 String field=action.path("field").asText();inverse.put("kind","MAP_FIELD_SET");inverse.put("field",field);
-                inverse.set("value",switch(field){case "name"->json.valueToTree(source.name());case "spawnX"->json.valueToTree(source.spawnX());case "spawnY"->json.valueToTree(source.spawnY());default->throw invalidEdit();});
+                inverse.set("value",switch(field){case "name"->json.valueToTree(source.name());case "spawnX"->json.valueToTree(source.spawnX());case "spawnY"->json.valueToTree(source.spawnY());case "width"->json.valueToTree(source.width());case "height"->json.valueToTree(source.height());default->throw invalidEdit();});
             }
             inverses.add(inverse);
         }

@@ -94,7 +94,11 @@ export type MapEditAction =
       afterId: string | null;
     }
   | { kind: "MAP_FIELD_SET"; field: "name"; value: string }
-  | { kind: "MAP_FIELD_SET"; field: "spawnX" | "spawnY"; value: number };
+  | {
+      kind: "MAP_FIELD_SET";
+      field: "spawnX" | "spawnY" | "width" | "height";
+      value: number;
+    };
 export interface MapEditOperationEvent {
   mapId: string;
   sequence: number;

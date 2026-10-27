@@ -274,7 +274,7 @@ export class CampusScene extends Phaser.Scene {
     );
     this.cameras.main.centerOn(
       this.map.spawnX * TILE,
-      this.map.spawnY * TILE - 90,
+      this.map.spawnY * TILE,
     );
     this.scale.on(Phaser.Scale.Events.RESIZE, this.onScaleResize);
     this.cameras.main.setBackgroundColor("#67796e");
@@ -1518,7 +1518,7 @@ export class CampusScene extends Phaser.Scene {
       if (self && this.focus) {
         const camera = this.cameras.main;
         const targetX = a.root.x - camera.width / 2;
-        const targetY = a.root.y - camera.height / 2 - 110;
+        const targetY = a.root.y - camera.height / 2;
         camera.scrollX += (targetX - camera.scrollX) * Math.min(delta / 120, 1);
         camera.scrollY += (targetY - camera.scrollY) * Math.min(delta / 120, 1);
       }

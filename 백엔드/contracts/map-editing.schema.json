@@ -68,7 +68,9 @@
         { "$ref": "#/$defs/ReorderEntity" },
         { "$ref": "#/$defs/SetMapName" },
         { "$ref": "#/$defs/SetSpawnX" },
-        { "$ref": "#/$defs/SetSpawnY" }
+        { "$ref": "#/$defs/SetSpawnY" },
+        { "$ref": "#/$defs/SetMapWidth" },
+        { "$ref": "#/$defs/SetMapHeight" }
       ]
     },
     "AddObject": {
@@ -270,6 +272,26 @@
         "kind": { "const": "MAP_FIELD_SET" },
         "field": { "const": "spawnY" },
         "value": { "type": "number" }
+      },
+      "required": ["kind", "field", "value"],
+      "additionalProperties": false
+    },
+    "SetMapWidth": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "MAP_FIELD_SET" },
+        "field": { "const": "width" },
+        "value": { "type": "integer", "minimum": 16, "maximum": 96 }
+      },
+      "required": ["kind", "field", "value"],
+      "additionalProperties": false
+    },
+    "SetMapHeight": {
+      "type": "object",
+      "properties": {
+        "kind": { "const": "MAP_FIELD_SET" },
+        "field": { "const": "height" },
+        "value": { "type": "integer", "minimum": 16, "maximum": 96 }
       },
       "required": ["kind", "field", "value"],
       "additionalProperties": false

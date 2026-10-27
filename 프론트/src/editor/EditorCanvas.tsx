@@ -1,4 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import { createUuid } from "../ids";
 import type { MapDefinition, MapObject, Rect } from "../generated/protocol";
 import {
@@ -34,6 +39,15 @@ export type RemoteSelection = {
   displayName: string;
   color: string;
   selection: Selection[];
+};
+type CanvasResizeAxis = "width" | "height" | "both";
+type CanvasResizeDrag = {
+  axis: CanvasResizeAxis;
+  pointerId: number;
+  startX: number;
+  startY: number;
+  startWidth: number;
+  startHeight: number;
 };
 const selectionLayerKeys: Record<Selection["kind"], TranslationKey> = {
   objects: "editor.properties.layer.objects",
@@ -157,6 +171,10 @@ export function EditorCanvas({
     t("editor.canvas.error.layerLocked", { layer: layerName(kind) });
   const canvas = useRef<HTMLCanvasElement>(null),
     images = useRef<Map<string, HTMLImageElement>>(new Map());
+  const canvasResize = useRef<CanvasResizeDrag | null>(null),
+    [resizePreview, setResizePreview] = useState<
+      { width: number; height: number } | undefined
+    >();
   const assetIds = [
     ...new Set([...map.objects.map((object) => object.asset), options.asset]),
   ];
@@ -1041,59 +1059,222 @@ export function EditorCanvas({
       }),
     );
   }
+  function startCanvasResize(
+    axis: CanvasResizeAxis,
+    event: ReactPointerEvent<HTMLButtonElement>,
+  ) {
+    if (!writable || !event.isPrimary || event.button !== 0) return;
+    event.preventDefault();
+    event.stopPropagation();
+    event.currentTarget.setPointerCapture(event.pointerId);
+    canvasResize.current = {
+      axis,
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      startWidth: map.width,
+      startHeight: map.height,
+    };
+    setResizePreview({ width: map.width, height: map.height });
+  }
+  function canvasResizeAt(event: ReactPointerEvent<HTMLButtonElement>) {
+    const active = canvasResize.current;
+    if (!active || active.pointerId !== event.pointerId) return undefined;
+    const tileSize = TILE * options.zoom;
+    return {
+      width:
+        active.axis === "height"
+          ? active.startWidth
+          : Math.min(
+              96,
+              Math.max(
+                active.startWidth,
+                Math.round(
+                  active.startWidth + (event.clientX - active.startX) / tileSize,
+                ),
+              ),
+            ),
+      height:
+        active.axis === "width"
+          ? active.startHeight
+          : Math.min(
+              96,
+              Math.max(
+                active.startHeight,
+                Math.round(
+                  active.startHeight + (event.clientY - active.startY) / tileSize,
+                ),
+              ),
+            ),
+    };
+  }
+  function moveCanvasResize(event: ReactPointerEvent<HTMLButtonElement>) {
+    const size = canvasResizeAt(event);
+    if (size) setResizePreview(size);
+  }
+  function finishCanvasResize(
+    event: ReactPointerEvent<HTMLButtonElement>,
+    commit: boolean,
+  ) {
+    const size = canvasResizeAt(event);
+    canvasResize.current = null;
+    setResizePreview(undefined);
+    if (commit && size) {
+      edit((current) => ({
+        ...current,
+        width: Math.max(current.width, size.width),
+        height: Math.max(current.height, size.height),
+      }));
+    }
+  }
+  function resizeWithKeyboard(axis: CanvasResizeAxis, key: string) {
+    if (!writable) return;
+    if (axis !== "height" && key === "ArrowRight")
+      edit((current) => ({ ...current, width: Math.min(96, current.width + 1) }));
+    if (axis !== "width" && key === "ArrowDown")
+      edit((current) => ({ ...current, height: Math.min(96, current.height + 1) }));
+  }
   return (
     <div className="editor-canvas-wrap">
       <p id="map-canvas-keyboard-help" className="sr-only">
         {t("editor.canvas.help")}
       </p>
-      <canvas
-        ref={canvas}
-        width={map.width * TILE}
-        height={map.height * TILE}
+      <div
+        className="editor-canvas-stage"
         style={{
-          width: map.width * TILE * options.zoom,
-          height: map.height * TILE * options.zoom,
-          cursor: options.tool === "select" ? "default" : "crosshair",
+          width: (resizePreview?.width ?? map.width) * TILE * options.zoom,
+          height: (resizePreview?.height ?? map.height) * TILE * options.zoom,
         }}
-        tabIndex={0}
-        role="application"
-        id="map-editor-canvas"
-        aria-label={t("editor.canvas.aria")}
-        aria-describedby="map-canvas-keyboard-help"
-        data-testid="map-editor-canvas"
-        onFocus={() => setCanvasFocused(true)}
-        onBlur={() => setCanvasFocused(false)}
-        onKeyDown={handleCanvasKeyDown}
-        onPointerDown={down}
-        onPointerMove={(event) => {
-          const p = point(event);
-          setHover(p);
-          if (drag.current) {
-            if (drag.current.brushCells && options.tool === "brush") {
-              addBrushCells(
-                drag.current.brushCells,
-                drag.current.end,
-                p,
-                map.width,
-                map.height,
-              );
+      >
+        {resizePreview && resizePreview.width > map.width && (
+          <div
+            className="editor-canvas-preview-area"
+            style={{
+              left: map.width * TILE * options.zoom,
+              top: 0,
+              width: (resizePreview.width - map.width) * TILE * options.zoom,
+              height: map.height * TILE * options.zoom,
+              backgroundSize: `${TILE * options.zoom}px ${TILE * options.zoom}px`,
+            }}
+          />
+        )}
+        {resizePreview && resizePreview.height > map.height && (
+          <div
+            className="editor-canvas-preview-area"
+            style={{
+              left: 0,
+              top: map.height * TILE * options.zoom,
+              width: resizePreview.width * TILE * options.zoom,
+              height: (resizePreview.height - map.height) * TILE * options.zoom,
+              backgroundSize: `${TILE * options.zoom}px ${TILE * options.zoom}px`,
+            }}
+          />
+        )}
+        <canvas
+          ref={canvas}
+          width={map.width * TILE}
+          height={map.height * TILE}
+          style={{
+            width: map.width * TILE * options.zoom,
+            height: map.height * TILE * options.zoom,
+            cursor: options.tool === "select" ? "default" : "crosshair",
+          }}
+          tabIndex={0}
+          role="application"
+          id="map-editor-canvas"
+          aria-label={t("editor.canvas.aria")}
+          aria-describedby="map-canvas-keyboard-help"
+          data-testid="map-editor-canvas"
+          onFocus={() => setCanvasFocused(true)}
+          onBlur={() => setCanvasFocused(false)}
+          onKeyDown={handleCanvasKeyDown}
+          onPointerDown={down}
+          onPointerMove={(event) => {
+            const p = point(event);
+            setHover(p);
+            if (drag.current) {
+              if (drag.current.brushCells && options.tool === "brush") {
+                addBrushCells(
+                  drag.current.brushCells,
+                  drag.current.end,
+                  p,
+                  map.width,
+                  map.height,
+                );
+              }
+              drag.current.end = p;
+              drag.current.moved =
+                drag.current.moved ||
+                p.x !== drag.current.start.x ||
+                p.y !== drag.current.start.y;
             }
-            drag.current.end = p;
-            drag.current.moved =
-              drag.current.moved ||
-              p.x !== drag.current.start.x ||
-              p.y !== drag.current.start.y;
-          }
-        }}
-        onPointerUp={up}
-        onPointerCancel={() => {
-          drag.current = undefined;
-          redraw((n) => n + 1);
-        }}
-        onPointerLeave={() => {
-          if (!drag.current) setHover(undefined);
-        }}
-      />
+          }}
+          onPointerUp={up}
+          onPointerCancel={() => {
+            drag.current = undefined;
+            redraw((n) => n + 1);
+          }}
+          onPointerLeave={() => {
+            if (!drag.current) setHover(undefined);
+          }}
+        />
+        {writable && (
+          <>
+            <button
+              type="button"
+              className="editor-canvas-resize-handle editor-canvas-resize-east"
+              role="separator"
+              aria-orientation="vertical"
+              aria-valuemin={map.width}
+              aria-valuemax={96}
+              aria-valuenow={resizePreview?.width ?? map.width}
+              aria-label={t("editor.canvas.resizeWidth")}
+              title={t("editor.canvas.resizeWidth")}
+              disabled={map.width >= 96}
+              onPointerDown={(event) => startCanvasResize("width", event)}
+              onPointerMove={moveCanvasResize}
+              onPointerUp={(event) => finishCanvasResize(event, true)}
+              onPointerCancel={(event) => finishCanvasResize(event, false)}
+              onKeyDown={(event) => resizeWithKeyboard("width", event.key)}
+            >
+              <span aria-hidden="true">⋮</span>
+            </button>
+            <button
+              type="button"
+              className="editor-canvas-resize-handle editor-canvas-resize-south"
+              role="separator"
+              aria-orientation="horizontal"
+              aria-valuemin={map.height}
+              aria-valuemax={96}
+              aria-valuenow={resizePreview?.height ?? map.height}
+              aria-label={t("editor.canvas.resizeHeight")}
+              title={t("editor.canvas.resizeHeight")}
+              disabled={map.height >= 96}
+              onPointerDown={(event) => startCanvasResize("height", event)}
+              onPointerMove={moveCanvasResize}
+              onPointerUp={(event) => finishCanvasResize(event, true)}
+              onPointerCancel={(event) => finishCanvasResize(event, false)}
+              onKeyDown={(event) => resizeWithKeyboard("height", event.key)}
+            >
+              <span aria-hidden="true">⋯</span>
+            </button>
+            <button
+              type="button"
+              className="editor-canvas-resize-handle editor-canvas-resize-corner"
+              aria-label={t("editor.canvas.resizeBoth")}
+              title={t("editor.canvas.resizeBoth")}
+              disabled={map.width >= 96 && map.height >= 96}
+              onPointerDown={(event) => startCanvasResize("both", event)}
+              onPointerMove={moveCanvasResize}
+              onPointerUp={(event) => finishCanvasResize(event, true)}
+              onPointerCancel={(event) => finishCanvasResize(event, false)}
+              onKeyDown={(event) => resizeWithKeyboard("both", event.key)}
+            >
+              <span aria-hidden="true">↘</span>
+            </button>
+          </>
+        )}
+      </div>
       <div className="editor-coordinate">
         {canvasFocused
           ? t("editor.canvas.cursor", {
@@ -1105,7 +1286,11 @@ export function EditorCanvas({
             : options.snapToGrid
               ? t("editor.canvas.snap")
               : t("editor.canvas.precision")}{" "}
-        · {formatCount(map.width)} × {formatCount(map.height)}
+        · {formatCount(resizePreview?.width ?? map.width)} × {formatCount(resizePreview?.height ?? map.height)}
+        <br />
+        <span className="editor-canvas-preview-hint">
+          {t("editor.canvas.resizeHint")}
+        </span>
       </div>
       <p
         className="sr-only"

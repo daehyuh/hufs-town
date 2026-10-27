@@ -93,6 +93,18 @@ export function diffMap(
       field: "spawnY",
       value: after.spawnY,
     });
+  if (before.width !== after.width)
+    actions.push({
+      kind: "MAP_FIELD_SET",
+      field: "width",
+      value: after.width,
+    });
+  if (before.height !== after.height)
+    actions.push({
+      kind: "MAP_FIELD_SET",
+      field: "height",
+      value: after.height,
+    });
 
   for (const collection of collections) {
     const oldItems = entities(before, collection);
@@ -167,7 +179,9 @@ export function applyMapEditActions(
     if (action.kind === "MAP_FIELD_SET") {
       if (action.field === "name") map.name = action.value;
       else if (action.field === "spawnX") map.spawnX = action.value;
-      else map.spawnY = action.value;
+      else if (action.field === "spawnY") map.spawnY = action.value;
+      else if (action.field === "width") map.width = action.value;
+      else map.height = action.value;
       continue;
     }
     const items = entities(map, action.collection) as Array<MapEditEntity>;
