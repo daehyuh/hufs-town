@@ -84,7 +84,7 @@ class SpaceJoinRequestRetryIntegrationTest {
         assertThat(firstResponse.statusCode()).as(firstResponse.body()).isEqualTo(200);
         JsonNode first = json.readTree(firstResponse.body());
         assertThat(first.path("status").asText()).isEqualTo("PENDING");
-        JsonNode firstOwnerList = json.readTree(owner.get(requestPath).body());
+        JsonNode firstOwnerList = json.readTree(owner.get(requestPath).body()).path("items");
         assertThat(firstOwnerList).hasSize(1);
         String requestId = firstOwnerList.get(0).path("id").asText();
 
@@ -107,7 +107,7 @@ class SpaceJoinRequestRetryIntegrationTest {
         assertThat(duplicatePoll.path("status").asText()).isEqualTo("PENDING");
         assertThat(duplicatePoll.path("requestedAt").asLong()).isEqualTo(retried.path("requestedAt").asLong());
 
-        JsonNode retriedOwnerList = json.readTree(owner.get(requestPath).body());
+        JsonNode retriedOwnerList = json.readTree(owner.get(requestPath).body()).path("items");
         assertThat(retriedOwnerList).hasSize(1);
         assertThat(retriedOwnerList.get(0).path("userId").asText())
             .isEqualTo(json.readTree(requester.get("me").body()).path("userId").asText());

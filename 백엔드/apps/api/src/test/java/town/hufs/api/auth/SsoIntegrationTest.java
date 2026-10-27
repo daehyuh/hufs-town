@@ -317,6 +317,7 @@ class SsoIntegrationTest {
         registry.add("town.auth.cookie-secure", () -> false);
         registry.add("town.auth.sso.client-id", () -> "test-town");
         registry.add("town.auth.sso.client-secret", () -> "test-secret");
+        registry.add("town.features.room-extras.enabled", () -> true);
         registry.add("town.public-origin", () -> ORIGIN);
         registry.add("town.world.endpoints", () -> TEST_WORLD_ENDPOINTS);
         registry.add("town.moderation.admin-user-ids", () -> RETENTION_ADMIN_ID + "," + REPORT_ADMIN_ID);
@@ -3346,7 +3347,7 @@ class SsoIntegrationTest {
         assertThat(matchingDomain.get("/spaces/" + spaceId).statusCode()).isEqualTo(200);
         assertThat(matchingDomain.post("/spaces/" + spaceId + "/admission", Map.of()).statusCode()).isEqualTo(403);
         assertThat(matchingDomain.post("/spaces/" + spaceId + "/join-requests", Map.of()).statusCode()).isEqualTo(200);
-        JsonNode pending = json.readTree(owner.get("/spaces/" + spaceId + "/join-requests").body()).get(0);
+        JsonNode pending = json.readTree(owner.get("/spaces/" + spaceId + "/join-requests").body()).path("items").get(0);
         assertThat(owner.post("/spaces/" + spaceId + "/join-requests/" + pending.path("id").asText() + "/resolve",
             Map.of("decision", "APPROVE")).statusCode()).isEqualTo(200);
         assertThat(matchingDomain.post("/spaces/" + spaceId + "/admission", Map.of()).statusCode()).isEqualTo(200);

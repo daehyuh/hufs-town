@@ -2,6 +2,7 @@ package town.hufs.world;
 
 import com.fasterxml.jackson.databind.*;
 import org.junit.jupiter.api.*;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.socket.*;
 import town.hufs.auth.PublishedMaps;
 import town.hufs.auth.TownPrincipal;
@@ -57,6 +58,7 @@ class WorldRecordingTest {
         when(auth.map(anyString(), anyString())).thenAnswer(call -> published.get());
         when(auth.active(anyString(), any())).thenReturn(true);
         handler = new WorldHandler(auth, gateway);
+        ReflectionTestUtils.setField(handler, "roomExtrasEnabled", true);
 
         hostOutput = new LinkedBlockingQueue<>();
         hostSocket = socket("recording-host", "Host", hostOutput);

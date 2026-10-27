@@ -61,6 +61,7 @@ class RoomReservationsIntegrationTest {
         registry.add("town.auth.cookie-secure", () -> false);
         registry.add("town.auth.sso.client-id", () -> "test-town");
         registry.add("town.auth.sso.client-secret", () -> "test-secret");
+        registry.add("town.features.room-extras.enabled", () -> true);
         registry.add("town.public-origin", () -> "http://localhost:5173");
         registry.add("town.world.endpoints", () -> "wss://world-a.test/world/socket,wss://world-b.test/world/socket");
     }

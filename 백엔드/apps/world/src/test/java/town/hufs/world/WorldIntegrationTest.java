@@ -16,7 +16,7 @@ import java.util.concurrent.*;
 import java.util.function.Predicate;
 import static org.assertj.core.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {"town.auth.mode=preview", "spring.profiles.active=preview", "town.auth.preview-multimap-enabled=true", "town.allowed-origins=http://localhost:5173,http://100.87.52.42:5173"})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {"town.auth.mode=preview", "spring.profiles.active=preview", "town.auth.preview-multimap-enabled=true", "town.features.room-extras.enabled=true", "town.allowed-origins=http://localhost:5173,http://100.87.52.42:5173"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class WorldIntegrationTest {
     @LocalServerPort int port;

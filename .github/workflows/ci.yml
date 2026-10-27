@@ -59,6 +59,7 @@ jobs:
         if: failure()
         with:
           name: verification-failure
+          include-hidden-files: true
           path: |
             .build/backend/**/reports/
             프론트/test-results/
