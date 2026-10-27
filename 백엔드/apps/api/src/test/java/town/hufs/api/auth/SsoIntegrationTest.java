@@ -2873,8 +2873,12 @@ class SsoIntegrationTest {
                     WHERE space_id=? AND sender_user_id=? AND client_message_id=?
                     """, Integer.class, spaceId, senderId, clientMessageId)).isEqualTo(1);
 
-                String seatId = strings.opsForZSet().range("hufs-town:seats:" + spaceId, 0, -1)
-                    .stream().findFirst().orElseThrow();
+                String resumeAliasKey = "hufs-town:resume:" + spaceId + ":" + HexFormat.of().formatHex(
+                    java.security.MessageDigest.getInstance("SHA-256")
+                        .digest(resumeToken.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+                String resumeAlias = strings.opsForValue().get(resumeAliasKey);
+                assertThat(resumeAlias).isNotBlank();
+                String seatId = resumeAlias.substring(0, resumeAlias.indexOf('\n'));
                 String ownerKey = "hufs-town:seat-owner:" + spaceId + ":" + seatId;
                 assertThat(strings.opsForValue().get(ownerKey)).isNotBlank();
                 // Model a partitioned old world node that loses its owner lease while the browser reconnects elsewhere.
