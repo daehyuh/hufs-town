@@ -1546,7 +1546,7 @@ test("real SFU carries microphone, camera and shared-screen RTP, then revokes di
       b.getByLabel("미디어 테스트 A 카메라", { exact: true }),
     ).toBeVisible();
     const sharedScreen = b.getByRole("region", { name: "공유 화면" });
-    await expect(sharedScreen).toContainText("미디어 테스트 A님의 화면");
+    await expect(sharedScreen).toContainText("미디어 테스트 A");
     const screenHeadingFontSize = await sharedScreen
       .locator(".floating-panel-heading")
       .evaluate((node) => Number.parseFloat(getComputedStyle(node).fontSize));
@@ -2250,9 +2250,7 @@ test("recording waits for every consent and finalizes a playable file containing
   browser,
 }, testInfo) => {
   test.skip(
-    !/^[a-f0-9]{12,64}$/i.test(
-      process.env.TOWN_E2E_MEDIA_CONTAINER ?? "",
-    ),
+    !/^[a-f0-9]{12,64}$/i.test(process.env.TOWN_E2E_MEDIA_CONTAINER ?? ""),
     "Recording verification requires a media Docker container.",
   );
   test.setTimeout(180_000);

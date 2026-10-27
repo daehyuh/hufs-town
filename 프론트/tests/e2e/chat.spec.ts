@@ -9,7 +9,10 @@ type ChatEvent = {
 
 async function join(page: Page, name: string) {
   await page.addInitScript(() =>
-    localStorage.setItem("hufs-town.sidebar-collapsed.v2", "false"),
+    localStorage.setItem(
+      "hufs-town.sidebar-collapsed.v2",
+      window.innerWidth < 720 ? "true" : "false",
+    ),
   );
   const events: ChatEvent[] = [];
   page.on("websocket", (socket) =>
@@ -234,7 +237,7 @@ test("Enter opens map quick chat and sends to nearby people", async ({
   }
 });
 
-test("map quick chat fits beside the movement controls on a phone", async ({
+test("map quick chat stays compact beside the joystick on a phone", async ({
   browser,
 }) => {
   const context = await browser.newContext({
@@ -251,9 +254,9 @@ test("map quick chat fits beside the movement controls on a phone", async ({
     await expect(trigger).toBeVisible();
     const bounds = await trigger.boundingBox();
     expect(bounds).not.toBeNull();
-    expect(bounds!.width).toBeGreaterThanOrEqual(170);
+    expect(bounds!.width).toBe(48);
     expect(bounds!.height).toBeGreaterThanOrEqual(44);
-    expect(bounds!.x).toBeGreaterThanOrEqual(140);
+    expect(bounds!.x).toBeGreaterThanOrEqual(320);
     expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(390);
   } finally {
     await context.close();

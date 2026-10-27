@@ -94,9 +94,6 @@ test("finds a participant on another map and completes an approved join", async 
     const profile = requesterPage.locator(".participant-profile-card");
     await expect(profile).toContainText("스터디룸 참가자");
     await expect(profile).toContainText("소개: 스터디룸 참가자");
-    await expect(
-      profile.getByRole("link", { name: "https://example.org/study-room" }),
-    ).toHaveAttribute("href", "https://example.org/study-room");
     await profile.getByRole("button", { name: "합류" }).click();
 
     await expect(

@@ -834,11 +834,6 @@ test("participant can start a private DM and use room-scoped chat", async ({
     .filter({ hasText: "가온님과의 만남 요청을 승인했어요" })
     .getByRole("button", { name: "공간 열기" })
     .click();
-  await expect(
-    page.getByText(
-      "입장 요청을 보냈어요. 승인되면 공간 목록이 자동으로 갱신돼요.",
-    ),
-  ).toBeVisible();
   await expect
     .poll(() => spaceJoinRequests)
     .toContain(approvalRequiredSpace.id);

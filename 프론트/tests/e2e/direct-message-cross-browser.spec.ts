@@ -482,6 +482,7 @@ test("mobile DM supports keyboard send, usable touch targets, and accessible lay
 test("mobile friend management supports search and preferences accessibly", async ({
   browser,
 }) => {
+  test.setTimeout(75_000);
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
     isMobile: true,
@@ -550,7 +551,6 @@ test("mobile friend management supports search and preferences accessibly", asyn
     await page.getByRole("button", { name: "친구", exact: true }).click();
     const dialog = page.getByRole("dialog", { name: "친구" });
     await expect(dialog).toBeVisible();
-    await expect(dialog.getByText("친구 요청 받기")).toBeVisible();
 
     const search = dialog.getByRole("searchbox", { name: "친구 이름 검색" });
     await expect(search).toHaveCSS("font-size", "16px");
@@ -573,7 +573,22 @@ test("mobile friend management supports search and preferences accessibly", asyn
         body: { targetUserId: "friend-search-result" },
       });
 
-    const presence = dialog.getByRole("checkbox", {
+    const accessibility = await new AxeBuilder({ page })
+      .include("dialog.town-dialog")
+      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
+      .analyze();
+    expect(
+      accessibility.violations.map(({ id, nodes }) => ({
+        id,
+        targets: nodes.map((node) => node.target),
+      })),
+    ).toEqual([]);
+
+    await dialog.getByRole("button", { name: "닫기" }).click();
+    await page.getByRole("tab", { name: "설정" }).click();
+    const settings = page.getByRole("tabpanel", { name: "설정" });
+    await expect(settings.getByText("친구 요청 받기")).toBeVisible();
+    const presence = settings.getByRole("checkbox", {
       name: "친구에게 온라인 상태 공개",
     });
     await presence.check();
@@ -588,38 +603,29 @@ test("mobile friend management supports search and preferences accessibly", asyn
       )
       .toBe(true);
 
-    const accessibility = await new AxeBuilder({ page })
-      .include("dialog.town-dialog")
-      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
-      .analyze();
-    expect(
-      accessibility.violations.map(({ id, nodes }) => ({
-        id,
-        targets: nodes.map((node) => node.target),
-      })),
-    ).toEqual([]);
-
-    await dialog.getByRole("button", { name: "닫기" }).click();
     await page
       .locator(".app-header .language-picker select")
       .selectOption("en");
     await expect(page.locator("html")).toHaveAttribute("lang", "en");
-    await page.getByRole("button", { name: "Friends", exact: true }).click();
-    const englishDialog = page.getByRole("dialog", { name: "Friends" });
+    const englishSettings = page.getByRole("tabpanel", { name: "Settings" });
     await expect(
-      englishDialog.getByText("Allow friend requests"),
+      englishSettings.getByText("Allow friend requests"),
     ).toBeVisible();
-    const englishSearch = englishDialog.getByRole("searchbox", {
-      name: "Search friends by name",
-    });
-    await expect(englishSearch).toHaveCSS("font-size", "16px");
-    const englishPresence = englishDialog.getByRole("checkbox", {
+    const englishPresence = englishSettings.getByRole("checkbox", {
       name: "Share online status with friends",
     });
     await expect(englishPresence).toBeChecked();
     await expect(
-      englishDialog.getByText("Browser notifications for friend requests"),
+      englishSettings.getByText("Browser notifications for friend requests"),
     ).toBeVisible();
+
+    await page.getByRole("tab", { name: "Participants" }).click();
+    await page.getByRole("button", { name: "Friends", exact: true }).click();
+    const englishDialog = page.getByRole("dialog", { name: "Friends" });
+    const englishSearch = englishDialog.getByRole("searchbox", {
+      name: "Search friends by name",
+    });
+    await expect(englishSearch).toHaveCSS("font-size", "16px");
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= window.innerWidth,
@@ -636,6 +642,6 @@ test("mobile friend management supports search and preferences accessibly", asyn
       })),
     ).toEqual([]);
   } finally {
-    await context.close();
+    await context.close().catch(() => undefined);
   }
 });

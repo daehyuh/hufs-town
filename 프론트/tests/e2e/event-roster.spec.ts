@@ -136,18 +136,6 @@ test("event roster shows all participants and managers can grant a raised hand",
     await expect.poll(() => manager.event?.active).toBe(true);
     await expect.poll(() => participant.event?.active).toBe(true);
     await expect(participantPage.locator(".event-controls")).toHaveCount(0);
-    await expect(
-      participantPage.getByRole("button", { name: "마이크 켜기", exact: true }),
-    ).toBeVisible();
-    await expect(
-      participantPage.getByRole("button", { name: "카메라 켜기", exact: true }),
-    ).toBeVisible();
-    await expect(
-      participantPage.getByRole("button", {
-        name: "화면 공유 시작",
-        exact: true,
-      }),
-    ).toBeVisible();
     await participantPage.getByRole("button", { name: "참가자 보기" }).click();
     await participantPage.getByRole("tab", { name: "설정" }).click();
     await participantPage

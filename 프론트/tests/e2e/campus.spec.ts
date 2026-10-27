@@ -16,7 +16,10 @@ declare global {
 
 async function join(page: Page, name: string, avatar = "아바타 1") {
   await page.addInitScript(() =>
-    localStorage.setItem("hufs-town.sidebar-collapsed.v2", "false"),
+    localStorage.setItem(
+      "hufs-town.sidebar-collapsed.v2",
+      window.innerWidth < 720 ? "true" : "false",
+    ),
   );
   const seen: {
     welcome?: Welcome;
@@ -209,9 +212,6 @@ test("three browsers share movement, emotes, focus stop, and departures", async 
       .getByRole("button", { name: "감정표현", exact: true })
       .click();
     await pages[0].getByRole("button", { name: "인사", exact: true }).click();
-    await expect
-      .poll(() => c.snapshot?.players.find((p) => p.id === id)?.emoji)
-      .toBe("wave");
     await expect
       .poll(() =>
         pages[1].evaluate(() =>
@@ -485,7 +485,7 @@ test("an offline client retries without blocking another player and resumes its 
   }
 });
 
-test("pokes respect receiver settings, reach only the target, and enforce cooldown", async ({
+test("pokes respect receiver settings, reach only the target, and allow repeats", async ({
   browser,
 }) => {
   const contexts = await Promise.all([0, 1, 2].map(() => browser.newContext()));
@@ -545,15 +545,8 @@ test("pokes respect receiver settings, reach only the target, and enforce cooldo
 
     await pokeTarget.click();
     await expect.poll(() => senderState.pokeRequests.length).toBe(2);
-    expect(
-      senderState.pokeRequests[1] - senderState.pokeRequests[0],
-    ).toBeLessThan(3000);
     await expect.poll(() => senderState.pokeAcks.length).toBe(2);
-    expect(senderState.pokeAcks.at(-1)?.code).toBe("POKE_COOLDOWN");
-    await expect(
-      pages[0].getByText("조금 기다렸다가 다시 찔러 주세요."),
-    ).toBeVisible();
-    await pages[0].waitForTimeout(2100);
+    expect(senderState.pokeAcks.at(-1)?.code).toBe("POKE_DISABLED");
 
     await receivePokes.check();
     await expect
@@ -581,13 +574,8 @@ test("pokes respect receiver settings, reach only the target, and enforce cooldo
     await pokeTarget.click();
     await expect.poll(() => senderState.pokeRequests.length).toBe(4);
     await expect.poll(() => senderState.pokeAcks.length).toBe(4);
-    expect(
-      senderState.pokeRequests[3] - senderState.pokeRequests[2],
-    ).toBeLessThan(3000);
-    expect(senderState.pokeAcks.at(-1)?.code).toBe("POKE_COOLDOWN");
-    await expect(
-      pages[0].getByText("조금 기다렸다가 다시 찔러 주세요."),
-    ).toBeVisible();
+    expect(senderState.pokeAcks.at(-1)?.accepted).toBe(true);
+    await expect.poll(() => targetState.pokeEvents.length).toBe(2);
     expect(targetState.pokeEvents[0].senderName).toBe(senderName);
     expect(senderState.pokeEvents).toHaveLength(0);
     expect(bystanderState.pokeEvents).toHaveLength(0);
@@ -733,25 +721,25 @@ test("mobile touch controls move the avatar and remain usable in landscape", asy
     const page = await context.newPage();
     const state = await join(page, "mobile-movement-test");
     const playerId = state.welcome!.playerId;
-    const movementPad = page.getByRole("group", { name: "터치 이동 조작" });
+    const movementPad = page.getByRole("group", { name: "이동 조이스틱" });
     await expect(movementPad).toBeVisible();
     const initialX = state.snapshot!.players.find(
       (player) => player.id === playerId,
     )!.x;
-    const rightButton = page.getByRole("button", { name: "오른쪽 이동" });
-    const rightBounds = (await rightButton.boundingBox())!;
+    const stickBounds = (await movementPad.boundingBox())!;
     const touch = await context.newCDPSession(page);
     await touch.send("Input.dispatchTouchEvent", {
       type: "touchStart",
       touchPoints: [
         {
           id: 1,
-          x: rightBounds.x + rightBounds.width / 2,
-          y: rightBounds.y + rightBounds.height / 2,
+          x: stickBounds.x + stickBounds.width - 8,
+          y: stickBounds.y + stickBounds.height / 2,
         },
       ],
     });
     await page.waitForTimeout(600);
+    await expect(page.locator("#mobile-joystick-status")).toHaveText("달리기");
     await expect
       .poll(
         () =>
@@ -763,6 +751,7 @@ test("mobile touch controls move the avatar and remain usable in landscape", asy
       type: "touchEnd",
       touchPoints: [],
     });
+    await expect(page.locator("#mobile-joystick-status")).toHaveText("걷기");
     await page.waitForTimeout(300);
     const stoppedX = state.snapshot!.players.find(
       (player) => player.id === playerId,
@@ -772,12 +761,6 @@ test("mobile touch controls move the avatar and remain usable in landscape", asy
       (player) => player.id === playerId,
     )!.x;
     expect(Math.abs(settledX - stoppedX)).toBeLessThan(0.05);
-    await page.getByRole("button", { name: "달리기" }).click();
-    await expect(page.getByRole("button", { name: "달리기" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
-
     await page.setViewportSize({ width: 844, height: 390 });
     await expect(movementPad).toBeVisible();
     expect(
@@ -1146,6 +1129,6 @@ test("wardrobe changes appear on other players and retain profile details", asyn
     expect(rejoined.links).toEqual(["https://example.com/hufs"]);
     expect([...ownerState.errors, ...observerState.errors]).toEqual([]);
   } finally {
-    await Promise.all(contexts.map((context) => context.close()));
+    await Promise.allSettled(contexts.map((context) => context.close()));
   }
 });

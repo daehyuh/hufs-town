@@ -24,18 +24,23 @@ export default defineConfig({
     },
     screenshot: "only-on-failure",
     trace: "retain-on-failure",
-    launchOptions:
-      process.env.TOWN_E2E_MEDIA === "true"
-        ? {
-            args: [
-              "--use-fake-device-for-media-stream",
-              "--use-fake-ui-for-media-stream",
-            ],
-          }
-        : {},
   },
   projects: [
-    { name: "chromium", use: { browserName: "chromium" } },
+    {
+      name: "chromium",
+      use: {
+        browserName: "chromium",
+        launchOptions:
+          process.env.TOWN_E2E_MEDIA === "true"
+            ? {
+                args: [
+                  "--use-fake-device-for-media-stream",
+                  "--use-fake-ui-for-media-stream",
+                ],
+              }
+            : {},
+      },
+    },
     {
       name: "firefox",
       testMatch: "**/browser-compat.spec.ts",
