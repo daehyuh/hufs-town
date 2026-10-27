@@ -237,6 +237,6 @@ test("event Q&A and polls synchronize across attendees and close safely", async 
     await host.getByRole("button", { name: "발표 종료" }).click();
     await expect(host.locator(".event-engagement")).toHaveCount(0);
   } finally {
-    await Promise.all(contexts.map((context) => context.close()));
+    await Promise.allSettled(contexts.map((context) => context.close()));
   }
 });

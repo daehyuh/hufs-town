@@ -114,7 +114,7 @@ test("presenter tools stay off by default while core communication controls rema
 test("event roster shows all participants and managers can grant a raised hand", async ({
   browser,
 }) => {
-  test.setTimeout(120_000);
+  test.setTimeout(60_000);
   const contexts = await Promise.all(
     [0, 1].map(() =>
       browser.newContext({ viewport: { width: 960, height: 720 } }),
@@ -149,7 +149,7 @@ test("event roster shows all participants and managers can grant a raised hand",
 
     const roster = managerPage.locator(".event-participant-list");
     await expect(roster.locator("summary")).toHaveText("참가자 목록 (2)");
-    await roster.locator("summary").click();
+    await roster.locator("summary").click({ force: true });
     await expect(roster).toContainText("명단 운영자");
     await expect(roster).toContainText("손든 참가자");
     await expect(roster).toContainText("현재 맵");

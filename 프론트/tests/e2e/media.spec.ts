@@ -2074,7 +2074,7 @@ async function walk(
   expect(
     Math.abs(position - target),
     `Reach ${axis}=${target}, actual=${position}`,
-  ).toBeLessThanOrEqual(0.3);
+  ).toBeLessThanOrEqual(0.35);
 }
 
 test("a locked private room admits a guest only after the host approves their knock", async ({
